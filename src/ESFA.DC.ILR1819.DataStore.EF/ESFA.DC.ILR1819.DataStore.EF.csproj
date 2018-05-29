@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8191AB50-78E3-4326-ACC6-5A00F2E1DB20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ESFA.DC.ILR1819.DataStore.EF</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR1819.DataStore.EF</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AEC_ApprenticeshipPriceEpisode.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_ApprenticeshipPriceEpisode_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_ApprenticeshipPriceEpisode_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_HistoricEarningOutput.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_LearningDelivery_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_LearningDelivery_PeriodisedTextValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AEC_LearningDelivery_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_Learner_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_Learner_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_LearningDelivery_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ALB_LearningDelivery_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataStoreModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataStoreModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataStoreModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataStoreModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataStoreModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DV_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DV_Learner.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DV_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFA_SFA_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFA_SFA_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFA_SFA_Learner_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EFA_SFA_Learner_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESFVAL_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESFVAL_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESFVAL_ValidationError.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESF_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESF_DPOutcome.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESF_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESF_LearningDeliveryDeliverable.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESF_LearningDeliveryDeliverable_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ESF_LearningDeliveryDeliverable_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileDetail.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM25_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM25_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM25_Learner.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM35_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM35_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM35_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM35_LearningDelivery_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FM35_LearningDelivery_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessingData.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TBL_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_LearningDelivery_Period.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_LearningDelivery_PeriodisedValues.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VALDP_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VALDP_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VALDP_ValidationError.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VALFD_ValidationError.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ValidationError.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VAL_Cases.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VAL_global.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VAL_Learner.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VAL_LearningDelivery.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VAL_ValidationError.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VersionInfo.cs">
+      <DependentUpon>DataStoreModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="DataStoreModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DataStoreModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DataStoreModel.edmx.diagram">
+      <DependentUpon>DataStoreModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataStoreModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DataStoreModel.edmx</DependentUpon>
+      <LastGenOutput>DataStoreModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataStoreModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DataStoreModel.edmx</DependentUpon>
+      <LastGenOutput>DataStoreModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

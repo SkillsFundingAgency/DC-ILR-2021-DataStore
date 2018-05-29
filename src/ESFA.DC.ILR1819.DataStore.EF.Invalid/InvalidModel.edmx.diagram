@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6ff9ed3c858c446db0160de1aa77e2ec" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.AppFinRecord" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.CollectionDetail" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.ContactPreference" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.DPOutcome" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.EmploymentStatusMonitoring" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.Learner" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearnerDestinationandProgression" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearnerEmploymentStatu" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearnerFAM" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearnerHE" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearnerHEFinancialSupport" Width="1.5" PointX="4.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearningDelivery" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearningDeliveryFAM" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearningDeliveryHE" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearningDeliveryWorkPlacement" Width="1.5" PointX="10.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LearningProvider" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.LLDDandHealthProblem" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.ProviderSpecDeliveryMonitoring" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.ProviderSpecLearnerMonitoring" Width="1.5" PointX="12.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.Source" Width="1.5" PointX="12.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModelInvalid.SourceFile" Width="1.5" PointX="8.75" PointY="12.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

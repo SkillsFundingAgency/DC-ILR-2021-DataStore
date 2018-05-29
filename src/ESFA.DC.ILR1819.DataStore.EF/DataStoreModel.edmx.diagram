@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0eb76600d11540aabdcc1073ee05f7a3" Name="Diagram1" ZoomLevel="96">
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FileDetail" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ProcessingData" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ValidationError" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VersionInfo" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_ApprenticeshipPriceEpisode" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_ApprenticeshipPriceEpisode_Period" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_ApprenticeshipPriceEpisode_PeriodisedValues" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_Cases" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_global" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_HistoricEarningOutput" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_LearningDelivery" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_LearningDelivery_Period" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_LearningDelivery_PeriodisedTextValues" Width="1.5" PointX="8.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.AEC_LearningDelivery_PeriodisedValues" Width="1.5" PointX="10.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_Cases" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_global" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_Learner_Period" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_Learner_PeriodisedValues" Width="1.5" PointX="12.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_LearningDelivery" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_LearningDelivery_Period" Width="1.5" PointX="14.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ALB_LearningDelivery_PeriodisedValues" Width="1.5" PointX="14.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.DV_Cases" Width="1.5" PointX="12.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.DV_Learner" Width="1.5" PointX="14.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.DV_LearningDelivery" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.EFA_SFA_Cases" Width="1.5" PointX="2.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.EFA_SFA_global" Width="1.5" PointX="4.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.EFA_SFA_Learner_Period" Width="1.5" PointX="6.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.EFA_SFA_Learner_PeriodisedValues" Width="1.5" PointX="8.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESF_Cases" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESF_DPOutcome" Width="1.5" PointX="18.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESF_LearningDelivery" Width="1.5" PointX="18.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESF_LearningDeliveryDeliverable" Width="1.5" PointX="10.75" PointY="18.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESF_LearningDeliveryDeliverable_Period" Width="1.5" PointX="18.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESF_LearningDeliveryDeliverable_PeriodisedValues" Width="1.5" PointX="18.75" PointY="17.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESFVAL_Cases" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESFVAL_global" Width="1.5" PointX="2.75" PointY="19.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.ESFVAL_ValidationError" Width="1.5" PointX="4.75" PointY="19.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM25_Cases" Width="1.5" PointX="20.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM25_global" Width="1.5" PointX="20.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM25_Learner" Width="1.5" PointX="20.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM35_Cases" Width="1.5" PointX="20.75" PointY="14.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM35_global" Width="1.5" PointX="20.75" PointY="17.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM35_LearningDelivery" Width="1.5" PointX="20.75" PointY="20.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM35_LearningDelivery_Period" Width="1.5" PointX="6.75" PointY="21.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.FM35_LearningDelivery_PeriodisedValues" Width="1.5" PointX="8.75" PointY="21.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.TBL_Cases" Width="1.5" PointX="10.75" PointY="21.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.TBL_global" Width="1.5" PointX="22.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.TBL_LearningDelivery" Width="1.5" PointX="0.75" PointY="22.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.TBL_LearningDelivery_Period" Width="1.5" PointX="2.75" PointY="22.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.TBL_LearningDelivery_PeriodisedValues" Width="1.5" PointX="22.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VAL_Cases" Width="1.5" PointX="22.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VAL_global" Width="1.5" PointX="22.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VAL_Learner" Width="1.5" PointX="22.75" PointY="14.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VAL_LearningDelivery" Width="1.5" PointX="22.75" PointY="17.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VAL_ValidationError" Width="1.5" PointX="22.75" PointY="20.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VALDP_Cases" Width="1.5" PointX="22.75" PointY="23.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VALDP_global" Width="1.5" PointX="24.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VALDP_ValidationError" Width="1.5" PointX="24.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ILR1819_DataStoreModel.VALFD_ValidationError" Width="1.5" PointX="24.75" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

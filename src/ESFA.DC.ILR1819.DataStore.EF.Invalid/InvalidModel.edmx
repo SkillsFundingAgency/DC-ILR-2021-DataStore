@@ -1,0 +1,1107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ILR1819_DataStoreModelInvalid.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppFinRecord">
+          <Key>
+            <PropertyRef Name="AppFinRecord_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="AppFinRecord_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="int" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AimSeqNumber" Type="bigint" Nullable="false" />
+          <Property Name="AFinType" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AFinCode" Type="bigint" />
+          <Property Name="AFinDate" Type="date" />
+          <Property Name="AFinAmount" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CollectionDetails">
+          <Key>
+            <PropertyRef Name="CollectionDetails_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="CollectionDetails_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="Collection" Type="varchar" MaxLength="3" />
+          <Property Name="Year" Type="varchar" MaxLength="4" />
+          <Property Name="FilePreparationDate" Type="date" />
+        </EntityType>
+        <EntityType Name="ContactPreference">
+          <Key>
+            <PropertyRef Name="ContactPreference_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="ContactPreference_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="ContPrefType" Type="varchar" MaxLength="100" />
+          <Property Name="ContPrefCode" Type="bigint" />
+        </EntityType>
+        <EntityType Name="DPOutcome">
+          <Key>
+            <PropertyRef Name="DPOutcome_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="DPOutcome_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnerDestinationandProgression_Id" Type="int" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="OutType" Type="varchar" MaxLength="100" />
+          <Property Name="OutCode" Type="bigint" />
+          <Property Name="OutStartDate" Type="date" />
+          <Property Name="OutEndDate" Type="date" />
+          <Property Name="OutCollDate" Type="date" />
+        </EntityType>
+        <EntityType Name="EmploymentStatusMonitoring">
+          <Key>
+            <PropertyRef Name="EmploymentStatusMonitoring_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="EmploymentStatusMonitoring_Id" Type="int" Nullable="false" />
+          <Property Name="LearnerEmploymentStatus_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="DateEmpStatApp" Type="date" />
+          <Property Name="ESMType" Type="varchar" MaxLength="100" />
+          <Property Name="ESMCode" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Learner">
+          <Key>
+            <PropertyRef Name="Learner_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="Learner_Id" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="PrevLearnRefNumber" Type="varchar" MaxLength="1000" />
+          <Property Name="PrevUKPRN" Type="bigint" />
+          <Property Name="PMUKPRN" Type="bigint" />
+          <Property Name="ULN" Type="bigint" />
+          <Property Name="FamilyName" Type="varchar" MaxLength="1000" />
+          <Property Name="GivenNames" Type="varchar" MaxLength="1000" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Ethnicity" Type="bigint" />
+          <Property Name="Sex" Type="varchar" MaxLength="1000" />
+          <Property Name="LLDDHealthProb" Type="bigint" />
+          <Property Name="NINumber" Type="varchar" MaxLength="1000" />
+          <Property Name="PriorAttain" Type="bigint" />
+          <Property Name="Accom" Type="bigint" />
+          <Property Name="ALSCost" Type="bigint" />
+          <Property Name="PlanLearnHours" Type="bigint" />
+          <Property Name="PlanEEPHours" Type="bigint" />
+          <Property Name="MathGrade" Type="varchar" MaxLength="1000" />
+          <Property Name="EngGrade" Type="varchar" MaxLength="1000" />
+          <Property Name="PostcodePrior" Type="varchar" MaxLength="1000" />
+          <Property Name="Postcode" Type="varchar" MaxLength="1000" />
+          <Property Name="AddLine1" Type="varchar" MaxLength="1000" />
+          <Property Name="AddLine2" Type="varchar" MaxLength="1000" />
+          <Property Name="AddLine3" Type="varchar" MaxLength="1000" />
+          <Property Name="AddLine4" Type="varchar" MaxLength="1000" />
+          <Property Name="TelNo" Type="varchar" MaxLength="1000" />
+          <Property Name="Email" Type="varchar" MaxLength="1000" />
+          <Property Name="CampId" Type="varchar" MaxLength="1000" />
+          <Property Name="OTJHours" Type="bigint" />
+        </EntityType>
+        <EntityType Name="LearnerDestinationandProgression">
+          <Key>
+            <PropertyRef Name="LearnerDestinationandProgression_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerDestinationandProgression_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="ULN" Type="bigint" />
+        </EntityType>
+        <EntityType Name="LearnerEmploymentStatus">
+          <Key>
+            <PropertyRef Name="LearnerEmploymentStatus_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerEmploymentStatus_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="EmpStat" Type="bigint" />
+          <Property Name="DateEmpStatApp" Type="date" />
+          <Property Name="EmpId" Type="bigint" />
+          <Property Name="AgreeId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="LearnerFAM">
+          <Key>
+            <PropertyRef Name="LearnerFAM_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerFAM_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="LearnFAMType" Type="varchar" MaxLength="1000" />
+          <Property Name="LearnFAMCode" Type="bigint" />
+        </EntityType>
+        <EntityType Name="LearnerHE">
+          <Key>
+            <PropertyRef Name="LearnerHE_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerHE_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="UCASPERID" Type="varchar" MaxLength="1000" />
+          <Property Name="TTACCOM" Type="bigint" />
+        </EntityType>
+        <EntityType Name="LearnerHEFinancialSupport">
+          <Key>
+            <PropertyRef Name="LearnerHEFinancialSupport_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerHEFinancialSupport_Id" Type="int" Nullable="false" />
+          <Property Name="LearnerHE_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="FINTYPE" Type="bigint" />
+          <Property Name="FINAMOUNT" Type="bigint" />
+        </EntityType>
+        <EntityType Name="LearningDelivery">
+          <Key>
+            <PropertyRef Name="LearningDelivery_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDelivery_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="LearnAimRef" Type="varchar" MaxLength="1000" />
+          <Property Name="AimType" Type="bigint" />
+          <Property Name="AimSeqNumber" Type="bigint" />
+          <Property Name="LearnStartDate" Type="date" />
+          <Property Name="OrigLearnStartDate" Type="date" />
+          <Property Name="LearnPlanEndDate" Type="date" />
+          <Property Name="FundModel" Type="bigint" />
+          <Property Name="ProgType" Type="bigint" />
+          <Property Name="FworkCode" Type="bigint" />
+          <Property Name="PwayCode" Type="bigint" />
+          <Property Name="StdCode" Type="bigint" />
+          <Property Name="PartnerUKPRN" Type="bigint" />
+          <Property Name="DelLocPostCode" Type="varchar" MaxLength="1000" />
+          <Property Name="AddHours" Type="bigint" />
+          <Property Name="PriorLearnFundAdj" Type="bigint" />
+          <Property Name="OtherFundAdj" Type="bigint" />
+          <Property Name="ConRefNumber" Type="varchar" MaxLength="1000" />
+          <Property Name="EPAOrgID" Type="varchar" MaxLength="1000" />
+          <Property Name="EmpOutcome" Type="bigint" />
+          <Property Name="CompStatus" Type="bigint" />
+          <Property Name="LearnActEndDate" Type="date" />
+          <Property Name="WithdrawReason" Type="bigint" />
+          <Property Name="Outcome" Type="bigint" />
+          <Property Name="AchDate" Type="date" />
+          <Property Name="OutGrade" Type="varchar" MaxLength="1000" />
+          <Property Name="SWSupAimId" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="LearningDeliveryFAM">
+          <Key>
+            <PropertyRef Name="LearningDeliveryFAM_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDeliveryFAM_Id" Type="int" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="AimSeqNumber" Type="bigint" />
+          <Property Name="LearnDelFAMType" Type="varchar" MaxLength="100" />
+          <Property Name="LearnDelFAMCode" Type="varchar" MaxLength="1000" />
+          <Property Name="LearnDelFAMDateFrom" Type="date" />
+          <Property Name="LearnDelFAMDateTo" Type="date" />
+        </EntityType>
+        <EntityType Name="LearningDeliveryHE">
+          <Key>
+            <PropertyRef Name="LearningDeliveryHE_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDeliveryHE_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="int" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="AimSeqNumber" Type="bigint" />
+          <Property Name="NUMHUS" Type="varchar" MaxLength="1000" />
+          <Property Name="SSN" Type="varchar" MaxLength="1000" />
+          <Property Name="QUALENT3" Type="varchar" MaxLength="1000" />
+          <Property Name="SOC2000" Type="bigint" />
+          <Property Name="SEC" Type="bigint" />
+          <Property Name="UCASAPPID" Type="varchar" MaxLength="1000" />
+          <Property Name="TYPEYR" Type="bigint" />
+          <Property Name="MODESTUD" Type="bigint" />
+          <Property Name="FUNDLEV" Type="bigint" />
+          <Property Name="FUNDCOMP" Type="bigint" />
+          <Property Name="STULOAD" Type="float" />
+          <Property Name="YEARSTU" Type="bigint" />
+          <Property Name="MSTUFEE" Type="bigint" />
+          <Property Name="PCOLAB" Type="float" />
+          <Property Name="PCFLDCS" Type="float" />
+          <Property Name="PCSLDCS" Type="float" />
+          <Property Name="PCTLDCS" Type="float" />
+          <Property Name="SPECFEE" Type="bigint" />
+          <Property Name="NETFEE" Type="bigint" />
+          <Property Name="GROSSFEE" Type="bigint" />
+          <Property Name="DOMICILE" Type="varchar" MaxLength="1000" />
+          <Property Name="ELQ" Type="bigint" />
+          <Property Name="HEPostCode" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="LearningDeliveryWorkPlacement">
+          <Key>
+            <PropertyRef Name="LearningDeliveryWorkPlacement_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDeliveryWorkPlacement_Id" Type="int" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="AimSeqNumber" Type="bigint" />
+          <Property Name="WorkPlaceStartDate" Type="date" />
+          <Property Name="WorkPlaceEndDate" Type="date" />
+          <Property Name="WorkPlaceHours" Type="bigint" />
+          <Property Name="WorkPlaceMode" Type="bigint" />
+          <Property Name="WorkPlaceEmpId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="LearningProvider">
+          <Key>
+            <PropertyRef Name="LearningProvider_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningProvider_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LLDDandHealthProblem">
+          <Key>
+            <PropertyRef Name="LLDDandHealthProblem_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LLDDandHealthProblem_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="LLDDCat" Type="bigint" />
+          <Property Name="PrimaryLLDD" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ProviderSpecDeliveryMonitoring">
+          <Key>
+            <PropertyRef Name="ProviderSpecDeliveryMonitoring_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="ProviderSpecDeliveryMonitoring_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="int" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="AimSeqNumber" Type="bigint" />
+          <Property Name="ProvSpecDelMonOccur" Type="varchar" MaxLength="100" />
+          <Property Name="ProvSpecDelMon" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="ProviderSpecLearnerMonitoring">
+          <Key>
+            <PropertyRef Name="ProviderSpecLearnerMonitoring_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="ProviderSpecLearnerMonitoring_Id" Type="int" Nullable="false" />
+          <Property Name="Learner_Id" Type="int" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="varchar" MaxLength="100" />
+          <Property Name="ProvSpecLearnMonOccur" Type="varchar" MaxLength="100" />
+          <Property Name="ProvSpecLearnMon" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Source">
+          <Key>
+            <PropertyRef Name="Source_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="Source_Id" Type="int" Nullable="false" />
+          <Property Name="ProtectiveMarking" Type="varchar" MaxLength="30" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="SoftwareSupplier" Type="varchar" MaxLength="40" />
+          <Property Name="SoftwarePackage" Type="varchar" MaxLength="30" />
+          <Property Name="Release" Type="varchar" MaxLength="20" />
+          <Property Name="SerialNo" Type="varchar" MaxLength="2" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="ReferenceData" Type="varchar" MaxLength="100" />
+          <Property Name="ComponentSetVersion" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="SourceFile">
+          <Key>
+            <PropertyRef Name="SourceFile_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="SourceFile_Id" Type="int" Nullable="false" />
+          <Property Name="UKPRN" Type="int" Nullable="false" />
+          <Property Name="SourceFileName" Type="varchar" MaxLength="50" />
+          <Property Name="FilePreparationDate" Type="date" />
+          <Property Name="SoftwareSupplier" Type="varchar" MaxLength="40" />
+          <Property Name="SoftwarePackage" Type="varchar" MaxLength="30" />
+          <Property Name="Release" Type="varchar" MaxLength="20" />
+          <Property Name="SerialNo" Type="varchar" MaxLength="2" />
+          <Property Name="DateTime" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="ILR1819_DataStoreModelInvalidStoreContainer">
+          <EntitySet Name="AppFinRecord" EntityType="Self.AppFinRecord" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="CollectionDetails" EntityType="Self.CollectionDetails" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="ContactPreference" EntityType="Self.ContactPreference" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="DPOutcome" EntityType="Self.DPOutcome" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="EmploymentStatusMonitoring" EntityType="Self.EmploymentStatusMonitoring" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="Learner" EntityType="Self.Learner" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearnerDestinationandProgression" EntityType="Self.LearnerDestinationandProgression" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearnerEmploymentStatus" EntityType="Self.LearnerEmploymentStatus" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearnerFAM" EntityType="Self.LearnerFAM" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearnerHE" EntityType="Self.LearnerHE" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearnerHEFinancialSupport" EntityType="Self.LearnerHEFinancialSupport" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearningDelivery" EntityType="Self.LearningDelivery" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearningDeliveryFAM" EntityType="Self.LearningDeliveryFAM" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearningDeliveryHE" EntityType="Self.LearningDeliveryHE" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearningDeliveryWorkPlacement" EntityType="Self.LearningDeliveryWorkPlacement" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LearningProvider" EntityType="Self.LearningProvider" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="LLDDandHealthProblem" EntityType="Self.LLDDandHealthProblem" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="ProviderSpecDeliveryMonitoring" EntityType="Self.ProviderSpecDeliveryMonitoring" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="ProviderSpecLearnerMonitoring" EntityType="Self.ProviderSpecLearnerMonitoring" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="Source" EntityType="Self.Source" Schema="Invalid" store:Type="Tables" />
+          <EntitySet Name="SourceFile" EntityType="Self.SourceFile" Schema="Invalid" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ILR1819_DataStoreModelInvalid" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ILR1819_DataStoreEntitiesInvalid" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppFinRecords" EntityType="ILR1819_DataStoreModelInvalid.AppFinRecord" />
+          <EntitySet Name="CollectionDetails" EntityType="ILR1819_DataStoreModelInvalid.CollectionDetail" />
+          <EntitySet Name="ContactPreferences" EntityType="ILR1819_DataStoreModelInvalid.ContactPreference" />
+          <EntitySet Name="DPOutcomes" EntityType="ILR1819_DataStoreModelInvalid.DPOutcome" />
+          <EntitySet Name="EmploymentStatusMonitorings" EntityType="ILR1819_DataStoreModelInvalid.EmploymentStatusMonitoring" />
+          <EntitySet Name="Learners" EntityType="ILR1819_DataStoreModelInvalid.Learner" />
+          <EntitySet Name="LearnerDestinationandProgressions" EntityType="ILR1819_DataStoreModelInvalid.LearnerDestinationandProgression" />
+          <EntitySet Name="LearnerEmploymentStatus" EntityType="ILR1819_DataStoreModelInvalid.LearnerEmploymentStatu" />
+          <EntitySet Name="LearnerFAMs" EntityType="ILR1819_DataStoreModelInvalid.LearnerFAM" />
+          <EntitySet Name="LearnerHEs" EntityType="ILR1819_DataStoreModelInvalid.LearnerHE" />
+          <EntitySet Name="LearnerHEFinancialSupports" EntityType="ILR1819_DataStoreModelInvalid.LearnerHEFinancialSupport" />
+          <EntitySet Name="LearningDeliveries" EntityType="ILR1819_DataStoreModelInvalid.LearningDelivery" />
+          <EntitySet Name="LearningDeliveryFAMs" EntityType="ILR1819_DataStoreModelInvalid.LearningDeliveryFAM" />
+          <EntitySet Name="LearningDeliveryHEs" EntityType="ILR1819_DataStoreModelInvalid.LearningDeliveryHE" />
+          <EntitySet Name="LearningDeliveryWorkPlacements" EntityType="ILR1819_DataStoreModelInvalid.LearningDeliveryWorkPlacement" />
+          <EntitySet Name="LearningProviders" EntityType="ILR1819_DataStoreModelInvalid.LearningProvider" />
+          <EntitySet Name="LLDDandHealthProblems" EntityType="ILR1819_DataStoreModelInvalid.LLDDandHealthProblem" />
+          <EntitySet Name="ProviderSpecDeliveryMonitorings" EntityType="ILR1819_DataStoreModelInvalid.ProviderSpecDeliveryMonitoring" />
+          <EntitySet Name="ProviderSpecLearnerMonitorings" EntityType="ILR1819_DataStoreModelInvalid.ProviderSpecLearnerMonitoring" />
+          <EntitySet Name="Sources" EntityType="ILR1819_DataStoreModelInvalid.Source" />
+          <EntitySet Name="SourceFiles" EntityType="ILR1819_DataStoreModelInvalid.SourceFile" />
+        </EntityContainer>
+        <EntityType Name="AppFinRecord">
+          <Key>
+            <PropertyRef Name="AppFinRecord_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="AppFinRecord_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="Int32" />
+          <Property Name="LearnRefNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AimSeqNumber" Type="Int64" Nullable="false" />
+          <Property Name="AFinType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AFinCode" Type="Int64" />
+          <Property Name="AFinDate" Type="DateTime" Precision="0" />
+          <Property Name="AFinAmount" Type="Int64" />
+        </EntityType>
+        <EntityType Name="CollectionDetail">
+          <Key>
+            <PropertyRef Name="CollectionDetails_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="CollectionDetails_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="Collection" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="FilePreparationDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="ContactPreference">
+          <Key>
+            <PropertyRef Name="ContactPreference_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="ContactPreference_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ContPrefType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ContPrefCode" Type="Int64" />
+        </EntityType>
+        <EntityType Name="DPOutcome">
+          <Key>
+            <PropertyRef Name="DPOutcome_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="DPOutcome_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnerDestinationandProgression_Id" Type="Int32" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OutType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OutCode" Type="Int64" />
+          <Property Name="OutStartDate" Type="DateTime" Precision="0" />
+          <Property Name="OutEndDate" Type="DateTime" Precision="0" />
+          <Property Name="OutCollDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="EmploymentStatusMonitoring">
+          <Key>
+            <PropertyRef Name="EmploymentStatusMonitoring_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="EmploymentStatusMonitoring_Id" Type="Int32" Nullable="false" />
+          <Property Name="LearnerEmploymentStatus_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateEmpStatApp" Type="DateTime" Precision="0" />
+          <Property Name="ESMType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESMCode" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Learner">
+          <Key>
+            <PropertyRef Name="Learner_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="Learner_Id" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="PrevLearnRefNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="PrevUKPRN" Type="Int64" />
+          <Property Name="PMUKPRN" Type="Int64" />
+          <Property Name="ULN" Type="Int64" />
+          <Property Name="FamilyName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="GivenNames" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Ethnicity" Type="Int64" />
+          <Property Name="Sex" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LLDDHealthProb" Type="Int64" />
+          <Property Name="NINumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="PriorAttain" Type="Int64" />
+          <Property Name="Accom" Type="Int64" />
+          <Property Name="ALSCost" Type="Int64" />
+          <Property Name="PlanLearnHours" Type="Int64" />
+          <Property Name="PlanEEPHours" Type="Int64" />
+          <Property Name="MathGrade" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="EngGrade" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="PostcodePrior" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Postcode" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="AddLine1" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="AddLine2" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="AddLine3" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="AddLine4" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="TelNo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CampId" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="OTJHours" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LearnerDestinationandProgression">
+          <Key>
+            <PropertyRef Name="LearnerDestinationandProgression_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerDestinationandProgression_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ULN" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LearnerEmploymentStatu">
+          <Key>
+            <PropertyRef Name="LearnerEmploymentStatus_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerEmploymentStatus_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmpStat" Type="Int64" />
+          <Property Name="DateEmpStatApp" Type="DateTime" Precision="0" />
+          <Property Name="EmpId" Type="Int64" />
+          <Property Name="AgreeId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LearnerFAM">
+          <Key>
+            <PropertyRef Name="LearnerFAM_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerFAM_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LearnFAMType" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LearnFAMCode" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LearnerHE">
+          <Key>
+            <PropertyRef Name="LearnerHE_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerHE_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UCASPERID" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="TTACCOM" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LearnerHEFinancialSupport">
+          <Key>
+            <PropertyRef Name="LearnerHEFinancialSupport_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearnerHEFinancialSupport_Id" Type="Int32" Nullable="false" />
+          <Property Name="LearnerHE_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FINTYPE" Type="Int64" />
+          <Property Name="FINAMOUNT" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LearningDelivery">
+          <Key>
+            <PropertyRef Name="LearningDelivery_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDelivery_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LearnAimRef" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="AimType" Type="Int64" />
+          <Property Name="AimSeqNumber" Type="Int64" />
+          <Property Name="LearnStartDate" Type="DateTime" Precision="0" />
+          <Property Name="OrigLearnStartDate" Type="DateTime" Precision="0" />
+          <Property Name="LearnPlanEndDate" Type="DateTime" Precision="0" />
+          <Property Name="FundModel" Type="Int64" />
+          <Property Name="ProgType" Type="Int64" />
+          <Property Name="FworkCode" Type="Int64" />
+          <Property Name="PwayCode" Type="Int64" />
+          <Property Name="StdCode" Type="Int64" />
+          <Property Name="PartnerUKPRN" Type="Int64" />
+          <Property Name="DelLocPostCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="AddHours" Type="Int64" />
+          <Property Name="PriorLearnFundAdj" Type="Int64" />
+          <Property Name="OtherFundAdj" Type="Int64" />
+          <Property Name="ConRefNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="EPAOrgID" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="EmpOutcome" Type="Int64" />
+          <Property Name="CompStatus" Type="Int64" />
+          <Property Name="LearnActEndDate" Type="DateTime" Precision="0" />
+          <Property Name="WithdrawReason" Type="Int64" />
+          <Property Name="Outcome" Type="Int64" />
+          <Property Name="AchDate" Type="DateTime" Precision="0" />
+          <Property Name="OutGrade" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SWSupAimId" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LearningDeliveryFAM">
+          <Key>
+            <PropertyRef Name="LearningDeliveryFAM_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDeliveryFAM_Id" Type="Int32" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AimSeqNumber" Type="Int64" />
+          <Property Name="LearnDelFAMType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LearnDelFAMCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LearnDelFAMDateFrom" Type="DateTime" Precision="0" />
+          <Property Name="LearnDelFAMDateTo" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="LearningDeliveryHE">
+          <Key>
+            <PropertyRef Name="LearningDeliveryHE_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDeliveryHE_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="Int32" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AimSeqNumber" Type="Int64" />
+          <Property Name="NUMHUS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SSN" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="QUALENT3" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SOC2000" Type="Int64" />
+          <Property Name="SEC" Type="Int64" />
+          <Property Name="UCASAPPID" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="TYPEYR" Type="Int64" />
+          <Property Name="MODESTUD" Type="Int64" />
+          <Property Name="FUNDLEV" Type="Int64" />
+          <Property Name="FUNDCOMP" Type="Int64" />
+          <Property Name="STULOAD" Type="Double" />
+          <Property Name="YEARSTU" Type="Int64" />
+          <Property Name="MSTUFEE" Type="Int64" />
+          <Property Name="PCOLAB" Type="Double" />
+          <Property Name="PCFLDCS" Type="Double" />
+          <Property Name="PCSLDCS" Type="Double" />
+          <Property Name="PCTLDCS" Type="Double" />
+          <Property Name="SPECFEE" Type="Int64" />
+          <Property Name="NETFEE" Type="Int64" />
+          <Property Name="GROSSFEE" Type="Int64" />
+          <Property Name="DOMICILE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ELQ" Type="Int64" />
+          <Property Name="HEPostCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LearningDeliveryWorkPlacement">
+          <Key>
+            <PropertyRef Name="LearningDeliveryWorkPlacement_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningDeliveryWorkPlacement_Id" Type="Int32" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AimSeqNumber" Type="Int64" />
+          <Property Name="WorkPlaceStartDate" Type="DateTime" Precision="0" />
+          <Property Name="WorkPlaceEndDate" Type="DateTime" Precision="0" />
+          <Property Name="WorkPlaceHours" Type="Int64" />
+          <Property Name="WorkPlaceMode" Type="Int64" />
+          <Property Name="WorkPlaceEmpId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LearningProvider">
+          <Key>
+            <PropertyRef Name="LearningProvider_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LearningProvider_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LLDDandHealthProblem">
+          <Key>
+            <PropertyRef Name="LLDDandHealthProblem_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="LLDDandHealthProblem_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LLDDCat" Type="Int64" />
+          <Property Name="PrimaryLLDD" Type="Int64" />
+        </EntityType>
+        <EntityType Name="ProviderSpecDeliveryMonitoring">
+          <Key>
+            <PropertyRef Name="ProviderSpecDeliveryMonitoring_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="ProviderSpecDeliveryMonitoring_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearningDelivery_Id" Type="Int32" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AimSeqNumber" Type="Int64" />
+          <Property Name="ProvSpecDelMonOccur" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProvSpecDelMon" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProviderSpecLearnerMonitoring">
+          <Key>
+            <PropertyRef Name="ProviderSpecLearnerMonitoring_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="ProviderSpecLearnerMonitoring_Id" Type="Int32" Nullable="false" />
+          <Property Name="Learner_Id" Type="Int32" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProvSpecLearnMonOccur" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProvSpecLearnMon" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Source">
+          <Key>
+            <PropertyRef Name="Source_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="Source_Id" Type="Int32" Nullable="false" />
+          <Property Name="ProtectiveMarking" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="SoftwareSupplier" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="SoftwarePackage" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Release" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="ReferenceData" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ComponentSetVersion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SourceFile">
+          <Key>
+            <PropertyRef Name="SourceFile_Id" />
+            <PropertyRef Name="UKPRN" />
+          </Key>
+          <Property Name="SourceFile_Id" Type="Int32" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="SourceFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FilePreparationDate" Type="DateTime" Precision="0" />
+          <Property Name="SoftwareSupplier" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="SoftwarePackage" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Release" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ILR1819_DataStoreModelInvalidStoreContainer" CdmEntityContainer="ILR1819_DataStoreEntitiesInvalid">
+          <EntitySetMapping Name="AppFinRecords">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.AppFinRecord">
+              <MappingFragment StoreEntitySet="AppFinRecord">
+                <ScalarProperty Name="AFinAmount" ColumnName="AFinAmount" />
+                <ScalarProperty Name="AFinDate" ColumnName="AFinDate" />
+                <ScalarProperty Name="AFinCode" ColumnName="AFinCode" />
+                <ScalarProperty Name="AFinType" ColumnName="AFinType" />
+                <ScalarProperty Name="AimSeqNumber" ColumnName="AimSeqNumber" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="LearningDelivery_Id" ColumnName="LearningDelivery_Id" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="AppFinRecord_Id" ColumnName="AppFinRecord_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollectionDetails">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.CollectionDetail">
+              <MappingFragment StoreEntitySet="CollectionDetails">
+                <ScalarProperty Name="FilePreparationDate" ColumnName="FilePreparationDate" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="CollectionDetails_Id" ColumnName="CollectionDetails_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactPreferences">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.ContactPreference">
+              <MappingFragment StoreEntitySet="ContactPreference">
+                <ScalarProperty Name="ContPrefCode" ColumnName="ContPrefCode" />
+                <ScalarProperty Name="ContPrefType" ColumnName="ContPrefType" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="ContactPreference_Id" ColumnName="ContactPreference_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DPOutcomes">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.DPOutcome">
+              <MappingFragment StoreEntitySet="DPOutcome">
+                <ScalarProperty Name="OutCollDate" ColumnName="OutCollDate" />
+                <ScalarProperty Name="OutEndDate" ColumnName="OutEndDate" />
+                <ScalarProperty Name="OutStartDate" ColumnName="OutStartDate" />
+                <ScalarProperty Name="OutCode" ColumnName="OutCode" />
+                <ScalarProperty Name="OutType" ColumnName="OutType" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="LearnerDestinationandProgression_Id" ColumnName="LearnerDestinationandProgression_Id" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="DPOutcome_Id" ColumnName="DPOutcome_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmploymentStatusMonitorings">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.EmploymentStatusMonitoring">
+              <MappingFragment StoreEntitySet="EmploymentStatusMonitoring">
+                <ScalarProperty Name="ESMCode" ColumnName="ESMCode" />
+                <ScalarProperty Name="ESMType" ColumnName="ESMType" />
+                <ScalarProperty Name="DateEmpStatApp" ColumnName="DateEmpStatApp" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearnerEmploymentStatus_Id" ColumnName="LearnerEmploymentStatus_Id" />
+                <ScalarProperty Name="EmploymentStatusMonitoring_Id" ColumnName="EmploymentStatusMonitoring_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Learners">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.Learner">
+              <MappingFragment StoreEntitySet="Learner">
+                <ScalarProperty Name="OTJHours" ColumnName="OTJHours" />
+                <ScalarProperty Name="CampId" ColumnName="CampId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+                <ScalarProperty Name="AddLine4" ColumnName="AddLine4" />
+                <ScalarProperty Name="AddLine3" ColumnName="AddLine3" />
+                <ScalarProperty Name="AddLine2" ColumnName="AddLine2" />
+                <ScalarProperty Name="AddLine1" ColumnName="AddLine1" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="PostcodePrior" ColumnName="PostcodePrior" />
+                <ScalarProperty Name="EngGrade" ColumnName="EngGrade" />
+                <ScalarProperty Name="MathGrade" ColumnName="MathGrade" />
+                <ScalarProperty Name="PlanEEPHours" ColumnName="PlanEEPHours" />
+                <ScalarProperty Name="PlanLearnHours" ColumnName="PlanLearnHours" />
+                <ScalarProperty Name="ALSCost" ColumnName="ALSCost" />
+                <ScalarProperty Name="Accom" ColumnName="Accom" />
+                <ScalarProperty Name="PriorAttain" ColumnName="PriorAttain" />
+                <ScalarProperty Name="NINumber" ColumnName="NINumber" />
+                <ScalarProperty Name="LLDDHealthProb" ColumnName="LLDDHealthProb" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Ethnicity" ColumnName="Ethnicity" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="GivenNames" ColumnName="GivenNames" />
+                <ScalarProperty Name="FamilyName" ColumnName="FamilyName" />
+                <ScalarProperty Name="ULN" ColumnName="ULN" />
+                <ScalarProperty Name="PMUKPRN" ColumnName="PMUKPRN" />
+                <ScalarProperty Name="PrevUKPRN" ColumnName="PrevUKPRN" />
+                <ScalarProperty Name="PrevLearnRefNumber" ColumnName="PrevLearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearnerDestinationandProgressions">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearnerDestinationandProgression">
+              <MappingFragment StoreEntitySet="LearnerDestinationandProgression">
+                <ScalarProperty Name="ULN" ColumnName="ULN" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearnerDestinationandProgression_Id" ColumnName="LearnerDestinationandProgression_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearnerEmploymentStatus">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearnerEmploymentStatu">
+              <MappingFragment StoreEntitySet="LearnerEmploymentStatus">
+                <ScalarProperty Name="AgreeId" ColumnName="AgreeId" />
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+                <ScalarProperty Name="DateEmpStatApp" ColumnName="DateEmpStatApp" />
+                <ScalarProperty Name="EmpStat" ColumnName="EmpStat" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="LearnerEmploymentStatus_Id" ColumnName="LearnerEmploymentStatus_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearnerFAMs">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearnerFAM">
+              <MappingFragment StoreEntitySet="LearnerFAM">
+                <ScalarProperty Name="LearnFAMCode" ColumnName="LearnFAMCode" />
+                <ScalarProperty Name="LearnFAMType" ColumnName="LearnFAMType" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="LearnerFAM_Id" ColumnName="LearnerFAM_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearnerHEs">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearnerHE">
+              <MappingFragment StoreEntitySet="LearnerHE">
+                <ScalarProperty Name="TTACCOM" ColumnName="TTACCOM" />
+                <ScalarProperty Name="UCASPERID" ColumnName="UCASPERID" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="LearnerHE_Id" ColumnName="LearnerHE_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearnerHEFinancialSupports">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearnerHEFinancialSupport">
+              <MappingFragment StoreEntitySet="LearnerHEFinancialSupport">
+                <ScalarProperty Name="FINAMOUNT" ColumnName="FINAMOUNT" />
+                <ScalarProperty Name="FINTYPE" ColumnName="FINTYPE" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearnerHE_Id" ColumnName="LearnerHE_Id" />
+                <ScalarProperty Name="LearnerHEFinancialSupport_Id" ColumnName="LearnerHEFinancialSupport_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearningDeliveries">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearningDelivery">
+              <MappingFragment StoreEntitySet="LearningDelivery">
+                <ScalarProperty Name="SWSupAimId" ColumnName="SWSupAimId" />
+                <ScalarProperty Name="OutGrade" ColumnName="OutGrade" />
+                <ScalarProperty Name="AchDate" ColumnName="AchDate" />
+                <ScalarProperty Name="Outcome" ColumnName="Outcome" />
+                <ScalarProperty Name="WithdrawReason" ColumnName="WithdrawReason" />
+                <ScalarProperty Name="LearnActEndDate" ColumnName="LearnActEndDate" />
+                <ScalarProperty Name="CompStatus" ColumnName="CompStatus" />
+                <ScalarProperty Name="EmpOutcome" ColumnName="EmpOutcome" />
+                <ScalarProperty Name="EPAOrgID" ColumnName="EPAOrgID" />
+                <ScalarProperty Name="ConRefNumber" ColumnName="ConRefNumber" />
+                <ScalarProperty Name="OtherFundAdj" ColumnName="OtherFundAdj" />
+                <ScalarProperty Name="PriorLearnFundAdj" ColumnName="PriorLearnFundAdj" />
+                <ScalarProperty Name="AddHours" ColumnName="AddHours" />
+                <ScalarProperty Name="DelLocPostCode" ColumnName="DelLocPostCode" />
+                <ScalarProperty Name="PartnerUKPRN" ColumnName="PartnerUKPRN" />
+                <ScalarProperty Name="StdCode" ColumnName="StdCode" />
+                <ScalarProperty Name="PwayCode" ColumnName="PwayCode" />
+                <ScalarProperty Name="FworkCode" ColumnName="FworkCode" />
+                <ScalarProperty Name="ProgType" ColumnName="ProgType" />
+                <ScalarProperty Name="FundModel" ColumnName="FundModel" />
+                <ScalarProperty Name="LearnPlanEndDate" ColumnName="LearnPlanEndDate" />
+                <ScalarProperty Name="OrigLearnStartDate" ColumnName="OrigLearnStartDate" />
+                <ScalarProperty Name="LearnStartDate" ColumnName="LearnStartDate" />
+                <ScalarProperty Name="AimSeqNumber" ColumnName="AimSeqNumber" />
+                <ScalarProperty Name="AimType" ColumnName="AimType" />
+                <ScalarProperty Name="LearnAimRef" ColumnName="LearnAimRef" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="LearningDelivery_Id" ColumnName="LearningDelivery_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearningDeliveryFAMs">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearningDeliveryFAM">
+              <MappingFragment StoreEntitySet="LearningDeliveryFAM">
+                <ScalarProperty Name="LearnDelFAMDateTo" ColumnName="LearnDelFAMDateTo" />
+                <ScalarProperty Name="LearnDelFAMDateFrom" ColumnName="LearnDelFAMDateFrom" />
+                <ScalarProperty Name="LearnDelFAMCode" ColumnName="LearnDelFAMCode" />
+                <ScalarProperty Name="LearnDelFAMType" ColumnName="LearnDelFAMType" />
+                <ScalarProperty Name="AimSeqNumber" ColumnName="AimSeqNumber" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearningDelivery_Id" ColumnName="LearningDelivery_Id" />
+                <ScalarProperty Name="LearningDeliveryFAM_Id" ColumnName="LearningDeliveryFAM_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearningDeliveryHEs">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearningDeliveryHE">
+              <MappingFragment StoreEntitySet="LearningDeliveryHE">
+                <ScalarProperty Name="HEPostCode" ColumnName="HEPostCode" />
+                <ScalarProperty Name="ELQ" ColumnName="ELQ" />
+                <ScalarProperty Name="DOMICILE" ColumnName="DOMICILE" />
+                <ScalarProperty Name="GROSSFEE" ColumnName="GROSSFEE" />
+                <ScalarProperty Name="NETFEE" ColumnName="NETFEE" />
+                <ScalarProperty Name="SPECFEE" ColumnName="SPECFEE" />
+                <ScalarProperty Name="PCTLDCS" ColumnName="PCTLDCS" />
+                <ScalarProperty Name="PCSLDCS" ColumnName="PCSLDCS" />
+                <ScalarProperty Name="PCFLDCS" ColumnName="PCFLDCS" />
+                <ScalarProperty Name="PCOLAB" ColumnName="PCOLAB" />
+                <ScalarProperty Name="MSTUFEE" ColumnName="MSTUFEE" />
+                <ScalarProperty Name="YEARSTU" ColumnName="YEARSTU" />
+                <ScalarProperty Name="STULOAD" ColumnName="STULOAD" />
+                <ScalarProperty Name="FUNDCOMP" ColumnName="FUNDCOMP" />
+                <ScalarProperty Name="FUNDLEV" ColumnName="FUNDLEV" />
+                <ScalarProperty Name="MODESTUD" ColumnName="MODESTUD" />
+                <ScalarProperty Name="TYPEYR" ColumnName="TYPEYR" />
+                <ScalarProperty Name="UCASAPPID" ColumnName="UCASAPPID" />
+                <ScalarProperty Name="SEC" ColumnName="SEC" />
+                <ScalarProperty Name="SOC2000" ColumnName="SOC2000" />
+                <ScalarProperty Name="QUALENT3" ColumnName="QUALENT3" />
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="NUMHUS" ColumnName="NUMHUS" />
+                <ScalarProperty Name="AimSeqNumber" ColumnName="AimSeqNumber" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="LearningDelivery_Id" ColumnName="LearningDelivery_Id" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearningDeliveryHE_Id" ColumnName="LearningDeliveryHE_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearningDeliveryWorkPlacements">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearningDeliveryWorkPlacement">
+              <MappingFragment StoreEntitySet="LearningDeliveryWorkPlacement">
+                <ScalarProperty Name="WorkPlaceEmpId" ColumnName="WorkPlaceEmpId" />
+                <ScalarProperty Name="WorkPlaceMode" ColumnName="WorkPlaceMode" />
+                <ScalarProperty Name="WorkPlaceHours" ColumnName="WorkPlaceHours" />
+                <ScalarProperty Name="WorkPlaceEndDate" ColumnName="WorkPlaceEndDate" />
+                <ScalarProperty Name="WorkPlaceStartDate" ColumnName="WorkPlaceStartDate" />
+                <ScalarProperty Name="AimSeqNumber" ColumnName="AimSeqNumber" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearningDelivery_Id" ColumnName="LearningDelivery_Id" />
+                <ScalarProperty Name="LearningDeliveryWorkPlacement_Id" ColumnName="LearningDeliveryWorkPlacement_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearningProviders">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LearningProvider">
+              <MappingFragment StoreEntitySet="LearningProvider">
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LearningProvider_Id" ColumnName="LearningProvider_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LLDDandHealthProblems">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.LLDDandHealthProblem">
+              <MappingFragment StoreEntitySet="LLDDandHealthProblem">
+                <ScalarProperty Name="PrimaryLLDD" ColumnName="PrimaryLLDD" />
+                <ScalarProperty Name="LLDDCat" ColumnName="LLDDCat" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="LLDDandHealthProblem_Id" ColumnName="LLDDandHealthProblem_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProviderSpecDeliveryMonitorings">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.ProviderSpecDeliveryMonitoring">
+              <MappingFragment StoreEntitySet="ProviderSpecDeliveryMonitoring">
+                <ScalarProperty Name="ProvSpecDelMon" ColumnName="ProvSpecDelMon" />
+                <ScalarProperty Name="ProvSpecDelMonOccur" ColumnName="ProvSpecDelMonOccur" />
+                <ScalarProperty Name="AimSeqNumber" ColumnName="AimSeqNumber" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="LearningDelivery_Id" ColumnName="LearningDelivery_Id" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="ProviderSpecDeliveryMonitoring_Id" ColumnName="ProviderSpecDeliveryMonitoring_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProviderSpecLearnerMonitorings">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.ProviderSpecLearnerMonitoring">
+              <MappingFragment StoreEntitySet="ProviderSpecLearnerMonitoring">
+                <ScalarProperty Name="ProvSpecLearnMon" ColumnName="ProvSpecLearnMon" />
+                <ScalarProperty Name="ProvSpecLearnMonOccur" ColumnName="ProvSpecLearnMonOccur" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="Learner_Id" ColumnName="Learner_Id" />
+                <ScalarProperty Name="ProviderSpecLearnerMonitoring_Id" ColumnName="ProviderSpecLearnerMonitoring_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sources">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.Source">
+              <MappingFragment StoreEntitySet="Source">
+                <ScalarProperty Name="ComponentSetVersion" ColumnName="ComponentSetVersion" />
+                <ScalarProperty Name="ReferenceData" ColumnName="ReferenceData" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="SoftwarePackage" ColumnName="SoftwarePackage" />
+                <ScalarProperty Name="SoftwareSupplier" ColumnName="SoftwareSupplier" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="ProtectiveMarking" ColumnName="ProtectiveMarking" />
+                <ScalarProperty Name="Source_Id" ColumnName="Source_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SourceFiles">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelInvalid.SourceFile">
+              <MappingFragment StoreEntitySet="SourceFile">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="SoftwarePackage" ColumnName="SoftwarePackage" />
+                <ScalarProperty Name="SoftwareSupplier" ColumnName="SoftwareSupplier" />
+                <ScalarProperty Name="FilePreparationDate" ColumnName="FilePreparationDate" />
+                <ScalarProperty Name="SourceFileName" ColumnName="SourceFileName" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="SourceFile_Id" ColumnName="SourceFile_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
