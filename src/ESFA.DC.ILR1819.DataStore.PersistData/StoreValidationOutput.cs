@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR.ValidationErrors.Interface;
+using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.JobContext.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
@@ -13,26 +18,63 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private readonly SqlTransaction _transaction;
 
+        private readonly IJobContextMessage _jobContextMessage;
+
+        private readonly IValidationErrorsService _validationErrorsService;
+
         public StoreValidationOutput(
             SqlConnection connection,
-            SqlTransaction transaction)
+            SqlTransaction transaction,
+            IJobContextMessage jobContextMessage,
+            IValidationErrorsService validationErrorsService)
         {
             _connection = connection;
             _transaction = transaction;
+            _jobContextMessage = jobContextMessage;
+            _validationErrorsService = validationErrorsService;
         }
 
-        public async Task StoreAsync(int ukPrn, CancellationToken cancellationToken)
+        public async Task StoreAsync(int ukPrn, IMessage ilr, CancellationToken cancellationToken)
         {
-            ValidationError validationError = new ValidationError
+            string validationErrorsStorageKey =
+                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
+            string validationErrorsLookupStorageKey =
+                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
+            string filename = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
+            List<ValidationErrorDto> validationErrorDtos = (await _validationErrorsService.GetValidationErrorsAsync(
+                validationErrorsStorageKey,
+                validationErrorsLookupStorageKey)).ToList();
+            List<ValidationError> validationErrors = new List<ValidationError>(validationErrorDtos.Count);
+
+            foreach (ValidationErrorDto validationErrorDto in validationErrorDtos)
             {
-                UKPRN = ukPrn,
-                SWSupAimID = "Unknown",
-                FileLevelError = 1
-            };
+                validationErrors.Add(new ValidationError
+                {
+                    UKPRN = ukPrn,
+                    SWSupAimID = "Unknown",
+                    FileLevelError = 1,
+                    AimSeqNum = validationErrorDto.AimSequenceNumber,
+                    ErrorMessage = validationErrorDto.ErrorMessage,
+                    FieldValues = validationErrorDto.FieldValues,
+                    LearnAimRef =
+                        ilr.Learners.SingleOrDefault(x => x.LearnRefNumber == validationErrorDto.LearnerReferenceNumber)
+                            ?.LearningDeliveries.SingleOrDefault(x => x.AimSeqNumber == validationErrorDto.AimSequenceNumber)
+                            ?.LearnAimRef ?? "Unknown",
+                    LearnRefNumber = validationErrorDto.LearnerReferenceNumber,
+                    RuleName = validationErrorDto.RuleName,
+                    Severity = validationErrorDto.Severity,
+                    Source = filename
+                });
+            }
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
 
             using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
             {
-                await bulkInsert.Insert("dbo.ValidationError", new List<ValidationError> { validationError });
+                await bulkInsert.Insert("dbo.ValidationError", validationErrors);
             }
         }
     }
