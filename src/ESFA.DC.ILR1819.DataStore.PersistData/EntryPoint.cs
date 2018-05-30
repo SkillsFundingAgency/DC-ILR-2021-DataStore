@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
+using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.IO.Interfaces;
@@ -29,6 +30,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private readonly ISerializationService _jsonSerializationService;
 
+        private readonly IValidationErrorsService _validationErrorsService;
+
         private readonly ILogger _logger;
 
         public EntryPoint(
@@ -37,6 +40,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             [KeyFilter(PersistenceStorageKeys.Cosmos)] IKeyValuePersistenceService persist,
             IXmlSerializationService xmlSerializationService,
             IJsonSerializationService jsonSerializationService,
+            IValidationErrorsService validationErrorsService,
             ILogger logger)
         {
             _persistDataConfiguration = persistDataConfiguration;
@@ -44,6 +48,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _persist = persist;
             _xmlSerializationService = xmlSerializationService;
             _jsonSerializationService = jsonSerializationService;
+            _validationErrorsService = validationErrorsService;
             _logger = logger;
         }
 
@@ -107,8 +112,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         return false;
                     }
 
-                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction);
-                    Task storeValidationOutputTask = storeValidationOutput.StoreAsync(ukPrn, cancellationToken);
+                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
+                    Task storeValidationOutputTask = storeValidationOutput.StoreAsync(ukPrn, messageTask.Result, cancellationToken);
 
                     await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask, storeValidationOutputTask);
 
