@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
+using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
@@ -52,6 +53,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
             Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
             Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
+            Task<ValidationErrorDto> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
 
             using (SqlConnection connection =
                 new SqlConnection(_persistDataConfiguration.ConnectionString))
@@ -70,7 +72,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     StoreClear storeClear = new StoreClear(connection, transaction);
                     Task clearTask = storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
-                    await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, clearTask);
+                    await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, validationErrorDto, clearTask);
 
                     StoreFileDetails storeFileDetails =
                         new StoreFileDetails(
@@ -103,7 +105,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         return false;
                     }
 
-                    await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask);
+                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction);
+                    Task storeValidationOutputTask = storeValidationOutput.StoreAsync(ukPrn, cancellationToken);
+
+                    await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask, storeValidationOutputTask);
 
                     transaction.Commit();
                 }
@@ -125,6 +130,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                 return true;
             }
+        }
+
+        private async Task<ValidationErrorDto> ReadAndDeserialiseValidationErrorsAsync(IJobContextMessage jobContextMessage)
+        {
+            string val = await _storage.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
+                .ToString());
+
+            ValidationErrorDto validationErrorDto = _jsonSerializationService.Deserialize<ValidationErrorDto>(val);
+            return validationErrorDto;
         }
 
         private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename)

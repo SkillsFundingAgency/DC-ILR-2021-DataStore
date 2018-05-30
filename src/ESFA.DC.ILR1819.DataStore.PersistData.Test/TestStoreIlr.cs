@@ -109,6 +109,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
+                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction);
+                    await storeValidationOutput.StoreAsync(ukPrn, cancellationToken);
+
+                    output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
+                    stopwatch.Restart();
+
                     transaction.Commit();
                 }
                 catch (Exception ex)
