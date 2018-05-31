@@ -201,9 +201,41 @@
     <Build Include="Rulebase\Tables\FM25_Learner.sql" />
     <Build Include="Rulebase\Tables\FM25_global.sql" />
     <Build Include="Rulebase\Tables\FM25_Cases.sql" />
+    <Build Include="Security\User_RW.sql" />
+    <Build Include="Security\User_RO.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="zzDeploymentProfiles\zz.Local.Dev.Version.publish.xml" />
     <None Include="zzDeploymentProfiles\Release.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="BUILD_BRANCHNAME">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__5)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="BUILD_BUILDNUMBER">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="DEPLOYMENT_DATETIME">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="ROUserPassword">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="RWUserPassword">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="zzScript.PreDeployment.sql" />
   </ItemGroup>
 </Project>

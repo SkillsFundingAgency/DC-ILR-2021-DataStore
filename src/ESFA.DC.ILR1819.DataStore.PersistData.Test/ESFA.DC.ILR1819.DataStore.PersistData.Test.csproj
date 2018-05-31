@@ -134,6 +134,7 @@
     <None Include="ALBOutput1000.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="App.Release.config" />
     <None Include="App.config" />
     <None Include="ESFA.DC.ILR1819.DataStore.PersistData.Test.ruleset">
       <SubType>Designer</SubType>

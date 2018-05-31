@@ -20,10 +20,10 @@
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="LarsROUserPassword">
+    <SqlCmdVariable Include="ROUserPassword">
       <Value>NotUsedLocally!</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="LarsRWUserPassword">
+    <SqlCmdVariable Include="RWUserPassword">
       <Value>NotUsedLocally!!</Value>
     </SqlCmdVariable>  
     <SqlCmdVariable Include="DEPLOYMENT_DATETIME">
