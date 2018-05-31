@@ -39,7 +39,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             string validationErrorsStorageKey =
                 _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
             string validationErrorsLookupStorageKey =
-                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
+                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups].ToString();
             string filename = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
             List<ValidationErrorDto> validationErrorDtos = (await _validationErrorsService.GetValidationErrorsAsync(
                 validationErrorsStorageKey,
@@ -62,7 +62,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             ?.LearnAimRef ?? "Unknown",
                     LearnRefNumber = validationErrorDto.LearnerReferenceNumber,
                     RuleName = validationErrorDto.RuleName,
-                    Severity = validationErrorDto.Severity,
+                    Severity = validationErrorDto.Severity.Substring(0, 1),
                     Source = filename
                 });
             }
