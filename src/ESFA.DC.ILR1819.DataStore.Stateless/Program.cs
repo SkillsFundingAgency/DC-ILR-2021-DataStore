@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Features.AttributeFilters;
 using Autofac.Integration.ServiceFabric;
 using DC.JobContextManager;
 using DC.JobContextManager.Interface;
@@ -55,7 +56,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
                 using (var container = builder.Build())
                 {
-                    var ss = container.Resolve<EntryPoint>();
+                    // var ss = container.Resolve<EntryPoint>();
                     ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Stateless).Name);
 
                     // Prevents this host process from terminating so services keep running.
@@ -160,7 +161,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.Register<Func<JobContextMessage, CancellationToken, Task<bool>>>(c =>
                 c.Resolve<IMessageHandler>().Handle).InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<EntryPoint>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<EntryPoint>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<JobContextManagerForTopics<JobContextMessage>>().As<IJobContextManager>()
                 .InstancePerLifetimeScope();

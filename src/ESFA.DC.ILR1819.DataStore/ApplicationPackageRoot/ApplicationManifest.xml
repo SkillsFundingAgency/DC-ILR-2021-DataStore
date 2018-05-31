@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest ApplicationTypeName="ESFA.DC.ILR1819.DataStoreType"
-                     ApplicationTypeVersion="1.0.0"
-                     xmlns="http://schemas.microsoft.com/2011/01/fabric"
-                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ESFA.DC.ILR1819.DataStoreType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="ESFA.DC.ILR1819.DataStore.Stateless_InstanceCount" DefaultValue="-1" />
     <Parameter Name="AuditQueueName" DefaultValue="audit-queue" />
@@ -27,7 +23,7 @@
       <ConfigOverride Name="Config">
         <Settings>
           <Section Name="DataStoreSection">
-            <Parameter Name="ILR1819DataStoreConnectionString" Value="[ILR1819DataStoreConnectionString]" />
+            <Parameter Name="ILRDataStoreConnectionString" Value="[ILRDataStoreConnectionString]" />
           </Section>
           <Section Name="ServiceBusSettings">
             <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
@@ -41,20 +37,17 @@
           <Section Name="LoggerSection">
             <Parameter Name="LoggerConnectionstring" Value="[LoggerConnectionstring]" />
           </Section>
-          <Section  Name="AzureStorageSection">
+          <Section Name="AzureStorageSection">
             <Parameter Name="AzureBlobConnectionString" Value="[AzureBlobConnectionString]" />
             <Parameter Name="AzureBlobContainerName" Value="[AzureBlobContainerName]" />
           </Section>
-          <Section  Name="AzureCosmosSection">
+          <Section Name="AzureCosmosSection">
             <Parameter Name="CosmosEndpointUrl" Value="[CosmosEndpointUrl]" />
             <Parameter Name="CosmosAuthKeyOrResourceToken" Value="[CosmosAuthKeyOrResourceToken]" />
           </Section>
-
         </Settings>
       </ConfigOverride>
     </ConfigOverrides>
-
-   
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 

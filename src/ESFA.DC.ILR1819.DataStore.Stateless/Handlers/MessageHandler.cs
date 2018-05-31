@@ -29,7 +29,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
             try
             {
                 using (var childLifeTimeScope = _parentLifeTimeScope.BeginLifetimeScope(c =>
-                    c.RegisterInstance(jobContextMessage).As<IJobContextMessage>()))
+                {
+                    c.RegisterInstance(jobContextMessage).As<IJobContextMessage>();
+                }))
                 {
                     // get logger
                     var executionContext = (Logging.ExecutionContext)childLifeTimeScope.Resolve<IExecutionContext>();
