@@ -3,7 +3,7 @@
   <!-- Add your custom configuration sections and parameters here -->
   
   <Section Name="DataStoreSection">
-    <Parameter Name="ILRDataStoreILRDataStoreConnectionString" Value="" />
+    <Parameter Name="ILRDataStoreConnectionString" Value="" />
   </Section>
   <Section Name="ServiceBusSettings">
     <Parameter Name="AuditQueueName" Value="" />

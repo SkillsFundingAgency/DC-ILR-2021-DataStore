@@ -11,13 +11,22 @@
     <PackageProjectUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-DataStore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-DataStore</RepositoryUrl>
     <PackageTags>DC ILR Data Store DEDS Interface</PackageTags>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
