@@ -2,6 +2,6 @@
 {
     public sealed class PersistDataConfiguration
     {
-        public string ConnectionString { get; set; }
+        public string ILRDataStoreConnectionString { get; set; }
     }
 }

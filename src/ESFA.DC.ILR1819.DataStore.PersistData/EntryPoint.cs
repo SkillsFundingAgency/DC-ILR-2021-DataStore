@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Features.AttributeFilters;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
@@ -34,8 +36,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         public EntryPoint(
             PersistDataConfiguration persistDataConfiguration,
-            IKeyValuePersistenceService storage,
-            IKeyValuePersistenceService persist,
+            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
+            [KeyFilter(PersistenceStorageKeys.Cosmos)] IKeyValuePersistenceService persist,
             IXmlSerializationService xmlSerializationService,
             IJsonSerializationService jsonSerializationService,
             IValidationErrorsService validationErrorsService,
@@ -61,7 +63,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             Task<ValidationErrorDto> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
 
             using (SqlConnection connection =
-                new SqlConnection(_persistDataConfiguration.ConnectionString))
+                new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
             {
                 SqlTransaction transaction = null;
                 try
