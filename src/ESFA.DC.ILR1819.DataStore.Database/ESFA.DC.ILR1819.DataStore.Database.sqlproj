@@ -235,28 +235,19 @@
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue>XXX</DefaultValue>
       <Value>$(SqlCmdVar__5)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="BUILD_BUILDNUMBER">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue>YY.YY.YY.YY</DefaultValue>
       <Value>$(SqlCmdVar__3)</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="DEPLOYMENT_DATETIME">
-      <DefaultValue>
-      </DefaultValue>
-      <Value>$(SqlCmdVar__4)</Value>
-    </SqlCmdVariable>
     <SqlCmdVariable Include="ROUserPassword">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue>NotUsed@1223zxxas@ss.PP</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="RWUserPassword">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue>NotUsed@1223zxxas@ss.PQ</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
   </ItemGroup>
