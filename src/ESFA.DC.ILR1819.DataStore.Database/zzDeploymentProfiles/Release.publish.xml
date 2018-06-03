@@ -20,11 +20,11 @@
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="LarsROUserPassword">
-      <Value>__LarsROUserPassword__</Value>
+    <SqlCmdVariable Include="ROUserPassword">
+      <Value>__ILR1819DataStoreROUserPassword__</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="LarsRWUserPassword">
-      <Value>__LarsRWUserPassword__</Value>
+    <SqlCmdVariable Include="RWUserPassword">
+      <Value>__ILR1819DataStoreRWUserPassword__</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="BUILD_BUILDNUMBER">
       <Value>__BUILDNUMBER__</Value>

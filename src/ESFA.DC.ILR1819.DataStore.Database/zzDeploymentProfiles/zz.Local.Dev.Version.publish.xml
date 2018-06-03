@@ -2,9 +2,9 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>LARS</TargetDatabaseName>
-    <DeployScriptFileName>ESFA.DC.Data.LARS.Database.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=(local);Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
+    <TargetDatabaseName>ILR1819_DataStore</TargetDatabaseName>
+    <DeployScriptFileName>ESFA.DC.ILR1819_DataStore.Database.sql</DeployScriptFileName>
+    <TargetConnectionString>Data Source=(localdb)\ProjectsV13;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
     <BlockOnPossibleDataLoss>True</BlockOnPossibleDataLoss>
     <DropObjectsNotInSource>True</DropObjectsNotInSource>
     <DoNotDropDatabaseRoles>True</DoNotDropDatabaseRoles>
@@ -20,10 +20,10 @@
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="LarsROUserPassword">
+    <SqlCmdVariable Include="ROUserPassword">
       <Value>NotUsedLocally!</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="LarsRWUserPassword">
+    <SqlCmdVariable Include="RWUserPassword">
       <Value>NotUsedLocally!!</Value>
     </SqlCmdVariable>  
     <SqlCmdVariable Include="DEPLOYMENT_DATETIME">
