@@ -12,6 +12,8 @@ using DC.JobContextManager.Interface;
 using ESFA.DC.Auditing;
 using ESFA.DC.Auditing.Dto;
 using ESFA.DC.Auditing.Interface;
+using ESFA.DC.ILR.ValidationErrors;
+using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.PersistData;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
@@ -129,7 +131,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 Environment.ProcessorCount);
             containerBuilder.Register(c => new QueuePublishService<AuditingDto>(
                     auditPublishConfig,
-                    c.Resolve<ISerializationService>()))
+                    c.Resolve<IJsonSerializationService>()))
                 .As<IQueuePublishService<AuditingDto>>();
             containerBuilder.RegisterType<Auditor>().As<IAuditor>();
 
@@ -143,12 +145,21 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.Register(c =>
             {
                 var topicSubscriptionSevice =
-                    new TopicSubscriptionSevice<JobContextMessage>(
+                    new TopicSubscriptionSevice<JobContextDto>(
                         topicConfig,
-                        c.Resolve<ISerializationService>(),
+                        c.Resolve<IJsonSerializationService>(),
                         c.Resolve<ILogger>());
                 return topicSubscriptionSevice;
-            }).As<ITopicSubscriptionService<JobContextMessage>>();
+            }).As<ITopicSubscriptionService<JobContextDto>>();
+
+            containerBuilder.Register(c =>
+            {
+                var topicPublishSevice =
+                    new TopicPublishService<JobContextDto>(
+                        topicConfig,
+                        c.Resolve<IJsonSerializationService>());
+                return topicPublishSevice;
+            }).As<ITopicPublishService<JobContextDto>>();
 
             // register message mapper
             containerBuilder.RegisterType<JobContextMessageMapper>()
@@ -161,8 +172,16 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.Register<Func<JobContextMessage, CancellationToken, Task<bool>>>(c =>
                 c.Resolve<IMessageHandler>().Handle).InstancePerLifetimeScope();
 
+            // register Entrypoint
             containerBuilder.RegisterType<EntryPoint>()
                 .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
+
+            // register ValidationError service
+            containerBuilder.Register(c => new ValidationErrorsService(
+                c.ResolveKeyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob),
+                c.Resolve<IJsonSerializationService>(),
+                c.Resolve<ILogger>())).As<IValidationErrorsService>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<JobContextManagerForTopics<JobContextMessage>>().As<IJobContextManager>()
