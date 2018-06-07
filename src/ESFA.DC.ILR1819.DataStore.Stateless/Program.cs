@@ -77,7 +77,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
             // register Cosmos config
             var azureRedisOptions = configHelper.GetSectionValues<RedisOptions>("RedisSection");
-            containerBuilder.Register(c => new AzureCosmosKeyValuePersistenceConfig(
+            containerBuilder.Register(c => new RedisKeyValuePersistenceConfig(
                     azureRedisOptions.RedisConnectionString))
                 .As<IRedisKeyValuePersistenceServiceConfig>().SingleInstance();
 

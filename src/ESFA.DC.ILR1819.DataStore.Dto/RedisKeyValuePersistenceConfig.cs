@@ -2,9 +2,9 @@
 
 namespace ESFA.DC.ILR1819.DataStore.Dto
 {
-    public class AzureCosmosKeyValuePersistenceConfig : IRedisKeyValuePersistenceServiceConfig
+    public class RedisKeyValuePersistenceConfig : IRedisKeyValuePersistenceServiceConfig
     {
-        public AzureCosmosKeyValuePersistenceConfig(string connectionString)
+        public RedisKeyValuePersistenceConfig(string connectionString)
         {
             ConnectionString = connectionString;
         }
