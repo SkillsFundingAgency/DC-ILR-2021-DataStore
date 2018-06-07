@@ -17,9 +17,8 @@
     <Parameter Name="AzureBlobContainerName" Value="" />
   </Section>
 
-  <Section  Name="AzureCosmosSection">
-    <Parameter Name="CosmosEndpointUrl" Value="" />
-    <Parameter Name="CosmosAuthKeyOrResourceToken" Value="" />
+  <Section Name="RedisSection">
+    <Parameter Name="RedisConnectionString" Value="" />
   </Section>
 
 
