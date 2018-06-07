@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Fabric;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -20,11 +18,11 @@ using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Mappers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Modules;
-using ESFA.DC.IO.AzureCosmos;
-using ESFA.DC.IO.AzureCosmos.Config.Interfaces;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
+using ESFA.DC.IO.Redis;
+using ESFA.DC.IO.Redis.Config.Interfaces;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -35,7 +33,6 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
 using ESFA.DC.ServiceFabric.Helpers;
-using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless
 {
@@ -58,7 +55,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
                 using (var container = builder.Build())
                 {
-                    // var ss = container.Resolve<EntryPoint>();
                     ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Stateless).Name);
 
                     // Prevents this host process from terminating so services keep running.
@@ -80,14 +76,13 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             var configHelper = new ConfigurationHelper();
 
             // register Cosmos config
-            var azureCosmosOptions = configHelper.GetSectionValues<AzureCosmosOptions>("AzureCosmosSection");
+            var azureRedisOptions = configHelper.GetSectionValues<RedisOptions>("RedisSection");
             containerBuilder.Register(c => new AzureCosmosKeyValuePersistenceConfig(
-                    azureCosmosOptions.CosmosEndpointUrl,
-                    azureCosmosOptions.CosmosAuthKeyOrResourceToken))
-                .As<IAzureCosmosKeyValuePersistenceServiceConfig>().SingleInstance();
+                    azureRedisOptions.RedisConnectionString))
+                .As<IRedisKeyValuePersistenceServiceConfig>().SingleInstance();
 
-            containerBuilder.RegisterType<AzureCosmosKeyValuePersistenceService>()
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Cosmos)
+            containerBuilder.RegisterType<RedisKeyValuePersistenceService>()
+                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Redis)
                 .InstancePerLifetimeScope();
 
             // register azure blob storage service

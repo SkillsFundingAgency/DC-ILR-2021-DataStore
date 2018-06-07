@@ -10,7 +10,6 @@
     <Parameter Name="LoggerConnectionstring" Value="__LoggerConnectionstring__" />
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
     <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
-    <Parameter Name="CosmosEndpointUrl" Value="__CosmosEndpointUrl__" />
-    <Parameter Name="CosmosAuthKeyOrResourceToken" Value="__CosmosAuthKeyOrResourceToken__" />
+    <Parameter Name="RedisConnectionString" Value="__RedisCacheConnectionString__" /> 
   </Parameters>
 </Application>

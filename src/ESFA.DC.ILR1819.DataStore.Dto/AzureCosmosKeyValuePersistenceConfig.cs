@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ESFA.DC.IO.AzureCosmos.Config.Interfaces;
+﻿using ESFA.DC.IO.Redis.Config.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.Dto
 {
-    public class AzureCosmosKeyValuePersistenceConfig : IAzureCosmosKeyValuePersistenceServiceConfig
+    public class AzureCosmosKeyValuePersistenceConfig : IRedisKeyValuePersistenceServiceConfig
     {
-        public AzureCosmosKeyValuePersistenceConfig(string endpointUrl, string authKeyOrResourceToken)
+        public AzureCosmosKeyValuePersistenceConfig(string connectionString)
         {
-            EndpointUrl = endpointUrl;
-            AuthKeyOrResourceToken = authKeyOrResourceToken;
+            ConnectionString = connectionString;
         }
 
-        public string EndpointUrl { get; }
-
-        public string AuthKeyOrResourceToken { get; }
+        public string ConnectionString { get; }
     }
 }

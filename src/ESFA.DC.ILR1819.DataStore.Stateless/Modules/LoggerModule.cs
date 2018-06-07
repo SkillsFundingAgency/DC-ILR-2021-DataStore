@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Autofac;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.Logging;
@@ -27,13 +23,13 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Modules
                         new MsSqlServerApplicationLoggerOutputSettings()
                         {
                             MinimumLogLevel = LogLevel.Verbose,
-                            ConnectionString = loggerOptions.LoggerConnectionstring
+                            ConnectionString = loggerOptions.LoggerConnectionstring,
                         },
                         new ConsoleApplicationLoggerOutputSettings()
                         {
-                            MinimumLogLevel = LogLevel.Verbose
-                        }
-                    }
+                            MinimumLogLevel = LogLevel.Verbose,
+                        },
+                    },
                 };
             }).As<IApplicationLoggerSettings>().SingleInstance();
 

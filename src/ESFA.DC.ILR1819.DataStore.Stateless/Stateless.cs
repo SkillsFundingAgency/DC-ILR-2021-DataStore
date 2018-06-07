@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
 using DC.JobContextManager.Interface;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -16,12 +12,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
     /// </summary>
     public class Stateless : StatelessService
     {
-        private readonly ILifetimeScope _parentliLifetimeScope;
+        private readonly ILifetimeScope _parentLifetimeScope;
 
-        public Stateless(StatelessServiceContext context, ILifetimeScope parentliLifetimeScope)
+        public Stateless(StatelessServiceContext context, ILifetimeScope parentLifetimeScope)
             : base(context)
         {
-            _parentliLifetimeScope = parentliLifetimeScope;
+            _parentLifetimeScope = parentLifetimeScope;
         }
 
         /// <summary>
@@ -31,7 +27,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
             yield return new ServiceInstanceListener(
-                context => _parentliLifetimeScope.Resolve<IJobContextManager>(),
+                context => _parentLifetimeScope.Resolve<IJobContextManager>(),
                 "DataService-SBTopicListener");
         }
     }

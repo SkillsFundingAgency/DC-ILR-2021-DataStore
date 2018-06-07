@@ -11,8 +11,7 @@
     <Parameter Name="MaxMessageSize" DefaultValue="1073741824" />
     <Parameter Name="AzureBlobConnectionString" DefaultValue="UseDevelopmentStorage=true" />
     <Parameter Name="AzureBlobContainerName" DefaultValue="ilr-files" />
-    <Parameter Name="CosmosEndpointUrl" DefaultValue="" />
-    <Parameter Name="CosmosAuthKeyOrResourceToken" DefaultValue="" />
+    <Parameter Name="RedisConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -41,9 +40,8 @@
             <Parameter Name="AzureBlobConnectionString" Value="[AzureBlobConnectionString]" />
             <Parameter Name="AzureBlobContainerName" Value="[AzureBlobContainerName]" />
           </Section>
-          <Section Name="AzureCosmosSection">
-            <Parameter Name="CosmosEndpointUrl" Value="[CosmosEndpointUrl]" />
-            <Parameter Name="CosmosAuthKeyOrResourceToken" Value="[CosmosAuthKeyOrResourceToken]" />
+          <Section Name="RedisSection">
+            <Parameter Name="RedisConnectionString" Value="[RedisConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>

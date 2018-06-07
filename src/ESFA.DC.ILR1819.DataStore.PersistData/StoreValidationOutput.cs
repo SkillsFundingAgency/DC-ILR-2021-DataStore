@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
-using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.JobContext.Interface;
+using ValidationError = ESFA.DC.ILR1819.DataStore.EF.ValidationError;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {

@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
@@ -18,13 +17,16 @@ using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
+    /// <summary>
+    /// Entry point to the application. This class contains the job context callback.
+    /// </summary>
     public sealed class EntryPoint
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
 
         private readonly IKeyValuePersistenceService _storage;
 
-        private readonly IKeyValuePersistenceService _persist;
+        private readonly IKeyValuePersistenceService _redis;
 
         private readonly ISerializationService _xmlSerializationService;
 
@@ -34,10 +36,20 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntryPoint"/> class.
+        /// </summary>
+        /// <param name="persistDataConfiguration">The configuration for this class (DB connection string).</param>
+        /// <param name="storage">The Azure Storage IO layer.</param>
+        /// <param name="redis">The Redis IO layer.</param>
+        /// <param name="xmlSerializationService">The XML serialization service.</param>
+        /// <param name="jsonSerializationService">The JSON serialization service,</param>
+        /// <param name="validationErrorsService">The validation errors service.</param>
+        /// <param name="logger">The logger.</param>
         public EntryPoint(
             PersistDataConfiguration persistDataConfiguration,
             [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
-            [KeyFilter(PersistenceStorageKeys.Cosmos)] IKeyValuePersistenceService persist,
+            [KeyFilter(PersistenceStorageKeys.Redis)] IKeyValuePersistenceService redis,
             IXmlSerializationService xmlSerializationService,
             IJsonSerializationService jsonSerializationService,
             IValidationErrorsService validationErrorsService,
@@ -45,22 +57,56 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             _persistDataConfiguration = persistDataConfiguration;
             _storage = storage;
-            _persist = persist;
+            _redis = redis;
             _xmlSerializationService = xmlSerializationService;
             _jsonSerializationService = jsonSerializationService;
             _validationErrorsService = validationErrorsService;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Callback from Job Context Manager.
+        /// </summary>
+        /// <param name="jobContextMessage">The job context message.</param>
+        /// <param name="cancellationToken">The callback cancellation token.</param>
+        /// <returns>True if the callback succeeded, or false if the callback failed.</returns>
         public async Task<bool> Callback(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
             string ilrFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
 
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
             Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
             Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
-            Task<ValidationErrorDto> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
+            Task<List<ValidationErrorDto>> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
+
+            if (!await WriteToDeds(
+                jobContextMessage,
+                cancellationToken,
+                ilrFilename,
+                messageTask,
+                fundingOutputTask,
+                validLearnersTask,
+                validationErrorDto))
+            {
+                return false;
+            }
+
+            await PeristValuesToStorage(jobContextMessage, validationErrorDto.Result);
+            await DeletePersistedData(jobContextMessage);
+
+            return true;
+        }
+
+        private async Task<bool> WriteToDeds(
+            IJobContextMessage jobContextMessage,
+            CancellationToken cancellationToken,
+            string ilrFilename,
+            Task<Message> messageTask,
+            Task<FundingOutputs> fundingOutputTask,
+            Task<List<string>> validLearnersTask,
+            Task<List<ValidationErrorDto>> validationErrorDto)
+        {
+            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
 
             using (SqlConnection connection =
                 new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
@@ -112,8 +158,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         return false;
                     }
 
-                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
-                    Task storeValidationOutputTask = storeValidationOutput.StoreAsync(ukPrn, messageTask.Result, cancellationToken);
+                    StoreValidationOutput storeValidationOutput =
+                        new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
+                    Task storeValidationOutputTask =
+                        storeValidationOutput.StoreAsync(ukPrn, messageTask.Result, cancellationToken);
 
                     await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask, storeValidationOutputTask);
 
@@ -134,17 +182,42 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                     return false;
                 }
+            }
 
-                return true;
+            return true;
+        }
+
+        private async Task PeristValuesToStorage(IJobContextMessage jobContextMessage, List<ValidationErrorDto> validationErrorDtos)
+        {
+            string key = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
+                .ToString());
+
+            await _storage.SaveAsync($"{key}.json", _jsonSerializationService.Serialize(validationErrorDtos));
+        }
+
+        private async Task DeletePersistedData(IJobContextMessage jobContextMessage)
+        {
+            foreach (KeyValuePair<JobContextMessageKey, object> keyValuePair in jobContextMessage.KeyValuePairs)
+            {
+                string key = keyValuePair.Value.ToString();
+
+                try
+                {
+                    await _redis.RemoveAsync(key);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Failed to delete key {key}", ex);
+                }
             }
         }
 
-        private async Task<ValidationErrorDto> ReadAndDeserialiseValidationErrorsAsync(IJobContextMessage jobContextMessage)
+        private async Task<List<ValidationErrorDto>> ReadAndDeserialiseValidationErrorsAsync(IJobContextMessage jobContextMessage)
         {
-            string val = await _storage.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
+            string key = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
                 .ToString());
 
-            ValidationErrorDto validationErrorDto = _jsonSerializationService.Deserialize<ValidationErrorDto>(val);
+            List<ValidationErrorDto> validationErrorDto = _jsonSerializationService.Deserialize<List<ValidationErrorDto>>(key);
             return validationErrorDto;
         }
 
@@ -159,7 +232,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private async Task<FundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage)
         {
             string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
-            string alb = await _persist.GetAsync(albFilename);
+            string alb = await _redis.GetAsync(albFilename);
 
             FundingOutputs fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
             return fundingOutputs;
@@ -167,7 +240,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task<List<string>> ReadAndDeserialiseValidLearnersAsync(IJobContextMessage jobContextMessage)
         {
-            string learnersValidStr = await _persist.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString());
+            string learnersValidStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString());
             List<string> validLearners = _jsonSerializationService.Deserialize<List<string>>(learnersValidStr);
             return validLearners;
         }
