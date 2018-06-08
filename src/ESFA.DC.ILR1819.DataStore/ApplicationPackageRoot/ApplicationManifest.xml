@@ -12,6 +12,7 @@
     <Parameter Name="AzureBlobConnectionString" DefaultValue="UseDevelopmentStorage=true" />
     <Parameter Name="AzureBlobContainerName" DefaultValue="ilr-files" />
     <Parameter Name="RedisConnectionString" DefaultValue="" />
+    <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -56,6 +57,7 @@
     <Service Name="ESFA.DC.ILR1819.DataStore.Stateless" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="ESFA.DC.ILR1819.DataStore.StatelessType" InstanceCount="[ESFA.DC.ILR1819.DataStore.Stateless_InstanceCount]">
         <SingletonPartition />
+        <PlacementConstraints>[DataServicePlacementConstraints]</PlacementConstraints>
       </StatelessService>
     </Service>
   </DefaultServices>

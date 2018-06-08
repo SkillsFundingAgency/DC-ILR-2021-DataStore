@@ -72,6 +72,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         /// <returns>True if the callback succeeded, or false if the callback failed.</returns>
         public async Task<bool> Callback(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
+            _logger.LogDebug("Inside DataStore callback");
             string ilrFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
 
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
@@ -88,11 +89,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 validLearnersTask,
                 validationErrorDto))
             {
+                _logger.LogError("write to DataStore failed");
                 return false;
             }
 
             await PeristValuesToStorage(jobContextMessage, validationErrorDto.Result);
             await DeletePersistedData(jobContextMessage);
+            _logger.LogDebug("Completed DataStore callback");
 
             return true;
         }
