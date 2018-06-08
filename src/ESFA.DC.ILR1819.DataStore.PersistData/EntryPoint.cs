@@ -79,17 +79,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             stopWatch.Start();
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
-            _logger.LogDebug($"Got ilr file from blob in: {stopWatch.ElapsedMilliseconds}");
-            stopWatch.Restart();
             Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
-            _logger.LogDebug($"Got funding output from IO in: {stopWatch.ElapsedMilliseconds}");
-            stopWatch.Restart();
             Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
-            _logger.LogDebug($"Got Validation output from IO in: {stopWatch.ElapsedMilliseconds}");
-            stopWatch.Restart();
             Task<List<ValidationErrorDto>> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
-            _logger.LogDebug($"Got Validation errors output from IO in: {stopWatch.ElapsedMilliseconds}");
-            stopWatch.Restart();
 
             if (!await WriteToDeds(
                 jobContextMessage,
