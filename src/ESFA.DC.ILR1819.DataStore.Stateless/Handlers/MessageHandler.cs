@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
             _context = context;
         }
 
-        public Task<bool> Handle(JobContextMessage jobContextMessage, CancellationToken cancellationToken)
+        public async Task<bool> Handle(JobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
                     logger.LogDebug("started Data store");
 
                     var entryPoint = childLifeTimeScope.Resolve<EntryPoint>();
-                    var result = entryPoint.Callback(jobContextMessage, cancellationToken);
+                    var result = await entryPoint.Callback(jobContextMessage, cancellationToken);
                     logger.LogDebug("completed Data store");
                     return result;
                 }
