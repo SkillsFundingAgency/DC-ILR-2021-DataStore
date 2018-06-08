@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,13 +73,23 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         /// <returns>True if the callback succeeded, or false if the callback failed.</returns>
         public async Task<bool> Callback(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
+            var stopWatch = new Stopwatch();
             _logger.LogDebug("Inside DataStore callback");
             string ilrFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
 
+            stopWatch.Start();
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
+            _logger.LogDebug($"Got ilr file from blob in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
             Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
+            _logger.LogDebug($"Got funding output from IO in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
             Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
+            _logger.LogDebug($"Got Validation output from IO in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
             Task<List<ValidationErrorDto>> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
+            _logger.LogDebug($"Got Validation errors output from IO in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
 
             if (!await WriteToDeds(
                 jobContextMessage,
@@ -93,8 +104,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return false;
             }
 
+            _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
+
             await PeristValuesToStorage(jobContextMessage, validationErrorDto.Result);
+            _logger.LogDebug($"Persisted validation errors to csv in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
+
             await DeletePersistedData(jobContextMessage);
+            _logger.LogDebug($"Purged IO in: {stopWatch.ElapsedMilliseconds}");
             _logger.LogDebug("Completed DataStore callback");
 
             return true;
