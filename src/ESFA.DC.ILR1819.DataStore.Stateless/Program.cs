@@ -90,7 +90,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.Register(c =>
                     new AzureStorageKeyValuePersistenceConfig(
                         azureBlobStorageOptions.AzureBlobConnectionString,
-                        azureBlobStorageOptions.AzureContainerReference))
+                        azureBlobStorageOptions.AzureBlobContainerName))
                 .As<IAzureStorageKeyValuePersistenceServiceConfig>().SingleInstance();
 
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()

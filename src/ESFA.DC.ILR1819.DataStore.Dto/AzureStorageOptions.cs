@@ -8,6 +8,6 @@ namespace ESFA.DC.ILR1819.DataStore.Dto
     {
         public string AzureBlobConnectionString { get; set; }
 
-        public string AzureContainerReference { get; set; }
+        public string AzureBlobContainerName { get; set; }
     }
 }
