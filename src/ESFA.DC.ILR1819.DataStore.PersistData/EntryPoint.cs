@@ -163,12 +163,17 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         return false;
                     }
 
-                    StoreRuleAlb storeRuleAlb = new StoreRuleAlb(connection, transaction);
-                    Task storeRuleAlbTask = storeRuleAlb.StoreAsync(ukPrn, fundingOutputTask.Result, cancellationToken);
-
-                    if (cancellationToken.IsCancellationRequested)
+                    Task storeRuleAlbTask = Task.CompletedTask;
+                    if (fundingOutputTask.Result != null)
                     {
-                        return false;
+                        StoreRuleAlb storeRuleAlb = new StoreRuleAlb(connection, transaction);
+                        storeRuleAlbTask =
+                            storeRuleAlb.StoreAsync(ukPrn, fundingOutputTask.Result, cancellationToken);
+
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return false;
+                        }
                     }
 
                     StoreValidationOutput storeValidationOutput =
@@ -244,10 +249,21 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task<FundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage)
         {
-            string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
-            string alb = await _redis.GetAsync(albFilename);
+            FundingOutputs fundingOutputs = null;
 
-            FundingOutputs fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
+            try
+            {
+                string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
+                string alb = await _redis.GetAsync(albFilename);
+
+                fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
+            }
+            catch (Exception ex)
+            {
+                // Todo: Check behaviour
+                _logger.LogError("Failed to get & deserialise ALB funding data", ex);
+            }
+
             return fundingOutputs;
         }
 
