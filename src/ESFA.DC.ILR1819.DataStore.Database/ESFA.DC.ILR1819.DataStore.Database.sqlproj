@@ -228,6 +228,8 @@
     <Build Include="Rulebase\Tables\FM25_Cases.sql" />
     <Build Include="Security\User_RW.sql" />
     <Build Include="Security\User_RO.sql" />
+    <Build Include="Security\DataProcessing.sql" />
+    <Build Include="Security\DataViewing.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="zzDeploymentProfiles\zz.Local.Dev.Version.publish.xml" />

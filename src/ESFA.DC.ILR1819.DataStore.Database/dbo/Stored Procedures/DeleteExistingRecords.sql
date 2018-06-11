@@ -108,7 +108,9 @@ DELETE FROM [Valid].[ProviderSpecLearnerMonitoring] WHERE UKPRN = @ukprn
 DELETE FROM [Valid].[Source] WHERE UKPRN = @ukprn
 DELETE FROM [Valid].[SourceFile] WHERE UKPRN = @ukprn
 
-
-
 END
+
+GO
+
+GRANT EXECUTE ON [dbo].[DeleteExistingRecords] TO [DataProcessing]
 
