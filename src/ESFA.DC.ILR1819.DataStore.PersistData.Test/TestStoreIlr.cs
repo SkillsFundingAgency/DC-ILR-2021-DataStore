@@ -45,6 +45,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         [InlineData("ILR-90000073-1819-20180518-095504-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000073, "0Accm01")]
         [InlineData("ILR-90000074-1819-20180521-132627-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000074, "0Accm01")]
         [InlineData("ILR-90000075-1819-20180521-132931-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000075, "0Accm01")]
+        [InlineData("ILR-10006341-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006341, "16v224")]
+        [InlineData("ILR-10033670-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, "16v224")]
         //[InlineData("ILR-90000064-1819-20180521-133647-00.xml", "ALBOutput1000.json", 90000064, "0Accm01")]
         //[InlineData("ILR-90000063-1819-20180521-134854-00.xml", "ALBOutput1000.json", 90000063, "0Accm01")]
         //[InlineData("ILR-90000062-1819-20180521-135604-00.xml", "ALBOutput1000.json", 90000062, "0Accm01")]

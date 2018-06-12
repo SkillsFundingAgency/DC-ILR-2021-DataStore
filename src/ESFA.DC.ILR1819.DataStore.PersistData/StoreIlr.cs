@@ -195,7 +195,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             });
                         }
 
-                        foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs)
+                        foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs ?? Enumerable.Empty<ILearningDeliveryFAM>())
                         {
                             recordsValidLearnerDeliveryFams.Add(new EF.Valid.LearningDeliveryFAM
                             {
@@ -272,7 +272,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                     foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses)
                     {
-                        foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings)
+                        foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings ?? Enumerable.Empty<IEmploymentStatusMonitoring>())
                         {
                             recordsValidEmploymentStatusMonitorings.Add(new EF.Valid.EmploymentStatusMonitoring
                             {
@@ -450,7 +450,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             });
                         }
 
-                        foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs)
+                        foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs ?? Enumerable.Empty<ILearningDeliveryFAM>())
                         {
                             recordsInvalidLearnerDeliveryFams.Add(new EF.Invalid.LearningDeliveryFAM
                             {
@@ -547,7 +547,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             EmpStat = learnerEmploymentStatus.EmpStat
                         });
 
-                        foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings)
+                        foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings ?? Enumerable.Empty<IEmploymentStatusMonitoring>())
                         {
                             recordsInvalidEmploymentStatusMonitorings.Add(new EF.Invalid.EmploymentStatusMonitoring
                             {
