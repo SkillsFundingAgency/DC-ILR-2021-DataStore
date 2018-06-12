@@ -179,6 +179,9 @@
     <Content Include="ILR-10033670-1819-20180118-023456-02.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ILR-10033670-1819-20180118-023456-04.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ILR-90000065-1819-20180518-095236-02.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
