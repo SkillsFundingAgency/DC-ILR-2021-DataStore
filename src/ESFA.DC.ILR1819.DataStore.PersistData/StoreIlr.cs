@@ -98,6 +98,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int learnerEmploymentStatusMonitoringId = 1;
             int learnerDeliveryFamId = 1;
             int appFinRecordId = 1;
+            int learningDeliveryWorkPlacementId = 1;
+            int learnerFAMId = 1;
+            int learnerHEFinancialSupportId = 1;
+            int providerSpecLearnerMonitoringId = 1;
+            int providerSpecDeliveryMonitoringId = 1;
+            int contactPreferenceId = 1;
 
             foreach (ILearner ilrLearner in ilr.Learners)
             {
@@ -392,12 +398,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidContactPreferences.Add(new EF.Invalid.ContactPreference
                         {
+                            ContactPreference_Id = contactPreferenceId,
                             Learner_Id = learnerId,
                             UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                             LearnRefNumber = ilrLearner.LearnRefNumber,
                             ContPrefCode = contactPreference.ContPrefCode,
                             ContPrefType = contactPreference.ContPrefType
                         });
+
+                        contactPreferenceId++;
                     }
 
                     foreach (ILearningDelivery learningDelivery in ilrLearner.LearningDeliveries)
@@ -509,6 +518,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         {
                             recordsInvalidLearningDeliveryWorkPlacements.Add(new EF.Invalid.LearningDeliveryWorkPlacement
                             {
+                                LearningDeliveryWorkPlacement_Id = learningDeliveryWorkPlacementId,
                                 LearningDelivery_Id = learnerDeliveryId,
                                 AimSeqNumber = learningDelivery.AimSeqNumber,
                                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
@@ -519,12 +529,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                                 WorkPlaceMode = learningDeliveryWorkPlacement.WorkPlaceMode,
                                 WorkPlaceStartDate = learningDeliveryWorkPlacement.WorkPlaceStartDate
                             });
+
+                            learningDeliveryWorkPlacementId++;
                         }
 
                         foreach (IProviderSpecDeliveryMonitoring providerSpecDeliveryMonitoring in learningDelivery.ProviderSpecDeliveryMonitorings ?? Enumerable.Empty<IProviderSpecDeliveryMonitoring>())
                         {
                             recordsInvalidProviderSpecDeliveryMonitorings.Add(new EF.Invalid.ProviderSpecDeliveryMonitoring
                             {
+                                ProviderSpecDeliveryMonitoring_Id = providerSpecDeliveryMonitoringId,
                                 LearningDelivery_Id = learnerDeliveryId,
                                 AimSeqNumber = learningDelivery.AimSeqNumber,
                                 LearnRefNumber = ilrLearner.LearnRefNumber,
@@ -532,6 +545,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                                 ProvSpecDelMonOccur = providerSpecDeliveryMonitoring.ProvSpecDelMonOccur,
                                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
                             });
+
+                            providerSpecDeliveryMonitoringId++;
                         }
 
                         learnerDeliveryId++;
@@ -574,12 +589,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidLearnerFams.Add(new EF.Invalid.LearnerFAM
                         {
+                            LearnerFAM_Id = learnerFAMId,
                             Learner_Id = learnerId,
                             UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                             LearnRefNumber = ilrLearner.LearnRefNumber,
                             LearnFAMCode = learnerFaM.LearnFAMCode,
                             LearnFAMType = learnerFaM.LearnFAMType
                         });
+
+                        learnerFAMId++;
                     }
 
                     if (ilrLearner.LearnerHEEntity != null)
@@ -598,11 +616,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidLearnerHefinancialSupports.Add(new EF.Invalid.LearnerHEFinancialSupport
                         {
+                            LearnerHEFinancialSupport_Id = learnerHEFinancialSupportId,
                             FINAMOUNT = heFinancialSupport.FINAMOUNT,
                             FINTYPE = heFinancialSupport.FINTYPE,
                             LearnRefNumber = ilrLearner.LearnRefNumber,
                             UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
                         });
+
+                        learnerHEFinancialSupportId++;
                     }
 
                     foreach (ILLDDAndHealthProblem llddAndHealthProblem in ilrLearner.LLDDAndHealthProblems ?? Enumerable.Empty<ILLDDAndHealthProblem>())
@@ -621,12 +642,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidProviderSpecLearnerMonitorings.Add(new EF.Invalid.ProviderSpecLearnerMonitoring
                         {
+                            ProviderSpecLearnerMonitoring_Id = providerSpecLearnerMonitoringId,
                             Learner_Id = learnerId,
                             LearnRefNumber = ilrLearner.LearnRefNumber,
                             UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                             ProvSpecLearnMon = providerSpecLearnerMonitoring.ProvSpecLearnMon,
                             ProvSpecLearnMonOccur = providerSpecLearnerMonitoring.ProvSpecLearnMonOccur
                         });
+
+                        providerSpecLearnerMonitoringId++;
                     }
 
                     learnerId++;
