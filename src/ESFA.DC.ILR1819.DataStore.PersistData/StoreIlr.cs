@@ -97,6 +97,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int learnerEmploymentStatusId = 1;
             int learnerEmploymentStatusMonitoringId = 1;
             int learnerDeliveryFamId = 1;
+            int appFinRecordId = 1;
 
             foreach (ILearner ilrLearner in ilr.Learners)
             {
@@ -439,6 +440,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         {
                             recordsInvalidAppFinRecords.Add(new EF.Invalid.AppFinRecord
                             {
+                                AppFinRecord_Id = appFinRecordId,
                                 LearningDelivery_Id = learnerDeliveryId,
                                 LearnRefNumber = ilrLearner.LearnRefNumber,
                                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
@@ -448,6 +450,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                                 AFinType = learningDeliveryAppFinRecord.AFinType,
                                 AimSeqNumber = learningDelivery.AimSeqNumber
                             });
+
+                            appFinRecordId++;
                         }
 
                         foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs ?? Enumerable.Empty<ILearningDeliveryFAM>())
