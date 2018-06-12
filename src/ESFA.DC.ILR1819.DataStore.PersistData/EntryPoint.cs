@@ -207,8 +207,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task PeristValuesToStorage(IJobContextMessage jobContextMessage, List<ValidationErrorDto> validationErrorDtos)
         {
-            string key = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
-                .ToString());
+            string key = jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
+                .ToString();
 
             await _storage.SaveAsync($"{key}.json", _jsonSerializationService.Serialize(validationErrorDtos));
         }
