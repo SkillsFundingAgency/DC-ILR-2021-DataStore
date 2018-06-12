@@ -270,7 +270,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         }
                     }
 
-                    foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses)
+                    foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses ?? Enumerable.Empty<ILearnerEmploymentStatus>())
                     {
                         foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings ?? Enumerable.Empty<IEmploymentStatusMonitoring>())
                         {
@@ -533,7 +533,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         learnerDeliveryId++;
                     }
 
-                    foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses)
+                    foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses ?? Enumerable.Empty<ILearnerEmploymentStatus>())
                     {
                         recordsInvalidLearnerEmploymentStatus.Add(new EF.Invalid.LearnerEmploymentStatu
                         {
