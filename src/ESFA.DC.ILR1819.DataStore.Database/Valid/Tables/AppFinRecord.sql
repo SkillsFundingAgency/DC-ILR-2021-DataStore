@@ -6,7 +6,7 @@
     [AFinCode]       INT          NOT NULL,
     [AFinDate]       DATE         NOT NULL,
     [AFinAmount]     INT          NOT NULL, 
-    CONSTRAINT [PK_AppFinRecord] PRIMARY KEY ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+    CONSTRAINT [PK_AppFinRecord] PRIMARY KEY ([UKPRN], [LearnRefNumber], [AimSeqNumber], [AFinType], [AFinCode], [AFinDate])
 );
 
 

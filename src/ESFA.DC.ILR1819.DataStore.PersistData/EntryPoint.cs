@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
@@ -233,11 +234,54 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task<List<ValidationErrorDto>> ReadAndDeserialiseValidationErrorsAsync(IJobContextMessage jobContextMessage)
         {
-            string key = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
+            string validationErrorsStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
                 .ToString());
 
-            List<ValidationErrorDto> validationErrorDto = _jsonSerializationService.Deserialize<List<ValidationErrorDto>>(key);
-            return validationErrorDto;
+            string validationErrorLookups = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups]
+                .ToString());
+
+            List<ValidationErrorDto> result = new List<ValidationErrorDto>();
+            try
+            {
+                List<ValidationError> validationErrors = _jsonSerializationService.Deserialize<List<ValidationError>>(validationErrorsStr);
+
+                List<ValidationErrorMessageLookup> validationErrorMessageLookups =
+                    _jsonSerializationService.Deserialize<List<ValidationErrorMessageLookup>>(validationErrorLookups);
+
+                validationErrors.ToList().ForEach(x =>
+                    result.Add(new ValidationErrorDto
+                    {
+                        AimSequenceNumber = x.AimSequenceNumber,
+                        LearnerReferenceNumber = x.LearnerReferenceNumber,
+                        RuleName = x.RuleName,
+                        Severity = x.Severity,
+                        ErrorMessage = validationErrorMessageLookups.Single(y => x.RuleName == y.RuleName).Message,
+                        FieldValues = x.ValidationErrorParameters == null ? string.Empty : GetValidationErrorParameters(x.ValidationErrorParameters.ToList()),
+                    }));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to merge validation error messages", ex);
+            }
+
+            if (result.Count == 0)
+            {
+                _logger.LogError("Falling back to old behaviour");
+                result = _jsonSerializationService.Deserialize<List<ValidationErrorDto>>(validationErrorsStr);
+            }
+
+            return result;
+        }
+
+        private string GetValidationErrorParameters(List<ValidationErrorParameter> validationErrorParameters)
+        {
+            var result = new System.Text.StringBuilder();
+            validationErrorParameters.ForEach(x =>
+            {
+                result.Append($"{x.PropertyName}={x.Value}");
+                result.Append("|");
+            });
+            return result.ToString();
         }
 
         private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename)
