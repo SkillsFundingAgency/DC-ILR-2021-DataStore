@@ -4,7 +4,8 @@ CREATE procedure [dbo].[DeleteExistingRecords] (@ukprn int, @fileName NVARCHAR(1
 BEGIN 
 
 --FileDetails--
-DELETE FROM [dbo].[FileDetails] WHERE [UKPRN] = @ukprn AND [Filename] = @fileName AND [Success] ='0' 
+-- Todo: Fix this
+DELETE FROM [dbo].[FileDetails] WHERE [UKPRN] = @ukprn AND [Filename] = @fileName -- AND [Success] ='0' 
 DELETE FROM [dbo].[ValidationError] WHERE UKPRN = @ukprn
 
 

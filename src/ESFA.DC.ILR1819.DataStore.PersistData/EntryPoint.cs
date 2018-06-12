@@ -221,7 +221,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                 try
                 {
-                    await _redis.RemoveAsync(key);
+                    // Todo: Turn this back on
+                    // await _redis.RemoveAsync(key);
                 }
                 catch (Exception ex)
                 {
