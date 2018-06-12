@@ -101,6 +101,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int learningDeliveryWorkPlacementId = 1;
             int learnerFAMId = 1;
             int learnerHEFinancialSupportId = 1;
+            int lLDDandHealthProblemId = 1;
             int providerSpecLearnerMonitoringId = 1;
             int providerSpecDeliveryMonitoringId = 1;
             int contactPreferenceId = 1;
@@ -630,12 +631,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidLlddandHealthProblems.Add(new EF.Invalid.LLDDandHealthProblem
                         {
+                            LLDDandHealthProblem_Id = lLDDandHealthProblemId,
                             Learner_Id = learnerId,
                             LearnRefNumber = ilrLearner.LearnRefNumber,
                             LLDDCat = llddAndHealthProblem.LLDDCat,
                             PrimaryLLDD = llddAndHealthProblem.PrimaryLLDDNullable,
                             UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
                         });
+
+                        lLDDandHealthProblemId++;
                     }
 
                     foreach (IProviderSpecLearnerMonitoring providerSpecLearnerMonitoring in ilrLearner.ProviderSpecLearnerMonitorings ?? Enumerable.Empty<IProviderSpecLearnerMonitoring>())
