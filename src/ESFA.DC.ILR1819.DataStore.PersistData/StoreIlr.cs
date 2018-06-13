@@ -96,10 +96,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int learnerDeliveryId = 1;
             int learnerEmploymentStatusId = 1;
             int learnerEmploymentStatusMonitoringId = 1;
+            int learningDeliveryHEId = 1;
             int learnerDeliveryFamId = 1;
             int appFinRecordId = 1;
             int learningDeliveryWorkPlacementId = 1;
             int learnerFAMId = 1;
+            int learnerHEId = 1;
             int learnerHEFinancialSupportId = 1;
             int lLDDandHealthProblemId = 1;
             int providerSpecLearnerMonitoringId = 1;
@@ -486,6 +488,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         {
                             recordsInvalidLearningDeliveryHes.Add(new EF.Invalid.LearningDeliveryHE
                             {
+                                LearningDeliveryHE_Id = learningDeliveryHEId,
                                 AimSeqNumber = learningDelivery.AimSeqNumber,
                                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                                 LearnRefNumber = ilrLearner.LearnRefNumber,
@@ -513,6 +516,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                                 UCASAPPID = learningDelivery.LearningDeliveryHEEntity.UCASAPPID,
                                 YEARSTU = learningDelivery.LearningDeliveryHEEntity.YEARSTU
                             });
+
+                            learningDeliveryHEId++;
                         }
 
                         foreach (ILearningDeliveryWorkPlacement learningDeliveryWorkPlacement in learningDelivery.LearningDeliveryWorkPlacements ?? Enumerable.Empty<ILearningDeliveryWorkPlacement>())
@@ -605,12 +610,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidLearnerHes.Add(new EF.Invalid.LearnerHE
                         {
+                            LearnerHE_Id = learnerHEId,
                             Learner_Id = learnerId,
                             LearnRefNumber = ilrLearner.LearnRefNumber,
                             TTACCOM = ilrLearner.LearnerHEEntity.TTACCOMNullable,
                             UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                             UCASPERID = ilrLearner.LearnerHEEntity.UCASPERID
                         });
+
+                        learnerHEId++;
                     }
 
                     foreach (ILearnerHEFinancialSupport heFinancialSupport in ilrLearner.LearnerHEEntity?.LearnerHEFinancialSupports ?? Enumerable.Empty<ILearnerHEFinancialSupport>())
