@@ -18,7 +18,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Console
                         @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\ALBOutput1000.json",
                         @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\9999_6_ValidationErrors.json",
                         90000062,
-                        "0Accm01").GetAwaiter().GetResult();
+                        new [] { "0Accm01" }).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
