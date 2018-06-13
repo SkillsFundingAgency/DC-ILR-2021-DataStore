@@ -807,6 +807,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             CancellationToken cancellationToken)
         {
             int learnerDestinationandProgressionId = 1;
+            int dPOutcomeId = 1;
 
             List<EF.Valid.DPOutcome> recordsValidDpoutcomes = new List<EF.Valid.DPOutcome>();
             List<EF.Invalid.DPOutcome> recordsInvalidDpoutcomes = new List<EF.Invalid.DPOutcome>();
@@ -853,6 +854,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     {
                         recordsInvalidDpoutcomes.Add(new EF.Invalid.DPOutcome
                         {
+                            DPOutcome_Id = dPOutcomeId,
                             LearnerDestinationandProgression_Id = learnerDestinationandProgressionId,
                             LearnRefNumber = learnerDestinationAndProgression.LearnRefNumber,
                             OutCode = dpOutcome.OutCode,
@@ -862,6 +864,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             OutStartDate = dpOutcome.OutStartDate,
                             OutType = dpOutcome.OutType
                         });
+
+                        dPOutcomeId++;
                     }
 
                     learnerDestinationandProgressionId++;
