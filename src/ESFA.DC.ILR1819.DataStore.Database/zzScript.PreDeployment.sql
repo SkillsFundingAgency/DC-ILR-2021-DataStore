@@ -11,7 +11,7 @@ Post-Deployment Script Template
 */
 
 GO
-RAISERROR('		   Extended Property',10,1) WITH NOWAIT;
+RAISERROR('  Extended Property',10,1) WITH NOWAIT;
 GO
 
 RAISERROR('		         %s - %s',10,1,'BuildNumber','$(BUILD_BUILDNUMBER)') WITH NOWAIT;
@@ -37,7 +37,17 @@ ELSE
 
 
 GO
-PRINT N'Update complete.';
+PRINT N'   Extended Property : Complete.';
 
+GO
+RAISERROR('  Update User Account Passwords',10,1) WITH NOWAIT;
+GO
+RAISERROR('       Update User [ILR1819DataStore_RO_User] Passwords',10,1) WITH NOWAIT;
+ALTER USER [ILR1819DataStore_RO_User] WITH PASSWORD = N'$(ROUserPassword)';
+GO
+RAISERROR('       Update User [ILR1819DataStore_RW_User] Passwords',10,1) WITH NOWAIT;
+ALTER USER [ILR1819DataStore_RW_User] WITH PASSWORD = N'$(RWUserPassword)';
 
+GO
+RAISERROR('    Update User Account Passwords Update Complete',10,1) WITH NOWAIT;
 GO
