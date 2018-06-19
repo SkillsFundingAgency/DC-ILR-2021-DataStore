@@ -14,6 +14,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Valid
     
     public partial class LLDDandHealthProblem
     {
+        public long LLDDandHealthProblem_ID { get; set; }
         public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
         public int LLDDCat { get; set; }

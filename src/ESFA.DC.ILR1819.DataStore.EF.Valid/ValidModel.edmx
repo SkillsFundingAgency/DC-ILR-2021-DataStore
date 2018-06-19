@@ -10,6 +10,9 @@
             <PropertyRef Name="UKPRN" />
             <PropertyRef Name="LearnRefNumber" />
             <PropertyRef Name="AimSeqNumber" />
+            <PropertyRef Name="AFinType" />
+            <PropertyRef Name="AFinCode" />
+            <PropertyRef Name="AFinDate" />
           </Key>
           <Property Name="UKPRN" Type="int" Nullable="false" />
           <Property Name="LearnRefNumber" Type="varchar" MaxLength="12" Nullable="false" />
@@ -130,11 +133,12 @@
           <Key>
             <PropertyRef Name="UKPRN" />
             <PropertyRef Name="LearnRefNumber" />
+            <PropertyRef Name="LearnFAMType" />
             <PropertyRef Name="LearnFAMCode" />
           </Key>
           <Property Name="UKPRN" Type="int" Nullable="false" />
           <Property Name="LearnRefNumber" Type="varchar" MaxLength="12" Nullable="false" />
-          <Property Name="LearnFAMType" Type="varchar" MaxLength="3" />
+          <Property Name="LearnFAMType" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="LearnFAMCode" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LearnerHE">
@@ -265,10 +269,12 @@
         </EntityType>
         <EntityType Name="LLDDandHealthProblem">
           <Key>
+            <PropertyRef Name="LLDDandHealthProblem_ID" />
             <PropertyRef Name="UKPRN" />
             <PropertyRef Name="LearnRefNumber" />
             <PropertyRef Name="LLDDCat" />
           </Key>
+          <Property Name="LLDDandHealthProblem_ID" Type="bigint" Nullable="false" />
           <Property Name="UKPRN" Type="int" Nullable="false" />
           <Property Name="LearnRefNumber" Type="varchar" MaxLength="12" Nullable="false" />
           <Property Name="LLDDCat" Type="int" Nullable="false" />
@@ -370,11 +376,11 @@
           <EntitySet Name="LearningDeliveryHEs" EntityType="ILR1819_DataStoreModelValid.LearningDeliveryHE" />
           <EntitySet Name="LearningDeliveryWorkPlacements" EntityType="ILR1819_DataStoreModelValid.LearningDeliveryWorkPlacement" />
           <EntitySet Name="LearningProviders" EntityType="ILR1819_DataStoreModelValid.LearningProvider" />
-          <EntitySet Name="LLDDandHealthProblems" EntityType="ILR1819_DataStoreModelValid.LLDDandHealthProblem" />
           <EntitySet Name="ProviderSpecDeliveryMonitorings" EntityType="ILR1819_DataStoreModelValid.ProviderSpecDeliveryMonitoring" />
           <EntitySet Name="ProviderSpecLearnerMonitorings" EntityType="ILR1819_DataStoreModelValid.ProviderSpecLearnerMonitoring" />
           <EntitySet Name="Sources" EntityType="ILR1819_DataStoreModelValid.Source" />
           <EntitySet Name="SourceFiles" EntityType="ILR1819_DataStoreModelValid.SourceFile" />
+          <EntitySet Name="LLDDandHealthProblems" EntityType="ILR1819_DataStoreModelValid.LLDDandHealthProblem" />
         </EntityContainer>
         <EntityType Name="AppFinRecord">
           <Key>
@@ -505,7 +511,7 @@
           </Key>
           <Property Name="UKPRN" Type="Int32" Nullable="false" />
           <Property Name="LearnRefNumber" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="LearnFAMType" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="LearnFAMType" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LearnFAMCode" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="LearnerHE">
@@ -634,17 +640,6 @@
           </Key>
           <Property Name="UKPRN" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="LLDDandHealthProblem">
-          <Key>
-            <PropertyRef Name="UKPRN" />
-            <PropertyRef Name="LearnRefNumber" />
-            <PropertyRef Name="LLDDCat" />
-          </Key>
-          <Property Name="UKPRN" Type="Int32" Nullable="false" />
-          <Property Name="LearnRefNumber" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="LLDDCat" Type="Int32" Nullable="false" />
-          <Property Name="PrimaryLLDD" Type="Int32" />
-        </EntityType>
         <EntityType Name="ProviderSpecDeliveryMonitoring">
           <Key>
             <PropertyRef Name="UKPRN" />
@@ -696,6 +691,19 @@
           <Property Name="Release" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="SerialNo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="LLDDandHealthProblem">
+          <Key>
+            <PropertyRef Name="LLDDandHealthProblem_ID" />
+            <PropertyRef Name="UKPRN" />
+            <PropertyRef Name="LearnRefNumber" />
+            <PropertyRef Name="LLDDCat" />
+          </Key>
+          <Property Name="LLDDandHealthProblem_ID" Type="Int64" Nullable="false" />
+          <Property Name="UKPRN" Type="Int32" Nullable="false" />
+          <Property Name="LearnRefNumber" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="LLDDCat" Type="Int32" Nullable="false" />
+          <Property Name="PrimaryLLDD" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -947,16 +955,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LLDDandHealthProblems">
-            <EntityTypeMapping TypeName="ILR1819_DataStoreModelValid.LLDDandHealthProblem">
-              <MappingFragment StoreEntitySet="LLDDandHealthProblem">
-                <ScalarProperty Name="PrimaryLLDD" ColumnName="PrimaryLLDD" />
-                <ScalarProperty Name="LLDDCat" ColumnName="LLDDCat" />
-                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
-                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProviderSpecDeliveryMonitorings">
             <EntityTypeMapping TypeName="ILR1819_DataStoreModelValid.ProviderSpecDeliveryMonitoring">
               <MappingFragment StoreEntitySet="ProviderSpecDeliveryMonitoring">
@@ -1004,6 +1002,17 @@
                 <ScalarProperty Name="FilePreparationDate" ColumnName="FilePreparationDate" />
                 <ScalarProperty Name="SourceFileName" ColumnName="SourceFileName" />
                 <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LLDDandHealthProblems">
+            <EntityTypeMapping TypeName="ILR1819_DataStoreModelValid.LLDDandHealthProblem">
+              <MappingFragment StoreEntitySet="LLDDandHealthProblem">
+                <ScalarProperty Name="PrimaryLLDD" ColumnName="PrimaryLLDD" />
+                <ScalarProperty Name="LLDDCat" ColumnName="LLDDCat" />
+                <ScalarProperty Name="LearnRefNumber" ColumnName="LearnRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="LLDDandHealthProblem_ID" ColumnName="LLDDandHealthProblem_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

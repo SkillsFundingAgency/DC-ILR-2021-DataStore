@@ -41,10 +41,10 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Valid
         public virtual DbSet<LearningDeliveryHE> LearningDeliveryHEs { get; set; }
         public virtual DbSet<LearningDeliveryWorkPlacement> LearningDeliveryWorkPlacements { get; set; }
         public virtual DbSet<LearningProvider> LearningProviders { get; set; }
-        public virtual DbSet<LLDDandHealthProblem> LLDDandHealthProblems { get; set; }
         public virtual DbSet<ProviderSpecDeliveryMonitoring> ProviderSpecDeliveryMonitorings { get; set; }
         public virtual DbSet<ProviderSpecLearnerMonitoring> ProviderSpecLearnerMonitorings { get; set; }
         public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<SourceFile> SourceFiles { get; set; }
+        public virtual DbSet<LLDDandHealthProblem> LLDDandHealthProblems { get; set; }
     }
 }

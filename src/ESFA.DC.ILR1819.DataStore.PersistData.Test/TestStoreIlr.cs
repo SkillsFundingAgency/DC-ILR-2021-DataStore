@@ -16,6 +16,7 @@ using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
+using Microsoft.VisualBasic.FileIO;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
@@ -32,25 +33,30 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         }
 
         [Theory]
-        [InlineData("ILR-90000077-1819-20180516-122452-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000077, new[] { "0Accm01" })]
-        [InlineData("ILR-90000078-1819-20180518-094937-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000078, new[] { "0fm3501" })]
-        [InlineData("ILR-90000079-1819-20180518-094943-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000079, new[] { "0fm3501" })]
-        [InlineData("ILR-90000080-1819-20180518-094947-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000080, new[] { "0fm3501" })]
-        [InlineData("ILR-90000081-1819-20180518-095009-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000081, new[] { "0fm3501" })]
-        [InlineData("ILR-90000065-1819-20180518-095236-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000065, new[] { "0Accm01" })]
-        [InlineData("ILR-90000066-1819-20180518-095239-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000066, new[] { "0Accm01" })]
-        [InlineData("ILR-90000067-1819-20180518-095243-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000067, new[] { "0Accm01" })]
-        [InlineData("ILR-90000068-1819-20180518-095303-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000068, new[] { "0Accm01" })]
-        [InlineData("ILR-90000071-1819-20180518-095441-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000071, new[] { "0Accm01" })]
-        [InlineData("ILR-90000072-1819-20180518-095444-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000072, new[] { "0Accm01" })]
-        [InlineData("ILR-90000073-1819-20180518-095504-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000073, new[] { "0Accm01" })]
-        [InlineData("ILR-90000074-1819-20180521-132627-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000074, new[] { "0Accm01" })]
-        [InlineData("ILR-90000075-1819-20180521-132931-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000075, new[] { "0Accm01" })]
-        [InlineData("ILR-10006341-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006341, new[] { "16v224" })]
-        [InlineData("ILR-10033670-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "16v224" })]
-        [InlineData("ILR-10033670-1819-20180118-023456-04.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "16v224" })]
-        [InlineData("ILR-10006000-1819-20180626-144401-01.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006000, new[] { "ESFLearner", "NonLevy", "Levy" })]
-        [InlineData("ILR-90000064-1819-20180612-165219-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "0DOB24" })]
+        //[InlineData("ILR-90000077-1819-20180516-122452-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000077, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000078-1819-20180518-094937-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000078, new[] { "0fm3501" })]
+        //[InlineData("ILR-90000079-1819-20180518-094943-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000079, new[] { "0fm3501" })]
+        //[InlineData("ILR-90000080-1819-20180518-094947-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000080, new[] { "0fm3501" })]
+        //[InlineData("ILR-90000081-1819-20180518-095009-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000081, new[] { "0fm3501" })]
+        //[InlineData("ILR-90000065-1819-20180518-095236-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000065, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000066-1819-20180518-095239-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000066, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000067-1819-20180518-095243-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000067, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000068-1819-20180518-095303-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000068, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000071-1819-20180518-095441-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000071, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000072-1819-20180518-095444-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000072, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000073-1819-20180518-095504-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000073, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000074-1819-20180521-132627-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000074, new[] { "0Accm01" })]
+        //[InlineData("ILR-90000075-1819-20180521-132931-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000075, new[] { "0Accm01" })]
+        //[InlineData("ILR-10006341-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006341, new[] { "16v224" })]
+        //[InlineData("ILR-10033670-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "16v224" })]
+        //[InlineData("ILR-10033670-1819-20180118-023456-04.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "16v224" })]
+        //[InlineData("ILR-10006000-1819-20180626-144401-01.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006000, new[] { "ESFLearner", "NonLevy", "Levy" })]
+        //[InlineData("ILR-90000064-1819-20180612-165219-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "0DOB24" })]
+        //[InlineData("ILR-90000004-1819-20180613-144516-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000004, new[] { "0DOB24" })]
+        //[InlineData("ILR-90000064-1819-20180618-105223-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "1FM09" })]
+        //[InlineData("ILR-90000064-1819-20180618-133601-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-133604.csv" })]
+        //[InlineData("ILR-90000064-1819-20180618-152718-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-152718.csv" })]
+        [InlineData("ILR-90000064-1819-20180618-153725-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-153730.csv" })] // File too large to check in
         //[InlineData("ILR-90000064-1819-20180521-133647-00.xml", "ALBOutput1000.json", 90000064, "0Accm01")]
         //[InlineData("ILR-90000063-1819-20180521-134854-00.xml", "ALBOutput1000.json", 90000063, "0Accm01")]
         //[InlineData("ILR-90000062-1819-20180521-135604-00.xml", "ALBOutput1000.json", 90000062, "0Accm01")]
@@ -63,6 +69,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             var serialise = new Mock<ISerializationService>();
             var validationErrorsService = new Mock<IValidationErrorsService>();
             Stopwatch stopwatch = new Stopwatch();
+
+            if (validLearners.Length == 1 && validLearners[0].EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+            {
+                validLearners = ReadValidLearners(stopwatch, ilrFilename, validLearners[0]);
+            }
+
             Message message = null;
             Task<Tuple<Message, FundingOutputs, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
 
@@ -72,6 +84,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 SqlTransaction transaction = null;
                 try
                 {
+                    stopwatch.Restart();
                     await connection.OpenAsync(cancellationToken);
                     transaction = connection.BeginTransaction();
 
@@ -158,6 +171,30 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 output.WriteLine($"Assert: {stopwatch.ElapsedMilliseconds}");
                 stopwatch.Restart();
             }
+        }
+
+        private string[] ReadValidLearners(Stopwatch stopwatch, string ilrFilename, string filename)
+        {
+            stopwatch.Restart();
+            List<string> validLearners = new List<string>();
+            using (TextFieldParser tfp = new TextFieldParser(filename))
+            {
+                tfp.TextFieldType = FieldType.Delimited;
+                tfp.Delimiters = new[] { "," };
+                tfp.ReadFields();
+
+                while (!tfp.EndOfData)
+                {
+                    string[] data = tfp.ReadFields();
+                    if (data[0] == ilrFilename && string.Equals(data[2], bool.TrueString, StringComparison.OrdinalIgnoreCase))
+                    {
+                        validLearners.Add(data[3]);
+                    }
+                }
+            }
+
+            output.WriteLine($"Read {validLearners.Count} Valid Learners: {stopwatch.ElapsedMilliseconds}");
+            return validLearners.Distinct().ToArray();
         }
 
         private async Task<Tuple<Message, FundingOutputs, ValidationErrorDto[]>> ReadAndDeserialiseAsync(
