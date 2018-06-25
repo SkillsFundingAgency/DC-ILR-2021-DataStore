@@ -56,7 +56,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         //[InlineData("ILR-90000064-1819-20180618-105223-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "1FM09" })]
         //[InlineData("ILR-90000064-1819-20180618-133601-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-133604.csv" })]
         //[InlineData("ILR-90000064-1819-20180618-152718-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-152718.csv" })]
-        [InlineData("ILR-90000064-1819-20180618-153725-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-153730.csv" })] // File too large to check in
+        //[InlineData("ILR-90000064-1819-20180618-153725-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-153730.csv" })] // File too large to check in
         //[InlineData("ILR-90000064-1819-20180521-133647-00.xml", "ALBOutput1000.json", 90000064, "0Accm01")]
         //[InlineData("ILR-90000063-1819-20180521-134854-00.xml", "ALBOutput1000.json", 90000063, "0Accm01")]
         //[InlineData("ILR-90000062-1819-20180521-135604-00.xml", "ALBOutput1000.json", 90000062, "0Accm01")]
