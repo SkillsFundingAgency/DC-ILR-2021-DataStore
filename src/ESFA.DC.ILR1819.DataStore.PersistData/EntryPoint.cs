@@ -217,19 +217,30 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task DeletePersistedData(IJobContextMessage jobContextMessage)
         {
-            foreach (KeyValuePair<JobContextMessageKey, object> keyValuePair in jobContextMessage.KeyValuePairs)
+            try
             {
-                string key = keyValuePair.Value.ToString();
+                foreach (KeyValuePair<JobContextMessageKey, object> keyValuePair in jobContextMessage.KeyValuePairs)
+                {
+                    string key = keyValuePair.Value?.ToString();
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        continue;
+                    }
 
-                try
-                {
-                    // Todo: Turn this back on
-                    // await _redis.RemoveAsync(key);
+                    try
+                    {
+                        // Todo: Turn this back on
+                        // await _redis.RemoveAsync(key);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"Failed to delete key {key}", ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Failed to delete key {key}", ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to delete persisted data", ex);
             }
         }
 
