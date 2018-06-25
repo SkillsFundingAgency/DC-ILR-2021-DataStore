@@ -12,5 +12,12 @@
     <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
     <Parameter Name="RedisConnectionString" Value="__RedisCacheConnectionString__" />
     <Parameter Name="DataServicePlacementConstraints" Value="__DataServicePlacementConstraints__" />
+    
+    <!-- Topic Names -->
+    <Parameter Name="TopicValidation" Value="__TopicValidation__" />
+    <Parameter Name="TopicFunding" Value="__TopicFunding__" />
+    <Parameter Name="TopicDeds" Value="__TopicValidation__" />
+    <Parameter Name="TopicDeds_TaskGenerateValidationReport" Value="__TopicDeds_TaskGenerateValidationReport__" />
+    <Parameter Name="TopicDeds_TaskPersistDataToDeds" Value="__TopicDeds_TaskPersistDataToDeds__" />
   </Parameters>
 </Application>

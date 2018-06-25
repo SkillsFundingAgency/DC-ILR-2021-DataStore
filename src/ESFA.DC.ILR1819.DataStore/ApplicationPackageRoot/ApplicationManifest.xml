@@ -13,6 +13,13 @@
     <Parameter Name="AzureBlobContainerName" DefaultValue="ilr-files" />
     <Parameter Name="RedisConnectionString" DefaultValue="" />
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
+
+    <!-- Topic Names -->
+    <Parameter Name="TopicValidation" DefaultValue="Validation" />
+    <Parameter Name="TopicFunding" DefaultValue="Funding" />
+    <Parameter Name="TopicDeds" DefaultValue="Deds" />
+    <Parameter Name="TopicDeds_TaskGenerateValidationReport" DefaultValue="GenerateValidationReport" />
+    <Parameter Name="TopicDeds_TaskPersistDataToDeds" DefaultValue="PersistDataToDeds" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -43,6 +50,13 @@
           </Section>
           <Section Name="RedisSection">
             <Parameter Name="RedisConnectionString" Value="[RedisConnectionString]" />
+          </Section>
+          <Section Name="TopicAndTaskSection">
+            <Parameter Name="TopicValidation" Value="[TopicValidation]" />
+            <Parameter Name="TopicFunding" Value="[TopicFunding]" />
+            <Parameter Name="TopicDeds" Value="[TopicDeds]" />
+            <Parameter Name="TopicDeds_TaskGenerateValidationReport" Value="[TopicDeds_TaskGenerateValidationReport]" />
+            <Parameter Name="TopicDeds_TaskPersistDataToDeds" Value="[TopicDeds_TaskPersistDataToDeds]" />
           </Section>
         </Settings>
       </ConfigOverride>
