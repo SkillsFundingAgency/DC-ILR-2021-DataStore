@@ -21,7 +21,6 @@
     <Parameter Name="RedisConnectionString" Value="" />
   </Section>
 
-
   <Section Name="DataTransportSettings">
     <Parameter Name="MaxMessageSize" Value="1073741824" MustOverride="true"/>
     <Parameter Name="SecurityCredentialsType" Value="None" />
@@ -36,6 +35,14 @@
 
   <Section Name="LoggerSection">
     <Parameter Name="LoggerConnectionstring" Value="" />
+  </Section>
+
+  <Section Name="TopicAndTaskSection">
+    <Parameter Name="TopicValidation" Value="" />
+    <Parameter Name="TopicFunding" Value="" />
+    <Parameter Name="TopicDeds" Value="" />
+    <Parameter Name="TopicDeds_TaskGenerateValidationReport" Value="" />
+    <Parameter Name="TopicDeds_TaskPersistDataToDeds" Value="" />
   </Section>
   
 </Settings>
