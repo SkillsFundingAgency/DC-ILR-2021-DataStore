@@ -37,6 +37,10 @@
     <Parameter Name="LoggerConnectionstring" Value="" />
   </Section>
 
+  <Section Name="VersionSection">
+    <Parameter Name="ServiceReleaseVersion" Value="" />
+  </Section>
+
   <Section Name="TopicAndTaskSection">
     <Parameter Name="TopicValidation" Value="" />
     <Parameter Name="TopicFunding" Value="" />

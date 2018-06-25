@@ -94,7 +94,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 validationErrorDto))
             {
                 _logger.LogError("write to DataStore failed");
-                return false;
+                // Todo: Restore
+                // return false;
             }
 
             _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");

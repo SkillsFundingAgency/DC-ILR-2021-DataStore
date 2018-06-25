@@ -1,4 +1,5 @@
-﻿using ESFA.DC.IO.Redis.Config.Interfaces;
+﻿using System;
+using ESFA.DC.IO.Redis.Config.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.Dto
 {
@@ -10,5 +11,7 @@ namespace ESFA.DC.ILR1819.DataStore.Dto
         }
 
         public string ConnectionString { get; }
+
+        public TimeSpan? KeyExpiry { get; }
     }
 }

@@ -16,6 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Modules
             builder.Register(c =>
             {
                 var loggerOptions = c.Resolve<LoggerOptions>();
+                var versionInfo = c.Resolve<VersionInfo>();
                 return new ApplicationLoggerSettings
                 {
                     ApplicationLoggerOutputSettingsCollection = new List<IApplicationLoggerOutputSettings>()
@@ -30,6 +31,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Modules
                             MinimumLogLevel = LogLevel.Verbose,
                         },
                     },
+                    TaskKey = versionInfo.ServiceReleaseVersion
                 };
             }).As<IApplicationLoggerSettings>().SingleInstance();
 

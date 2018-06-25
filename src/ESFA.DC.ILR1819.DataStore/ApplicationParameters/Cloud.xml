@@ -12,6 +12,8 @@
     <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
     <Parameter Name="RedisConnectionString" Value="__RedisCacheConnectionString__" />
     <Parameter Name="DataServicePlacementConstraints" Value="__DataServicePlacementConstraints__" />
+
+    <Parameter Name="ServiceReleaseVersion" Value="__ServiceReleaseVersion__" />
     
     <!-- Topic Names -->
     <Parameter Name="TopicValidation" Value="__TopicValidation__" />

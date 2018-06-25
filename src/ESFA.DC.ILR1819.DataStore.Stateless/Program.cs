@@ -25,6 +25,8 @@ using ESFA.DC.IO.Redis;
 using ESFA.DC.IO.Redis.Config.Interfaces;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobStatus.Dto;
+using ESFA.DC.JobStatus.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Mapping.Interface;
 using ESFA.DC.Queueing;
@@ -113,6 +115,10 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 configHelper.GetSectionValues<PersistDataConfiguration>("DataStoreSection");
             containerBuilder.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
+            // Version info
+            var versionInfo = configHelper.GetSectionValues<VersionInfo>("VersionSection");
+            containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>().SingleInstance();
+
             // register logger
             var loggerOptions =
                 configHelper.GetSectionValues<LoggerOptions>("LoggerSection");
@@ -129,6 +135,10 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     c.Resolve<IJsonSerializationService>()))
                 .As<IQueuePublishService<AuditingDto>>();
             containerBuilder.RegisterType<Auditor>().As<IAuditor>();
+
+            // Job Status Update Service
+            containerBuilder.RegisterType<QueuePublishService<JobStatusDto>>().As<IQueuePublishService<JobStatusDto>>();
+            containerBuilder.RegisterType<JobStatus.JobStatus>().As<IJobStatus>();
 
             // register Jobcontext services
             var topicConfig = new ServiceBusTopicConfig(
