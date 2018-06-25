@@ -18,7 +18,7 @@
     <!-- Topic Names -->
     <Parameter Name="TopicValidation" Value="__TopicValidation__" />
     <Parameter Name="TopicFunding" Value="__TopicFunding__" />
-    <Parameter Name="TopicDeds" Value="__TopicValidation__" />
+    <Parameter Name="TopicDeds" Value="__TopicDeds__" />
     <Parameter Name="TopicDeds_TaskGenerateValidationReport" Value="__TopicDeds_TaskGenerateValidationReport__" />
     <Parameter Name="TopicDeds_TaskPersistDataToDeds" Value="__TopicDeds_TaskPersistDataToDeds__" />
   </Parameters>
