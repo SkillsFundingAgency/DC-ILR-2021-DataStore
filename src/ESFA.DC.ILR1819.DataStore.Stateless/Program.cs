@@ -66,6 +66,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             catch (Exception e)
             {
                 ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                ServiceEventSource.Current.ServiceHostInitializationFailed(e.InnerException?.ToString() ?? "No inner exception");
                 throw;
             }
         }
@@ -137,8 +138,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<Auditor>().As<IAuditor>();
 
             // Job Status Update Service
-            containerBuilder.RegisterType<QueuePublishService<JobStatusDto>>().As<IQueuePublishService<JobStatusDto>>();
-            containerBuilder.RegisterType<JobStatus.JobStatus>().As<IJobStatus>();
+            containerBuilder.RegisterType<QueuePublishService<JobStatusDto>>().As<IQueuePublishService<JobStatusDto>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<JobStatus.JobStatus>().As<IJobStatus>().InstancePerLifetimeScope();
 
             // register Jobcontext services
             var topicConfig = new ServiceBusTopicConfig(
