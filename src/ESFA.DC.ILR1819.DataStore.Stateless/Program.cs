@@ -65,8 +65,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.InnerException?.ToString() ?? "No inner exception");
+                ServiceEventSource.Current.ServiceHostInitializationFailed(e + Environment.NewLine + (e.InnerException?.ToString() ?? "No inner exception"));
                 throw;
             }
         }
