@@ -35,19 +35,20 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
 using ESFA.DC.ServiceFabric.Helpers;
+using ESFA.DC.ServiceFabric.Helpers.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless
 {
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         /// This is the entry point of the service host process.
         /// </summary>
-        private static void Main()
+        public static void Main()
         {
             try
             {
-                var builder = BuildContainer();
+                var builder = BuildContainer(new ConfigurationHelper());
 
                 // Register the Autofac magic for Service Fabric support.
                 builder.RegisterServiceFabricSupport();
@@ -70,12 +71,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             }
         }
 
-        private static ContainerBuilder BuildContainer()
+        public static ContainerBuilder BuildContainer(IConfigurationHelper configHelper)
         {
             var containerBuilder = new ContainerBuilder();
-
-            // get ServiceBus, Azurestorage config values and register container
-            var configHelper = new ConfigurationHelper();
 
             // register Cosmos config
             var azureRedisOptions = configHelper.GetSectionValues<RedisOptions>("RedisSection");
@@ -136,9 +134,22 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .As<IQueuePublishService<AuditingDto>>();
             containerBuilder.RegisterType<Auditor>().As<IAuditor>();
 
+            // get job status queue config values and register container
+            var jobStatusQueueOptions =
+                configHelper.GetSectionValues<JobStatusQueueOptions>("JobStatusSection");
+            containerBuilder.RegisterInstance(jobStatusQueueOptions).As<JobStatusQueueOptions>().SingleInstance();
+
             // Job Status Update Service
-            containerBuilder.RegisterType<QueuePublishService<JobStatusDto>>().As<IQueuePublishService<JobStatusDto>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<JobStatus.JobStatus>().As<IJobStatus>().InstancePerLifetimeScope();
+            var jobStatusPublishConfig = new JobStatusQueueConfig(
+                jobStatusQueueOptions.JobStatusConnectionString,
+                jobStatusQueueOptions.JobStatusQueueName,
+                Environment.ProcessorCount);
+
+            containerBuilder.Register(c => new QueuePublishService<JobStatusDto>(
+                    jobStatusPublishConfig,
+                    c.Resolve<IJsonSerializationService>()))
+                .As<IQueuePublishService<JobStatusDto>>();
+            containerBuilder.RegisterType<JobStatus.JobStatus>().As<IJobStatus>();
 
             // register Jobcontext services
             var topicConfig = new ServiceBusTopicConfig(

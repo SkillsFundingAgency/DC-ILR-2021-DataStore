@@ -15,6 +15,9 @@
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
 
+    <Parameter Name="JobStatusQueueName" DefaultValue="" />
+    <Parameter Name="JobStatusConnectionString" DefaultValue="" />
+
     <!-- Topic Names -->
     <Parameter Name="TopicValidation" DefaultValue="Validation" />
     <Parameter Name="TopicFunding" DefaultValue="Funding" />
@@ -54,6 +57,10 @@
           </Section>
           <Section Name="VersionSection">
             <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
+          </Section>
+          <Section Name="JobStatusSection">
+            <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
+            <Parameter Name="JobStatusConnectionString" Value="[JobStatusConnectionString]" />
           </Section>
           <Section Name="TopicAndTaskSection">
             <Parameter Name="TopicValidation" Value="[TopicValidation]" />

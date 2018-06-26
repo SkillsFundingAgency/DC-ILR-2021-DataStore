@@ -41,6 +41,11 @@
     <Parameter Name="ServiceReleaseVersion" Value="" />
   </Section>
 
+  <Section Name="JobStatusSection">
+    <Parameter Name="JobStatusQueueName" Value="" />
+    <Parameter Name="JobStatusConnectionString" Value="" />
+  </Section>
+
   <Section Name="TopicAndTaskSection">
     <Parameter Name="TopicValidation" Value="" />
     <Parameter Name="TopicFunding" Value="" />

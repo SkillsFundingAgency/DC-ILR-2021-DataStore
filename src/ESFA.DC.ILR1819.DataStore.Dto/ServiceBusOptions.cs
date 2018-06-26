@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.ILR1819.DataStore.Dto
+﻿namespace ESFA.DC.ILR1819.DataStore.Dto
 {
     public class ServiceBusOptions
     {
@@ -13,6 +9,5 @@ namespace ESFA.DC.ILR1819.DataStore.Dto
         public string TopicName { get; set; }
 
         public string DataStoreSubscriptionName { get; set; }
-
     }
 }
