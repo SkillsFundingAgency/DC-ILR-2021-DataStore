@@ -5,7 +5,7 @@
     <Parameter Name="ILRDataStoreConnectionString" Value="__ILR1819DataStoreConnectionString__" />
     <Parameter Name="AuditQueueName" Value="__AuditQueueName__" />
     <Parameter Name="TopicName" Value="__TopicName__" />
-    <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionString__" />
+    <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />
     <Parameter Name="DataStoreSubscriptionName" Value="__DataStoreSubscriptionName__" />
     <Parameter Name="LoggerConnectionstring" Value="__LoggerConnectionstring__" />
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
@@ -14,7 +14,7 @@
     <Parameter Name="DataServicePlacementConstraints" Value="__DataServicePlacementConstraints__" />
 
     <Parameter Name="JobStatusQueueName" Value="__JobStatusQueueName__" />
-    <Parameter Name="JobStatusConnectionString" Value="__JobStatusConnectionString__" />
+    <Parameter Name="JobStatusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />
 
     <Parameter Name="ServiceReleaseVersion" Value="__ServiceReleaseVersion__" />
     

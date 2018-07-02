@@ -29,9 +29,6 @@
     <SqlCmdVariable Include="BUILD_BUILDNUMBER">
       <Value>__BUILDNUMBER__</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="DEPLOYMENT_DATETIME">
-      <Value>__DEPLOYMENTSTARTTIME__</Value>
-    </SqlCmdVariable>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
       <Value>__SOURCEBRANCHNAME__</Value>
     </SqlCmdVariable>
