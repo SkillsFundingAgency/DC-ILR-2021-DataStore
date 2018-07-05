@@ -14,10 +14,8 @@
     <Parameter Name="RedisConnectionString" DefaultValue="" />
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
-
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
     <Parameter Name="JobStatusConnectionString" DefaultValue="" />
-
     <!-- Topic Names -->
     <Parameter Name="TopicValidation" DefaultValue="Validation" />
     <Parameter Name="TopicFunding" DefaultValue="Funding" />

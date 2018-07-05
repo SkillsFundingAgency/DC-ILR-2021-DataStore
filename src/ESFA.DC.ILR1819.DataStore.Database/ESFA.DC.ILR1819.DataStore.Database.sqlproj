@@ -233,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="zzDeploymentProfiles\zz.Local.Dev.Version.publish.xml" />
-    <None Include="zzDeploymentProfiles\Release.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
@@ -243,6 +242,10 @@
     <SqlCmdVariable Include="BUILD_BUILDNUMBER">
       <DefaultValue>YY.YY.YY.YY</DefaultValue>
       <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="RELEASE_RELEASENAME">
+      <DefaultValue>WWW.WWW-www.www</DefaultValue>
+      <Value>$(SqlCmdVar__6)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="ROUserPassword">
       <DefaultValue>NotUsed@1223zxxas@ss.PP</DefaultValue>
