@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
-using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
@@ -82,7 +80,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
             Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
             Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
-            Task<List<ValidationErrorDto>> validationErrorDto = ReadAndDeserialiseValidationErrorsAsync(jobContextMessage);
 
             if (!await WriteToDeds(
                 jobContextMessage,
@@ -90,8 +87,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 ilrFilename,
                 messageTask,
                 fundingOutputTask,
-                validLearnersTask,
-                validationErrorDto))
+                validLearnersTask))
             {
                 _logger.LogError("write to DataStore failed");
                 // Todo: Restore
@@ -99,10 +95,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
             _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");
-            stopWatch.Restart();
-
-            await PeristValuesToStorage(jobContextMessage, validationErrorDto.Result);
-            _logger.LogDebug($"Persisted validation errors to csv in: {stopWatch.ElapsedMilliseconds}");
             stopWatch.Restart();
 
             await DeletePersistedData(jobContextMessage);
@@ -118,8 +110,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             string ilrFilename,
             Task<Message> messageTask,
             Task<FundingOutputs> fundingOutputTask,
-            Task<List<string>> validLearnersTask,
-            Task<List<ValidationErrorDto>> validationErrorDto)
+            Task<List<string>> validLearnersTask)
         {
             int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
 
@@ -140,7 +131,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     StoreClear storeClear = new StoreClear(connection, transaction);
                     Task clearTask = storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
-                    await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, validationErrorDto, clearTask);
+                    await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, clearTask);
 
                     StoreFileDetails storeFileDetails =
                         new StoreFileDetails(
@@ -207,14 +198,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             return true;
         }
 
-        private async Task PeristValuesToStorage(IJobContextMessage jobContextMessage, List<ValidationErrorDto> validationErrorDtos)
-        {
-            string key = jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
-                .ToString();
-
-            await _storage.SaveAsync($"{key}.json", _jsonSerializationService.Serialize(validationErrorDtos));
-        }
-
         private async Task DeletePersistedData(IJobContextMessage jobContextMessage)
         {
             try
@@ -242,58 +225,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             {
                 _logger.LogError("Failed to delete persisted data", ex);
             }
-        }
-
-        private async Task<List<ValidationErrorDto>> ReadAndDeserialiseValidationErrorsAsync(IJobContextMessage jobContextMessage)
-        {
-            string validationErrorsStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors]
-                .ToString());
-
-            string validationErrorLookups = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups]
-                .ToString());
-
-            List<ValidationErrorDto> result = new List<ValidationErrorDto>();
-            try
-            {
-                List<ValidationError> validationErrors = _jsonSerializationService.Deserialize<List<ValidationError>>(validationErrorsStr);
-
-                List<ValidationErrorMessageLookup> validationErrorMessageLookups =
-                    _jsonSerializationService.Deserialize<List<ValidationErrorMessageLookup>>(validationErrorLookups);
-
-                validationErrors.ToList().ForEach(x =>
-                    result.Add(new ValidationErrorDto
-                    {
-                        AimSequenceNumber = x.AimSequenceNumber,
-                        LearnerReferenceNumber = x.LearnerReferenceNumber,
-                        RuleName = x.RuleName,
-                        Severity = x.Severity,
-                        ErrorMessage = validationErrorMessageLookups.Single(y => x.RuleName == y.RuleName).Message,
-                        FieldValues = x.ValidationErrorParameters == null ? string.Empty : GetValidationErrorParameters(x.ValidationErrorParameters.ToList()),
-                    }));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Failed to merge validation error messages", ex);
-            }
-
-            if (result.Count == 0)
-            {
-                _logger.LogError("Falling back to old behaviour");
-                result = _jsonSerializationService.Deserialize<List<ValidationErrorDto>>(validationErrorsStr);
-            }
-
-            return result;
-        }
-
-        private string GetValidationErrorParameters(List<ValidationErrorParameter> validationErrorParameters)
-        {
-            var result = new System.Text.StringBuilder();
-            validationErrorParameters.ForEach(x =>
-            {
-                result.Append($"{x.PropertyName}={x.Value}");
-                result.Append("|");
-            });
-            return result.ToString();
         }
 
         private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename)

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.ILR1819.DataStore.Dto
+﻿namespace ESFA.DC.ILR1819.DataStore.Dto
 {
-    public class AzureStorageOptions
+    public sealed class AzureStorageOptions
     {
         public string AzureBlobConnectionString { get; set; }
 

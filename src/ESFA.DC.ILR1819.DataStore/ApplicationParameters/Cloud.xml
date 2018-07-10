@@ -6,7 +6,7 @@
     <Parameter Name="AuditQueueName" Value="__AuditQueueName__" />
     <Parameter Name="TopicName" Value="__TopicName__" />
     <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionString__" />
-    <Parameter Name="DataStoreSubscriptionName" Value="__DataStoreSubscriptionName__" />
+    <Parameter Name="ReportingSubscriptionName" Value="__ReportingSubscriptionName__" />
     <Parameter Name="LoggerConnectionstring" Value="__LoggerConnectionstring__" />
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
     <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
@@ -22,6 +22,7 @@
     <Parameter Name="TopicValidation" Value="__TopicValidation__" />
     <Parameter Name="TopicFunding" Value="__TopicFunding__" />
     <Parameter Name="TopicDeds" Value="__TopicDeds__" />
+    <Parameter Name="TopicReports" Value="__TopicReports__" />
     <Parameter Name="TopicDeds_TaskGenerateValidationReport" Value="__TopicDeds_TaskGenerateValidationReport__" />
     <Parameter Name="TopicDeds_TaskPersistDataToDeds" Value="__TopicDeds_TaskPersistDataToDeds__" />
   </Parameters>
