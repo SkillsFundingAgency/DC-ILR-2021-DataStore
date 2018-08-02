@@ -77,9 +77,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             string ilrFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
 
             stopWatch.Start();
-            Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
-            Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
-            Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
+            Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename, cancellationToken);
+            Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage, cancellationToken);
+            Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage, cancellationToken);
 
             if (!await WriteToDeds(
                 jobContextMessage,
@@ -121,6 +121,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 try
                 {
                     await connection.OpenAsync(cancellationToken);
+
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return false;
@@ -132,6 +133,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     Task clearTask = storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
                     await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, clearTask);
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return false;
+                    }
 
                     StoreFileDetails storeFileDetails =
                         new StoreFileDetails(
@@ -227,22 +233,27 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename)
+        private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename, CancellationToken cancellationToken)
         {
-            string ilr = await _storage.GetAsync(ilrFilename);
+            string ilr = await _storage.GetAsync(ilrFilename, cancellationToken);
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return null;
+            }
 
             Message message = _xmlSerializationService.Deserialize<Message>(ilr);
             return message;
         }
 
-        private async Task<FundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage)
+        private async Task<FundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
             FundingOutputs fundingOutputs = null;
 
             try
             {
                 string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
-                string alb = await _redis.GetAsync(albFilename);
+                string alb = await _redis.GetAsync(albFilename, cancellationToken);
 
                 fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
             }
@@ -255,9 +266,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             return fundingOutputs;
         }
 
-        private async Task<List<string>> ReadAndDeserialiseValidLearnersAsync(IJobContextMessage jobContextMessage)
+        private async Task<List<string>> ReadAndDeserialiseValidLearnersAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            string learnersValidStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString());
+            string learnersValidStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString(), cancellationToken);
             List<string> validLearners = _jsonSerializationService.Deserialize<List<string>>(learnersValidStr);
             return validLearners;
         }

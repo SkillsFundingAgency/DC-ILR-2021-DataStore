@@ -273,11 +273,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             jobContextMessage.SubmissionDateTimeUtc = DateTime.UtcNow;
 
-            storage.Setup(x => x.GetAsync(Path.GetFileName(ilrFilename))).ReturnsAsync(ilrContents);
+            storage.Setup(x => x.GetAsync(Path.GetFileName(ilrFilename), It.IsAny<CancellationToken>())).ReturnsAsync(ilrContents);
             //storage.Setup(x => x.GetAsync(Path.GetFileName(albFilename))).ReturnsAsync(albContents);
 
-            persist.Setup(x => x.GetAsync(validLearnersKey)).ReturnsAsync(validLearnersSerialised);
-            persist.Setup(x => x.GetAsync(keyAlbOutput)).ReturnsAsync(albContents);
+            persist.Setup(x => x.GetAsync(validLearnersKey, It.IsAny<CancellationToken>())).ReturnsAsync(validLearnersSerialised);
+            persist.Setup(x => x.GetAsync(keyAlbOutput, It.IsAny<CancellationToken>())).ReturnsAsync(albContents);
 
             serialise.Setup(x => x.Deserialize<List<string>>(validLearnersSerialised)).Returns(validLearners);
             serialise.Setup(x => x.Deserialize<Message>(ilrContents)).Returns(message);
