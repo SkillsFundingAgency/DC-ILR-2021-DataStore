@@ -8,6 +8,7 @@ using Autofac.Integration.ServiceFabric;
 using ESFA.DC.Auditing;
 using ESFA.DC.Auditing.Dto;
 using ESFA.DC.Auditing.Interface;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.ValidationErrors;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
@@ -41,6 +42,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 {
     public static class Program
     {
+        public static ManualResetEvent ManualResetEvent { get; } = new ManualResetEvent(false);
+
         /// <summary>
         /// This is the entry point of the service host process.
         /// </summary>
@@ -61,7 +64,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Stateless).Name);
 
                     // Prevents this host process from terminating so services keep running.
-                    Thread.Sleep(Timeout.Infinite);
+                    ManualResetEvent.WaitOne(Timeout.Infinite);
                 }
             }
             catch (Exception e)
@@ -164,7 +167,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     new TopicSubscriptionSevice<JobContextDto>(
                         topicConfig,
                         c.Resolve<IJsonSerializationService>(),
-                        c.Resolve<ILogger>());
+                        c.Resolve<ILogger>(),
+                        c.Resolve<IDateTimeProvider>());
                 return topicSubscriptionSevice;
             }).As<ITopicSubscriptionService<JobContextDto>>();
 
@@ -176,6 +180,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                         c.Resolve<IJsonSerializationService>());
                 return topicPublishSevice;
             }).As<ITopicPublishService<JobContextDto>>();
+
+            containerBuilder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>().SingleInstance();
 
             // register message mapper
             containerBuilder.RegisterType<JobContextMessageMapper>()

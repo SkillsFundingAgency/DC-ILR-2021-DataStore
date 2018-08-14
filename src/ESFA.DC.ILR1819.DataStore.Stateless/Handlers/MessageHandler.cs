@@ -13,6 +13,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
     public class MessageHandler : IMessageHandler
     {
         private readonly ILifetimeScope _parentLifeTimeScope;
+
         private readonly StatelessServiceContext _context;
 
         public MessageHandler(ILifetimeScope parentLifeTimeScope, StatelessServiceContext context)

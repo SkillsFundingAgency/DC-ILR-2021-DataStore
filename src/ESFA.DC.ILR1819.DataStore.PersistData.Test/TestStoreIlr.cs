@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
@@ -78,8 +79,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             Message message = null;
             Task<Tuple<Message, FundingOutputs, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
 
-            using (SqlConnection connection =
-                new SqlConnection("data source=(local);initial catalog=ILR1819_DataStore;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90"))
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
             {
                 SqlTransaction transaction = null;
                 try
@@ -186,6 +186,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 while (!tfp.EndOfData)
                 {
                     string[] data = tfp.ReadFields();
+                    Assert.NotNull(data);
                     if (data[0] == ilrFilename && string.Equals(data[2], bool.TrueString, StringComparison.OrdinalIgnoreCase))
                     {
                         validLearners.Add(data[3]);
