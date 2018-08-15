@@ -83,23 +83,23 @@
     <Reference Include="ESFA.DC.IO.Redis, Version=0.1.13.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.Redis.0.1.13-beta0001\lib\netstandard2.0\ESFA.DC.IO.Redis.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobContext, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobContext.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.dll</HintPath>
+    <Reference Include="ESFA.DC.JobContext, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobContext.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobContext.Interface, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobContext.Interface.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.JobContext.Interface, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobContext.Interface.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobContextManager, Version=0.1.16.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ESFA.DC.JobContextManager.0.1.16-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.dll</HintPath>
+    <Reference Include="ESFA.DC.JobContextManager, Version=0.1.17.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ESFA.DC.JobContextManager.0.1.17-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobContextManager.Interface, Version=0.1.16.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ESFA.DC.JobContextManager.Interface.0.1.16-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.JobContextManager.Interface, Version=0.1.17.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ESFA.DC.JobContextManager.Interface.0.1.17-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobStatus, Version=0.1.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.9-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.dll</HintPath>
+    <Reference Include="ESFA.DC.JobStatus, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobStatus.Dto, Version=0.1.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.9-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Dto.dll</HintPath>
+    <Reference Include="ESFA.DC.JobStatus.Dto, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Dto.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
@@ -379,6 +379,7 @@
     <Compile Include="Configuration\JobStatusQueueConfig.cs" />
     <Compile Include="Configuration\ServiceBusQueueConfig.cs" />
     <Compile Include="Configuration\ServiceBusTopicConfig.cs" />
+    <Compile Include="Configuration\TopicAndTaskSectionOptions.cs" />
     <Compile Include="Handlers\IMessageHandler.cs" />
     <Compile Include="Handlers\MessageHandler.cs" />
     <Compile Include="Mappers\JobContextMessageMapper.cs" />
@@ -404,6 +405,10 @@
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">
       <Project>{276f8378-8eb9-4f43-8ba8-21c37c7dd46b}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Interface\ESFA.DC.ILR1819.DataStore.Interface.csproj">
+      <Project>{F79723E3-EC3D-4A61-8A8A-DCC2A79B12A3}</Project>
+      <Name>ESFA.DC.ILR1819.DataStore.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.PersistData\ESFA.DC.ILR1819.DataStore.PersistData.csproj">
       <Project>{fe7fa681-edb2-4fc6-90b9-1bdbc400d8ae}</Project>

@@ -208,7 +208,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             try
             {
-                foreach (KeyValuePair<JobContextMessageKey, object> keyValuePair in jobContextMessage.KeyValuePairs)
+                foreach (KeyValuePair<string, object> keyValuePair in jobContextMessage.KeyValuePairs)
                 {
                     string key = keyValuePair.Value?.ToString();
                     if (string.IsNullOrEmpty(key))

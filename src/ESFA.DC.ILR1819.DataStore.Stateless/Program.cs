@@ -42,8 +42,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 {
     public static class Program
     {
-        public static ManualResetEvent ManualResetEvent { get; } = new ManualResetEvent(false);
-
         /// <summary>
         /// This is the entry point of the service host process.
         /// </summary>
@@ -64,7 +62,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Stateless).Name);
 
                     // Prevents this host process from terminating so services keep running.
-                    ManualResetEvent.WaitOne(Timeout.Infinite);
+                    Thread.Sleep(Timeout.Infinite);
                 }
             }
             catch (Exception e)

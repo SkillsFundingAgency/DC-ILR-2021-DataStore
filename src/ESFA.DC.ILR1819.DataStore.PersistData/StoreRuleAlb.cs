@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Interface;
+using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Interface.Attribute;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _transaction = transaction;
         }
 
-        public async Task StoreAsync(int ukPrn, IFundingOutputs fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(int ukPrn, FundingOutputs fundingOutputs, CancellationToken cancellationToken)
         {
             List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Length * 12);
             List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Length);

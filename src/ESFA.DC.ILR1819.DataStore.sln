@@ -24,6 +24,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR1819.DataStore.Stateless", "ESFA.DC.ILR1819.DataStore.Stateless\ESFA.DC.ILR1819.DataStore.Stateless.csproj", "{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR1819.DataStore.Stateless.Test", "ESFA.DC.ILR1819.DataStore.Stateless.Test\ESFA.DC.ILR1819.DataStore.Stateless.Test.csproj", "{09E114FA-2B1A-4A64-9268-5AE0F741EBFF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE} = {FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +85,7 @@ Global
 		{F1D09BCD-F081-499A-8CA4-11C8A56A3D46}.Release|x64.Build.0 = Release|x64
 		{F1D09BCD-F081-499A-8CA4-11C8A56A3D46}.Release|x64.Deploy.0 = Release|x64
 		{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}.Debug|Any CPU.Build.0 = Debug|x64
 		{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}.Debug|x64.ActiveCfg = Debug|x64
 		{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}.Debug|x64.Build.0 = Debug|x64
 		{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}.Release|Any CPU.ActiveCfg = Release|x64

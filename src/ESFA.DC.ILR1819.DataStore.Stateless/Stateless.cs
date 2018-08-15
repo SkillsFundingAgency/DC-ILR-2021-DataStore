@@ -41,8 +41,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     await _jobContextManager.CloseAsync(CancellationToken.None);
                 }
             }
-
-            // Program.ManualResetEvent.Set();
         }
     }
 }

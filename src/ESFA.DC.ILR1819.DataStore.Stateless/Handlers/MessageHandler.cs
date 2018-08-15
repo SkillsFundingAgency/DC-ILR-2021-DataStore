@@ -10,11 +10,22 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
 {
-    public class MessageHandler : IMessageHandler
+    public sealed class MessageHandler : IMessageHandler
     {
         private readonly ILifetimeScope _parentLifeTimeScope;
 
         private readonly StatelessServiceContext _context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageHandler"/> class.
+        /// Simple constructor for use by AutoFac testing, don't want to have to fake a @see StatelessServiceContext
+        /// </summary>
+        /// <param name="parentLifeTimeScope">AutoFac scope</param>
+        public MessageHandler(ILifetimeScope parentLifeTimeScope)
+        {
+            _parentLifeTimeScope = parentLifeTimeScope;
+            _context = null;
+        }
 
         public MessageHandler(ILifetimeScope parentLifeTimeScope, StatelessServiceContext context)
         {

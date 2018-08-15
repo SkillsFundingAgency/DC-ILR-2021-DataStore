@@ -257,7 +257,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             output.WriteLine($"Deserialise Val: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
-            jobContextMessage.KeyValuePairs = new Dictionary<JobContextMessageKey, object>
+            jobContextMessage.KeyValuePairs = new Dictionary<string, object>
             {
                 [JobContextMessageKey.Filename] = Path.GetFileName(ilrFilename),
                 [JobContextMessageKey.ValidLearnRefNumbers] = validLearnersKey,
