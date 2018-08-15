@@ -11,7 +11,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
-    public sealed class Stateless : StatelessService
+    public class Stateless : StatelessService
     {
         private readonly IJobContextManager<JobContextMessage> _jobContextManager;
 
