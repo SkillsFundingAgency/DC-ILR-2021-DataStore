@@ -68,11 +68,11 @@
     <Reference Include="ESFA.DC.DateTimeProvider.Interface, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.DateTimeProvider.Interface.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.DateTimeProvider.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.ValidationErrors, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.ValidationErrors, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.ValidationErrors.Interface, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.Interface.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.ValidationErrors.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.Interface.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.13.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.13-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
@@ -95,14 +95,14 @@
     <Reference Include="ESFA.DC.JobContextManager.Interface, Version=0.1.17.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\ESFA.DC.JobContextManager.Interface.0.1.17-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobStatus, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.dll</HintPath>
+    <Reference Include="ESFA.DC.JobStatus, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobStatus.Dto, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Dto.dll</HintPath>
+    <Reference Include="ESFA.DC.JobStatus.Dto, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobStatus.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Dto.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.Logging, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.Logging.0.1.1-beta0001\lib\netstandard2.0\ESFA.DC.Logging.dll</HintPath>
