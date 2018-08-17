@@ -90,8 +90,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 validLearnersTask))
             {
                 _logger.LogError("write to DataStore failed");
-                // Todo: Restore
-                // return false;
+                return false;
             }
 
             _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");
