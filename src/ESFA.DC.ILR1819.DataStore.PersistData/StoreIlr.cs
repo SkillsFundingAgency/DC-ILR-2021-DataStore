@@ -12,11 +12,58 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreIlr : IStoreIlr
     {
+        private const int LearnerBatchSize = 10_000;
+
         private readonly SqlConnection _connection;
 
         private readonly SqlTransaction _transaction;
 
         private readonly IJobContextMessage _jobContextMessage;
+
+        private readonly List<EF.Valid.Learner> recordsValidLearners = new List<EF.Valid.Learner>();
+        private readonly List<EF.Invalid.Learner> recordsInvalidLearners = new List<EF.Invalid.Learner>();
+
+        private readonly List<EF.Valid.AppFinRecord> recordsValidAppFinRecords = new List<EF.Valid.AppFinRecord>();
+        private readonly List<EF.Invalid.AppFinRecord> recordsInvalidAppFinRecords = new List<EF.Invalid.AppFinRecord>();
+
+        private readonly List<EF.Valid.LearningDelivery> recordsValidLearningDeliverys = new List<EF.Valid.LearningDelivery>();
+        private readonly List<EF.Invalid.LearningDelivery> recordsInvalidLearningDeliverys = new List<EF.Invalid.LearningDelivery>();
+
+        private readonly List<EF.Valid.ContactPreference> recordsValidContactPreferences = new List<EF.Valid.ContactPreference>();
+        private readonly List<EF.Invalid.ContactPreference> recordsInvalidContactPreferences = new List<EF.Invalid.ContactPreference>();
+
+        private readonly List<EF.Valid.EmploymentStatusMonitoring> recordsValidEmploymentStatusMonitorings = new List<EF.Valid.EmploymentStatusMonitoring>();
+        private readonly List<EF.Invalid.EmploymentStatusMonitoring> recordsInvalidEmploymentStatusMonitorings = new List<EF.Invalid.EmploymentStatusMonitoring>();
+
+        private readonly List<EF.Valid.LearnerEmploymentStatu> recordsValidLearnerEmploymentStatus = new List<EF.Valid.LearnerEmploymentStatu>();
+        private readonly List<EF.Invalid.LearnerEmploymentStatu> recordsInvalidLearnerEmploymentStatus = new List<EF.Invalid.LearnerEmploymentStatu>();
+
+        private readonly List<EF.Valid.LearnerFAM> recordsValidLearnerFams = new List<EF.Valid.LearnerFAM>();
+        private readonly List<EF.Invalid.LearnerFAM> recordsInvalidLearnerFams = new List<EF.Invalid.LearnerFAM>();
+
+        private readonly List<EF.Valid.LearningDeliveryFAM> recordsValidLearnerDeliveryFams = new List<EF.Valid.LearningDeliveryFAM>();
+        private readonly List<EF.Invalid.LearningDeliveryFAM> recordsInvalidLearnerDeliveryFams = new List<EF.Invalid.LearningDeliveryFAM>();
+
+        private readonly List<EF.Valid.LearnerHE> recordsValidLearnerHes = new List<EF.Valid.LearnerHE>();
+        private readonly List<EF.Invalid.LearnerHE> recordsInvalidLearnerHes = new List<EF.Invalid.LearnerHE>();
+
+        private readonly List<EF.Valid.LearningDeliveryHE> recordsValidLearningDeliveryHes = new List<EF.Valid.LearningDeliveryHE>();
+        private readonly List<EF.Invalid.LearningDeliveryHE> recordsInvalidLearningDeliveryHes = new List<EF.Invalid.LearningDeliveryHE>();
+
+        private readonly List<EF.Valid.LearningDeliveryWorkPlacement> recordsValidLearningDeliveryWorkPlacements = new List<EF.Valid.LearningDeliveryWorkPlacement>();
+        private readonly List<EF.Invalid.LearningDeliveryWorkPlacement> recordsInvalidLearningDeliveryWorkPlacements = new List<EF.Invalid.LearningDeliveryWorkPlacement>();
+
+        private readonly List<EF.Valid.LearnerHEFinancialSupport> recordsValidLearnerHefinancialSupports = new List<EF.Valid.LearnerHEFinancialSupport>();
+        private readonly List<EF.Invalid.LearnerHEFinancialSupport> recordsInvalidLearnerHefinancialSupports = new List<EF.Invalid.LearnerHEFinancialSupport>();
+
+        private readonly List<EF.Valid.LLDDandHealthProblem> recordsValidLlddandHealthProblems = new List<EF.Valid.LLDDandHealthProblem>();
+        private readonly List<EF.Invalid.LLDDandHealthProblem> recordsInvalidLlddandHealthProblems = new List<EF.Invalid.LLDDandHealthProblem>();
+
+        private readonly List<EF.Valid.ProviderSpecDeliveryMonitoring> recordsValidProviderSpecDeliveryMonitorings = new List<EF.Valid.ProviderSpecDeliveryMonitoring>();
+        private readonly List<EF.Invalid.ProviderSpecDeliveryMonitoring> recordsInvalidProviderSpecDeliveryMonitorings = new List<EF.Invalid.ProviderSpecDeliveryMonitoring>();
+
+        private readonly List<EF.Valid.ProviderSpecLearnerMonitoring> recordsValidProviderSpecLearnerMonitorings = new List<EF.Valid.ProviderSpecLearnerMonitoring>();
+        private readonly List<EF.Invalid.ProviderSpecLearnerMonitoring> recordsInvalidProviderSpecLearnerMonitorings = new List<EF.Invalid.ProviderSpecLearnerMonitoring>();
 
         public StoreIlr(
             SqlConnection connection,
@@ -36,10 +83,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 ProcessLearners(ilr, validLearners, cancellationToken),
                 ProcessLearnerDestinationsAndProgressions(ilr, validLearners, cancellationToken),
                 fileDetailsTask);
-
-            //await ProcessLearners(ilr, learnersValid);
-            //await ProcessLearnerDestinationsAndProgressions(ilr, learnersValid);
-            //await fileDetailsTask;
         }
 
         private async Task ProcessLearners(
@@ -47,51 +90,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             List<string> learnersValid,
             CancellationToken cancellationToken)
         {
-            List<EF.Valid.Learner> recordsValidLearners = new List<EF.Valid.Learner>();
-            List<EF.Invalid.Learner> recordsInvalidLearners = new List<EF.Invalid.Learner>();
-
-            List<EF.Valid.AppFinRecord> recordsValidAppFinRecords = new List<EF.Valid.AppFinRecord>();
-            List<EF.Invalid.AppFinRecord> recordsInvalidAppFinRecords = new List<EF.Invalid.AppFinRecord>();
-
-            List<EF.Valid.LearningDelivery> recordsValidLearningDeliverys = new List<EF.Valid.LearningDelivery>();
-            List<EF.Invalid.LearningDelivery> recordsInvalidLearningDeliverys = new List<EF.Invalid.LearningDelivery>();
-
-            List<EF.Valid.ContactPreference> recordsValidContactPreferences = new List<EF.Valid.ContactPreference>();
-            List<EF.Invalid.ContactPreference> recordsInvalidContactPreferences = new List<EF.Invalid.ContactPreference>();
-
-            List<EF.Valid.EmploymentStatusMonitoring> recordsValidEmploymentStatusMonitorings = new List<EF.Valid.EmploymentStatusMonitoring>();
-            List<EF.Invalid.EmploymentStatusMonitoring> recordsInvalidEmploymentStatusMonitorings = new List<EF.Invalid.EmploymentStatusMonitoring>();
-
-            List<EF.Valid.LearnerEmploymentStatu> recordsValidLearnerEmploymentStatus = new List<EF.Valid.LearnerEmploymentStatu>();
-            List<EF.Invalid.LearnerEmploymentStatu> recordsInvalidLearnerEmploymentStatus = new List<EF.Invalid.LearnerEmploymentStatu>();
-
-            List<EF.Valid.LearnerFAM> recordsValidLearnerFams = new List<EF.Valid.LearnerFAM>();
-            List<EF.Invalid.LearnerFAM> recordsInvalidLearnerFams = new List<EF.Invalid.LearnerFAM>();
-
-            List<EF.Valid.LearningDeliveryFAM> recordsValidLearnerDeliveryFams = new List<EF.Valid.LearningDeliveryFAM>();
-            List<EF.Invalid.LearningDeliveryFAM> recordsInvalidLearnerDeliveryFams = new List<EF.Invalid.LearningDeliveryFAM>();
-
-            List<EF.Valid.LearnerHE> recordsValidLearnerHes = new List<EF.Valid.LearnerHE>();
-            List<EF.Invalid.LearnerHE> recordsInvalidLearnerHes = new List<EF.Invalid.LearnerHE>();
-
-            List<EF.Valid.LearningDeliveryHE> recordsValidLearningDeliveryHes = new List<EF.Valid.LearningDeliveryHE>();
-            List<EF.Invalid.LearningDeliveryHE> recordsInvalidLearningDeliveryHes = new List<EF.Invalid.LearningDeliveryHE>();
-
-            List<EF.Valid.LearningDeliveryWorkPlacement> recordsValidLearningDeliveryWorkPlacements = new List<EF.Valid.LearningDeliveryWorkPlacement>();
-            List<EF.Invalid.LearningDeliveryWorkPlacement> recordsInvalidLearningDeliveryWorkPlacements = new List<EF.Invalid.LearningDeliveryWorkPlacement>();
-
-            List<EF.Valid.LearnerHEFinancialSupport> recordsValidLearnerHefinancialSupports = new List<EF.Valid.LearnerHEFinancialSupport>();
-            List<EF.Invalid.LearnerHEFinancialSupport> recordsInvalidLearnerHefinancialSupports = new List<EF.Invalid.LearnerHEFinancialSupport>();
-
-            List<EF.Valid.LLDDandHealthProblem> recordsValidLlddandHealthProblems = new List<EF.Valid.LLDDandHealthProblem>();
-            List<EF.Invalid.LLDDandHealthProblem> recordsInvalidLlddandHealthProblems = new List<EF.Invalid.LLDDandHealthProblem>();
-
-            List<EF.Valid.ProviderSpecDeliveryMonitoring> recordsValidProviderSpecDeliveryMonitorings = new List<EF.Valid.ProviderSpecDeliveryMonitoring>();
-            List<EF.Invalid.ProviderSpecDeliveryMonitoring> recordsInvalidProviderSpecDeliveryMonitorings = new List<EF.Invalid.ProviderSpecDeliveryMonitoring>();
-
-            List<EF.Valid.ProviderSpecLearnerMonitoring> recordsValidProviderSpecLearnerMonitorings = new List<EF.Valid.ProviderSpecLearnerMonitoring>();
-            List<EF.Invalid.ProviderSpecLearnerMonitoring> recordsInvalidProviderSpecLearnerMonitorings = new List<EF.Invalid.ProviderSpecLearnerMonitoring>();
-
             int learnerId = 1;
             int learnerDeliveryId = 1;
             int learnerEmploymentStatusId = 1;
@@ -108,6 +106,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int providerSpecDeliveryMonitoringId = 1;
             int contactPreferenceId = 1;
             int lLDDandHealthProblemID = 1;
+
+            int counter = 0;
 
             foreach (ILearner ilrLearner in ilr.Learners)
             {
@@ -671,6 +671,18 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                     learnerId++;
                 }
+
+                counter++;
+                if (counter == LearnerBatchSize)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    await SaveLearnerRecords(cancellationToken);
+                    counter = 0;
+                }
             }
 
             if (cancellationToken.IsCancellationRequested)
@@ -678,6 +690,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
+            if (counter > 0)
+            {
+                await SaveLearnerRecords(cancellationToken);
+            }
+        }
+
+        private async Task SaveLearnerRecords(CancellationToken cancellationToken)
+        {
             using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
             {
                 await bulkInsert.Insert("Invalid.AppFinRecord", recordsInvalidAppFinRecords);
@@ -712,6 +732,38 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 await bulkInsert.Insert("Valid.ProviderSpecDeliveryMonitoring", recordsValidProviderSpecDeliveryMonitorings);
                 await bulkInsert.Insert("Valid.ProviderSpecLearnerMonitoring", recordsValidProviderSpecLearnerMonitorings);
             }
+
+            recordsInvalidAppFinRecords.Clear();
+            recordsInvalidContactPreferences.Clear();
+            recordsInvalidEmploymentStatusMonitorings.Clear();
+            recordsInvalidLearners.Clear();
+            recordsInvalidLearnerEmploymentStatus.Clear();
+            recordsInvalidLearnerFams.Clear();
+            recordsInvalidLearnerHes.Clear();
+            recordsInvalidLearnerHefinancialSupports.Clear();
+            recordsInvalidLearningDeliverys.Clear();
+            recordsInvalidLearnerDeliveryFams.Clear();
+            recordsInvalidLearningDeliveryHes.Clear();
+            recordsInvalidLearningDeliveryWorkPlacements.Clear();
+            recordsInvalidLlddandHealthProblems.Clear();
+            recordsInvalidProviderSpecDeliveryMonitorings.Clear();
+            recordsInvalidProviderSpecLearnerMonitorings.Clear();
+
+            recordsValidAppFinRecords.Clear();
+            recordsValidContactPreferences.Clear();
+            recordsValidEmploymentStatusMonitorings.Clear();
+            recordsValidLearners.Clear();
+            recordsValidLearnerEmploymentStatus.Clear();
+            recordsValidLearnerFams.Clear();
+            recordsValidLearnerHes.Clear();
+            recordsValidLearnerHefinancialSupports.Clear();
+            recordsValidLearningDeliverys.Clear();
+            recordsValidLearnerDeliveryFams.Clear();
+            recordsValidLearningDeliveryHes.Clear();
+            recordsValidLearningDeliveryWorkPlacements.Clear();
+            recordsValidLlddandHealthProblems.Clear();
+            recordsValidProviderSpecDeliveryMonitorings.Clear();
+            recordsValidProviderSpecLearnerMonitorings.Clear();
         }
 
         private async Task ProcessFileDetails(IMessage ilr, CancellationToken cancellationToken)
