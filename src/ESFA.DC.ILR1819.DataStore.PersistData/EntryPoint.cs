@@ -254,7 +254,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
                 string alb = await _redis.GetAsync(albFilename, cancellationToken);
 
-                fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
+                if (!string.IsNullOrEmpty(alb))
+                {
+                    fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
+                }
             }
             catch (Exception ex)
             {
