@@ -162,7 +162,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     }
 
                     Task storeRuleAlbTask = Task.CompletedTask;
-                    if (fundingOutputTask.Result != null)
+                    if (fundingOutputTask.Result != null && fundingOutputTask.Result.Global != null)
                     {
                         StoreRuleAlb storeRuleAlb = new StoreRuleAlb(connection, transaction);
                         storeRuleAlbTask =
