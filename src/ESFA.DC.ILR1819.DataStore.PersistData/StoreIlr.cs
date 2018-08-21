@@ -12,8 +12,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreIlr : IStoreIlr
     {
-        private const int LearnerBatchSize = 10_000;
-
         private readonly SqlConnection _connection;
 
         private readonly SqlTransaction _transaction;
@@ -106,8 +104,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int providerSpecDeliveryMonitoringId = 1;
             int contactPreferenceId = 1;
             int lLDDandHealthProblemID = 1;
-
-            int counter = 0;
 
             foreach (ILearner ilrLearner in ilr.Learners)
             {
@@ -671,18 +667,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                     learnerId++;
                 }
-
-                counter++;
-                if (counter == LearnerBatchSize)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-
-                    await SaveLearnerRecords(cancellationToken);
-                    counter = 0;
-                }
             }
 
             if (cancellationToken.IsCancellationRequested)
@@ -690,10 +674,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            if (counter > 0)
-            {
-                await SaveLearnerRecords(cancellationToken);
-            }
+            await SaveLearnerRecords(cancellationToken);
         }
 
         private async Task SaveLearnerRecords(CancellationToken cancellationToken)

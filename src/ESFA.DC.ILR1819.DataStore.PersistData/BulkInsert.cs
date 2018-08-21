@@ -20,7 +20,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _cancellationToken = cancellationToken;
             sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, sqlTransaction)
             {
-                BatchSize = 20_000
+                BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
+                BulkCopyTimeout = 600
             };
         }
 
