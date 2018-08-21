@@ -157,7 +157,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 serviceBusOptions.ServiceBusConnectionString,
                 serviceBusOptions.TopicName,
                 serviceBusOptions.DataStoreSubscriptionName,
-                Environment.ProcessorCount);
+                1);
 
             containerBuilder.Register(c =>
             {

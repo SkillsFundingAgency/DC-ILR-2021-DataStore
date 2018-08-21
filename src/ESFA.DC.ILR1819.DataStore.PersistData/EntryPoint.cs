@@ -112,6 +112,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             Task<List<string>> validLearnersTask)
         {
             int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
+            bool successfullyCommitted = false;
 
             using (SqlConnection connection =
                 new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
@@ -154,7 +155,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         connection,
                         transaction,
                         jobContextMessage);
-                    Task storeIlrTask = storeIlr.StoreAsync(messageTask.Result, validLearnersTask.Result, cancellationToken);
+                    Task storeIlrTask =
+                        storeIlr.StoreAsync(messageTask.Result, validLearnersTask.Result, cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -182,25 +184,29 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask, storeValidationOutputTask);
 
                     transaction.Commit();
+                    successfullyCommitted = true;
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError("Failed to persist to DEDs", ex);
-
-                    try
+                }
+                finally
+                {
+                    if (!successfullyCommitted)
                     {
-                        transaction?.Rollback();
+                        try
+                        {
+                            transaction?.Rollback();
+                        }
+                        catch (Exception ex2)
+                        {
+                            _logger.LogError("Failed to rollback DEDs persist transaction", ex2);
+                        }
                     }
-                    catch (Exception ex2)
-                    {
-                        _logger.LogError("Failed to rollback DEDs persist transaction", ex2);
-                    }
-
-                    return false;
                 }
             }
 
-            return true;
+            return successfullyCommitted;
         }
 
         private async Task DeletePersistedData(IJobContextMessage jobContextMessage)
@@ -262,7 +268,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             catch (Exception ex)
             {
                 // Todo: Check behaviour
-                _logger.LogError("Failed to get & deserialise ALB funding data", ex);
+                _logger.LogError("Failed to get & deserialise ALB funding data. It will be ignored.", ex);
             }
 
             return fundingOutputs;
