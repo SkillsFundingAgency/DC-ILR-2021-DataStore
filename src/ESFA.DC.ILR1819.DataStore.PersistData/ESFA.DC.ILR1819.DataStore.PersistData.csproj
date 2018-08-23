@@ -190,8 +190,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\AppFinRecordBuilder.cs" />
+    <Compile Include="Builders\ContactPreferenceBuilder.cs" />
+    <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />
+    <Compile Include="Builders\LearnerBuilder.cs" />
+    <Compile Include="Builders\LearnerEmploymentStatusBuilder.cs" />
+    <Compile Include="Builders\LearnerFAMBuilder.cs" />
+    <Compile Include="Builders\LearnerHEBuilder.cs" />
+    <Compile Include="Builders\LearnerHEFinancialSupportBuilder.cs" />
+    <Compile Include="Builders\LearnerInvalidDataBuilder.cs" />
+    <Compile Include="Builders\LearnerValidDataBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryFAMBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryHEBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryWorkPlacementBuilder.cs" />
+    <Compile Include="Builders\LLDDAndHealthProblemBuilder.cs" />
+    <Compile Include="Builders\ProviderSpecDeliveryMonitoringBuilder.cs" />
+    <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Models\InvalidLearnerData.cs" />
+    <Compile Include="Models\ValidLearnerData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreClear.cs" />
     <Compile Include="StoreFileDetails.cs" />
@@ -220,5 +239,6 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

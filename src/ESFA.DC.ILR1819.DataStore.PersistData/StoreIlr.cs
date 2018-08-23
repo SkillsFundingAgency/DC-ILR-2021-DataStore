@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Models;
 using ESFA.DC.JobContext.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
@@ -18,50 +20,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private readonly IJobContextMessage _jobContextMessage;
 
-        private readonly List<EF.Valid.Learner> recordsValidLearners = new List<EF.Valid.Learner>();
-        private readonly List<EF.Invalid.Learner> recordsInvalidLearners = new List<EF.Invalid.Learner>();
-
-        private readonly List<EF.Valid.AppFinRecord> recordsValidAppFinRecords = new List<EF.Valid.AppFinRecord>();
-        private readonly List<EF.Invalid.AppFinRecord> recordsInvalidAppFinRecords = new List<EF.Invalid.AppFinRecord>();
-
-        private readonly List<EF.Valid.LearningDelivery> recordsValidLearningDeliverys = new List<EF.Valid.LearningDelivery>();
-        private readonly List<EF.Invalid.LearningDelivery> recordsInvalidLearningDeliverys = new List<EF.Invalid.LearningDelivery>();
-
-        private readonly List<EF.Valid.ContactPreference> recordsValidContactPreferences = new List<EF.Valid.ContactPreference>();
-        private readonly List<EF.Invalid.ContactPreference> recordsInvalidContactPreferences = new List<EF.Invalid.ContactPreference>();
-
-        private readonly List<EF.Valid.EmploymentStatusMonitoring> recordsValidEmploymentStatusMonitorings = new List<EF.Valid.EmploymentStatusMonitoring>();
-        private readonly List<EF.Invalid.EmploymentStatusMonitoring> recordsInvalidEmploymentStatusMonitorings = new List<EF.Invalid.EmploymentStatusMonitoring>();
-
-        private readonly List<EF.Valid.LearnerEmploymentStatu> recordsValidLearnerEmploymentStatus = new List<EF.Valid.LearnerEmploymentStatu>();
-        private readonly List<EF.Invalid.LearnerEmploymentStatu> recordsInvalidLearnerEmploymentStatus = new List<EF.Invalid.LearnerEmploymentStatu>();
-
-        private readonly List<EF.Valid.LearnerFAM> recordsValidLearnerFams = new List<EF.Valid.LearnerFAM>();
-        private readonly List<EF.Invalid.LearnerFAM> recordsInvalidLearnerFams = new List<EF.Invalid.LearnerFAM>();
-
-        private readonly List<EF.Valid.LearningDeliveryFAM> recordsValidLearnerDeliveryFams = new List<EF.Valid.LearningDeliveryFAM>();
-        private readonly List<EF.Invalid.LearningDeliveryFAM> recordsInvalidLearnerDeliveryFams = new List<EF.Invalid.LearningDeliveryFAM>();
-
-        private readonly List<EF.Valid.LearnerHE> recordsValidLearnerHes = new List<EF.Valid.LearnerHE>();
-        private readonly List<EF.Invalid.LearnerHE> recordsInvalidLearnerHes = new List<EF.Invalid.LearnerHE>();
-
-        private readonly List<EF.Valid.LearningDeliveryHE> recordsValidLearningDeliveryHes = new List<EF.Valid.LearningDeliveryHE>();
-        private readonly List<EF.Invalid.LearningDeliveryHE> recordsInvalidLearningDeliveryHes = new List<EF.Invalid.LearningDeliveryHE>();
-
-        private readonly List<EF.Valid.LearningDeliveryWorkPlacement> recordsValidLearningDeliveryWorkPlacements = new List<EF.Valid.LearningDeliveryWorkPlacement>();
-        private readonly List<EF.Invalid.LearningDeliveryWorkPlacement> recordsInvalidLearningDeliveryWorkPlacements = new List<EF.Invalid.LearningDeliveryWorkPlacement>();
-
-        private readonly List<EF.Valid.LearnerHEFinancialSupport> recordsValidLearnerHefinancialSupports = new List<EF.Valid.LearnerHEFinancialSupport>();
-        private readonly List<EF.Invalid.LearnerHEFinancialSupport> recordsInvalidLearnerHefinancialSupports = new List<EF.Invalid.LearnerHEFinancialSupport>();
-
-        private readonly List<EF.Valid.LLDDandHealthProblem> recordsValidLlddandHealthProblems = new List<EF.Valid.LLDDandHealthProblem>();
-        private readonly List<EF.Invalid.LLDDandHealthProblem> recordsInvalidLlddandHealthProblems = new List<EF.Invalid.LLDDandHealthProblem>();
-
-        private readonly List<EF.Valid.ProviderSpecDeliveryMonitoring> recordsValidProviderSpecDeliveryMonitorings = new List<EF.Valid.ProviderSpecDeliveryMonitoring>();
-        private readonly List<EF.Invalid.ProviderSpecDeliveryMonitoring> recordsInvalidProviderSpecDeliveryMonitorings = new List<EF.Invalid.ProviderSpecDeliveryMonitoring>();
-
-        private readonly List<EF.Valid.ProviderSpecLearnerMonitoring> recordsValidProviderSpecLearnerMonitorings = new List<EF.Valid.ProviderSpecLearnerMonitoring>();
-        private readonly List<EF.Invalid.ProviderSpecLearnerMonitoring> recordsInvalidProviderSpecLearnerMonitorings = new List<EF.Invalid.ProviderSpecLearnerMonitoring>();
+        private ValidLearnerData _validLearnerData;
+        private InvalidLearnerData _invalidLearnerData;
 
         public StoreIlr(
             SqlConnection connection,
@@ -88,509 +48,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             List<string> learnersValid,
             CancellationToken cancellationToken)
         {
-            int learnerId = 1;
-            int learnerDeliveryId = 1;
-            int learnerEmploymentStatusId = 1;
-            int learnerEmploymentStatusMonitoringId = 1;
-            int learningDeliveryHEId = 1;
-            int learnerDeliveryFamId = 1;
-            int appFinRecordId = 1;
-            int learningDeliveryWorkPlacementId = 1;
-            int learnerFAMId = 1;
-            int learnerHEId = 1;
-            int learnerHEFinancialSupportId = 1;
-            int lLDDandHealthProblemId = 1;
-            int providerSpecLearnerMonitoringId = 1;
-            int providerSpecDeliveryMonitoringId = 1;
-            int contactPreferenceId = 1;
-            int lLDDandHealthProblemID = 1;
+            _validLearnerData = new ValidLearnerData();
+            _invalidLearnerData = new InvalidLearnerData();
 
             foreach (ILearner ilrLearner in ilr.Learners)
             {
-                if (learnersValid.Contains(ilrLearner.LearnRefNumber, StringComparer.OrdinalIgnoreCase))
-                {
-                    recordsValidLearners.Add(new EF.Valid.Learner
-                    {
-                        LearnRefNumber = ilrLearner.LearnRefNumber,
-                        UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                        Accom = ilrLearner.AccomNullable,
-                        AddLine1 = ilrLearner.AddLine1,
-                        AddLine2 = ilrLearner.AddLine2,
-                        AddLine3 = ilrLearner.AddLine3,
-                        AddLine4 = ilrLearner.AddLine4,
-                        ALSCost = ilrLearner.ALSCostNullable,
-                        CampId = ilrLearner.CampId,
-                        DateOfBirth = ilrLearner.DateOfBirthNullable,
-                        Email = ilrLearner.Email,
-                        EngGrade = ilrLearner.EngGrade,
-                        Ethnicity = ilrLearner.Ethnicity,
-                        FamilyName = ilrLearner.FamilyName,
-                        GivenNames = ilrLearner.GivenNames,
-                        LLDDHealthProb = ilrLearner.LLDDHealthProb,
-                        MathGrade = ilrLearner.MathGrade,
-                        NINumber = ilrLearner.NINumber,
-                        OTJHours = ilrLearner.OTJHoursNullable,
-                        PlanEEPHours = ilrLearner.PlanEEPHoursNullable,
-                        PlanLearnHours = ilrLearner.PlanLearnHoursNullable,
-                        PMUKPRN = ilrLearner.PMUKPRNNullable,
-                        Postcode = ilrLearner.Postcode,
-                        PostcodePrior = ilrLearner.PostcodePrior,
-                        PrevLearnRefNumber = ilrLearner.PrevLearnRefNumber,
-                        PrevUKPRN = ilrLearner.PrevUKPRNNullable,
-                        PriorAttain = ilrLearner.PriorAttainNullable,
-                        Sex = ilrLearner.Sex,
-                        TelNo = ilrLearner.TelNo,
-                        ULN = ilrLearner.ULN
-                    });
-
-                    foreach (IContactPreference contactPreference in ilrLearner.ContactPreferences ?? Enumerable.Empty<IContactPreference>())
-                    {
-                        recordsValidContactPreferences.Add(new EF.Valid.ContactPreference
-                        {
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            ContPrefCode = contactPreference.ContPrefCode,
-                            ContPrefType = contactPreference.ContPrefType
-                        });
-                    }
-
-                    foreach (ILearningDelivery learningDelivery in ilrLearner.LearningDeliveries)
-                    {
-                        recordsValidLearningDeliverys.Add(new EF.Valid.LearningDelivery
-                        {
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            LearnAimRef = learningDelivery.LearnAimRef,
-                            AimSeqNumber = learningDelivery.AimSeqNumber,
-                            AchDate = learningDelivery.AchDateNullable,
-                            AddHours = learningDelivery.AddHoursNullable,
-                            AimType = learningDelivery.AimType,
-                            CompStatus = learningDelivery.CompStatus,
-                            ConRefNumber = learningDelivery.ConRefNumber,
-                            DelLocPostCode = learningDelivery.DelLocPostCode,
-                            EmpOutcome = learningDelivery.EmpOutcomeNullable,
-                            EPAOrgID = learningDelivery.EPAOrgID,
-                            FundModel = learningDelivery.FundModel,
-                            FworkCode = learningDelivery.FworkCodeNullable,
-                            LearnActEndDate = learningDelivery.LearnActEndDateNullable,
-                            LearnPlanEndDate = learningDelivery.LearnPlanEndDate,
-                            LearnStartDate = learningDelivery.LearnStartDate,
-                            OrigLearnStartDate = learningDelivery.OrigLearnStartDateNullable,
-                            OtherFundAdj = learningDelivery.OtherFundAdjNullable,
-                            OutGrade = learningDelivery.OutGrade,
-                            Outcome = learningDelivery.OutcomeNullable,
-                            PartnerUKPRN = learningDelivery.PartnerUKPRNNullable,
-                            PriorLearnFundAdj = learningDelivery.PriorLearnFundAdjNullable,
-                            ProgType = learningDelivery.ProgTypeNullable,
-                            PwayCode = learningDelivery.PwayCodeNullable,
-                            StdCode = learningDelivery.StdCodeNullable,
-                            SWSupAimId = learningDelivery.SWSupAimId,
-                            WithdrawReason = learningDelivery.WithdrawReasonNullable
-                        });
-
-                        foreach (IAppFinRecord learningDeliveryAppFinRecord in learningDelivery.AppFinRecords ?? Enumerable.Empty<IAppFinRecord>())
-                        {
-                            recordsValidAppFinRecords.Add(new EF.Valid.AppFinRecord
-                            {
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                AFinAmount = learningDeliveryAppFinRecord.AFinAmount,
-                                AFinCode = learningDeliveryAppFinRecord.AFinCode,
-                                AFinDate = learningDeliveryAppFinRecord.AFinDate,
-                                AFinType = learningDeliveryAppFinRecord.AFinType,
-                                AimSeqNumber = learningDelivery.AimSeqNumber
-                            });
-                        }
-
-                        foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs ?? Enumerable.Empty<ILearningDeliveryFAM>())
-                        {
-                            recordsValidLearnerDeliveryFams.Add(new EF.Valid.LearningDeliveryFAM
-                            {
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                LearnDelFAMCode = learningDeliveryFam.LearnDelFAMCode,
-                                LearnDelFAMDateFrom = learningDeliveryFam.LearnDelFAMDateFromNullable,
-                                LearnDelFAMDateTo = learningDeliveryFam.LearnDelFAMDateToNullable,
-                                LearnDelFAMType = learningDeliveryFam.LearnDelFAMType
-                            });
-                        }
-
-                        if (learningDelivery.LearningDeliveryHEEntity != null)
-                        {
-                            recordsValidLearningDeliveryHes.Add(new EF.Valid.LearningDeliveryHE
-                            {
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                DOMICILE = learningDelivery.LearningDeliveryHEEntity.DOMICILE,
-                                ELQ = learningDelivery.LearningDeliveryHEEntity.ELQNullable,
-                                FUNDCOMP = learningDelivery.LearningDeliveryHEEntity.FUNDCOMP,
-                                FUNDLEV = learningDelivery.LearningDeliveryHEEntity.FUNDLEV,
-                                GROSSFEE = learningDelivery.LearningDeliveryHEEntity.GROSSFEENullable,
-                                HEPostCode = learningDelivery.LearningDeliveryHEEntity.HEPostCode,
-                                MODESTUD = learningDelivery.LearningDeliveryHEEntity.MODESTUD,
-                                MSTUFEE = learningDelivery.LearningDeliveryHEEntity.MSTUFEE,
-                                NETFEE = learningDelivery.LearningDeliveryHEEntity.NETFEENullable,
-                                NUMHUS = learningDelivery.LearningDeliveryHEEntity.NUMHUS,
-                                PCFLDCS = learningDelivery.LearningDeliveryHEEntity.PCFLDCSNullable,
-                                PCOLAB = learningDelivery.LearningDeliveryHEEntity.PCOLABNullable,
-                                PCSLDCS = learningDelivery.LearningDeliveryHEEntity.PCSLDCSNullable,
-                                PCTLDCS = learningDelivery.LearningDeliveryHEEntity.PCTLDCSNullable,
-                                QUALENT3 = learningDelivery.LearningDeliveryHEEntity.QUALENT3,
-                                SEC = learningDelivery.LearningDeliveryHEEntity.SECNullable,
-                                SOC2000 = learningDelivery.LearningDeliveryHEEntity.SOC2000Nullable,
-                                SPECFEE = learningDelivery.LearningDeliveryHEEntity.SPECFEE,
-                                SSN = learningDelivery.LearningDeliveryHEEntity.SSN,
-                                STULOAD = learningDelivery.LearningDeliveryHEEntity.STULOADNullable,
-                                TYPEYR = learningDelivery.LearningDeliveryHEEntity.TYPEYR,
-                                UCASAPPID = learningDelivery.LearningDeliveryHEEntity.UCASAPPID,
-                                YEARSTU = learningDelivery.LearningDeliveryHEEntity.YEARSTU
-                            });
-                        }
-
-                        foreach (ILearningDeliveryWorkPlacement learningDeliveryWorkPlacement in learningDelivery.LearningDeliveryWorkPlacements ?? Enumerable.Empty<ILearningDeliveryWorkPlacement>())
-                        {
-                            recordsValidLearningDeliveryWorkPlacements.Add(new EF.Valid.LearningDeliveryWorkPlacement
-                            {
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                WorkPlaceEmpId = learningDeliveryWorkPlacement.WorkPlaceEmpIdNullable.GetValueOrDefault(-1),
-                                WorkPlaceEndDate = learningDeliveryWorkPlacement.WorkPlaceEndDateNullable,
-                                WorkPlaceHours = learningDeliveryWorkPlacement.WorkPlaceHours,
-                                WorkPlaceMode = learningDeliveryWorkPlacement.WorkPlaceMode,
-                                WorkPlaceStartDate = learningDeliveryWorkPlacement.WorkPlaceStartDate
-                            });
-                        }
-
-                        foreach (IProviderSpecDeliveryMonitoring providerSpecDeliveryMonitoring in learningDelivery.ProviderSpecDeliveryMonitorings ?? Enumerable.Empty<IProviderSpecDeliveryMonitoring>())
-                        {
-                            recordsValidProviderSpecDeliveryMonitorings.Add(new EF.Valid.ProviderSpecDeliveryMonitoring
-                            {
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                ProvSpecDelMon = providerSpecDeliveryMonitoring.ProvSpecDelMon,
-                                ProvSpecDelMonOccur = providerSpecDeliveryMonitoring.ProvSpecDelMonOccur,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
-                            });
-                        }
-                    }
-
-                    foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses ?? Enumerable.Empty<ILearnerEmploymentStatus>())
-                    {
-                        foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings ?? Enumerable.Empty<IEmploymentStatusMonitoring>())
-                        {
-                            recordsValidEmploymentStatusMonitorings.Add(new EF.Valid.EmploymentStatusMonitoring
-                            {
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
-                                ESMCode = employmentStatusMonitoring.ESMCode,
-                                ESMType = employmentStatusMonitoring.ESMType
-                            });
-                        }
-
-                        recordsValidLearnerEmploymentStatus.Add(new EF.Valid.LearnerEmploymentStatu
-                        {
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            AgreeId = learnerEmploymentStatus.AgreeId,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
-                            EmpId = learnerEmploymentStatus.EmpIdNullable,
-                            EmpStat = learnerEmploymentStatus.EmpStat
-                        });
-                    }
-
-                    foreach (ILearnerFAM learnerFaM in ilrLearner.LearnerFAMs ?? Enumerable.Empty<ILearnerFAM>())
-                    {
-                        recordsValidLearnerFams.Add(new EF.Valid.LearnerFAM
-                        {
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            LearnFAMCode = learnerFaM.LearnFAMCode,
-                            LearnFAMType = learnerFaM.LearnFAMType
-                        });
-                    }
-
-                    if (ilrLearner.LearnerHEEntity != null)
-                    {
-                        recordsValidLearnerHes.Add(new EF.Valid.LearnerHE
-                        {
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            TTACCOM = ilrLearner.LearnerHEEntity.TTACCOMNullable,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            UCASPERID = ilrLearner.LearnerHEEntity.UCASPERID
-                        });
-                    }
-
-                    foreach (ILearnerHEFinancialSupport heFinancialSupport in ilrLearner.LearnerHEEntity?.LearnerHEFinancialSupports ?? Enumerable.Empty<ILearnerHEFinancialSupport>())
-                    {
-                        recordsValidLearnerHefinancialSupports.Add(new EF.Valid.LearnerHEFinancialSupport
-                        {
-                            FINAMOUNT = heFinancialSupport.FINAMOUNT,
-                            FINTYPE = heFinancialSupport.FINTYPE,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
-                        });
-                    }
-
-                    foreach (ILLDDAndHealthProblem llddAndHealthProblem in ilrLearner.LLDDAndHealthProblems ?? Enumerable.Empty<ILLDDAndHealthProblem>())
-                    {
-                        recordsValidLlddandHealthProblems.Add(new EF.Valid.LLDDandHealthProblem
-                        {
-                            LLDDandHealthProblem_ID = lLDDandHealthProblemID,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            LLDDCat = llddAndHealthProblem.LLDDCat,
-                            PrimaryLLDD = llddAndHealthProblem.PrimaryLLDDNullable,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
-                        });
-
-                        lLDDandHealthProblemID++;
-                    }
-
-                    foreach (IProviderSpecLearnerMonitoring providerSpecLearnerMonitoring in ilrLearner.ProviderSpecLearnerMonitorings ?? Enumerable.Empty<IProviderSpecLearnerMonitoring>())
-                    {
-                        recordsValidProviderSpecLearnerMonitorings.Add(new EF.Valid.ProviderSpecLearnerMonitoring
-                        {
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            ProvSpecLearnMon = providerSpecLearnerMonitoring.ProvSpecLearnMon,
-                            ProvSpecLearnMonOccur = providerSpecLearnerMonitoring.ProvSpecLearnMonOccur
-                        });
-                    }
-                }
-                else
-                {
-                    recordsInvalidLearners.Add(new EF.Invalid.Learner
-                    {
-                        Learner_Id = learnerId,
-                        LearnRefNumber = ilrLearner.LearnRefNumber,
-                        UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                        Accom = ilrLearner.AccomNullable,
-                        AddLine1 = ilrLearner.AddLine1,
-                        AddLine2 = ilrLearner.AddLine2,
-                        AddLine3 = ilrLearner.AddLine3,
-                        AddLine4 = ilrLearner.AddLine4,
-                        ALSCost = ilrLearner.ALSCostNullable,
-                        CampId = ilrLearner.CampId,
-                        DateOfBirth = ilrLearner.DateOfBirthNullable,
-                        Email = ilrLearner.Email,
-                        EngGrade = ilrLearner.EngGrade,
-                        Ethnicity = ilrLearner.Ethnicity,
-                        FamilyName = ilrLearner.FamilyName,
-                        GivenNames = ilrLearner.GivenNames,
-                        LLDDHealthProb = ilrLearner.LLDDHealthProb,
-                        MathGrade = ilrLearner.MathGrade,
-                        NINumber = ilrLearner.NINumber,
-                        OTJHours = ilrLearner.OTJHoursNullable,
-                        PlanEEPHours = ilrLearner.PlanEEPHoursNullable,
-                        PlanLearnHours = ilrLearner.PlanLearnHoursNullable,
-                        PMUKPRN = ilrLearner.PMUKPRNNullable,
-                        Postcode = ilrLearner.Postcode,
-                        PostcodePrior = ilrLearner.PostcodePrior,
-                        PrevLearnRefNumber = ilrLearner.PrevLearnRefNumber,
-                        PrevUKPRN = ilrLearner.PrevUKPRNNullable,
-                        PriorAttain = ilrLearner.PriorAttainNullable,
-                        Sex = ilrLearner.Sex,
-                        TelNo = ilrLearner.TelNo,
-                        ULN = ilrLearner.ULN
-                    });
-
-                    foreach (IContactPreference contactPreference in ilrLearner.ContactPreferences ?? Enumerable.Empty<IContactPreference>())
-                    {
-                        recordsInvalidContactPreferences.Add(new EF.Invalid.ContactPreference
-                        {
-                            ContactPreference_Id = contactPreferenceId,
-                            Learner_Id = learnerId,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            ContPrefCode = contactPreference.ContPrefCode,
-                            ContPrefType = contactPreference.ContPrefType
-                        });
-
-                        contactPreferenceId++;
-                    }
-
-                    foreach (ILearningDelivery learningDelivery in ilrLearner.LearningDeliveries)
-                    {
-                        recordsInvalidLearningDeliverys.Add(new EF.Invalid.LearningDelivery
-                        {
-                            Learner_Id = learnerId,
-                            LearningDelivery_Id = learnerDeliveryId,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            LearnAimRef = learningDelivery.LearnAimRef,
-                            AimSeqNumber = learningDelivery.AimSeqNumber,
-                            AchDate = learningDelivery.AchDateNullable,
-                            AddHours = learningDelivery.AddHoursNullable,
-                            AimType = learningDelivery.AimType,
-                            CompStatus = learningDelivery.CompStatus,
-                            ConRefNumber = learningDelivery.ConRefNumber,
-                            DelLocPostCode = learningDelivery.DelLocPostCode,
-                            EmpOutcome = learningDelivery.EmpOutcomeNullable,
-                            EPAOrgID = learningDelivery.EPAOrgID,
-                            FundModel = learningDelivery.FundModel,
-                            FworkCode = learningDelivery.FworkCodeNullable,
-                            LearnActEndDate = learningDelivery.LearnActEndDateNullable,
-                            LearnPlanEndDate = learningDelivery.LearnPlanEndDate,
-                            LearnStartDate = learningDelivery.LearnStartDate,
-                            OrigLearnStartDate = learningDelivery.OrigLearnStartDateNullable,
-                            OtherFundAdj = learningDelivery.OtherFundAdjNullable,
-                            OutGrade = learningDelivery.OutGrade,
-                            Outcome = learningDelivery.OutcomeNullable,
-                            PartnerUKPRN = learningDelivery.PartnerUKPRNNullable,
-                            PriorLearnFundAdj = learningDelivery.PriorLearnFundAdjNullable,
-                            ProgType = learningDelivery.ProgTypeNullable,
-                            PwayCode = learningDelivery.PwayCodeNullable,
-                            StdCode = learningDelivery.StdCodeNullable,
-                            SWSupAimId = learningDelivery.SWSupAimId,
-                            WithdrawReason = learningDelivery.WithdrawReasonNullable
-                        });
-
-                        foreach (IAppFinRecord learningDeliveryAppFinRecord in learningDelivery.AppFinRecords ?? Enumerable.Empty<IAppFinRecord>())
-                        {
-                            recordsInvalidAppFinRecords.Add(new EF.Invalid.AppFinRecord
-                            {
-                                AppFinRecord_Id = appFinRecordId,
-                                LearningDelivery_Id = learnerDeliveryId,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                AFinAmount = learningDeliveryAppFinRecord.AFinAmount,
-                                AFinCode = learningDeliveryAppFinRecord.AFinCode,
-                                AFinDate = learningDeliveryAppFinRecord.AFinDate,
-                                AFinType = learningDeliveryAppFinRecord.AFinType,
-                                AimSeqNumber = learningDelivery.AimSeqNumber
-                            });
-
-                            appFinRecordId++;
-                        }
-
-                        foreach (ILearningDeliveryFAM learningDeliveryFam in learningDelivery.LearningDeliveryFAMs ?? Enumerable.Empty<ILearningDeliveryFAM>())
-                        {
-                            recordsInvalidLearnerDeliveryFams.Add(new EF.Invalid.LearningDeliveryFAM
-                            {
-                                LearningDeliveryFAM_Id = learnerDeliveryFamId,
-                                LearningDelivery_Id = learnerDeliveryId,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                LearnDelFAMCode = learningDeliveryFam.LearnDelFAMCode,
-                                LearnDelFAMDateFrom = learningDeliveryFam.LearnDelFAMDateFromNullable,
-                                LearnDelFAMDateTo = learningDeliveryFam.LearnDelFAMDateToNullable,
-                                LearnDelFAMType = learningDeliveryFam.LearnDelFAMType
-                            });
-
-                            learnerDeliveryFamId++;
-                        }
-
-                        if (learningDelivery.LearningDeliveryHEEntity != null)
-                        {
-                            recordsInvalidLearningDeliveryHes.Add(new EF.Invalid.LearningDeliveryHE
-                            {
-                                LearningDeliveryHE_Id = learningDeliveryHEId,
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                DOMICILE = learningDelivery.LearningDeliveryHEEntity.DOMICILE,
-                                ELQ = learningDelivery.LearningDeliveryHEEntity.ELQNullable,
-                                FUNDCOMP = learningDelivery.LearningDeliveryHEEntity.FUNDCOMP,
-                                FUNDLEV = learningDelivery.LearningDeliveryHEEntity.FUNDLEV,
-                                GROSSFEE = learningDelivery.LearningDeliveryHEEntity.GROSSFEENullable,
-                                HEPostCode = learningDelivery.LearningDeliveryHEEntity.HEPostCode,
-                                MODESTUD = learningDelivery.LearningDeliveryHEEntity.MODESTUD,
-                                MSTUFEE = learningDelivery.LearningDeliveryHEEntity.MSTUFEE,
-                                NETFEE = learningDelivery.LearningDeliveryHEEntity.NETFEENullable,
-                                NUMHUS = learningDelivery.LearningDeliveryHEEntity.NUMHUS,
-                                PCFLDCS = (double?)learningDelivery.LearningDeliveryHEEntity.PCFLDCSNullable,
-                                PCOLAB = (double?)learningDelivery.LearningDeliveryHEEntity.PCOLABNullable,
-                                PCSLDCS = (double?)learningDelivery.LearningDeliveryHEEntity.PCSLDCSNullable,
-                                PCTLDCS = (double?)learningDelivery.LearningDeliveryHEEntity.PCTLDCSNullable,
-                                QUALENT3 = learningDelivery.LearningDeliveryHEEntity.QUALENT3,
-                                SEC = learningDelivery.LearningDeliveryHEEntity.SECNullable,
-                                SOC2000 = learningDelivery.LearningDeliveryHEEntity.SOC2000Nullable,
-                                SPECFEE = learningDelivery.LearningDeliveryHEEntity.SPECFEE,
-                                SSN = learningDelivery.LearningDeliveryHEEntity.SSN,
-                                STULOAD = (double?)learningDelivery.LearningDeliveryHEEntity.STULOADNullable,
-                                TYPEYR = learningDelivery.LearningDeliveryHEEntity.TYPEYR,
-                                UCASAPPID = learningDelivery.LearningDeliveryHEEntity.UCASAPPID,
-                                YEARSTU = learningDelivery.LearningDeliveryHEEntity.YEARSTU
-                            });
-
-                            learningDeliveryHEId++;
-                        }
-
-                        foreach (ILearningDeliveryWorkPlacement learningDeliveryWorkPlacement in learningDelivery.LearningDeliveryWorkPlacements ?? Enumerable.Empty<ILearningDeliveryWorkPlacement>())
-                        {
-                            recordsInvalidLearningDeliveryWorkPlacements.Add(new EF.Invalid.LearningDeliveryWorkPlacement
-                            {
-                                LearningDeliveryWorkPlacement_Id = learningDeliveryWorkPlacementId,
-                                LearningDelivery_Id = learnerDeliveryId,
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                WorkPlaceEmpId = learningDeliveryWorkPlacement.WorkPlaceEmpIdNullable.GetValueOrDefault(-1),
-                                WorkPlaceEndDate = learningDeliveryWorkPlacement.WorkPlaceEndDateNullable,
-                                WorkPlaceHours = learningDeliveryWorkPlacement.WorkPlaceHours,
-                                WorkPlaceMode = learningDeliveryWorkPlacement.WorkPlaceMode,
-                                WorkPlaceStartDate = learningDeliveryWorkPlacement.WorkPlaceStartDate
-                            });
-
-                            learningDeliveryWorkPlacementId++;
-                        }
-
-                        foreach (IProviderSpecDeliveryMonitoring providerSpecDeliveryMonitoring in learningDelivery.ProviderSpecDeliveryMonitorings ?? Enumerable.Empty<IProviderSpecDeliveryMonitoring>())
-                        {
-                            recordsInvalidProviderSpecDeliveryMonitorings.Add(new EF.Invalid.ProviderSpecDeliveryMonitoring
-                            {
-                                ProviderSpecDeliveryMonitoring_Id = providerSpecDeliveryMonitoringId,
-                                LearningDelivery_Id = learnerDeliveryId,
-                                AimSeqNumber = learningDelivery.AimSeqNumber,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                ProvSpecDelMon = providerSpecDeliveryMonitoring.ProvSpecDelMon,
-                                ProvSpecDelMonOccur = providerSpecDeliveryMonitoring.ProvSpecDelMonOccur,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
-                            });
-
-                            providerSpecDeliveryMonitoringId++;
-                        }
-
-                        learnerDeliveryId++;
-                    }
-
-                    foreach (ILearnerEmploymentStatus learnerEmploymentStatus in ilrLearner.LearnerEmploymentStatuses ?? Enumerable.Empty<ILearnerEmploymentStatus>())
-                    {
-                        recordsInvalidLearnerEmploymentStatus.Add(new EF.Invalid.LearnerEmploymentStatu
-                        {
-                            Learner_Id = learnerId,
-                            LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            AgreeId = learnerEmploymentStatus.AgreeId,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
-                            EmpId = learnerEmploymentStatus.EmpIdNullable,
-                            EmpStat = learnerEmploymentStatus.EmpStat
-                        });
-
-                        foreach (IEmploymentStatusMonitoring employmentStatusMonitoring in learnerEmploymentStatus.EmploymentStatusMonitorings ?? Enumerable.Empty<IEmploymentStatusMonitoring>())
-                        {
-                            recordsInvalidEmploymentStatusMonitorings.Add(new EF.Invalid.EmploymentStatusMonitoring
-                            {
-                                EmploymentStatusMonitoring_Id = learnerEmploymentStatusMonitoringId,
-                                LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
-                                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                                LearnRefNumber = ilrLearner.LearnRefNumber,
-                                DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
-                                ESMCode = employmentStatusMonitoring.ESMCode,
-                                ESMType = employmentStatusMonitoring.ESMType
-                            });
-
-                            learnerEmploymentStatusMonitoringId++;
-                        }
-
-                        learnerEmploymentStatusId++;
-                    }
-
                     foreach (ILearnerFAM learnerFaM in ilrLearner.LearnerFAMs ?? Enumerable.Empty<ILearnerFAM>())
                     {
                         recordsInvalidLearnerFams.Add(new EF.Invalid.LearnerFAM
@@ -606,20 +68,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         learnerFAMId++;
                     }
 
-                    if (ilrLearner.LearnerHEEntity != null)
-                    {
-                        recordsInvalidLearnerHes.Add(new EF.Invalid.LearnerHE
-                        {
-                            LearnerHE_Id = learnerHEId,
-                            Learner_Id = learnerId,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            TTACCOM = ilrLearner.LearnerHEEntity.TTACCOMNullable,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            UCASPERID = ilrLearner.LearnerHEEntity.UCASPERID
-                        });
-
-                        learnerHEId++;
-                    }
 
                     foreach (ILearnerHEFinancialSupport heFinancialSupport in ilrLearner.LearnerHEEntity?.LearnerHEFinancialSupports ?? Enumerable.Empty<ILearnerHEFinancialSupport>())
                     {
@@ -667,7 +115,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                     learnerId++;
                 }
-            }
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -681,70 +128,38 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
             {
-                await bulkInsert.Insert("Invalid.AppFinRecord", recordsInvalidAppFinRecords);
-                await bulkInsert.Insert("Invalid.ContactPreference", recordsInvalidContactPreferences);
-                await bulkInsert.Insert("Invalid.EmploymentStatusMonitoring", recordsInvalidEmploymentStatusMonitorings);
-                await bulkInsert.Insert("Invalid.Learner", recordsInvalidLearners);
-                await bulkInsert.Insert("Invalid.LearnerEmploymentStatus", recordsInvalidLearnerEmploymentStatus);
-                await bulkInsert.Insert("Invalid.LearnerFAM", recordsInvalidLearnerFams);
-                await bulkInsert.Insert("Invalid.LearnerHE", recordsInvalidLearnerHes);
-                await bulkInsert.Insert("Invalid.LearnerHEFinancialSupport", recordsInvalidLearnerHefinancialSupports);
-                await bulkInsert.Insert("Invalid.LearningDelivery", recordsInvalidLearningDeliverys);
-                await bulkInsert.Insert("Invalid.LearningDeliveryFAM", recordsInvalidLearnerDeliveryFams);
-                await bulkInsert.Insert("Invalid.LearningDeliveryHE", recordsInvalidLearningDeliveryHes);
-                await bulkInsert.Insert("Invalid.LearningDeliveryWorkPlacement", recordsInvalidLearningDeliveryWorkPlacements);
-                await bulkInsert.Insert("Invalid.LLDDandHealthProblem", recordsInvalidLlddandHealthProblems);
-                await bulkInsert.Insert("Invalid.ProviderSpecDeliveryMonitoring", recordsInvalidProviderSpecDeliveryMonitorings);
-                await bulkInsert.Insert("Invalid.ProviderSpecLearnerMonitoring", recordsInvalidProviderSpecLearnerMonitorings);
+                await bulkInsert.Insert("Invalid.AppFinRecord", _invalidLearnerData.RecordsInvalidAppFinRecords);
+                await bulkInsert.Insert("Invalid.ContactPreference", _invalidLearnerData.RecordsInvalidContactPreferences);
+                await bulkInsert.Insert("Invalid.EmploymentStatusMonitoring", _invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings);
+                await bulkInsert.Insert("Invalid.Learner", _invalidLearnerData.RecordsInvalidLearners);
+                await bulkInsert.Insert("Invalid.LearnerEmploymentStatus", _invalidLearnerData.RecordsInvalidLearnerEmploymentStatus);
+                await bulkInsert.Insert("Invalid.LearnerFAM", _invalidLearnerData.RecordsInvalidLearnerFams);
+                await bulkInsert.Insert("Invalid.LearnerHE", _invalidLearnerData.RecordsInvalidLearnerHes);
+                await bulkInsert.Insert("Invalid.LearnerHEFinancialSupport", _invalidLearnerData.RecordsInvalidLearnerHefinancialSupports);
+                await bulkInsert.Insert("Invalid.LearningDelivery", _invalidLearnerData.RecordsInvalidLearningDeliverys);
+                await bulkInsert.Insert("Invalid.LearningDeliveryFAM", _invalidLearnerData.RecordsInvalidLearnerDeliveryFams);
+                await bulkInsert.Insert("Invalid.LearningDeliveryHE", _invalidLearnerData.RecordsInvalidLearningDeliveryHes);
+                await bulkInsert.Insert("Invalid.LearningDeliveryWorkPlacement", _invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements);
+                await bulkInsert.Insert("Invalid.LLDDandHealthProblem", _invalidLearnerData.RecordsInvalidLlddandHealthProblems);
+                await bulkInsert.Insert("Invalid.ProviderSpecDeliveryMonitoring", _invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings);
+                await bulkInsert.Insert("Invalid.ProviderSpecLearnerMonitoring", _invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings);
 
-                await bulkInsert.Insert("Valid.AppFinRecord", recordsValidAppFinRecords);
-                await bulkInsert.Insert("Valid.ContactPreference", recordsValidContactPreferences);
-                await bulkInsert.Insert("Valid.EmploymentStatusMonitoring", recordsValidEmploymentStatusMonitorings);
-                await bulkInsert.Insert("Valid.Learner", recordsValidLearners);
-                await bulkInsert.Insert("Valid.LearnerEmploymentStatus", recordsValidLearnerEmploymentStatus);
-                await bulkInsert.Insert("Valid.LearnerFAM", recordsValidLearnerFams);
-                await bulkInsert.Insert("Valid.LearnerHE", recordsValidLearnerHes);
-                await bulkInsert.Insert("Valid.LearnerHEFinancialSupport", recordsValidLearnerHefinancialSupports);
-                await bulkInsert.Insert("Valid.LearningDelivery", recordsValidLearningDeliverys);
-                await bulkInsert.Insert("Valid.LearningDeliveryFAM", recordsValidLearnerDeliveryFams);
-                await bulkInsert.Insert("Valid.LearningDeliveryHE", recordsValidLearningDeliveryHes);
-                await bulkInsert.Insert("Valid.LearningDeliveryWorkPlacement", recordsValidLearningDeliveryWorkPlacements);
-                await bulkInsert.Insert("Valid.LLDDandHealthProblem", recordsValidLlddandHealthProblems);
-                await bulkInsert.Insert("Valid.ProviderSpecDeliveryMonitoring", recordsValidProviderSpecDeliveryMonitorings);
-                await bulkInsert.Insert("Valid.ProviderSpecLearnerMonitoring", recordsValidProviderSpecLearnerMonitorings);
+                await bulkInsert.Insert("Valid.AppFinRecord", _validLearnerData.RecordsValidAppFinRecords);
+                await bulkInsert.Insert("Valid.ContactPreference", _validLearnerData.RecordsValidContactPreferences);
+                await bulkInsert.Insert("Valid.EmploymentStatusMonitoring", _validLearnerData.RecordsValidEmploymentStatusMonitorings);
+                await bulkInsert.Insert("Valid.Learner", _validLearnerData.RecordsValidLearners);
+                await bulkInsert.Insert("Valid.LearnerEmploymentStatus", _validLearnerData.RecordsValidLearnerEmploymentStatus);
+                await bulkInsert.Insert("Valid.LearnerFAM", _validLearnerData.RecordsValidLearnerFams);
+                await bulkInsert.Insert("Valid.LearnerHE", _validLearnerData.RecordsValidLearnerHes);
+                await bulkInsert.Insert("Valid.LearnerHEFinancialSupport", _validLearnerData.RecordsValidLearnerHefinancialSupports);
+                await bulkInsert.Insert("Valid.LearningDelivery", _validLearnerData.RecordsValidLearningDeliverys);
+                await bulkInsert.Insert("Valid.LearningDeliveryFAM", _validLearnerData.RecordsValidLearnerDeliveryFams);
+                await bulkInsert.Insert("Valid.LearningDeliveryHE", _validLearnerData.RecordsValidLearningDeliveryHes);
+                await bulkInsert.Insert("Valid.LearningDeliveryWorkPlacement", _validLearnerData.RecordsValidLearningDeliveryWorkPlacements);
+                await bulkInsert.Insert("Valid.LLDDandHealthProblem", _validLearnerData.RecordsValidLlddandHealthProblems);
+                await bulkInsert.Insert("Valid.ProviderSpecDeliveryMonitoring", _validLearnerData.RecordsValidProviderSpecDeliveryMonitorings);
+                await bulkInsert.Insert("Valid.ProviderSpecLearnerMonitoring", _validLearnerData.RecordsValidProviderSpecLearnerMonitorings);
             }
-
-            recordsInvalidAppFinRecords.Clear();
-            recordsInvalidContactPreferences.Clear();
-            recordsInvalidEmploymentStatusMonitorings.Clear();
-            recordsInvalidLearners.Clear();
-            recordsInvalidLearnerEmploymentStatus.Clear();
-            recordsInvalidLearnerFams.Clear();
-            recordsInvalidLearnerHes.Clear();
-            recordsInvalidLearnerHefinancialSupports.Clear();
-            recordsInvalidLearningDeliverys.Clear();
-            recordsInvalidLearnerDeliveryFams.Clear();
-            recordsInvalidLearningDeliveryHes.Clear();
-            recordsInvalidLearningDeliveryWorkPlacements.Clear();
-            recordsInvalidLlddandHealthProblems.Clear();
-            recordsInvalidProviderSpecDeliveryMonitorings.Clear();
-            recordsInvalidProviderSpecLearnerMonitorings.Clear();
-
-            recordsValidAppFinRecords.Clear();
-            recordsValidContactPreferences.Clear();
-            recordsValidEmploymentStatusMonitorings.Clear();
-            recordsValidLearners.Clear();
-            recordsValidLearnerEmploymentStatus.Clear();
-            recordsValidLearnerFams.Clear();
-            recordsValidLearnerHes.Clear();
-            recordsValidLearnerHefinancialSupports.Clear();
-            recordsValidLearningDeliverys.Clear();
-            recordsValidLearnerDeliveryFams.Clear();
-            recordsValidLearningDeliveryHes.Clear();
-            recordsValidLearningDeliveryWorkPlacements.Clear();
-            recordsValidLlddandHealthProblems.Clear();
-            recordsValidProviderSpecDeliveryMonitorings.Clear();
-            recordsValidProviderSpecLearnerMonitorings.Clear();
         }
 
         private async Task ProcessFileDetails(IMessage ilr, CancellationToken cancellationToken)

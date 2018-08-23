@@ -1,5 +1,4 @@
-﻿using System;
-using System.Fabric;
+﻿using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.JobContext;
@@ -30,7 +29,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 initialised = true;
                 await Task.Delay(Timeout.Infinite, cancellationToken);
             }
-            catch (Exception ex)
+            catch
             {
                 // Ignore, as an exception is only really thrown on cancellation of the token.
             }
