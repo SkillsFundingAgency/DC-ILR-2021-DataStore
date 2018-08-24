@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 
             PopulateValidLearners(ilr, learners);
 
-            return null;
+            return _validLearnerData;
         }
 
         private void PopulateValidLearners(IMessage ilr, List<ILearner> learners)
@@ -34,8 +34,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             {
                 _validLearnerData.RecordsValidLearners.Add(LearnerBuilder.BuildValidLearner(ilr, learner));
 
-                learner.ContactPreferences.ToList().ForEach(contactPreference => { PopulateContactPreferences(ilr, learner, contactPreference); });
-                learner.LearningDeliveries.ToList().ForEach(learningDelivery =>
+                learner.ContactPreferences?.ToList().ForEach(contactPreference => { PopulateContactPreferences(ilr, learner, contactPreference); });
+                learner.LearningDeliveries?.ToList().ForEach(learningDelivery =>
                 {
                     PopulateLearningDelivery(ilr, learner, learningDelivery);
 
@@ -44,39 +44,39 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
                         PopulateLearningDeliveryHERecord(ilr, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity);
                     }
 
-                    learningDelivery.AppFinRecords.ToList()
+                    learningDelivery.AppFinRecords?.ToList()
                         .ForEach(appFinRecord => { PopulateLearningDeliveryAppFinRecord(ilr, learner, learningDelivery, appFinRecord); });
-                    learningDelivery.LearningDeliveryFAMs.ToList()
+                    learningDelivery.LearningDeliveryFAMs?.ToList()
                         .ForEach(famRecord => PopulateLearningDeliveryFAMRecord(ilr, learner, learningDelivery, famRecord));
-                    learningDelivery.LearningDeliveryWorkPlacements.ToList()
+                    learningDelivery.LearningDeliveryWorkPlacements?.ToList()
                         .ForEach(workPlacement => PopulateLearningDeliveryWorkPlacement(ilr, learner, learningDelivery, workPlacement));
-                    learningDelivery.ProviderSpecDeliveryMonitorings.ToList()
+                    learningDelivery.ProviderSpecDeliveryMonitorings?.ToList()
                         .ForEach(monitoring => PopulateProviderSpecDeliveryMonitoring(ilr, learner, learningDelivery, monitoring));
                 });
 
-                learner.LearnerEmploymentStatuses.ToList()
+                learner.LearnerEmploymentStatuses?.ToList()
                     .ForEach(employmentStatus =>
                     {
                         PopulateLearnerEmploymentStatus(ilr, learner, employmentStatus);
 
-                        employmentStatus.EmploymentStatusMonitorings.ToList()
+                        employmentStatus.EmploymentStatusMonitorings?.ToList()
                             .ForEach(monitoring => PopulateEmploymentStatusMonitoring(ilr, learner, employmentStatus, monitoring));
                     });
 
-                learner.LearnerFAMs.ToList()
+                learner.LearnerFAMs?.ToList()
                     .ForEach(fam => PopulateLearnerFAM(ilr, learner, fam));
 
                 if (learner.LearnerHEEntity != null)
                 {
                     PopulateLearnerHE(ilr, learner);
-                    learner.LearnerHEEntity.LearnerHEFinancialSupports.ToList()
+                    learner.LearnerHEEntity.LearnerHEFinancialSupports?.ToList()
                         .ForEach(support => PopulateLearnerHEFinancialSupport(ilr, learner, support));
                 }
 
-                learner.LLDDAndHealthProblems.ToList()
+                learner.LLDDAndHealthProblems?.ToList()
                     .ForEach(problem => PopulateLLDDAndHealthProblem(ilr, learner, problem, lLDDandHealthProblemID++));
 
-                learner.ProviderSpecLearnerMonitorings.ToList()
+                learner.ProviderSpecLearnerMonitorings?.ToList()
                     .ForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ilr, learner, monitoring));
             });
         }

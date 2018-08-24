@@ -94,7 +94,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             };
 
             string insertFileDetails =
-                    $"INSERT INTO [dbo].[FileDetails] ([UKPRN], [Filename], [FileSizeKb], [TotalLearnersSubmitted], [TotalValidLearnersSubmitted], [TotalInvalidLearnersSubmitted], [TotalErrorCount], [TotalWarningCount], [SubmittedTime], [Success]) output INSERTED.ID VALUES ({fileDetails.UKPRN}, '{fileDetails.Filename}', {fileDetails.FileSizeKb}, {fileDetails.TotalLearnersSubmitted}, {fileDetails.TotalValidLearnersSubmitted}, {fileDetails.TotalInvalidLearnersSubmitted}, {fileDetails.TotalErrorCount}, {fileDetails.TotalWarningCount}, '{fileDetails.SubmittedTime}', 1)";
+                    $"INSERT INTO [dbo].[FileDetails] ([UKPRN], [Filename], [FileSizeKb], [TotalLearnersSubmitted], [TotalValidLearnersSubmitted], [TotalInvalidLearnersSubmitted], [TotalErrorCount], [TotalWarningCount], [SubmittedTime], [Success]) output INSERTED.ID VALUES ({fileDetails.UKPRN}, '{fileDetails.Filename}', {fileDetails.FileSizeKb}, {fileDetails.TotalLearnersSubmitted}, {fileDetails.TotalValidLearnersSubmitted}, {fileDetails.TotalInvalidLearnersSubmitted}, {fileDetails.TotalErrorCount}, {fileDetails.TotalWarningCount}, '{fileDetails.SubmittedTime:yyyy/MM/dd HH:mm:ss}', 1)";
 
             if (cancellationToken.IsCancellationRequested)
             {

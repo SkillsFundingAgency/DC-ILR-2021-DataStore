@@ -42,12 +42,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         public async Task StoreAsync(IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
         {
-            Task fileDetailsTask = ProcessFileDetails(ilr, cancellationToken);
-
-            await Task.WhenAll(
-                ProcessLearners(ilr, validLearners, cancellationToken),
-                ProcessLearnerDestinationsAndProgressions(ilr, validLearners, cancellationToken),
-                fileDetailsTask);
+            await ProcessFileDetails(ilr, cancellationToken);
+            await ProcessLearners(ilr, validLearners, cancellationToken);
+            await ProcessLearnerDestinationsAndProgressions(ilr, validLearners, cancellationToken);
         }
 
         private async Task ProcessLearners(

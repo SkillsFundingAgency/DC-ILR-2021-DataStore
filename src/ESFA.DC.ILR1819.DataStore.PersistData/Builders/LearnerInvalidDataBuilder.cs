@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 
             PopulateInvalidLearners(ilr, learners);
 
-            return null;
+            return _invalidLearnerData;
         }
 
         private void PopulateInvalidLearners(IMessage ilr, List<ILearner> learners)
@@ -48,9 +48,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             {
                 _invalidLearnerData.RecordsInvalidLearners.Add(LearnerBuilder.BuildInvalidLearner(ilr, learner, learnerId));
 
-                learner.ContactPreferences.ToList().ForEach(contactPreference => PopulateContactPreferences(ilr, learner, contactPreference, learnerId, contactPreferenceId++));
+                learner.ContactPreferences?.ToList().ForEach(contactPreference => PopulateContactPreferences(ilr, learner, contactPreference, learnerId, contactPreferenceId++));
 
-                learner.LearningDeliveries.ToList().ForEach(learningDelivery =>
+                learner.LearningDeliveries?.ToList().ForEach(learningDelivery =>
                 {
                     PopulateLearningDelivery(ilr, learner, learningDelivery, learnerId, learnerDeliveryId);
 
@@ -59,51 +59,51 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
                         PopulateLearningDeliveryHERecord(ilr, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity, learningDeliveryHEId++);
                     }
 
-                    learningDelivery.AppFinRecords.ToList()
+                    learningDelivery.AppFinRecords?.ToList()
                         .ForEach(appFinRecord =>
                             PopulateLearningDeliveryAppFinRecord(ilr, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++));
 
-                    learningDelivery.LearningDeliveryFAMs.ToList()
+                    learningDelivery.LearningDeliveryFAMs?.ToList()
                         .ForEach(famRecord =>
                             PopulateLearningDeliveryFAMRecord(ilr, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++));
 
-                    learningDelivery.LearningDeliveryWorkPlacements.ToList()
+                    learningDelivery.LearningDeliveryWorkPlacements?.ToList()
                         .ForEach(workPlacement =>
                             PopulateLearningDeliveryWorkPlacement(ilr, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++));
 
-                    learningDelivery.ProviderSpecDeliveryMonitorings.ToList()
+                    learningDelivery.ProviderSpecDeliveryMonitorings?.ToList()
                         .ForEach(monitoring =>
                             PopulateProviderSpecDeliveryMonitoring(ilr, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++));
 
                     learnerDeliveryId++;
                 });
 
-                learner.LearnerEmploymentStatuses.ToList()
+                learner.LearnerEmploymentStatuses?.ToList()
                     .ForEach(employmentStatus =>
                     {
                         PopulateLearnerEmploymentStatus(ilr, learner, employmentStatus, learnerId, learnerEmploymentStatusId);
 
-                        employmentStatus.EmploymentStatusMonitorings.ToList()
+                        employmentStatus.EmploymentStatusMonitorings?.ToList()
                             .ForEach(monitoring =>
                                 PopulateEmploymentStatusMonitoring(ilr, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++));
 
                         learnerEmploymentStatusId++;
                     });
 
-                learner.LearnerFAMs.ToList()
+                learner.LearnerFAMs?.ToList()
                     .ForEach(fam => PopulateLearnerFAM(ilr, learner, fam, learnerId, learnerFAMId++));
 
                 if (learner.LearnerHEEntity != null)
                 {
                     PopulateLearnerHE(ilr, learner, learnerId, learnerHEId++);
-                    learner.LearnerHEEntity.LearnerHEFinancialSupports.ToList()
+                    learner.LearnerHEEntity.LearnerHEFinancialSupports?.ToList()
                         .ForEach(support => PopulateLearnerHEFinancialSupport(ilr, learner, support, learnerHEFinancialSupportId++));
                 }
 
-                learner.LLDDAndHealthProblems.ToList()
+                learner.LLDDAndHealthProblems?.ToList()
                     .ForEach(problem => PopulateLLDDAndHealthProblem(ilr, learner, problem, learnerId, lLDDandHealthProblemID++));
 
-                learner.ProviderSpecLearnerMonitorings.ToList()
+                learner.ProviderSpecLearnerMonitorings?.ToList()
                     .ForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ilr, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++));
 
                 learnerId++;
