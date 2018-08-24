@@ -6,8 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
-using ESFA.DC.ILR1819.DataStore.PersistData.Models;
+using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.JobContext.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
@@ -20,17 +19,25 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private readonly IJobContextMessage _jobContextMessage;
 
+        private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
+        private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
+
         private ValidLearnerData _validLearnerData;
         private InvalidLearnerData _invalidLearnerData;
 
         public StoreIlr(
             SqlConnection connection,
             SqlTransaction transaction,
-            IJobContextMessage jobContextMessage)
+            IJobContextMessage jobContextMessage,
+            ILearnerValidDataBuilder learnerValidDataBuilder,
+            ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
         {
             _connection = connection;
             _transaction = transaction;
             _jobContextMessage = jobContextMessage;
+
+            _learnerValidDataBuilder = learnerValidDataBuilder;
+            _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
         }
 
         public async Task StoreAsync(IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
@@ -48,73 +55,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             List<string> learnersValid,
             CancellationToken cancellationToken)
         {
-            _validLearnerData = new ValidLearnerData();
-            _invalidLearnerData = new InvalidLearnerData();
-
-            foreach (ILearner ilrLearner in ilr.Learners)
-            {
-                    foreach (ILearnerFAM learnerFaM in ilrLearner.LearnerFAMs ?? Enumerable.Empty<ILearnerFAM>())
-                    {
-                        recordsInvalidLearnerFams.Add(new EF.Invalid.LearnerFAM
-                        {
-                            LearnerFAM_Id = learnerFAMId,
-                            Learner_Id = learnerId,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            LearnFAMCode = learnerFaM.LearnFAMCode,
-                            LearnFAMType = learnerFaM.LearnFAMType
-                        });
-
-                        learnerFAMId++;
-                    }
-
-
-                    foreach (ILearnerHEFinancialSupport heFinancialSupport in ilrLearner.LearnerHEEntity?.LearnerHEFinancialSupports ?? Enumerable.Empty<ILearnerHEFinancialSupport>())
-                    {
-                        recordsInvalidLearnerHefinancialSupports.Add(new EF.Invalid.LearnerHEFinancialSupport
-                        {
-                            LearnerHEFinancialSupport_Id = learnerHEFinancialSupportId,
-                            FINAMOUNT = heFinancialSupport.FINAMOUNT,
-                            FINTYPE = heFinancialSupport.FINTYPE,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
-                        });
-
-                        learnerHEFinancialSupportId++;
-                    }
-
-                    foreach (ILLDDAndHealthProblem llddAndHealthProblem in ilrLearner.LLDDAndHealthProblems ?? Enumerable.Empty<ILLDDAndHealthProblem>())
-                    {
-                        recordsInvalidLlddandHealthProblems.Add(new EF.Invalid.LLDDandHealthProblem
-                        {
-                            LLDDandHealthProblem_Id = lLDDandHealthProblemId,
-                            Learner_Id = learnerId,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            LLDDCat = llddAndHealthProblem.LLDDCat,
-                            PrimaryLLDD = llddAndHealthProblem.PrimaryLLDDNullable,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
-                        });
-
-                        lLDDandHealthProblemId++;
-                    }
-
-                    foreach (IProviderSpecLearnerMonitoring providerSpecLearnerMonitoring in ilrLearner.ProviderSpecLearnerMonitorings ?? Enumerable.Empty<IProviderSpecLearnerMonitoring>())
-                    {
-                        recordsInvalidProviderSpecLearnerMonitorings.Add(new EF.Invalid.ProviderSpecLearnerMonitoring
-                        {
-                            ProviderSpecLearnerMonitoring_Id = providerSpecLearnerMonitoringId,
-                            Learner_Id = learnerId,
-                            LearnRefNumber = ilrLearner.LearnRefNumber,
-                            UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                            ProvSpecLearnMon = providerSpecLearnerMonitoring.ProvSpecLearnMon,
-                            ProvSpecLearnMonOccur = providerSpecLearnerMonitoring.ProvSpecLearnMonOccur
-                        });
-
-                        providerSpecLearnerMonitoringId++;
-                    }
-
-                    learnerId++;
-                }
+            _validLearnerData = _learnerValidDataBuilder.BuildValidLearnerData(ilr, learnersValid);
+            _invalidLearnerData = _learnerInvalidDataBuilder.BuildInvalidLearnerData(ilr, learnersValid);
 
             if (cancellationToken.IsCancellationRequested)
             {

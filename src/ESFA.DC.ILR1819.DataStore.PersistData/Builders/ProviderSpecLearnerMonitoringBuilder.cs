@@ -21,10 +21,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         public static EF.Invalid.ProviderSpecLearnerMonitoring BuildInvalidProviderSpecLearnerMonitoring(
             IMessage ilr,
             ILearner learner,
-            IProviderSpecLearnerMonitoring providerSpecLearnerMonitoring)
+            IProviderSpecLearnerMonitoring providerSpecLearnerMonitoring,
+            int learnerId,
+            int providerSpecLearnerMonitoringId)
         {
             return new EF.Invalid.ProviderSpecLearnerMonitoring
             {
+                ProviderSpecLearnerMonitoring_Id = providerSpecLearnerMonitoringId,
+                Learner_Id = learnerId,
                 LearnRefNumber = learner.LearnRefNumber,
                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                 ProvSpecLearnMon = providerSpecLearnerMonitoring.ProvSpecLearnMon,

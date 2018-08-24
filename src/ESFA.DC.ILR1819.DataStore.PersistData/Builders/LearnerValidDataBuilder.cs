@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR1819.DataStore.EF.Valid;
-using ESFA.DC.ILR1819.DataStore.PersistData.Models;
+using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Model;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 {
-    public class LearnerValidDataBuilder
+    public class LearnerValidDataBuilder : ILearnerValidDataBuilder
     {
-        private ValidLearnerData _validLearnerData;
+        private readonly ValidLearnerData _validLearnerData;
 
         public LearnerValidDataBuilder()
         {

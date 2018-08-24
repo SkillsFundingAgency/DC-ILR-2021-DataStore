@@ -10,7 +10,9 @@ using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.ValidationErrors;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Mappers;
@@ -175,6 +177,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<JobContextMessage>().As<IJobContextMessage>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<LearnerValidDataBuilder>().As<ILearnerValidDataBuilder>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<LearnerInvalidDataBuilder>().As<ILearnerInvalidDataBuilder>()
                 .InstancePerLifetimeScope();
 
             return containerBuilder;

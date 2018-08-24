@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ILR1819.DataStore.EF.Invalid;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Models
+namespace ESFA.DC.ILR1819.DataStore.Model
 {
     public class InvalidLearnerData
     {

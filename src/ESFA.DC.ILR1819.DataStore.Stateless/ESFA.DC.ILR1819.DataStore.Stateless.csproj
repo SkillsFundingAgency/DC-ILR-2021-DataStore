@@ -408,6 +408,10 @@
       <Project>{F79723E3-EC3D-4A61-8A8A-DCC2A79B12A3}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj">
+      <Project>{45f608c4-7421-41aa-85ce-d30f4970c8c8}</Project>
+      <Name>ESFA.DC.ILR1819.DataStore.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.PersistData\ESFA.DC.ILR1819.DataStore.PersistData.csproj">
       <Project>{fe7fa681-edb2-4fc6-90b9-1bdbc400d8ae}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.PersistData</Name>

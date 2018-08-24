@@ -21,10 +21,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         public static EF.Invalid.LearnerHEFinancialSupport BuildInvalidLearnerHEFinancialSupport(
             IMessage ilr,
             ILearner learner,
-            ILearnerHEFinancialSupport heFinancialSupport)
+            ILearnerHEFinancialSupport heFinancialSupport,
+            int learnerHEFinancialSupportId)
         {
             return new EF.Invalid.LearnerHEFinancialSupport
             {
+                LearnerHEFinancialSupport_Id = learnerHEFinancialSupportId,
                 FINAMOUNT = heFinancialSupport.FINAMOUNT,
                 FINTYPE = heFinancialSupport.FINTYPE,
                 LearnRefNumber = learner.LearnRefNumber,

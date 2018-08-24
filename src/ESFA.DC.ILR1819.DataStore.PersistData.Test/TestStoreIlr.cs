@@ -11,6 +11,7 @@ using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
@@ -71,6 +72,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             var validationErrorsService = new Mock<IValidationErrorsService>();
             Stopwatch stopwatch = new Stopwatch();
 
+            var validLearnersBuilder = new LearnerValidDataBuilder();
+            var invalidLearnersBuilder = new LearnerInvalidDataBuilder();
+
             if (validLearners.Length == 1 && validLearners[0].EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
             {
                 validLearners = ReadValidLearners(stopwatch, ilrFilename, validLearners[0]);
@@ -113,7 +117,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     StoreIlr storeIlr = new StoreIlr(
                         connection,
                         transaction,
-                        jobContextMessage);
+                        jobContextMessage,
+                        validLearnersBuilder,
+                        invalidLearnersBuilder);
                     await storeIlr.StoreAsync(message, validLearners.ToList(), cancellationToken);
 
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");

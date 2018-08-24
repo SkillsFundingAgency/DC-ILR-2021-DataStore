@@ -24,11 +24,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             IMessage ilr,
             ILearner learner,
             ILLDDAndHealthProblem llddAndHealthProblem,
-            int id)
+            int learnerId,
+            int lLDDandHealthProblemId)
         {
             return new EF.Invalid.LLDDandHealthProblem
             {
-                LLDDandHealthProblem_Id = id,
+                LLDDandHealthProblem_Id = lLDDandHealthProblemId,
+                Learner_Id = learnerId,
                 LearnRefNumber = learner.LearnRefNumber,
                 LLDDCat = llddAndHealthProblem.LLDDCat,
                 PrimaryLLDD = llddAndHealthProblem.PrimaryLLDDNullable,
