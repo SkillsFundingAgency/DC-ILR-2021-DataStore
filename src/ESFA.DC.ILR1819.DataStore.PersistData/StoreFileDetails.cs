@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
@@ -74,7 +75,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             FileDetail fileDetails = new FileDetail
             {
                 UKPRN = ukPrn,
-                Filename = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString(),
+                Filename = Path.GetFileName(_jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString()),
                 SubmittedTime = _jobContextMessage.SubmissionDateTimeUtc,
                 FileSizeKb = fileSizeInBytes / 1024,
                 Success = true,
