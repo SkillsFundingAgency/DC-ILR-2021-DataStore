@@ -36,9 +36,14 @@
     <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.104" />
     <PackageReference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model" Version="0.1.104" />
     <PackageReference Include="ESFA.DC.ILR.ValidationErrors.Interface" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.1-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -190,6 +190,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\AppFinRecordBuilder.cs" />
+    <Compile Include="Builders\ContactPreferenceBuilder.cs" />
+    <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />
+    <Compile Include="Builders\LearnerBuilder.cs" />
+    <Compile Include="Builders\LearnerEmploymentStatusBuilder.cs" />
+    <Compile Include="Builders\LearnerFAMBuilder.cs" />
+    <Compile Include="Builders\LearnerHEBuilder.cs" />
+    <Compile Include="Builders\LearnerHEFinancialSupportBuilder.cs" />
+    <Compile Include="Builders\LearnerInvalidDataBuilder.cs" />
+    <Compile Include="Builders\LearnerValidDataBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryFAMBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryHEBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryWorkPlacementBuilder.cs" />
+    <Compile Include="Builders\LLDDAndHealthProblemBuilder.cs" />
+    <Compile Include="Builders\ProviderSpecDeliveryMonitoringBuilder.cs" />
+    <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -208,6 +225,10 @@
       <Project>{F79723E3-EC3D-4A61-8A8A-DCC2A79B12A3}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj">
+      <Project>{45f608c4-7421-41aa-85ce-d30f4970c8c8}</Project>
+      <Name>ESFA.DC.ILR1819.DataStore.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -220,5 +241,6 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
