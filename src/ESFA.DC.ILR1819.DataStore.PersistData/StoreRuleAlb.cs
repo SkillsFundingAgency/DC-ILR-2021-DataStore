@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _transaction = transaction;
         }
 
-        public async Task StoreAsync(int ukPrn, FundingOutputs fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(int ukPrn, ALBFundingOutputs fundingOutputs, CancellationToken cancellationToken)
         {
             List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Length * 12);
             List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Length);
