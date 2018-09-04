@@ -10,6 +10,7 @@ using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -36,6 +37,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private readonly ILogger _logger;
 
+        private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
+
+        private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EntryPoint"/> class.
         /// </summary>
@@ -53,7 +58,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             IXmlSerializationService xmlSerializationService,
             IJsonSerializationService jsonSerializationService,
             IValidationErrorsService validationErrorsService,
-            ILogger logger)
+            ILogger logger,
+            ILearnerValidDataBuilder learnerValidDataBuilder,
+            ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
         {
             _persistDataConfiguration = persistDataConfiguration;
             _storage = storage;
@@ -62,6 +69,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _jsonSerializationService = jsonSerializationService;
             _validationErrorsService = validationErrorsService;
             _logger = logger;
+            _learnerValidDataBuilder = learnerValidDataBuilder;
+            _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
         }
 
         /// <summary>
@@ -154,7 +163,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     StoreIlr storeIlr = new StoreIlr(
                         connection,
                         transaction,
-                        jobContextMessage);
+                        jobContextMessage,
+                        _learnerValidDataBuilder,
+                        _learnerInvalidDataBuilder);
                     Task storeIlrTask =
                         storeIlr.StoreAsync(messageTask.Result, validLearnersTask.Result, cancellationToken);
 
