@@ -16,10 +16,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             _invalidLearnerData = new InvalidLearnerData();
         }
 
-        public InvalidLearnerData BuildInvalidLearnerData(IMessage ilr, List<string> learnersInvalid)
+        public InvalidLearnerData BuildInvalidLearnerData(IMessage ilr, List<string> learnersValid)
         {
             var learners = ilr.Learners
-                .Where(l => learnersInvalid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase)).ToList();
+                .Where(l => !learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase)).ToList();
 
             PopulateInvalidLearners(ilr, learners);
 
