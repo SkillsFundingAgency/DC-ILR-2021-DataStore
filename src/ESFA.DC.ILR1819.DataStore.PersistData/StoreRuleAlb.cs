@@ -101,12 +101,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         LearnDelCarLearnPilotInstalAmount = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelCarLearnPilotInstalAmount
                     });
 
-                    var albCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "ALBCode");
-                    var albSupportPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "ALBSupportPayment");
-                    var albAreaUpliftBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "AreaUpliftBalPayment");
-                    var albAreaUpliftOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "AreaUpliftOnProgPayment");
-                    var albLearnDelCarLearnPilotBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "LearnDelCarLearnPilotBalPayment");
-                    var albLearnDelCarLearnPilotOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "LearnDelCarLearnPilotOnProgPayment");
+                    var albCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "ALBCode");
+                    var albSupportPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "ALBSupportPayment");
+                    var albAreaUpliftBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "AreaUpliftBalPayment");
+                    var albAreaUpliftOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "AreaUpliftOnProgPayment");
+                    var albLearnDelCarLearnPilotBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "LearnDelCarLearnPilotBalPayment");
+                    var albLearnDelCarLearnPilotOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "LearnDelCarLearnPilotOnProgPayment");
 
                     for (int i = 0; i < 12; i++)
                     {
@@ -116,12 +116,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             UKPRN = ukPrn,
                             AimSeqNumber = learnerAttributeLearningDeliveryAttribute.AimSeqNumber,
                             Period = i + 1,
-                            ALBCode = (int)GetPeriodValue(albCode, i),
-                            ALBSupportPayment = (int)GetPeriodValue(albSupportPayment, i),
-                            AreaUpliftBalPayment = (int)GetPeriodValue(albAreaUpliftBalPayment, i),
-                            AreaUpliftOnProgPayment = (int)GetPeriodValue(albAreaUpliftOnProgPayment, i),
-                            LearnDelCarLearnPilotBalPayment = (int)GetPeriodValue(albLearnDelCarLearnPilotBalPayment, i),
-                            LearnDelCarLearnPilotOnProgPayment = (int)GetPeriodValue(albLearnDelCarLearnPilotOnProgPayment, i)
+                            ALBCode = albCode == null ? 0 : (int)GetPeriodValue(albCode, i),
+                            ALBSupportPayment = albSupportPayment == null ? 0 : (int)GetPeriodValue(albSupportPayment, i),
+                            AreaUpliftBalPayment = albAreaUpliftBalPayment == null ? 0 : (int)GetPeriodValue(albAreaUpliftBalPayment, i),
+                            AreaUpliftOnProgPayment = albAreaUpliftOnProgPayment == null ? 0 : (int)GetPeriodValue(albAreaUpliftOnProgPayment, i),
+                            LearnDelCarLearnPilotBalPayment = albLearnDelCarLearnPilotBalPayment == null ? 0 : (int)GetPeriodValue(albLearnDelCarLearnPilotBalPayment, i),
+                            LearnDelCarLearnPilotOnProgPayment = albLearnDelCarLearnPilotOnProgPayment == null ? 0 : (int)GetPeriodValue(albLearnDelCarLearnPilotOnProgPayment, i)
                         });
                     }
 
