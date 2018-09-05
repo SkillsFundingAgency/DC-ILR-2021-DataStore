@@ -81,7 +81,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             }
 
             Message message = null;
-            Task<Tuple<Message, FundingOutputs, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
+            Task<Tuple<Message, ALBFundingOutputs, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
 
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
             {
@@ -204,7 +204,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             return validLearners.Distinct().ToArray();
         }
 
-        private async Task<Tuple<Message, FundingOutputs, ValidationErrorDto[]>> ReadAndDeserialiseAsync(
+        private async Task<Tuple<Message, ALBFundingOutputs, ValidationErrorDto[]>> ReadAndDeserialiseAsync(
             string ilrFilename,
             string albFilename,
             string valErrorsDtoFilename,
@@ -255,7 +255,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             output.WriteLine($"Deserialise ILR: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
-            FundingOutputs fundingOutputs = jsonSerialiser.Deserialize<FundingOutputs>(albContents);
+            ALBFundingOutputs fundingOutputs = jsonSerialiser.Deserialize<ALBFundingOutputs>(albContents);
             output.WriteLine($"Deserialise ALB: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
@@ -288,14 +288,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             serialise.Setup(x => x.Deserialize<List<string>>(validLearnersSerialised)).Returns(validLearners);
             serialise.Setup(x => x.Deserialize<Message>(ilrContents)).Returns(message);
-            serialise.Setup(x => x.Deserialize<FundingOutputs>(albContents)).Returns(fundingOutputs);
+            serialise.Setup(x => x.Deserialize<ALBFundingOutputs>(albContents)).Returns(fundingOutputs);
 
             validationErrorsService.Setup(x => x.GetValidationErrorsAsync(keyValErrors, keyValErrorsLookup))
                 .ReturnsAsync(validationErrorDtos);
 
             output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 
-            return new Tuple<Message, FundingOutputs, ValidationErrorDto[]>(message, fundingOutputs, validationErrorDtos);
+            return new Tuple<Message, ALBFundingOutputs, ValidationErrorDto[]>(message, fundingOutputs, validationErrorDtos);
         }
     }
 }

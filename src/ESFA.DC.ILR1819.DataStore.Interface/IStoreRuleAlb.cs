@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IStoreRuleAlb
     {
-        Task StoreAsync(int ukPrn, FundingOutputs fundingOutputs, CancellationToken cancellationToken);
+        Task StoreAsync(int ukPrn, ALBFundingOutputs fundingOutputs, CancellationToken cancellationToken);
     }
 }

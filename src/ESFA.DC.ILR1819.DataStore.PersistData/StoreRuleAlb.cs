@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _transaction = transaction;
         }
 
-        public async Task StoreAsync(int ukPrn, FundingOutputs fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(int ukPrn, ALBFundingOutputs fundingOutputs, CancellationToken cancellationToken)
         {
             List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Length * 12);
             List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Length);
@@ -93,13 +93,20 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         LoanBursSupp = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LoanBursSupp,
                         OutstndNumOnProgInstalm = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.OutstndNumOnProgInstalm,
                         PlannedNumOnProgInstalm = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.PlannedNumOnProgInstalm,
-                        WeightedRate = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.WeightedRate
+                        WeightedRate = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.WeightedRate,
+                        LearnDelApplicSubsidyPilotAreaCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelApplicSubsidyPilotAreaCode,
+                        LearnDelEligCareerLearnPilot = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelEligCareerLearnPilot,
+                        LearnDelApplicLARSCarPilFundSubRate = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelApplicLARSCarPilFundSubRate,
+                        LearnDelCarLearnPilotAimValue = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelCarLearnPilotAimValue,
+                        LearnDelCarLearnPilotInstalAmount = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelCarLearnPilotInstalAmount
                     });
 
                     var albCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "ALBCode");
                     var albSupportPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "ALBSupportPayment");
                     var albAreaUpliftBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "AreaUpliftBalPayment");
                     var albAreaUpliftOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "AreaUpliftOnProgPayment");
+                    var albLearnDelCarLearnPilotBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "LearnDelCarLearnPilotBalPayment");
+                    var albLearnDelCarLearnPilotOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "LearnDelCarLearnPilotOnProgPayment");
 
                     for (int i = 0; i < 12; i++)
                     {
@@ -113,6 +120,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             ALBSupportPayment = (int)GetPeriodValue(albSupportPayment, i),
                             AreaUpliftBalPayment = (int)GetPeriodValue(albAreaUpliftBalPayment, i),
                             AreaUpliftOnProgPayment = (int)GetPeriodValue(albAreaUpliftOnProgPayment, i),
+                            LearnDelCarLearnPilotBalPayment = (int)GetPeriodValue(albLearnDelCarLearnPilotBalPayment, i),
+                            LearnDelCarLearnPilotOnProgPayment = (int)GetPeriodValue(albLearnDelCarLearnPilotOnProgPayment, i)
                         });
                     }
 

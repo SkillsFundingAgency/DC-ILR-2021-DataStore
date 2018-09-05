@@ -87,7 +87,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             stopWatch.Start();
             Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename, cancellationToken);
-            Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage, cancellationToken);
+            Task<ALBFundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage, cancellationToken);
             Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage, cancellationToken);
 
             if (!await WriteToDeds(
@@ -117,7 +117,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             CancellationToken cancellationToken,
             string ilrFilename,
             Task<Message> messageTask,
-            Task<FundingOutputs> fundingOutputTask,
+            Task<ALBFundingOutputs> fundingOutputTask,
             Task<List<string>> validLearnersTask)
         {
             int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
@@ -262,9 +262,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             return message;
         }
 
-        private async Task<FundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
+        private async Task<ALBFundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            FundingOutputs fundingOutputs = null;
+            ALBFundingOutputs fundingOutputs = null;
 
             try
             {
@@ -273,7 +273,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                 if (!string.IsNullOrEmpty(alb))
                 {
-                    fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
+                    fundingOutputs = _jsonSerializationService.Deserialize<ALBFundingOutputs>(alb);
                 }
             }
             catch (Exception ex)
