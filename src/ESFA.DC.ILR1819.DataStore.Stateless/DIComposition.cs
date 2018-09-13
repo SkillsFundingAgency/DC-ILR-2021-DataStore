@@ -65,6 +65,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
                 .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
+                .As<IStreamableKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
             // register serialization

@@ -25,7 +25,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
 
-        private readonly IKeyValuePersistenceService _storage;
+        private readonly IStreamableKeyValuePersistenceService _storage;
 
         private readonly IKeyValuePersistenceService _redis;
 
@@ -53,7 +53,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         /// <param name="logger">The logger.</param>
         public EntryPoint(
             PersistDataConfiguration persistDataConfiguration,
-            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
+            IStreamableKeyValuePersistenceService storage,
             [KeyFilter(PersistenceStorageKeys.Redis)] IKeyValuePersistenceService redis,
             IXmlSerializationService xmlSerializationService,
             IJsonSerializationService jsonSerializationService,
@@ -142,6 +142,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     Task clearTask = storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
                     await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, clearTask);
+
+                    if (messageTask.Result == null)
+                    {
+                        return false;
+                    }
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -251,14 +256,28 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename, CancellationToken cancellationToken)
         {
-            string ilr = await _storage.GetAsync(ilrFilename, cancellationToken);
+            Message message = null;
 
-            if (cancellationToken.IsCancellationRequested)
+            try
             {
-                return null;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await _storage.GetAsync(ilrFilename, ms, cancellationToken);
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return null;
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+                    message = _xmlSerializationService.Deserialize<Message>(ms);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to retrieve and deserialise message", ex);
             }
 
-            Message message = _xmlSerializationService.Deserialize<Message>(ilr);
             return message;
         }
 
