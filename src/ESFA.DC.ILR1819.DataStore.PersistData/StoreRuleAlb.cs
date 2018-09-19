@@ -3,8 +3,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Interface;
-using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Interface.Attribute;
+using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Attribute;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 
@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _transaction = transaction;
         }
 
-        public async Task StoreAsync(int ukPrn, IFundingOutputs fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(int ukPrn, ALBFundingOutputs fundingOutputs, CancellationToken cancellationToken)
         {
             List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Length * 12);
             List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Length);
@@ -38,9 +38,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.Global.RulebaseVersion
             };
 
-            foreach (ILearnerAttribute learnerAttribute in fundingOutputs.Learners)
+            foreach (var learnerAttribute in fundingOutputs.Learners)
             {
-                ILearnerPeriodisedAttribute attr = learnerAttribute.LearnerPeriodisedAttributes.Single(x => x.AttributeName == "ALBSeqNum");
+                var attr = learnerAttribute.LearnerPeriodisedAttributes.Single(x => x.AttributeName == "ALBSeqNum");
+
                 for (int i = 0; i < 12; i++)
                 {
                     albLearnerPeriods.Add(new ALB_Learner_Period
@@ -71,7 +72,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     Period_12 = attr.Period12,
                 });
 
-                foreach (ILearningDeliveryAttribute learnerAttributeLearningDeliveryAttribute in learnerAttribute.LearningDeliveryAttributes)
+                foreach (var learnerAttributeLearningDeliveryAttribute in learnerAttribute.LearningDeliveryAttributes)
                 {
                     albLearningDeliveries.Add(new ALB_LearningDelivery
                     {
@@ -92,13 +93,21 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         LoanBursSupp = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LoanBursSupp,
                         OutstndNumOnProgInstalm = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.OutstndNumOnProgInstalm,
                         PlannedNumOnProgInstalm = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.PlannedNumOnProgInstalm,
-                        WeightedRate = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.WeightedRate
+                        WeightedRate = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.WeightedRate,
+                        LearnDelApplicSubsidyPilotAreaCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelApplicSubsidyPilotAreaCode,
+                        LearnDelEligCareerLearnPilot = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelEligCareerLearnPilot,
+                        LearnDelApplicLARSCarPilFundSubRate = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelApplicLARSCarPilFundSubRate,
+                        LearnDelCarLearnPilotAimValue = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelCarLearnPilotAimValue,
+                        LearnDelCarLearnPilotInstalAmount = learnerAttributeLearningDeliveryAttribute.LearningDeliveryAttributeDatas.LearnDelCarLearnPilotInstalAmount
                     });
 
-                    ILearningDeliveryPeriodisedAttribute albCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "ALBCode");
-                    ILearningDeliveryPeriodisedAttribute albSupportPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "ALBSupportPayment");
-                    ILearningDeliveryPeriodisedAttribute albAreaUpliftBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "AreaUpliftBalPayment");
-                    ILearningDeliveryPeriodisedAttribute albAreaUpliftOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.Single(x => x.AttributeName == "AreaUpliftOnProgPayment");
+                    var albCode = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "ALBCode");
+                    var albSupportPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "ALBSupportPayment");
+                    var albAreaUpliftBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "AreaUpliftBalPayment");
+                    var albAreaUpliftOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "AreaUpliftOnProgPayment");
+                    var albLearnDelCarLearnPilotBalPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "LearnDelCarLearnPilotBalPayment");
+                    var albLearnDelCarLearnPilotOnProgPayment = learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes.SingleOrDefault(x => x.AttributeName == "LearnDelCarLearnPilotOnProgPayment");
+
                     for (int i = 0; i < 12; i++)
                     {
                         albLearningDeliveryPeriods.Add(new ALB_LearningDelivery_Period
@@ -107,14 +116,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                             UKPRN = ukPrn,
                             AimSeqNumber = learnerAttributeLearningDeliveryAttribute.AimSeqNumber,
                             Period = i + 1,
-                            ALBCode = (int)GetPeriodValue(albCode, i),
-                            ALBSupportPayment = (int)GetPeriodValue(albSupportPayment, i),
-                            AreaUpliftBalPayment = (int)GetPeriodValue(albAreaUpliftBalPayment, i),
-                            AreaUpliftOnProgPayment = (int)GetPeriodValue(albAreaUpliftOnProgPayment, i),
+                            ALBCode = albCode == null ? 0 : (int)GetPeriodValue(albCode, i),
+                            ALBSupportPayment = albSupportPayment == null ? 0 : (int)GetPeriodValue(albSupportPayment, i),
+                            AreaUpliftBalPayment = albAreaUpliftBalPayment == null ? 0 : (int)GetPeriodValue(albAreaUpliftBalPayment, i),
+                            AreaUpliftOnProgPayment = albAreaUpliftOnProgPayment == null ? 0 : (int)GetPeriodValue(albAreaUpliftOnProgPayment, i),
+                            LearnDelCarLearnPilotBalPayment = albLearnDelCarLearnPilotBalPayment == null ? 0 : (int)GetPeriodValue(albLearnDelCarLearnPilotBalPayment, i),
+                            LearnDelCarLearnPilotOnProgPayment = albLearnDelCarLearnPilotOnProgPayment == null ? 0 : (int)GetPeriodValue(albLearnDelCarLearnPilotOnProgPayment, i)
                         });
                     }
 
-                    foreach (ILearningDeliveryPeriodisedAttribute learningDeliveryPeriodisedAttribute in learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes)
+                    foreach (var learningDeliveryPeriodisedAttribute in learnerAttributeLearningDeliveryAttribute.LearningDeliveryPeriodisedAttributes)
                     {
                         albLearningDeliveryPeriodisedValues.Add(new ALB_LearningDelivery_PeriodisedValues
                         {
@@ -144,7 +155,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
+            using (var bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
             {
                 await bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal });
                 await bulkInsert.Insert("Rulebase.ALB_Learner_Period", albLearnerPeriods);
@@ -155,7 +166,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private decimal GetPeriodValue(ILearnerPeriodisedAttribute attr, int period)
+        private decimal GetPeriodValue(LearnerPeriodisedAttribute attr, int period)
         {
             switch (period)
             {
@@ -186,7 +197,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private decimal GetPeriodValue(ILearningDeliveryPeriodisedAttribute attr, int period)
+        private decimal GetPeriodValue(LearningDeliveryPeriodisedAttribute attr, int period)
         {
             switch (period)
             {

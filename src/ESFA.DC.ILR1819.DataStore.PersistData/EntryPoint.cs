@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac.Features.AttributeFilters;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
 using ESFA.DC.ILR.Model;
+using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -14,52 +18,119 @@ using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
+    /// <summary>
+    /// Entry point to the application. This class contains the job context callback.
+    /// </summary>
     public sealed class EntryPoint
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
 
-        private readonly IKeyValuePersistenceService _storage;
+        private readonly IStreamableKeyValuePersistenceService _storage;
 
-        private readonly IKeyValuePersistenceService _persist;
+        private readonly IKeyValuePersistenceService _redis;
 
         private readonly ISerializationService _xmlSerializationService;
 
         private readonly ISerializationService _jsonSerializationService;
 
+        private readonly IValidationErrorsService _validationErrorsService;
+
         private readonly ILogger _logger;
 
+        private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
+
+        private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntryPoint"/> class.
+        /// </summary>
+        /// <param name="persistDataConfiguration">The configuration for this class (DB connection string).</param>
+        /// <param name="storage">The Azure Storage IO layer.</param>
+        /// <param name="redis">The Redis IO layer.</param>
+        /// <param name="xmlSerializationService">The XML serialization service.</param>
+        /// <param name="jsonSerializationService">The JSON serialization service,</param>
+        /// <param name="validationErrorsService">The validation errors service.</param>
+        /// <param name="logger">The logger.</param>
         public EntryPoint(
             PersistDataConfiguration persistDataConfiguration,
-            IKeyValuePersistenceService storage,
-            IKeyValuePersistenceService persist,
+            IStreamableKeyValuePersistenceService storage,
+            [KeyFilter(PersistenceStorageKeys.Redis)] IKeyValuePersistenceService redis,
             IXmlSerializationService xmlSerializationService,
             IJsonSerializationService jsonSerializationService,
-            ILogger logger)
+            IValidationErrorsService validationErrorsService,
+            ILogger logger,
+            ILearnerValidDataBuilder learnerValidDataBuilder,
+            ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
         {
             _persistDataConfiguration = persistDataConfiguration;
             _storage = storage;
-            _persist = persist;
+            _redis = redis;
             _xmlSerializationService = xmlSerializationService;
             _jsonSerializationService = jsonSerializationService;
+            _validationErrorsService = validationErrorsService;
             _logger = logger;
+            _learnerValidDataBuilder = learnerValidDataBuilder;
+            _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
         }
 
+        /// <summary>
+        /// Callback from Job Context Manager.
+        /// </summary>
+        /// <param name="jobContextMessage">The job context message.</param>
+        /// <param name="cancellationToken">The callback cancellation token.</param>
+        /// <returns>True if the callback succeeded, or false if the callback failed.</returns>
         public async Task<bool> Callback(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
+            var stopWatch = new Stopwatch();
+            _logger.LogDebug("Inside DataStore callback");
             string ilrFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
 
-            Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename);
-            Task<FundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage);
-            Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage);
+            stopWatch.Start();
+            Task<Message> messageTask = ReadAndDeserialiseIlrAsync(ilrFilename, cancellationToken);
+            Task<ALBFundingOutputs> fundingOutputTask = ReadAndDeserialiseAlbAsync(jobContextMessage, cancellationToken);
+            Task<List<string>> validLearnersTask = ReadAndDeserialiseValidLearnersAsync(jobContextMessage, cancellationToken);
+
+            if (!await WriteToDeds(
+                jobContextMessage,
+                cancellationToken,
+                ilrFilename,
+                messageTask,
+                fundingOutputTask,
+                validLearnersTask))
+            {
+                _logger.LogError("write to DataStore failed");
+                return false;
+            }
+
+            _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");
+            stopWatch.Restart();
+
+            await DeletePersistedData(jobContextMessage);
+            _logger.LogDebug($"Purged IO in: {stopWatch.ElapsedMilliseconds}");
+            _logger.LogDebug("Completed DataStore callback");
+
+            return true;
+        }
+
+        private async Task<bool> WriteToDeds(
+            IJobContextMessage jobContextMessage,
+            CancellationToken cancellationToken,
+            string ilrFilename,
+            Task<Message> messageTask,
+            Task<ALBFundingOutputs> fundingOutputTask,
+            Task<List<string>> validLearnersTask)
+        {
+            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
+            bool successfullyCommitted = false;
 
             using (SqlConnection connection =
-                new SqlConnection(_persistDataConfiguration.ConnectionString))
+                new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
             {
                 SqlTransaction transaction = null;
                 try
                 {
                     await connection.OpenAsync(cancellationToken);
+
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return false;
@@ -71,6 +142,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     Task clearTask = storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
                     await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, clearTask);
+
+                    if (messageTask.Result == null)
+                    {
+                        return false;
+                    }
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return false;
+                    }
 
                     StoreFileDetails storeFileDetails =
                         new StoreFileDetails(
@@ -87,66 +168,145 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     StoreIlr storeIlr = new StoreIlr(
                         connection,
                         transaction,
-                        jobContextMessage);
-                    Task storeIlrTask = storeIlr.StoreAsync(messageTask.Result, validLearnersTask.Result, cancellationToken);
+                        jobContextMessage,
+                        _learnerValidDataBuilder,
+                        _learnerInvalidDataBuilder);
+                    Task storeIlrTask =
+                        storeIlr.StoreAsync(messageTask.Result, validLearnersTask.Result, cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return false;
                     }
 
-                    StoreRuleAlb storeRuleAlb = new StoreRuleAlb(connection, transaction);
-                    Task storeRuleAlbTask = storeRuleAlb.StoreAsync(ukPrn, fundingOutputTask.Result, cancellationToken);
-
-                    if (cancellationToken.IsCancellationRequested)
+                    Task storeRuleAlbTask = Task.CompletedTask;
+                    if (fundingOutputTask.Result != null && fundingOutputTask.Result.Global != null)
                     {
-                        return false;
+                        StoreRuleAlb storeRuleAlb = new StoreRuleAlb(connection, transaction);
+                        storeRuleAlbTask =
+                            storeRuleAlb.StoreAsync(ukPrn, fundingOutputTask.Result, cancellationToken);
+
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return false;
+                        }
                     }
 
-                    await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask);
+                    StoreValidationOutput storeValidationOutput =
+                        new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
+                    Task storeValidationOutputTask =
+                        storeValidationOutput.StoreAsync(ukPrn, messageTask.Result, cancellationToken);
+
+                    await Task.WhenAll(storeFileDetailsTask, storeIlrTask, storeRuleAlbTask, storeValidationOutputTask);
 
                     transaction.Commit();
+                    successfullyCommitted = true;
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError("Failed to persist to DEDs", ex);
+                }
+                finally
+                {
+                    if (!successfullyCommitted)
+                    {
+                        try
+                        {
+                            transaction?.Rollback();
+                        }
+                        catch (Exception ex2)
+                        {
+                            _logger.LogError("Failed to rollback DEDs persist transaction", ex2);
+                        }
+                    }
+                }
+            }
+
+            return successfullyCommitted;
+        }
+
+        private async Task DeletePersistedData(IJobContextMessage jobContextMessage)
+        {
+            try
+            {
+                foreach (KeyValuePair<string, object> keyValuePair in jobContextMessage.KeyValuePairs)
+                {
+                    string key = keyValuePair.Value?.ToString();
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        continue;
+                    }
 
                     try
                     {
-                        transaction?.Rollback();
+                        // Todo: Turn this back on
+                        // await _redis.RemoveAsync(key);
                     }
-                    catch (Exception ex2)
+                    catch (Exception ex)
                     {
-                        _logger.LogError("Failed to rollback DEDs persist transaction", ex2);
+                        _logger.LogError($"Failed to delete key {key}", ex);
                     }
-
-                    return false;
                 }
-
-                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to delete persisted data", ex);
             }
         }
 
-        private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename)
+        private async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename, CancellationToken cancellationToken)
         {
-            string ilr = await _storage.GetAsync(ilrFilename);
+            Message message = null;
 
-            Message message = _xmlSerializationService.Deserialize<Message>(ilr);
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await _storage.GetAsync(ilrFilename, ms, cancellationToken);
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return null;
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+                    message = _xmlSerializationService.Deserialize<Message>(ms);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to retrieve and deserialise message", ex);
+            }
+
             return message;
         }
 
-        private async Task<FundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage)
+        private async Task<ALBFundingOutputs> ReadAndDeserialiseAlbAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
-            string alb = await _persist.GetAsync(albFilename);
+            ALBFundingOutputs fundingOutputs = null;
 
-            FundingOutputs fundingOutputs = _jsonSerializationService.Deserialize<FundingOutputs>(alb);
+            try
+            {
+                string albFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
+                string alb = await _redis.GetAsync(albFilename, cancellationToken);
+
+                if (!string.IsNullOrEmpty(alb))
+                {
+                    fundingOutputs = _jsonSerializationService.Deserialize<ALBFundingOutputs>(alb);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Todo: Check behaviour
+                _logger.LogError("Failed to get & deserialise ALB funding data. It will be ignored.", ex);
+            }
+
             return fundingOutputs;
         }
 
-        private async Task<List<string>> ReadAndDeserialiseValidLearnersAsync(IJobContextMessage jobContextMessage)
+        private async Task<List<string>> ReadAndDeserialiseValidLearnersAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            string learnersValidStr = await _persist.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString());
+            string learnersValidStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString(), cancellationToken);
             List<string> validLearners = _jsonSerializationService.Deserialize<List<string>>(learnersValidStr);
             return validLearners;
         }

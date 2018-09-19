@@ -11,9 +11,14 @@
     <PackageProjectUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-DataStore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-DataStore</RepositoryUrl>
     <PackageTags>DC ILR Data Store DEDS Interface</PackageTags>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
@@ -21,12 +26,24 @@
     <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="ESFA.DC.ILR.1819.Model.Interface" Version="0.1.3-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Interface" Version="0.1.0-unstable0030" />
+    <PackageReference Include="ESFA.DC.ILR.1819.Model.Interface" Version="0.1.4-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model" Version="0.1.129" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.129" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model" Version="0.1.129" />
+    <PackageReference Include="ESFA.DC.ILR.ValidationErrors.Interface" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.2-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+**/ILR-90000064-1819-20180618-153725-03.xml
+**/control-20180618-153730.csv
+
 # User-specific files
 *.suo
 *.user
@@ -331,3 +334,9 @@ ASALocalRun/
 /src/ESFA.DC.ILR1819.DataStore.PersistData.Test/ILR-90000064-1819-20180521-133647-00.xml
 /src/ESFA.DC.ILR1819.DataStore.PersistData.Test/ILR-90000063-1819-20180521-134854-00.xml
 /src/ESFA.DC.ILR1819.DataStore.PersistData.Test/ILR-90000062-1819-20180521-135604-00.xml
+
+
+
+# service fabric local config
+**/ApplicationParameters/Local.1Node.xml
+**/ApplicationParameters/Local.5Node.xml

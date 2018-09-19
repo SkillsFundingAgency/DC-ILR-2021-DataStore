@@ -13,14 +13,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         private readonly CancellationToken _cancellationToken;
 
-        private readonly SqlBulkCopy sqlBulkCopy;
+        private readonly SqlBulkCopy _sqlBulkCopy;
 
         public BulkInsert(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             _cancellationToken = cancellationToken;
-            sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, sqlTransaction)
+            _sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, sqlTransaction)
             {
-                BatchSize = 20_000
+                BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
+                BulkCopyTimeout = 600
             };
         }
 
@@ -38,17 +39,22 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     return;
                 }
 
-                sqlBulkCopy.ColumnMappings.Clear();
+                _sqlBulkCopy.ColumnMappings.Clear();
                 using (ObjectReader reader = ObjectReader.Create(source))
                 {
-                    sqlBulkCopy.DestinationTableName = table;
+                    _sqlBulkCopy.DestinationTableName = table;
                     DataTable schema = reader.GetSchemaTable();
-                    for (int i = 0; i < schema.Rows.Count; i++)
+                    if (schema == null)
                     {
-                        sqlBulkCopy.ColumnMappings.Add(schema.Rows[i].ItemArray[1].ToString(), schema.Rows[i].ItemArray[1].ToString());
+                        return;
                     }
 
-                    await sqlBulkCopy.WriteToServerAsync(reader, _cancellationToken);
+                    for (int i = 0; i < schema.Rows.Count; i++)
+                    {
+                        _sqlBulkCopy.ColumnMappings.Add(schema.Rows[i].ItemArray[1].ToString(), schema.Rows[i].ItemArray[1].ToString());
+                    }
+
+                    await _sqlBulkCopy.WriteToServerAsync(reader, _cancellationToken);
                 }
             }
             catch (Exception ex)
@@ -61,7 +67,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         public void Dispose()
         {
-            ((IDisposable)sqlBulkCopy)?.Dispose();
+            ((IDisposable)_sqlBulkCopy)?.Dispose();
         }
     }
 }
