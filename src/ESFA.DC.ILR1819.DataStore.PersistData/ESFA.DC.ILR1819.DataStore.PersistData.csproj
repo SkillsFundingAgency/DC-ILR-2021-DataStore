@@ -219,7 +219,13 @@
     <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Services\LearnerPersistence.cs" />
+    <Compile Include="Services\Providers\BaseFundingModelProviderService.cs" />
+    <Compile Include="Services\Providers\FM25ProviderService.cs" />
+    <Compile Include="Services\Providers\ALBProviderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Providers\ILRProviderService.cs" />
+    <Compile Include="Services\Providers\ValidLearnerProviderService.cs" />
     <Compile Include="StoreClear.cs" />
     <Compile Include="StoreFileDetails.cs" />
     <Compile Include="StoreFM25.cs" />
