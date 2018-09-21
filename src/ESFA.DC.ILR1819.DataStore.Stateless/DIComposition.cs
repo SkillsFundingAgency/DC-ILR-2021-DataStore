@@ -11,8 +11,11 @@ using ESFA.DC.ILR.ValidationErrors;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Services;
+using ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Mappers;
@@ -179,13 +182,37 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<JobContextMessage>().As<IJobContextMessage>()
                 .InstancePerLifetimeScope();
 
+            RegisterBuilders(containerBuilder);
+            RegisterServices(containerBuilder);
+
+            return containerBuilder;
+        }
+
+        private static void RegisterBuilders(ContainerBuilder containerBuilder)
+        {
             containerBuilder.RegisterType<LearnerValidDataBuilder>().As<ILearnerValidDataBuilder>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<LearnerInvalidDataBuilder>().As<ILearnerInvalidDataBuilder>()
                 .InstancePerLifetimeScope();
+        }
 
-            return containerBuilder;
+        private static void RegisterServices(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<LearnerPersistence>().As<ILearnerPersistence>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<ILRProviderService>().As<IILRProviderService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<ValidLearnerProviderService>().As<IValidLearnerProviderService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<ALBProviderService>().As<IALBProviderService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM25ProviderService>().As<IFM25ProviderService>()
+                .InstancePerLifetimeScope();
         }
     }
 }
