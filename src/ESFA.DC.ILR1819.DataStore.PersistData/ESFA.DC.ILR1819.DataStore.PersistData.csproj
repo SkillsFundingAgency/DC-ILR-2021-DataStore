@@ -80,17 +80,17 @@
     <Reference Include="ESFA.DC.ILR.ValidationErrors.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.2-beta0001\lib\net46\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.3-beta0001\lib\net46\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.DataStore.EF, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.2-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.3-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Invalid, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.2-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Invalid.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Invalid, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.3-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Invalid.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.2-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.3-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
@@ -202,6 +202,7 @@
     <Compile Include="Builders\AppFinRecordBuilder.cs" />
     <Compile Include="Builders\ContactPreferenceBuilder.cs" />
     <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />
+    <Compile Include="Builders\FM25LearnerBuilder.cs" />
     <Compile Include="Builders\LearnerBuilder.cs" />
     <Compile Include="Builders\LearnerEmploymentStatusBuilder.cs" />
     <Compile Include="Builders\LearnerFAMBuilder.cs" />

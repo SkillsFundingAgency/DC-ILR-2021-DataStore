@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
@@ -12,9 +13,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private readonly SqlConnection _connection;
         private readonly SqlTransaction _transaction;
 
-        private EFA_SFA_global _global;
-        private List<EFA_SFA_Learner_Period> _periods;
-        private List<EFA_SFA_Learner_PeriodisedValues> _periodValues;
+        private FM25_global _fm25Global;
+        private List<FM25_Learner> _learner;
+
+        private FM25_FM35_global _periodGlobal;
+        private List<FM25_FM35_Learner_Period> _periods;
+        private List<FM25_FM35_Learner_PeriodisedValues> _periodValues;
 
         public StoreFM25(SqlConnection connection, SqlTransaction transaction)
         {
@@ -24,20 +28,32 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         public async Task StoreAsync(int ukPrn, Global fundingOutputs, CancellationToken cancellationToken)
         {
-            _global = new EFA_SFA_global
+            _fm25Global = new FM25_global
             {
+                LARSVersion = fundingOutputs.LARSVersion,
+                OrgVersion = fundingOutputs.OrgVersion,
+                PostcodeDisadvantageVersion = fundingOutputs.PostcodeDisadvantageVersion,
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
-                UKPRN = fundingOutputs.UKPRN ?? 0
+                UKPRN = ukPrn
             };
 
-            _periods = new List<EFA_SFA_Learner_Period>();
-            _periodValues = new List<EFA_SFA_Learner_PeriodisedValues>();
+            _periodGlobal = new FM25_FM35_global
+            {
+                RulebaseVersion = fundingOutputs.RulebaseVersion,
+                UKPRN = ukPrn
+            };
+
+            _learner = new List<FM25_Learner>();
+            _periods = new List<FM25_FM35_Learner_Period>();
+            _periodValues = new List<FM25_FM35_Learner_PeriodisedValues>();
 
             foreach (var learner in fundingOutputs.Learners)
             {
+                _learner.Add(FM25LearnerBuilder.BuildFm25Learner(ukPrn, learner));
+
                for (var i = 1; i < 13; i++)
                 {
-                    _periods.Add(new EFA_SFA_Learner_Period
+                    _periods.Add(new FM25_FM35_Learner_Period
                     {
                         LearnRefNumber = learner.LearnRefNumber,
                         LnrOnProgPay = learner.OnProgPayment,
@@ -48,7 +64,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
                 foreach (var value in learner.LearnerPeriodisedValues)
                 {
-                    _periodValues.Add(new EFA_SFA_Learner_PeriodisedValues
+                    _periodValues.Add(new FM25_FM35_Learner_PeriodisedValues
                     {
                         UKPRN = ukPrn,
                         LearnRefNumber = value.LearnRefNumber,
@@ -81,9 +97,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             using (var bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
             {
-                await bulkInsert.Insert("Rulebase.EFA_SFA_global", new List<EFA_SFA_global> { _global });
-                await bulkInsert.Insert("Rulebase.EFA_SFA_Learner_Period", _periods);
-                await bulkInsert.Insert("Rulebase.EFA_SFA_Learner_PeriodisedValues", _periodValues);
+                await bulkInsert.Insert("Rulebase.FM25_global", new List<FM25_global> { _fm25Global });
+                await bulkInsert.Insert("Rulebase.FM25_Learner", _learner);
+                await bulkInsert.Insert("Rulebase.FM25_FM35_global", new List<FM25_FM35_global> { _periodGlobal });
+                await bulkInsert.Insert("Rulebase.FM25_FM35_Learner_Period", _periods);
+                await bulkInsert.Insert("Rulebase.FM25_FM35_Learner_PeriodisedValues", _periodValues);
             }
         }
     }
