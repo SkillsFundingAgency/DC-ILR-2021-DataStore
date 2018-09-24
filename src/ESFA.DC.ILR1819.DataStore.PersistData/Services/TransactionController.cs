@@ -4,8 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
-using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
@@ -16,26 +14,30 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 {
-    public class LearnerPersistence : ILearnerPersistence
+    public class TransactionController : ITransactionController
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
         private readonly IValidationErrorsService _validationErrorsService;
         private readonly ILogger _logger;
         private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
         private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
+        private readonly IList<IModelService> _modelServices;
 
-        public LearnerPersistence(
+        public TransactionController(
             PersistDataConfiguration persistDataConfiguration,
             IValidationErrorsService validationErrorsService,
             ILogger logger,
             ILearnerValidDataBuilder learnerValidDataBuilder,
-            ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
+            ILearnerInvalidDataBuilder learnerInvalidDataBuilder,
+            IList<IModelService> modelServices)
         {
             _persistDataConfiguration = persistDataConfiguration;
             _validationErrorsService = validationErrorsService;
             _logger = logger;
             _learnerValidDataBuilder = learnerValidDataBuilder;
             _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
+
+            _modelServices = modelServices;
         }
 
         public async Task<bool> WriteToDeds(
@@ -43,8 +45,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
             CancellationToken cancellationToken,
             string ilrFilename,
             Message message,
-            ALBFundingOutputs fundingOutput,
-            Global fm25FundingOutput,
             List<string> validLearners)
         {
             int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
@@ -56,6 +56,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                 SqlTransaction transaction = null;
                 try
                 {
+                    List<Task> tasks = new List<Task>();
+
                     await connection.OpenAsync(cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
@@ -74,6 +76,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                             transaction,
                             jobContextMessage);
                     Task storeFileDetailsTask = storeFileDetails.StoreAsync(cancellationToken);
+                    tasks.Add(storeFileDetailsTask);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -88,31 +91,25 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         _learnerInvalidDataBuilder);
                     Task storeIlrTask =
                         storeIlr.StoreAsync(message, validLearners, cancellationToken);
+                    tasks.Add(storeIlrTask);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return false;
                     }
 
-                    Task storeRuleAlbTask = Task.CompletedTask;
-                    if (fundingOutput != null && fundingOutput.Global != null)
+                    foreach (var service in _modelServices)
                     {
-                        StoreRuleAlb storeRuleAlb = new StoreRuleAlb(connection, transaction);
-                        storeRuleAlbTask =
-                            storeRuleAlb.StoreAsync(ukPrn, fundingOutput, cancellationToken);
-
-                        if (cancellationToken.IsCancellationRequested)
+                        Task modelTask = Task.CompletedTask;
+                        bool success = await service.GetModel(jobContextMessage, cancellationToken);
+                        if (!success)
                         {
-                            return false;
+                            continue;
                         }
-                    }
 
-                    Task storeFM25Task = Task.CompletedTask;
-                    if (fm25FundingOutput != null)
-                    {
-                        StoreFM25 store = new StoreFM25(connection, transaction);
-                        storeFM25Task =
-                            store.StoreAsync(ukPrn, fm25FundingOutput, cancellationToken);
+                        modelTask = service.StoreModel(connection, transaction, cancellationToken);
+
+                        tasks.Add(modelTask);
 
                         if (cancellationToken.IsCancellationRequested)
                         {
@@ -124,13 +121,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
                     Task storeValidationOutputTask =
                         storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
+                    tasks.Add(storeValidationOutputTask);
 
-                    await Task.WhenAll(
-                        storeFileDetailsTask,
-                        storeIlrTask,
-                        storeRuleAlbTask,
-                        storeFM25Task,
-                        storeValidationOutputTask);
+                    await Task.WhenAll(tasks);
 
                     transaction.Commit();
                     successfullyCommitted = true;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -15,6 +16,7 @@ using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services;
+using ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
@@ -199,7 +201,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
         private static void RegisterServices(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<LearnerPersistence>().As<ILearnerPersistence>()
+            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ILRProviderService>().As<IILRProviderService>()
@@ -213,6 +215,15 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
             containerBuilder.RegisterType<FM25ProviderService>().As<IFM25ProviderService>()
                 .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<ALBService>().As<IModelService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM25Service>().As<IModelService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
+                .As<IList<IModelService>>();
         }
     }
 }

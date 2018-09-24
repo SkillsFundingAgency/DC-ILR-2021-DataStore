@@ -174,6 +174,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlClient, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.5.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Fabric, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.6.2.274\lib\net45\System.Fabric.dll</HintPath>
@@ -194,7 +198,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -203,6 +206,7 @@
     <Compile Include="Builders\ContactPreferenceBuilder.cs" />
     <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />
     <Compile Include="Builders\FM25LearnerBuilder.cs" />
+    <Compile Include="Builders\FM35LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\LearnerBuilder.cs" />
     <Compile Include="Builders\LearnerEmploymentStatusBuilder.cs" />
     <Compile Include="Builders\LearnerFAMBuilder.cs" />
@@ -219,7 +223,11 @@
     <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="Services\LearnerPersistence.cs" />
+    <Compile Include="Services\ModelServices\ALBService.cs" />
+    <Compile Include="Services\ModelServices\FM25Service.cs" />
+    <Compile Include="Services\Providers\FM36ProviderService.cs" />
+    <Compile Include="Services\Providers\FM35ProviderService.cs" />
+    <Compile Include="Services\TransactionController.cs" />
     <Compile Include="Services\Providers\BaseFundingModelProviderService.cs" />
     <Compile Include="Services\Providers\FM25ProviderService.cs" />
     <Compile Include="Services\Providers\ALBProviderService.cs" />
@@ -228,6 +236,7 @@
     <Compile Include="Services\Providers\ValidLearnerProviderService.cs" />
     <Compile Include="StoreClear.cs" />
     <Compile Include="StoreFileDetails.cs" />
+    <Compile Include="StoreFM35.cs" />
     <Compile Include="StoreFM25.cs" />
     <Compile Include="StoreIlr.cs" />
     <Compile Include="StoreRuleAlb.cs" />
@@ -239,7 +248,7 @@
       <Name>ESFA.DC.ILR1819.DataStore.Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Interface\ESFA.DC.ILR1819.DataStore.Interface.csproj">
-      <Project>{F79723E3-EC3D-4A61-8A8A-DCC2A79B12A3}</Project>
+      <Project>{81c857d0-fa4a-40ce-8942-2abeeca94b74}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj">

@@ -61,10 +61,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fm25FileName}");
                     stopwatch.Restart();
 
-                    StoreFM25 storeRuleAlb = new StoreFM25(
-                        connection,
-                        transaction);
-                    await storeRuleAlb.StoreAsync(ukprn, fm25Output, cancellationToken);
+                    StoreFM25 storeRuleAlb = new StoreFM25();
+                    await storeRuleAlb.StoreAsync(connection, transaction, ukprn, fm25Output, cancellationToken);
 
                     _output.WriteLine($"Store FM25: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
