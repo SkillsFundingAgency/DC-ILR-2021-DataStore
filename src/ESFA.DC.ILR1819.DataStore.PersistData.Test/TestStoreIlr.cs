@@ -125,10 +125,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreRuleAlb storeRuleAlb = new StoreRuleAlb(
-                        connection,
-                        transaction);
-                    await storeRuleAlb.StoreAsync(ukPrn, reandAndSerialiseTask.Result.Item2, cancellationToken);
+                    StoreRuleAlb storeRuleAlb = new StoreRuleAlb();
+                    await storeRuleAlb.StoreAsync(connection, transaction, ukPrn, reandAndSerialiseTask.Result.Item2, cancellationToken);
 
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();

@@ -12,17 +12,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreRuleAlb : IStoreRuleAlb
     {
-        private readonly SqlConnection _connection;
-
-        private readonly SqlTransaction _transaction;
-
-        public StoreRuleAlb(SqlConnection connection, SqlTransaction transaction)
-        {
-            _connection = connection;
-            _transaction = transaction;
-        }
-
-        public async Task StoreAsync(int ukPrn, ALBFundingOutputs fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, ALBFundingOutputs fundingOutputs, CancellationToken cancellationToken)
         {
             List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Length * 12);
             List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Length);
@@ -155,7 +145,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
+            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
                 await bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal });
                 await bulkInsert.Insert("Rulebase.ALB_Learner_Period", albLearnerPeriods);
