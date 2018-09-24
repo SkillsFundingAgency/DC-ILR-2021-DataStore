@@ -224,6 +224,7 @@
     <Compile Include="BulkInsert.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Services\ModelServices\ALBService.cs" />
+    <Compile Include="Services\ModelServices\FM35Service.cs" />
     <Compile Include="Services\ModelServices\FM25Service.cs" />
     <Compile Include="Services\Providers\FM36ProviderService.cs" />
     <Compile Include="Services\Providers\FM35ProviderService.cs" />

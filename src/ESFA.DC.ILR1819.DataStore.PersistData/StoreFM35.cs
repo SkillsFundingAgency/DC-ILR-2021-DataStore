@@ -79,6 +79,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         _periodValues.Add(new FM35_LearningDelivery_PeriodisedValues
                         {
                             UKPRN = ukPrn,
+                            AimSeqNumber = deliveryAttribute.AimSeqNumber ?? 0,
                             LearnRefNumber = learner.LearnRefNumber,
                             AttributeName = value.AttributeName,
                             Period_1 = value.Period1,
@@ -110,7 +111,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
-                await bulkInsert.Insert("Rulebase.FM23_global", new List<FM35_global> { _fm35Global });
+                await bulkInsert.Insert("Rulebase.FM35_global", new List<FM35_global> { _fm35Global });
                 await bulkInsert.Insert("Rulebase.FM35_LearningDelivery", _learningDeliveries);
                 await bulkInsert.Insert("Rulebase.FM35_LearningDelivery_Period", _periods);
                 await bulkInsert.Insert("Rulebase.FM35_LearningDelivery_PeriodisedValues", _periodValues);
@@ -121,13 +122,17 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = attribute.LearningDeliveryPeriodisedAttributes.FirstOrDefault(attr => attr.AttributeName == name);
 
-            try
+            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            if (value != null)
             {
-                return (TR)Convert.ChangeType(a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a).ToString(), typeof(TR));
-            }
-            catch
-            {
-                // wrong type
+                try
+                {
+                    return (TR)value;
+                }
+                catch
+                {
+                    // wrong type
+                }
             }
 
             return default(TR);

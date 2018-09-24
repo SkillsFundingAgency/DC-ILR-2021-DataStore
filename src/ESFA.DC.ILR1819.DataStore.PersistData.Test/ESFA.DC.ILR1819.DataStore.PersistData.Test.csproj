@@ -150,6 +150,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestStoreFM35.cs" />
     <Compile Include="TestStoreFM25.cs" />
     <Compile Include="TestStoreIlr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
