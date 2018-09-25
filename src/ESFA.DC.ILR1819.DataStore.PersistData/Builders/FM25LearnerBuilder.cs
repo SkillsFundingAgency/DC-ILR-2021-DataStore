@@ -5,7 +5,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 {
     public class FM25LearnerBuilder
     {
-        public static FM25_Learner BuildFm25Learner(int ukPrn, Learner learner)
+        public static FM25_Learner BuildFm25Learner(int ukPrn, FM25Learner learner)
         {
             return new FM25_Learner
             {

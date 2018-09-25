@@ -18,7 +18,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<FM25_FM35_Learner_Period> _periods;
         private List<FM25_FM35_Learner_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM25Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm25Global = new FM25_global
             {

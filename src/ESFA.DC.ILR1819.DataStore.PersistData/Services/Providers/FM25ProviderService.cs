@@ -9,7 +9,7 @@ using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 {
-    public class FM25ProviderService : BaseFundingModelProviderService<Global>, IFM25ProviderService
+    public class FM25ProviderService : BaseFundingModelProviderService<FM25Global>, IFM25ProviderService
     {
         public FM25ProviderService(
             [KeyFilter(PersistenceStorageKeys.Redis)]

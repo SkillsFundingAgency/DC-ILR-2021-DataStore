@@ -4,9 +4,10 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM25.Model.Output;
+using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
@@ -18,17 +19,17 @@ using Xunit.Abstractions;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
-    public class TestStoreFM25
+    public class TestStoreFM36
     {
         private readonly ITestOutputHelper _output;
 
-        public TestStoreFM25(ITestOutputHelper output)
+        public TestStoreFM36(ITestOutputHelper output)
         {
             _output = output;
         }
 
         [Fact]
-        public async Task StoreFM25()
+        public async Task StoreFM36()
         {
             CancellationToken cancellationToken = default(CancellationToken);
             var jobContextMessage = new JobContextMessage();
@@ -37,10 +38,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             Stopwatch stopwatch = new Stopwatch();
 
-            int ukprn = 10033677;
-            var fm25FileName = "Fm25.json";
+            int ukprn = 10033670;
+            var fm36FileName = "Fm36.json";
 
-            var fm25Output = await ReadAndDeserialiseAsync(fm25FileName, ukprn, jobContextMessage, persist, serialise);
+            var fm36Output = await ReadAndDeserialiseAsync(fm36FileName, ukprn, jobContextMessage, persist, serialise);
 
             using (SqlConnection connection =
                 new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
@@ -56,15 +57,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     stopwatch.Restart();
 
                     StoreClear storeClear = new StoreClear(connection, transaction);
-                    await storeClear.ClearAsync(ukprn, Path.GetFileName(fm25FileName), cancellationToken);
+                    await storeClear.ClearAsync(ukprn, Path.GetFileName(fm36FileName), cancellationToken);
 
-                    _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fm25FileName}");
+                    _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fm36FileName}");
                     stopwatch.Restart();
 
-                    StoreFM25 storeRuleAlb = new StoreFM25();
-                    await storeRuleAlb.StoreAsync(connection, transaction, ukprn, fm25Output, cancellationToken);
+                    StoreFM36 store36 = new StoreFM36();
+                    await store36.StoreAsync(connection, transaction, ukprn, fm36Output, cancellationToken);
 
-                    _output.WriteLine($"Store FM25: {stopwatch.ElapsedMilliseconds}");
+                    _output.WriteLine($"Store FM36: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
                     transaction.Commit();
@@ -89,47 +90,47 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 stopwatch.Restart();
 
                 using (SqlCommand sqlCommand =
-                    new SqlCommand($"SELECT Count(1) FROM Rulebase.FM25_Learner Where UKPRN = {ukprn}", connection))
+                    new SqlCommand($"SELECT Count(1) FROM Rulebase.AEC_LearningDelivery Where LearnRefNumber = '3DOB01'", connection))
                 {
-                    Assert.Equal(fm25Output.Learners.Count, sqlCommand.ExecuteScalar());
+                    Assert.Equal(fm36Output.Learners.FirstOrDefault(l => l.LearnRefNumber == "3DOB01")?.LearningDeliveries.Count ?? 0, sqlCommand.ExecuteScalar());
                 }
             }
         }
 
-        private async Task<FM25Global> ReadAndDeserialiseAsync(
-            string fm25Filename,
+        private async Task<FM36Global> ReadAndDeserialiseAsync(
+            string fm35Filename,
             int ukPrn,
             JobContextMessage jobContextMessage,
             Mock<IKeyValuePersistenceService> persist,
             Mock<ISerializationService> serialise)
         {
             var jsonSerialiser = new JsonSerializationService();
-            const string keyFm25Output = "FM25_Output";
-            string fm25Contents;
+            const string keyFm36Output = "FM36_Output";
+            string fm36Contents;
 
             Stopwatch stopwatch = new Stopwatch();
-            using (StreamReader sr = new StreamReader(fm25Filename))
+            using (StreamReader sr = new StreamReader(fm35Filename))
             {
-                fm25Contents = await sr.ReadToEndAsync();
+                fm36Contents = await sr.ReadToEndAsync();
             }
 
-            FM25Global fundingOutputs = jsonSerialiser.Deserialize<FM25Global>(fm25Contents);
-            _output.WriteLine($"Deserialise FM25: {stopwatch.ElapsedMilliseconds}");
+            FM36Global fundingOutputs = jsonSerialiser.Deserialize<FM36Global>(fm36Contents);
+            _output.WriteLine($"Deserialise FM36: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
             jobContextMessage.KeyValuePairs = new Dictionary<string, object>
             {
-                [JobContextMessageKey.Filename] = Path.GetFileName(fm25Filename),
-                [JobContextMessageKey.FileSizeInBytes] = new FileInfo(fm25Filename).Length,
+                [JobContextMessageKey.Filename] = Path.GetFileName(fm35Filename),
+                [JobContextMessageKey.FileSizeInBytes] = new FileInfo(fm35Filename).Length,
                 [JobContextMessageKey.UkPrn] = ukPrn,
-                [JobContextMessageKey.FundingFm25Output] = keyFm25Output
+                [JobContextMessageKey.FundingFm35Output] = keyFm36Output
             };
 
             jobContextMessage.SubmissionDateTimeUtc = DateTime.UtcNow;
 
-            persist.Setup(x => x.GetAsync(keyFm25Output, It.IsAny<CancellationToken>())).ReturnsAsync(fm25Contents);
+            persist.Setup(x => x.GetAsync(keyFm36Output, It.IsAny<CancellationToken>())).ReturnsAsync(fm36Contents);
 
-            serialise.Setup(x => x.Deserialize<FM25Global>(fm25Contents)).Returns(fundingOutputs);
+            serialise.Setup(x => x.Deserialize<FM36Global>(fm36Contents)).Returns(fundingOutputs);
 
             _output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 

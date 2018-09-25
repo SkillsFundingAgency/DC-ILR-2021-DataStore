@@ -1,22 +1,22 @@
 ﻿using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.JobContext.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
 {
-    public class FM35Service : IModelService
+    public class FM36Service : IModelService
     {
-        private readonly IFM35ProviderService _providerService;
-        private readonly IStoreFM35 _store;
+        private readonly IFM36ProviderService _providerService;
+        private readonly IStoreFM36 _store;
 
-        private FM35FundingOutputs _fundingModel;
+        private FM36Global _fundingModel;
         private int _ukPrn;
 
-        public FM35Service(IFM35ProviderService providerService, IStoreFM35 store)
+        public FM36Service(IFM36ProviderService providerService, IStoreFM36 store)
         {
             _providerService = providerService;
             _store = store;

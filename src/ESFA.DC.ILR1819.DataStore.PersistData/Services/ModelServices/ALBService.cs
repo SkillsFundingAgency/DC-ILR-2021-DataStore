@@ -32,6 +32,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
 
         public async Task StoreModel(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
         {
+            if (_fundingModel == null)
+            {
+                return;
+            }
+
             await _store.StoreAsync(connection, transaction, _ukPrn, _fundingModel, cancellationToken);
         }
     }
