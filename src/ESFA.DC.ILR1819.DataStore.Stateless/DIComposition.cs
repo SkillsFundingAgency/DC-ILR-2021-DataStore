@@ -216,10 +216,22 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<FM25ProviderService>().As<IFM25ProviderService>()
                 .InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<FM35ProviderService>().As<IFM35ProviderService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM36ProviderService>().As<IFM36ProviderService>()
+                .InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<ALBService>().As<IModelService>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM25Service>().As<IModelService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM35Service>().As<IModelService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM36Service>().As<IModelService>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
