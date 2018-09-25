@@ -96,7 +96,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             }
         }
 
-        private async Task<Global> ReadAndDeserialiseAsync(
+        private async Task<FM25Global> ReadAndDeserialiseAsync(
             string fm25Filename,
             int ukPrn,
             JobContextMessage jobContextMessage,
@@ -113,7 +113,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 fm25Contents = await sr.ReadToEndAsync();
             }
 
-            Global fundingOutputs = jsonSerialiser.Deserialize<Global>(fm25Contents);
+            FM25Global fundingOutputs = jsonSerialiser.Deserialize<FM25Global>(fm25Contents);
             _output.WriteLine($"Deserialise FM25: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
@@ -129,7 +129,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             persist.Setup(x => x.GetAsync(keyFm25Output, It.IsAny<CancellationToken>())).ReturnsAsync(fm25Contents);
 
-            serialise.Setup(x => x.Deserialize<Global>(fm25Contents)).Returns(fundingOutputs);
+            serialise.Setup(x => x.Deserialize<FM25Global>(fm25Contents)).Returns(fundingOutputs);
 
             _output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 

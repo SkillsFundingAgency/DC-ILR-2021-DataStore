@@ -7,6 +7,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IStoreFM25
     {
-        Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, Global fundingOutputs, CancellationToken cancellationToken);
+        Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM25Global fundingOutputs, CancellationToken cancellationToken);
     }
 }

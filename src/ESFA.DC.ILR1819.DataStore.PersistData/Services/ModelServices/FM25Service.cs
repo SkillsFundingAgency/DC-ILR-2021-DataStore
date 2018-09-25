@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
         private readonly IFM25ProviderService _providerService;
         private readonly IStoreFM25 _store;
 
-        private Global _fundingModel;
+        private FM25Global _fundingModel;
         private int _ukPrn;
 
         public FM25Service(IFM25ProviderService providerService, IStoreFM25 store)
