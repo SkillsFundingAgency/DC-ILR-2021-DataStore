@@ -9,6 +9,7 @@ using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Attribute;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
@@ -123,19 +124,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             var a = attribute.LearningDeliveryPeriodisedAttributes.FirstOrDefault(attr => attr.AttributeName == name);
 
             var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
-            if (value != null)
-            {
-                try
-                {
-                    return (TR)value;
-                }
-                catch
-                {
-                    // wrong type
-                }
-            }
 
-            return default(TR);
+            return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
     }
 }

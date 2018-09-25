@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -7,6 +8,7 @@ using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
@@ -186,6 +188,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         UKPRN = ukPrn,
                         LearnRefNumber = learner.LearnRefNumber,
                         AttributeName = periodisedValue.AttributeName,
+                        PriceEpisodeIdentifier = priceEpisode.PriceEpisodeIdentifier,
                         Period_1 = periodisedValue.Period1,
                         Period_2 = periodisedValue.Period2,
                         Period_3 = periodisedValue.Period3,
@@ -228,12 +231,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
             var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
-            if (value != null)
-            {
-                return (TR)value;
-            }
 
-            return default(TR);
+            return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
 
         private static TR GetPeriodValueForEpisode<TR>(PriceEpisode episode, string name, int period)
@@ -241,12 +240,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             var a = episode.PriceEpisodePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
             var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
-            if (value != null)
-            {
-                return (TR)value;
-            }
 
-            return default(TR);
+            return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
     }
 }

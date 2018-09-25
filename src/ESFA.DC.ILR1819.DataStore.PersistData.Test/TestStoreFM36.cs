@@ -29,7 +29,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         }
 
         [Fact]
-        public async Task StoreFM35()
+        public async Task StoreFM36()
         {
             CancellationToken cancellationToken = default(CancellationToken);
             var jobContextMessage = new JobContextMessage();
@@ -38,7 +38,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             Stopwatch stopwatch = new Stopwatch();
 
-            int ukprn = 10033677;
+            int ukprn = 10033670;
             var fm36FileName = "Fm36.json";
 
             var fm36Output = await ReadAndDeserialiseAsync(fm36FileName, ukprn, jobContextMessage, persist, serialise);
@@ -90,9 +90,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 stopwatch.Restart();
 
                 using (SqlCommand sqlCommand =
-                    new SqlCommand($"SELECT Count(1) FROM Rulebase.AEC_LearningDelivery Where LearnRefNumber = '0fm3501'", connection))
+                    new SqlCommand($"SELECT Count(1) FROM Rulebase.AEC_LearningDelivery Where LearnRefNumber = '3DOB01'", connection))
                 {
-                    Assert.Equal(fm36Output.Learners.FirstOrDefault(l => l.LearnRefNumber == "0fm3501")?.LearningDeliveries.Count ?? 0, sqlCommand.ExecuteScalar());
+                    Assert.Equal(fm36Output.Learners.FirstOrDefault(l => l.LearnRefNumber == "3DOB01")?.LearningDeliveries.Count ?? 0, sqlCommand.ExecuteScalar());
                 }
             }
         }
