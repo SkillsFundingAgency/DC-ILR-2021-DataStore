@@ -201,6 +201,18 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
         private static void RegisterServices(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<StoreRuleAlb>().As<IStoreRuleAlb>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<StoreFM25>().As<IStoreFM25>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<StoreFM35>().As<IStoreFM35>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<StoreFM36>().As<IStoreFM36>()
+                .InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
                 .InstancePerLifetimeScope();
 
@@ -208,18 +220,23 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ValidLearnerProviderService>().As<IValidLearnerProviderService>()
+                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ALBProviderService>().As<IALBProviderService>()
+                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM25ProviderService>().As<IFM25ProviderService>()
+                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM35ProviderService>().As<IFM35ProviderService>()
+                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM36ProviderService>().As<IFM36ProviderService>()
+                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ALBService>().As<IModelService>()
