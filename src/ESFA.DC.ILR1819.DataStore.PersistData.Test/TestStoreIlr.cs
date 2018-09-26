@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
@@ -35,33 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         }
 
         [Theory]
-        [InlineData("ILR-90000077-1819-20180516-122452-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000077, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000078-1819-20180518-094937-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000078, new[] { "0fm3501" })]
-        //[InlineData("ILR-90000079-1819-20180518-094943-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000079, new[] { "0fm3501" })]
-        //[InlineData("ILR-90000080-1819-20180518-094947-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000080, new[] { "0fm3501" })]
-        //[InlineData("ILR-90000081-1819-20180518-095009-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000081, new[] { "0fm3501" })]
-        //[InlineData("ILR-90000065-1819-20180518-095236-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000065, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000066-1819-20180518-095239-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000066, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000067-1819-20180518-095243-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000067, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000068-1819-20180518-095303-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000068, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000071-1819-20180518-095441-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000071, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000072-1819-20180518-095444-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000072, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000073-1819-20180518-095504-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000073, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000074-1819-20180521-132627-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000074, new[] { "0Accm01" })]
-        //[InlineData("ILR-90000075-1819-20180521-132931-00.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000075, new[] { "0Accm01" })]
-        //[InlineData("ILR-10006341-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006341, new[] { "16v224" })]
-        //[InlineData("ILR-10033670-1819-20180118-023456-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "16v224" })]
-        //[InlineData("ILR-10033670-1819-20180118-023456-04.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "16v224" })]
-        //[InlineData("ILR-10006000-1819-20180626-144401-01.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10006000, new[] { "ESFLearner", "NonLevy", "Levy" })]
-        //[InlineData("ILR-90000064-1819-20180612-165219-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "0DOB24" })]
-        //[InlineData("ILR-90000004-1819-20180613-144516-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000004, new[] { "0DOB24" })]
-        //[InlineData("ILR-90000064-1819-20180618-105223-02.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "1FM09" })]
-        //[InlineData("ILR-90000064-1819-20180618-133601-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-133604.csv" })]
-        //[InlineData("ILR-90000064-1819-20180618-152718-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-152718.csv" })]
-        //[InlineData("ILR-90000064-1819-20180618-153725-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 90000064, new[] { "control-20180618-153730.csv" })] // File too large to check in
-        //[InlineData("ILR-90000064-1819-20180521-133647-00.xml", "ALBOutput1000.json", 90000064, "0Accm01")]
-        //[InlineData("ILR-90000063-1819-20180521-134854-00.xml", "ALBOutput1000.json", 90000063, "0Accm01")]
-        //[InlineData("ILR-90000062-1819-20180521-135604-00.xml", "ALBOutput1000.json", 90000062, "0Accm01")]
+        [InlineData("ILR-10033670-1819-20180704-120055-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "3Addl103" })]
         public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
@@ -81,7 +56,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             }
 
             Message message = null;
-            Task<Tuple<Message, ALBFundingOutputs, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
+            Task<Tuple<Message, ALBGlobal, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
 
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
             {
@@ -202,7 +177,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             return validLearners.Distinct().ToArray();
         }
 
-        private async Task<Tuple<Message, ALBFundingOutputs, ValidationErrorDto[]>> ReadAndDeserialiseAsync(
+        private async Task<Tuple<Message, ALBGlobal, ValidationErrorDto[]>> ReadAndDeserialiseAsync(
             string ilrFilename,
             string albFilename,
             string valErrorsDtoFilename,
@@ -253,7 +228,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             output.WriteLine($"Deserialise ILR: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
-            ALBFundingOutputs fundingOutputs = jsonSerialiser.Deserialize<ALBFundingOutputs>(albContents);
+            ALBGlobal fundingOutputs = jsonSerialiser.Deserialize<ALBGlobal>(albContents);
             output.WriteLine($"Deserialise ALB: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
@@ -286,14 +261,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             serialise.Setup(x => x.Deserialize<List<string>>(validLearnersSerialised)).Returns(validLearners);
             serialise.Setup(x => x.Deserialize<Message>(ilrContents)).Returns(message);
-            serialise.Setup(x => x.Deserialize<ALBFundingOutputs>(albContents)).Returns(fundingOutputs);
+            serialise.Setup(x => x.Deserialize<ALBGlobal>(albContents)).Returns(fundingOutputs);
 
             validationErrorsService.Setup(x => x.GetValidationErrorsAsync(keyValErrors, keyValErrorsLookup))
                 .ReturnsAsync(validationErrorDtos);
 
             output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 
-            return new Tuple<Message, ALBFundingOutputs, ValidationErrorDto[]>(message, fundingOutputs, validationErrorDtos);
+            return new Tuple<Message, ALBGlobal, ValidationErrorDto[]>(message, fundingOutputs, validationErrorDtos);
         }
     }
 }

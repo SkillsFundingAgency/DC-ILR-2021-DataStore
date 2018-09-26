@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.JobContext.Interface;
@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
         private readonly IALBProviderService _providerService;
         private readonly IStoreRuleAlb _store;
 
-        private ALBFundingOutputs _fundingModel;
+        private ALBGlobal _fundingModel;
         private int _ukPrn;
 
         public ALBService(IALBProviderService providerService, IStoreRuleAlb store)
