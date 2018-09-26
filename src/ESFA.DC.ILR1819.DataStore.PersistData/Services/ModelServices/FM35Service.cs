@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.JobContext.Interface;
@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
         private readonly IFM35ProviderService _providerService;
         private readonly IStoreFM35 _store;
 
-        private FM35FundingOutputs _fundingModel;
+        private FM35Global _fundingModel;
         private int _ukPrn;
 
         public FM35Service(IFM35ProviderService providerService, IStoreFM35 store)
