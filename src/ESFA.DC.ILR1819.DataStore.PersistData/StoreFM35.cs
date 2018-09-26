@@ -4,8 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model;
-using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Attribute;
+
+using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
@@ -22,18 +22,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<FM35_LearningDelivery_Period> _periods;
         private List<FM35_LearningDelivery_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM35FundingOutputs fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM35Global fundingOutputs, CancellationToken cancellationToken)
         {
-            var global = fundingOutputs.Global;
-
             _fm35Global = new FM35_global
             {
-                CurFundYr = global.CurFundYr,
-                LARSVersion = global.LARSVersion,
+                CurFundYr = fundingOutputs.CurFundYr,
+                LARSVersion = fundingOutputs.LARSVersion,
                 UKPRN = ukPrn.ToString(),
-                RulebaseVersion = global.RulebaseVersion,
-                OrgVersion = global.OrgVersion,
-                PostcodeDisadvantageVersion = global.PostcodeDisadvantageVersion
+                RulebaseVersion = fundingOutputs.RulebaseVersion,
+                OrgVersion = fundingOutputs.OrgVersion,
+                PostcodeDisadvantageVersion = fundingOutputs.PostcodeDisadvantageVersion
             };
 
             _learningDeliveries = new List<FM35_LearningDelivery>();
@@ -42,7 +40,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             foreach (var learner in fundingOutputs.Learners)
             {
-                foreach (var deliveryAttribute in learner.LearningDeliveryAttributes)
+                foreach (var deliveryAttribute in learner.LearningDeliveries)
                 {
                     _learningDeliveries.Add(FM35LearningDeliveryBuilder.BuildLearningDelivery(ukPrn, learner.LearnRefNumber, deliveryAttribute));
 
@@ -75,7 +73,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         });
                     }
 
-                    foreach (var value in deliveryAttribute.LearningDeliveryPeriodisedAttributes)
+                    foreach (var value in deliveryAttribute.LearningDeliveryPeriodisedValues)
                     {
                         _periodValues.Add(new FM35_LearningDelivery_PeriodisedValues
                         {
@@ -119,9 +117,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private static TR GetPeriodValueForDelivery<TR>(LearningDeliveryAttribute attribute, string name, int period)
+        private static TR GetPeriodValueForDelivery<TR>(LearningDelivery attribute, string name, int period)
         {
-            var a = attribute.LearningDeliveryPeriodisedAttributes.FirstOrDefault(attr => attr.AttributeName == name);
+            var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
             var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
 

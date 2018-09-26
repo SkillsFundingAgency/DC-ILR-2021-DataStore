@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
@@ -92,12 +92,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 using (SqlCommand sqlCommand =
                     new SqlCommand($"SELECT Count(1) FROM Rulebase.FM35_LearningDelivery Where LearnRefNumber = '0fm3501'", connection))
                 {
-                    Assert.Equal(fm35Output.Learners.FirstOrDefault(l => l.LearnRefNumber == "0fm3501")?.LearningDeliveryAttributes.Length ?? 0, sqlCommand.ExecuteScalar());
+                    Assert.Equal(fm35Output.Learners.FirstOrDefault(l => l.LearnRefNumber == "0fm3501")?.LearningDeliveries.Count ?? 0, sqlCommand.ExecuteScalar());
                 }
             }
         }
 
-        private async Task<FM35FundingOutputs> ReadAndDeserialiseAsync(
+        private async Task<FM35Global> ReadAndDeserialiseAsync(
             string fm35Filename,
             int ukPrn,
             JobContextMessage jobContextMessage,
@@ -114,7 +114,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                 fm35Contents = await sr.ReadToEndAsync();
             }
 
-            FM35FundingOutputs fundingOutputs = jsonSerialiser.Deserialize<FM35FundingOutputs>(fm35Contents);
+            FM35Global fundingOutputs = jsonSerialiser.Deserialize<FM35Global>(fm35Contents);
             _output.WriteLine($"Deserialise FM35: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
@@ -130,7 +130,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             persist.Setup(x => x.GetAsync(keyFm35Output, It.IsAny<CancellationToken>())).ReturnsAsync(fm35Contents);
 
-            serialise.Setup(x => x.Deserialize<FM35FundingOutputs>(fm35Contents)).Returns(fundingOutputs);
+            serialise.Setup(x => x.Deserialize<FM35Global>(fm35Contents)).Returns(fundingOutputs);
 
             _output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 
