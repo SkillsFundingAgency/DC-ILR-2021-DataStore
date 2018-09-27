@@ -36,6 +36,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 Year = fundingOutputs.Year
             };
 
+            StoreGlobal(connection, transaction, cancellationToken);
+
+            if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
+            {
+                return;
+            }
+
             _learningDeliveries = new List<AEC_LearningDelivery>();
             _periods = new List<AEC_LearningDelivery_Period>();
             _periodValues = new List<AEC_LearningDelivery_PeriodisedValues>();
@@ -206,7 +213,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        private async void StoreGlobal(
+            SqlConnection connection,
+            SqlTransaction transaction,
+            CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -216,6 +226,18 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
                 await bulkInsert.Insert("Rulebase.AEC_global", new List<AEC_global> { _fm36Global });
+            }
+        }
+
+        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
+            {
                 await bulkInsert.Insert("Rulebase.AEC_LearningDelivery", _learningDeliveries);
                 await bulkInsert.Insert("Rulebase.AEC_LearningDelivery_Period", _periods);
                 await bulkInsert.Insert("Rulebase.AEC_LearningDelivery_PeriodisedValues", _periodValues);
