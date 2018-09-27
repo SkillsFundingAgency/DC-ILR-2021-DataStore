@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
@@ -34,6 +35,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
                 UKPRN = ukPrn
             };
+
+            StoreGlobal(connection, transaction, cancellationToken);
+
+            if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
+            {
+                return;
+            }
 
             _learner = new List<FM25_Learner>();
             _periods = new List<FM25_FM35_Learner_Period>();
@@ -80,7 +88,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await SaveData(connection, transaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        private async void StoreGlobal(
+            SqlConnection connection,
+            SqlTransaction transaction,
+            CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -90,8 +101,20 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
                 await bulkInsert.Insert("Rulebase.FM25_global", new List<FM25_global> { _fm25Global });
-                await bulkInsert.Insert("Rulebase.FM25_Learner", _learner);
                 await bulkInsert.Insert("Rulebase.FM25_FM35_global", new List<FM25_FM35_global> { _periodGlobal });
+            }
+        }
+
+        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
+            {
+                await bulkInsert.Insert("Rulebase.FM25_Learner", _learner);
                 await bulkInsert.Insert("Rulebase.FM25_FM35_Learner_Period", _periods);
                 await bulkInsert.Insert("Rulebase.FM25_FM35_Learner_PeriodisedValues", _periodValues);
             }

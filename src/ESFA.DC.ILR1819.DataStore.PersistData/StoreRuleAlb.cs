@@ -27,6 +27,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion
             };
 
+            StoreGlobal(connection, transaction, cancellationToken, albGlobal);
+
+            if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
+            {
+                return;
+            }
+
             foreach (var learner in fundingOutputs.Learners)
             {
                 var attr = learner.LearnerPeriodisedValues.Single(x => x.AttributeName == "ALBSeqNum");
@@ -146,12 +153,23 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
-                await bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal });
                 await bulkInsert.Insert("Rulebase.ALB_Learner_Period", albLearnerPeriods);
                 await bulkInsert.Insert("Rulebase.ALB_Learner_PeriodisedValues", albLearnerPeriodisedValues);
                 await bulkInsert.Insert("Rulebase.ALB_LearningDelivery", albLearningDeliveries);
                 await bulkInsert.Insert("Rulebase.ALB_LearningDelivery_Period", albLearningDeliveryPeriods);
                 await bulkInsert.Insert("Rulebase.ALB_LearningDelivery_PeriodisedValues", albLearningDeliveryPeriodisedValues);
+            }
+        }
+
+        private async void StoreGlobal(
+            SqlConnection connection,
+            SqlTransaction transaction,
+            CancellationToken cancellationToken,
+            ALB_global albGlobal)
+        {
+            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
+            {
+                await bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal });
             }
         }
 

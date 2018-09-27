@@ -34,6 +34,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PostcodeDisadvantageVersion = fundingOutputs.PostcodeDisadvantageVersion
             };
 
+            StoreGlobal(connection, transaction, cancellationToken);
+
+            if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
+            {
+                return;
+            }
+
             _learningDeliveries = new List<FM35_LearningDelivery>();
             _periods = new List<FM35_LearningDelivery_Period>();
             _periodValues = new List<FM35_LearningDelivery_PeriodisedValues>();
@@ -101,7 +108,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await SaveData(connection, transaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        private async void StoreGlobal(
+            SqlConnection connection,
+            SqlTransaction transaction,
+            CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -111,6 +121,18 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
                 await bulkInsert.Insert("Rulebase.FM35_global", new List<FM35_global> { _fm35Global });
+            }
+        }
+
+        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
+            {
                 await bulkInsert.Insert("Rulebase.FM35_LearningDelivery", _learningDeliveries);
                 await bulkInsert.Insert("Rulebase.FM35_LearningDelivery_Period", _periods);
                 await bulkInsert.Insert("Rulebase.FM35_LearningDelivery_PeriodisedValues", _periodValues);
