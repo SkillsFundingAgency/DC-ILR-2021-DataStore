@@ -25,8 +25,21 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 
         public async Task<List<string>> ReadAndDeserialiseValidLearnersAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
-            string learnersValidStr = await _redis.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString(), cancellationToken);
-            List<string> validLearners = _jsonSerializationService.Deserialize<List<string>>(learnersValidStr);
+            var learnersValidStr = string.Empty;
+            if (jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.ValidLearnRefNumbers))
+            {
+                learnersValidStr =
+                    await _redis.GetAsync(
+                        jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString(),
+                        cancellationToken);
+            }
+
+            var validLearners = new List<string>();
+            if (!string.IsNullOrEmpty(learnersValidStr))
+            {
+                validLearners = _jsonSerializationService.Deserialize<List<string>>(learnersValidStr);
+            }
+
             return validLearners;
         }
     }

@@ -7,6 +7,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface.Service
 {
     public interface IFM25ProviderService
     {
-        Task<Global> ReadAndDeserialiseFileAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken);
+        Task<FM25Global> ReadAndDeserialiseFileAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken);
     }
 }

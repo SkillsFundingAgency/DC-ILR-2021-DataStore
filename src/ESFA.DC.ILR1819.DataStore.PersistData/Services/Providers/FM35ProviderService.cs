@@ -1,5 +1,6 @@
 ﻿using Autofac.Features.AttributeFilters;
-using ESFA.DC.ILR.FundingService.FM25.Model.Output;
+using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model;
+using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.IO.Interfaces;
@@ -9,9 +10,9 @@ using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 {
-    public class FM25ProviderService : BaseFundingModelProviderService<FM25Global>, IFM25ProviderService
+    public class FM35ProviderService : BaseFundingModelProviderService<FM35Global>, IFM35ProviderService
     {
-        public FM25ProviderService(
+        public FM35ProviderService(
             [KeyFilter(PersistenceStorageKeys.Redis)]
             IKeyValuePersistenceService redis,
             IJsonSerializationService jsonSerializationService,
@@ -21,8 +22,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             _jsonSerializationService = jsonSerializationService;
             _logger = logger;
 
-            _key = JobContextMessageKey.FundingFm25Output;
-            _name = "FM25";
+            _key = JobContextMessageKey.FundingFm35Output;
+            _name = "FM35";
         }
     }
 }

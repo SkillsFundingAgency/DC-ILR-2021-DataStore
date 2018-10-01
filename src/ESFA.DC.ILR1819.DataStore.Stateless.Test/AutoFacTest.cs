@@ -28,12 +28,21 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
             cts.Cancel();
 
             ContainerBuilder containerBuilder = DIComposition.BuildContainer(new TestConfigurationHelper());
-
-            IContainer c = containerBuilder.Build();
-            using (var lifeTime = c.BeginLifetimeScope())
+            IContainer c;
+            try
             {
-                var messageHandler = lifeTime.Resolve<IMessageHandler>();
-                bool ret = await messageHandler.Handle(jobContextMessage, cts.Token);
+                c = containerBuilder.Build();
+
+                using (var lifeTime = c.BeginLifetimeScope())
+                {
+                    var messageHandler = lifeTime.Resolve<IMessageHandler>();
+                    bool ret = await messageHandler.Handle(jobContextMessage, cts.Token);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

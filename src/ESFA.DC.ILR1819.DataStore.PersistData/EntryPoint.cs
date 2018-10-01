@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model;
-using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.JobContext.Interface;
@@ -17,26 +15,20 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     /// </summary>
     public sealed class EntryPoint
     {
-        private readonly ILearnerPersistence _learnerPersistence;
+        private readonly ITransactionController _learnerPersistence;
         private readonly IILRProviderService _ilrProviderService;
         private readonly IValidLearnerProviderService _validLearnerProviderService;
-        private readonly IALBProviderService _albProviderService;
-        private readonly IFM25ProviderService _fm25ProviderService;
         private readonly ILogger _logger;
 
         public EntryPoint(
-            ILearnerPersistence learnerPersistence,
+            ITransactionController learnerPersistence,
             IILRProviderService ilrProviderService,
             IValidLearnerProviderService validLearnerProviderService,
-            IALBProviderService albProviderService,
-            IFM25ProviderService fm25ProviderService,
             ILogger logger)
         {
             _learnerPersistence = learnerPersistence;
             _ilrProviderService = ilrProviderService;
             _validLearnerProviderService = validLearnerProviderService;
-            _albProviderService = albProviderService;
-            _fm25ProviderService = fm25ProviderService;
             _logger = logger;
         }
 
@@ -56,10 +48,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             Task<Message> messageTask = _ilrProviderService.ReadAndDeserialiseIlrAsync(ilrFilename, cancellationToken);
             Task<List<string>> validLearnersTask = _validLearnerProviderService.ReadAndDeserialiseValidLearnersAsync(jobContextMessage, cancellationToken);
 
-            Task<ALBFundingOutputs> fundingOutputTask = _albProviderService.ReadAndDeserialiseFileAsync(jobContextMessage, cancellationToken);
-            Task<Global> fm25OutputTask = _fm25ProviderService.ReadAndDeserialiseFileAsync(jobContextMessage, cancellationToken);
-
-            await Task.WhenAll(messageTask, fundingOutputTask, validLearnersTask, fm25OutputTask);
+            await Task.WhenAll(messageTask, validLearnersTask);
 
             if (messageTask.Result == null)
             {
@@ -76,8 +65,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 cancellationToken,
                 ilrFilename,
                 messageTask.Result,
-                fundingOutputTask.Result,
-                fm25OutputTask.Result,
                 validLearnersTask.Result))
             {
                 _logger.LogError("write to DataStore failed");
