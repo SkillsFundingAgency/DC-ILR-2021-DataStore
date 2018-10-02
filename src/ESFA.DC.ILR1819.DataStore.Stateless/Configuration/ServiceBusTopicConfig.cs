@@ -1,5 +1,4 @@
-﻿using System;
-using ESFA.DC.Queueing;
+﻿using ESFA.DC.Queueing;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless.Configuration
 {
