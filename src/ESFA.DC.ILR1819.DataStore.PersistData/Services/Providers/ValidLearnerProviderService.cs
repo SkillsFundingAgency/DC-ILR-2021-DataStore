@@ -6,6 +6,7 @@ using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers

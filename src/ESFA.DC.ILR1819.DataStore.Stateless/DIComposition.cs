@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Features.AttributeFilters;
-using ESFA.DC.Auditing;
-using ESFA.DC.Auditing.Dto;
 using ESFA.DC.Auditing.Interface;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.ValidationErrors;
@@ -20,18 +18,17 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
-using ESFA.DC.ILR1819.DataStore.Stateless.Mappers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Modules;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.IO.Redis;
 using ESFA.DC.IO.Redis.Config.Interfaces;
-using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager;
 using ESFA.DC.JobContextManager.Interface;
-using ESFA.DC.JobStatus.Dto;
+using ESFA.DC.JobContextManager.Model;
+using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.JobStatus.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Mapping.Interface;
@@ -108,7 +105,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     auditPublishConfig,
                     c.Resolve<IJsonSerializationService>()))
                 .As<IQueuePublishService<AuditingDto>>();
-            containerBuilder.RegisterType<Auditor>().As<IAuditor>();
 
             // get job status queue config values and register container
             var jobStatusQueueOptions =
@@ -125,7 +121,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                     jobStatusPublishConfig,
                     c.Resolve<IJsonSerializationService>()))
                 .As<IQueuePublishService<JobStatusDto>>();
-            containerBuilder.RegisterType<JobStatus.JobStatus>().As<IJobStatus>();
 
             // register Jobcontext services
             var topicConfig = new ServiceBusTopicConfig(
@@ -156,15 +151,10 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>().SingleInstance();
 
             // register message mapper
-            containerBuilder.RegisterType<JobContextMessageMapper>()
-                .As<IMapper<JobContextMessage, JobContextMessage>>();
+            containerBuilder.RegisterType<DefaultJobContextMessageMapper<JobContextMessage>>().As<IMapper<JobContextMessage, JobContextMessage>>();
 
             // register MessageHandler
-            containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler>().InstancePerLifetimeScope();
-
-            // register the  callback handle when a new message is received from ServiceBus
-            containerBuilder.Register<Func<JobContextMessage, CancellationToken, Task<bool>>>(c =>
-                c.Resolve<IMessageHandler>().Handle).InstancePerLifetimeScope();
+            containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
 
             // register Entrypoint
             containerBuilder.RegisterType<EntryPoint>()
@@ -178,7 +168,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 c.Resolve<ILogger>())).As<IValidationErrorsService>()
                 .InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<JobContextManagerForTopics<JobContextMessage>>().As<IJobContextManager<JobContextMessage>>()
+            containerBuilder.RegisterType<JobContextManager<JobContextMessage>>().As<IJobContextManager<JobContextMessage>>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<JobContextMessage>().As<IJobContextMessage>()
