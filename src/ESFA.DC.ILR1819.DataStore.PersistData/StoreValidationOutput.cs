@@ -8,6 +8,7 @@ using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 using ValidationError = ESFA.DC.ILR1819.DataStore.EF.ValidationError;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
