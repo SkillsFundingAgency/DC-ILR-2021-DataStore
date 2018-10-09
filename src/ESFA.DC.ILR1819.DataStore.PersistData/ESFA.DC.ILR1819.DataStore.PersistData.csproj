@@ -71,6 +71,9 @@
     <Reference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model, Version=0.1.181.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.0.1.181\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.1.0.0\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.ILR.Model, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.1819.Model.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
     </Reference>
@@ -207,6 +210,7 @@
     <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />
     <Compile Include="Builders\FM25LearnerBuilder.cs" />
     <Compile Include="Builders\FM35LearningDeliveryBuilder.cs" />
+    <Compile Include="Builders\FM70LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\FM36LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\FM36PriceEpisodeBuilder.cs" />
     <Compile Include="Builders\LearnerBuilder.cs" />
@@ -227,9 +231,11 @@
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Services\ModelServices\ALBService.cs" />
+    <Compile Include="Services\ModelServices\FM70Service.cs" />
     <Compile Include="Services\ModelServices\FM36Service.cs" />
     <Compile Include="Services\ModelServices\FM35Service.cs" />
     <Compile Include="Services\ModelServices\FM25Service.cs" />
+    <Compile Include="Services\Providers\FM70ProviderService.cs" />
     <Compile Include="Services\Providers\FM36ProviderService.cs" />
     <Compile Include="Services\Providers\FM35ProviderService.cs" />
     <Compile Include="Services\TransactionController.cs" />
@@ -243,6 +249,7 @@
     <Compile Include="StoreFileDetails.cs" />
     <Compile Include="StoreFM35.cs" />
     <Compile Include="StoreFM25.cs" />
+    <Compile Include="StoreFM70.cs" />
     <Compile Include="StoreFM36.cs" />
     <Compile Include="StoreIlr.cs" />
     <Compile Include="StoreRuleAlb.cs" />
