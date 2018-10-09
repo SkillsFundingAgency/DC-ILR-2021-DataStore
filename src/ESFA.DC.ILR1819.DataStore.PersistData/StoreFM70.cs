@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         private const string PeriodPrefix = "Period";
 
-        // private ESF_Global _fm70Global;
+        private ESF_global _fm70Global;
         private List<ESF_DPOutcome> _dpOutcomes;
         private List<ESF_LearningDelivery> _learningDeliveries;
         private List<ESF_LearningDeliveryDeliverable> _deliverableValues;
@@ -25,11 +25,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
         {
-            //_fm70Global = new ESF_Global
-            //{
-            //    UKPRN = ukPrn,
-            //    RulebaseVersion = fundingOutputs.RulebaseVersion,
-            //};
+            _fm70Global = new ESF_global
+            {
+                UKPRN = ukPrn,
+                RulebaseVersion = fundingOutputs.RulebaseVersion,
+            };
 
             StoreGlobal(connection, transaction, cancellationToken);
 
@@ -148,7 +148,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
-                //await bulkInsert.Insert("Rulebase.ESF_global", new List<FM70Global> { _fm70Global });
+                await bulkInsert.Insert("Rulebase.ESF_global", new List<ESF_global> { _fm70Global });
             }
         }
 
