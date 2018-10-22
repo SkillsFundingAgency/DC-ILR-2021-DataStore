@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             _jsonSerializationService = jsonSerializationService;
             _logger = logger;
 
-            _key = JobContextMessageKey.FundingFm36Output;
+            _key = JobContextMessageKey.FundingFm70Output;
             _name = "FM70";
         }
     }
