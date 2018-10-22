@@ -21,6 +21,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Helpers
                 return (TR)(object)Convert.ToInt32(value);
             }
 
+            if (typeof(TR) == typeof(long?) || typeof(TR) == typeof(long))
+            {
+                return (TR)(object)Convert.ToInt64(value);
+            }
+
             return (TR)value;
         }
     }

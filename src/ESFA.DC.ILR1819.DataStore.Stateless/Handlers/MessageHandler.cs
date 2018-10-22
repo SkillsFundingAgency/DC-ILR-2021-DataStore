@@ -55,6 +55,11 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
                     return result;
                 }
             }
+            catch (OutOfMemoryException oom)
+            {
+                Environment.FailFast("Data Service Out Of Memory", oom);
+                throw;
+            }
             catch (Exception ex)
             {
                 ServiceEventSource.Current.ServiceMessage(_context, "Exception-{0}", ex.ToString());

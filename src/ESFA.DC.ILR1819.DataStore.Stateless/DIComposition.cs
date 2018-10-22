@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.Auditing.Interface;
@@ -203,6 +201,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreFM36>().As<IStoreFM36>()
                 .InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<StoreFM70>().As<IStoreFM70>()
+                .InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
                 .InstancePerLifetimeScope();
 
@@ -229,6 +230,10 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<FM70ProviderService>().As<IFM70ProviderService>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<ALBService>().As<IModelService>()
                 .InstancePerLifetimeScope();
 
@@ -239,6 +244,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM36Service>().As<IModelService>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM70Service>().As<IModelService>()
                 .InstancePerLifetimeScope();
 
             containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
