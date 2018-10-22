@@ -8,6 +8,7 @@ using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {

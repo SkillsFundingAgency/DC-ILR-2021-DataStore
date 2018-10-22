@@ -5,6 +5,7 @@ using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
 {

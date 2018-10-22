@@ -9,7 +9,7 @@ using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
 {
-    public class FM36Service : IModelService
+    public class FM70Service : IModelService
     {
         private readonly IFM36ProviderService _providerService;
         private readonly IStoreFM36 _store;
@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices
         private FM36Global _fundingModel;
         private int _ukPrn;
 
-        public FM36Service(IFM36ProviderService providerService, IStoreFM36 store)
+        public FM70Service(IFM36ProviderService providerService, IStoreFM36 store)
         {
             _providerService = providerService;
             _store = store;
