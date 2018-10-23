@@ -8,10 +8,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             IMessage ilr,
             ILearner learner,
             ILearningDelivery learningDelivery,
-            ILearningDeliveryFAM learningDeliveryFam)
+            ILearningDeliveryFAM learningDeliveryFam,
+            int learnerDeliveryFamId)
         {
             return new EF.Valid.LearningDeliveryFAM
             {
+                LearningDeliveryFAM_Id = learnerDeliveryFamId,
                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                 LearnRefNumber = learner.LearnRefNumber,
                 AimSeqNumber = learningDelivery.AimSeqNumber,
