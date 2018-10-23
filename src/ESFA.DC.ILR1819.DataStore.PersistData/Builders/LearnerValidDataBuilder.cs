@@ -29,6 +29,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         private void PopulateValidLearners(IMessage ilr, List<ILearner> learners)
         {
             int lLDDandHealthProblemID = 1;
+            int learningDeliveryFamId = 1;
 
             learners.ForEach(learner =>
             {
@@ -47,7 +48,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
                     learningDelivery.AppFinRecords?.ToList()
                         .ForEach(appFinRecord => { PopulateLearningDeliveryAppFinRecord(ilr, learner, learningDelivery, appFinRecord); });
                     learningDelivery.LearningDeliveryFAMs?.ToList()
-                        .ForEach(famRecord => PopulateLearningDeliveryFAMRecord(ilr, learner, learningDelivery, famRecord));
+                        .ForEach(famRecord => PopulateLearningDeliveryFAMRecord(ilr, learner, learningDelivery, famRecord, learningDeliveryFamId++));
                     learningDelivery.LearningDeliveryWorkPlacements?.ToList()
                         .ForEach(workPlacement => PopulateLearningDeliveryWorkPlacement(ilr, learner, learningDelivery, workPlacement));
                     learningDelivery.ProviderSpecDeliveryMonitorings?.ToList()
@@ -96,9 +97,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             _validLearnerData.RecordsValidAppFinRecords.Add(AppFinRecordBuilder.BuildValidAppFinRecord(ilr, learner, learningDelivery, appFinRecord));
         }
 
-        private void PopulateLearningDeliveryFAMRecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryFAM famRecord)
+        private void PopulateLearningDeliveryFAMRecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryFAM famRecord, int id)
         {
-            _validLearnerData.RecordsValidLearnerDeliveryFams.Add(LearningDeliveryFAMBuilder.BuildValidFamRecord(ilr, learner, learningDelivery, famRecord));
+            _validLearnerData.RecordsValidLearnerDeliveryFams.Add(LearningDeliveryFAMBuilder.BuildValidFamRecord(ilr, learner, learningDelivery, famRecord, id));
         }
 
         private void PopulateLearningDeliveryHERecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryHE heRecord)
