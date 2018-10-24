@@ -70,8 +70,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                     _logger.LogDebug("WriteToDEDS beginning transaction");
                     transaction = connection.BeginTransaction();
 
+                    _logger.LogDebug("WriteToDEDS clearing data");
                     StoreClear storeClear = new StoreClear(connection, transaction);
                     await storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
+                    _logger.LogDebug("WriteToDEDS building storage tasks");
 
                     StoreFileDetails storeFileDetails =
                         new StoreFileDetails(
@@ -83,6 +85,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
                     if (cancellationToken.IsCancellationRequested)
                     {
+                        _logger.LogDebug("WriteToDEDS exiting with cancellation request");
                         return false;
                     }
 
@@ -129,10 +132,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
                     tasks.Add(storeValidationOutputTask);
 
+                    _logger.LogDebug($"WriteToDEDS has {tasks.Count} storage tasks to perform");
+
                     await Task.WhenAll(tasks);
 
+                    _logger.LogDebug("WriteToDEDS Transaction to be commited");
                     transaction.Commit();
-                    _logger.LogDebug("Transaction has completed");
+                    _logger.LogDebug("WriteToDEDS Transaction has commited");
                     successfullyCommitted = true;
                 }
                 catch (Exception ex)
