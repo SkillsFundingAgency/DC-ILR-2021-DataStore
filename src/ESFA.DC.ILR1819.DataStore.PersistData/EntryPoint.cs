@@ -106,6 +106,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     try
                     {
                         // Todo: Turn this back on
+                        // can't turn this back on in here. DS doesn't go last!
                         // await _redis.RemoveAsync(key);
                     }
                     catch (Exception ex)

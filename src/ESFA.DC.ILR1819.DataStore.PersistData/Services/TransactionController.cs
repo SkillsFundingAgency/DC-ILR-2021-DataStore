@@ -67,13 +67,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    _logger.LogDebug("WriteToDEDS beginning transaction");
                     transaction = connection.BeginTransaction();
 
-                    _logger.LogDebug("WriteToDEDS clearing data");
                     StoreClear storeClear = new StoreClear(connection, transaction);
                     await storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
-                    _logger.LogDebug("WriteToDEDS building storage tasks");
 
                     StoreFileDetails storeFileDetails =
                         new StoreFileDetails(
@@ -89,7 +86,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    _logger.LogDebug("WriteToDEDS building store ILR tasks");
                     StoreIlr storeIlr = new StoreIlr(
                         connection,
                         transaction,
@@ -106,8 +102,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    _logger.LogDebug($"WriteToDEDS building store model tasks {_modelServices.Count}");
-
                     foreach (var service in _modelServices)
                     {
                         Task modelTask = Task.CompletedTask;
@@ -118,7 +112,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                             continue;
                         }
 
-                        _logger.LogDebug($"WriteToDEDS adding store model task");
                         modelTask = service.StoreModel(connection, transaction, cancellationToken);
 
                         tasks.Add(modelTask);
@@ -130,21 +123,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         }
                     }
 
-                    _logger.LogDebug("WriteToDEDS building store validation tasks");
-
                     StoreValidationOutput storeValidationOutput =
                         new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
                     Task storeValidationOutputTask =
                         storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
                     tasks.Add(storeValidationOutputTask);
 
-                    _logger.LogDebug($"WriteToDEDS has {tasks.Count} tasks to perform");
-
                     await Task.WhenAll(tasks);
 
-                    _logger.LogDebug("WriteToDEDS Transaction to be commited");
                     transaction.Commit();
-                    _logger.LogDebug("WriteToDEDS Transaction has commited");
                     successfullyCommitted = true;
                 }
                 catch (Exception ex)
