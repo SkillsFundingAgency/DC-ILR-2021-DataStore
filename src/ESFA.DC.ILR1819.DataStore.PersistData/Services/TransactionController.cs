@@ -106,7 +106,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    _logger.LogDebug("WriteToDEDS building store model tasks");
+                    _logger.LogDebug($"WriteToDEDS building store model tasks {_modelServices.Count}");
 
                     foreach (var service in _modelServices)
                     {

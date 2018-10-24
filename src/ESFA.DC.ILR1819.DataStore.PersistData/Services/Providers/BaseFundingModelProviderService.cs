@@ -23,11 +23,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
         public async Task<T> ReadAndDeserialiseFileAsync(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
             T fundingOutputs = default(T);
+            _logger.LogDebug($"ReadAndDeserialiseFileAsync for {_key}");
 
             try
             {
                 string filename = jobContextMessage.KeyValuePairs[_key].ToString();
+                _logger.LogDebug($"ReadAndDeserialiseFileAsync filename {filename}");
                 string data = await _redis.GetAsync(filename, cancellationToken);
+                _logger.LogDebug($"ReadAndDeserialiseFileAsync data {data?.Length}");
 
                 if (!string.IsNullOrEmpty(data))
                 {
