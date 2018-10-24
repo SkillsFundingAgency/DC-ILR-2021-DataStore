@@ -45,39 +45,48 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _logger.LogDebug("Inside DataStore callback");
             string ilrFilename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
 
-            stopWatch.Start();
-            Task<Message> messageTask = _ilrProviderService.ReadAndDeserialiseIlrAsync(ilrFilename, cancellationToken);
-            Task<List<string>> validLearnersTask = _validLearnerProviderService.ReadAndDeserialiseValidLearnersAsync(jobContextMessage, cancellationToken);
-
-            await Task.WhenAll(messageTask, validLearnersTask);
-
-            if (messageTask.Result == null)
+            try
             {
-                return false;
-            }
+                stopWatch.Start();
+                Task<Message> messageTask = _ilrProviderService.ReadAndDeserialiseIlrAsync(ilrFilename, cancellationToken);
+                Task<List<string>> validLearnersTask = _validLearnerProviderService.ReadAndDeserialiseValidLearnersAsync(jobContextMessage, cancellationToken);
 
-            if (cancellationToken.IsCancellationRequested)
+                await Task.WhenAll(messageTask, validLearnersTask);
+
+                if (messageTask.Result == null)
+                {
+                    _logger.LogDebug("DataStore callback could not read file - exiting before persistence");
+                    return false;
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.LogDebug("DataStore callback cancelling before persistence");
+                    return false;
+                }
+
+                if (!await _learnerPersistence.WriteToDeds(
+                    jobContextMessage,
+                    cancellationToken,
+                    ilrFilename,
+                    messageTask.Result,
+                    validLearnersTask.Result))
+                {
+                    _logger.LogError("write to DataStore failed");
+                    return false;
+                }
+
+                _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");
+                stopWatch.Restart();
+
+                await DeletePersistedData(jobContextMessage);
+                _logger.LogDebug($"Purged IO in: {stopWatch.ElapsedMilliseconds}");
+                _logger.LogDebug("Completed DataStore callback");
+            }
+            catch (Exception ex)
             {
-                return false;
+                _logger.LogError($"DataStore callback exception {ex.Message}", ex);
             }
-
-            if (!await _learnerPersistence.WriteToDeds(
-                jobContextMessage,
-                cancellationToken,
-                ilrFilename,
-                messageTask.Result,
-                validLearnersTask.Result))
-            {
-                _logger.LogError("write to DataStore failed");
-                return false;
-            }
-
-            _logger.LogDebug($"Persisted to DEDs in: {stopWatch.ElapsedMilliseconds}");
-            stopWatch.Restart();
-
-            await DeletePersistedData(jobContextMessage);
-            _logger.LogDebug($"Purged IO in: {stopWatch.ElapsedMilliseconds}");
-            _logger.LogDebug("Completed DataStore callback");
 
             return true;
         }
