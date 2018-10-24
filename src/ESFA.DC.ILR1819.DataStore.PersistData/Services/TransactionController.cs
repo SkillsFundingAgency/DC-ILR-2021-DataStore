@@ -63,9 +63,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
                     if (cancellationToken.IsCancellationRequested)
                     {
+                        _logger.LogDebug("WriteToDEDS exiting with cancellation request");
                         return false;
                     }
 
+                    _logger.LogDebug("WriteToDEDS beginning transaction");
                     transaction = connection.BeginTransaction();
 
                     StoreClear storeClear = new StoreClear(connection, transaction);
@@ -96,6 +98,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
                     if (cancellationToken.IsCancellationRequested)
                     {
+                        _logger.LogDebug("WriteToDEDS exiting with cancellation request");
                         return false;
                     }
 
@@ -105,6 +108,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         bool success = await service.GetModel(jobContextMessage, cancellationToken);
                         if (!success)
                         {
+                            _logger.LogDebug($"Failed to get model so not storing");
                             continue;
                         }
 
@@ -114,6 +118,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
                         if (cancellationToken.IsCancellationRequested)
                         {
+                            _logger.LogDebug("WriteToDEDS exiting with cancellation request");
                             return false;
                         }
                     }
@@ -127,6 +132,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                     await Task.WhenAll(tasks);
 
                     transaction.Commit();
+                    _logger.LogDebug("Transaction has completed");
                     successfullyCommitted = true;
                 }
                 catch (Exception ex)
@@ -137,6 +143,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                 {
                     if (!successfullyCommitted)
                     {
+                        _logger.LogDebug("Not successfully commited trying to rollback");
                         try
                         {
                             transaction?.Rollback();
