@@ -118,6 +118,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                             continue;
                         }
 
+                        _logger.LogDebug($"WriteToDEDS adding store model task");
                         modelTask = service.StoreModel(connection, transaction, cancellationToken);
 
                         tasks.Add(modelTask);
