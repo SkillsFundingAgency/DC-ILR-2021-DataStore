@@ -89,6 +89,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
+                    _logger.LogDebug("WriteToDEDS building store ILR tasks");
                     StoreIlr storeIlr = new StoreIlr(
                         connection,
                         transaction,
@@ -104,6 +105,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         _logger.LogDebug("WriteToDEDS exiting with cancellation request");
                         return false;
                     }
+
+                    _logger.LogDebug("WriteToDEDS building store model tasks");
 
                     foreach (var service in _modelServices)
                     {
@@ -126,13 +129,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         }
                     }
 
+                    _logger.LogDebug("WriteToDEDS building store validation tasks");
+
                     StoreValidationOutput storeValidationOutput =
                         new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
                     Task storeValidationOutputTask =
                         storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
                     tasks.Add(storeValidationOutputTask);
 
-                    _logger.LogDebug($"WriteToDEDS has {tasks.Count} storage tasks to perform");
+                    _logger.LogDebug($"WriteToDEDS has {tasks.Count} tasks to perform");
 
                     await Task.WhenAll(tasks);
 
@@ -143,7 +148,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError("Failed to persist to DEDs", ex);
+                    _logger.LogError("WriteToDEDS Failed to persist to DEDs", ex);
                 }
                 finally
                 {
