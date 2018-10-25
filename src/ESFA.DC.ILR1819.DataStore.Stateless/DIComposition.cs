@@ -121,11 +121,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .As<IQueuePublishService<JobStatusDto>>();
 
             // register Jobcontext services
-            var topicConfig = new ServiceBusTopicConfig(
+            var topicConfig = new TopicConfiguration(
                 serviceBusOptions.ServiceBusConnectionString,
                 serviceBusOptions.TopicName,
                 serviceBusOptions.DataStoreSubscriptionName,
-                1);
+                1,
+                maximumCallbackTimeSpan: TimeSpan.FromMinutes(30));
 
             containerBuilder.Register(c =>
             {
