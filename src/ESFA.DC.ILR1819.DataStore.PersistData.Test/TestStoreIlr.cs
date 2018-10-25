@@ -15,6 +15,8 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model;
+using ESFA.DC.Logging;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
@@ -105,7 +107,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction, jobContextMessage, validationErrorsService.Object);
+                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction, null, jobContextMessage, validationErrorsService.Object);
                     await storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
 
                     output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");

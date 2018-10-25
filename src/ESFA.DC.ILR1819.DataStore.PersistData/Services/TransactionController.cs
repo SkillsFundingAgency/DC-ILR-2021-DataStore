@@ -124,7 +124,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                     }
 
                     StoreValidationOutput storeValidationOutput =
-                        new StoreValidationOutput(connection, transaction, jobContextMessage, _validationErrorsService);
+                        new StoreValidationOutput(connection, transaction, _logger, jobContextMessage, _validationErrorsService);
                     Task storeValidationOutputTask =
                         storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
                     tasks.Add(storeValidationOutputTask);
