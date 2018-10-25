@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -56,26 +57,40 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 validationErrorsLookupStorageKey)).ToList();
             List<ValidationError> validationErrors = new List<ValidationError>(validationErrorDtos.Count);
 
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 5");
+            _logger?.LogDebug($"StoreValidationOutput.StoreAsync 5 {validationErrorDtos.Count}");
+            long index = 0;
             foreach (ValidationErrorDto validationErrorDto in validationErrorDtos)
             {
-                validationErrors.Add(new ValidationError
+                if (string.IsNullOrEmpty(validationErrorDto.Severity))
                 {
-                    UKPRN = ukPrn,
-                    SWSupAimID = "Unknown",
-                    FileLevelError = 1,
-                    AimSeqNum = validationErrorDto.AimSequenceNumber,
-                    ErrorMessage = validationErrorDto.ErrorMessage,
-                    FieldValues = validationErrorDto.FieldValues,
-                    LearnAimRef =
-                        ilr.Learners.SingleOrDefault(x => x.LearnRefNumber == validationErrorDto.LearnerReferenceNumber)
-                            ?.LearningDeliveries.SingleOrDefault(x => x.AimSeqNumber == validationErrorDto.AimSequenceNumber)
-                            ?.LearnAimRef ?? "Unknown",
-                    LearnRefNumber = validationErrorDto.LearnerReferenceNumber,
-                    RuleName = validationErrorDto.RuleName,
-                    Severity = validationErrorDto.Severity.Substring(0, 1),
-                    Source = filename
-                });
+                    _logger.LogDebug($"ValidationErrorDto {index} --> validation error");
+                }
+
+                try // Hal - trying to capture real data causing an error. Not necessarily intended for production code!
+                {
+                    validationErrors.Add(new ValidationError
+                    {
+                        UKPRN = ukPrn,
+                        SWSupAimID = "Unknown",
+                        FileLevelError = 1,
+                        AimSeqNum = validationErrorDto.AimSequenceNumber,
+                        ErrorMessage = validationErrorDto.ErrorMessage,
+                        FieldValues = validationErrorDto.FieldValues,
+                        LearnAimRef =
+                            ilr.Learners.SingleOrDefault(x => x.LearnRefNumber == validationErrorDto.LearnerReferenceNumber)
+                                ?.LearningDeliveries.SingleOrDefault(x => x.AimSeqNumber == validationErrorDto.AimSequenceNumber)
+                                ?.LearnAimRef ?? "Unknown",
+                        LearnRefNumber = validationErrorDto.LearnerReferenceNumber,
+                        RuleName = validationErrorDto.RuleName,
+                        Severity = validationErrorDto.Severity.Substring(0, 1),
+                        Source = filename
+                    });
+                    ++index;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Index causing exception would be {index}", ex);
+                }
             }
 
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 6");
