@@ -13,12 +13,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
         {
-            List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Count * 12);
-            List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Count);
-            List<ALB_LearningDelivery> albLearningDeliveries = new List<ALB_LearningDelivery>(fundingOutputs.Learners.Count);
-            List<ALB_LearningDelivery_Period> albLearningDeliveryPeriods = new List<ALB_LearningDelivery_Period>(fundingOutputs.Learners.Count * 12);
-            List<ALB_LearningDelivery_PeriodisedValues> albLearningDeliveryPeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>(fundingOutputs.Learners.Count);
-
             ALB_global albGlobal = new ALB_global
             {
                 UKPRN = ukPrn,
@@ -33,6 +27,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             {
                 return;
             }
+
+            List<ALB_Learner_Period> albLearnerPeriods = new List<ALB_Learner_Period>(fundingOutputs.Learners.Count * 12);
+            List<ALB_Learner_PeriodisedValues> albLearnerPeriodisedValues = new List<ALB_Learner_PeriodisedValues>(fundingOutputs.Learners.Count);
+            List<ALB_LearningDelivery> albLearningDeliveries = new List<ALB_LearningDelivery>(fundingOutputs.Learners.Count);
+            List<ALB_LearningDelivery_Period> albLearningDeliveryPeriods = new List<ALB_LearningDelivery_Period>(fundingOutputs.Learners.Count * 12);
+            List<ALB_LearningDelivery_PeriodisedValues> albLearningDeliveryPeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>(fundingOutputs.Learners.Count);
 
             foreach (var learner in fundingOutputs.Learners)
             {
