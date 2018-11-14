@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -40,18 +40,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 }
 
                 _sqlBulkCopy.ColumnMappings.Clear();
-                using (ObjectReader reader = ObjectReader.Create(source))
+                var columnNames = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).Select(p => p.Name).ToArray();
+
+                using (var reader = ObjectReader.Create(source, columnNames))
                 {
                     _sqlBulkCopy.DestinationTableName = table;
-                    DataTable schema = reader.GetSchemaTable();
-                    if (schema == null)
-                    {
-                        return;
-                    }
 
-                    for (int i = 0; i < schema.Rows.Count; i++)
+                    foreach (var name in columnNames)
                     {
-                        _sqlBulkCopy.ColumnMappings.Add(schema.Rows[i].ItemArray[1].ToString(), schema.Rows[i].ItemArray[1].ToString());
+                        _sqlBulkCopy.ColumnMappings.Add(name, name);
                     }
 
                     await _sqlBulkCopy.WriteToServerAsync(reader, _cancellationToken);
