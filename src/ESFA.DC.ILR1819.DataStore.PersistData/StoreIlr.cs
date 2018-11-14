@@ -14,12 +14,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreIlr : IStoreIlr
     {
-        private readonly SqlConnection _connection;
-
-        private readonly SqlTransaction _transaction;
-
-        private readonly IJobContextMessage _jobContextMessage;
-
         private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
         private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
 
@@ -27,28 +21,23 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private InvalidLearnerData _invalidLearnerData;
 
         public StoreIlr(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            IJobContextMessage jobContextMessage,
             ILearnerValidDataBuilder learnerValidDataBuilder,
             ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
         {
-            _connection = connection;
-            _transaction = transaction;
-            _jobContextMessage = jobContextMessage;
-
             _learnerValidDataBuilder = learnerValidDataBuilder;
             _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
         }
 
-        public async Task StoreAsync(IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
+        public async Task StoreAsync(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
         {
-            await ProcessFileDetails(ilr, cancellationToken);
-            await ProcessLearners(ilr, validLearners, cancellationToken);
-            await ProcessLearnerDestinationsAndProgressions(ilr, validLearners, cancellationToken);
+            await ProcessFileDetails(jobContextMessage, sqlConnection, sqlTransaction, ilr, cancellationToken);
+            await ProcessLearners(sqlConnection, sqlTransaction, ilr, validLearners, cancellationToken);
+            await ProcessLearnerDestinationsAndProgressions(sqlConnection, sqlTransaction, ilr, validLearners, cancellationToken);
         }
 
         private async Task ProcessLearners(
+            SqlConnection sqlConnection,
+            SqlTransaction sqlTransaction,
             IMessage ilr,
             List<string> learnersValid,
             CancellationToken cancellationToken)
@@ -61,12 +50,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            await SaveLearnerRecords(cancellationToken);
+            await SaveLearnerRecords(sqlConnection, sqlTransaction, cancellationToken);
         }
 
-        private async Task SaveLearnerRecords(CancellationToken cancellationToken)
+        private async Task SaveLearnerRecords(SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
+            using (BulkInsert bulkInsert = new BulkInsert(sqlConnection, sqlTransaction, cancellationToken))
             {
                 await bulkInsert.Insert("Invalid.AppFinRecord", _invalidLearnerData.RecordsInvalidAppFinRecords);
                 await bulkInsert.Insert("Invalid.ContactPreference", _invalidLearnerData.RecordsInvalidContactPreferences);
@@ -102,7 +91,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private async Task ProcessFileDetails(IMessage ilr, CancellationToken cancellationToken)
+        private async Task ProcessFileDetails(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, CancellationToken cancellationToken)
         {
             DateTime nowUtc = DateTime.UtcNow;
 
@@ -167,7 +156,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 SerialNo = "NA",
                 SoftwarePackage = "DataStore Persist",
                 SoftwareSupplier = "ESFA DC",
-                SourceFileName = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString()
+                SourceFileName = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString()
             };
 
             EF.Invalid.SourceFile sourceFileInvalid = new EF.Invalid.SourceFile
@@ -179,7 +168,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 SerialNo = "NA",
                 SoftwarePackage = "DataStore Persist",
                 SoftwareSupplier = "ESFA DC",
-                SourceFileName = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString()
+                SourceFileName = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString()
             };
 
             if (cancellationToken.IsCancellationRequested)
@@ -187,7 +176,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
+            using (BulkInsert bulkInsert = new BulkInsert(sqlConnection, sqlTransaction, cancellationToken))
             {
                 await bulkInsert.Insert("Valid.CollectionDetails", new List<EF.Valid.CollectionDetail> { collectionDetailsValid });
                 await bulkInsert.Insert("Valid.LearningProvider", new List<EF.Valid.LearningProvider> { learningProviderValid });
@@ -202,6 +191,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         }
 
         private async Task ProcessLearnerDestinationsAndProgressions(
+            SqlConnection sqlConnection,
+            SqlTransaction sqlTransaction,
             IMessage ilr,
             List<string> learnersValid,
             CancellationToken cancellationToken)
@@ -277,7 +268,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
+            using (BulkInsert bulkInsert = new BulkInsert(sqlConnection, sqlTransaction, cancellationToken))
             {
                 await bulkInsert.Insert("Invalid.DPOutcome", recordsInvalidDpoutcomes);
                 await bulkInsert.Insert("Invalid.LearnerDestinationandProgression", recordsInvalidLearnerDestinationandProgressions);

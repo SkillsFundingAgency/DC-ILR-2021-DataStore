@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.Model;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model.Interface;
@@ -14,7 +15,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     /// <summary>
     /// Entry point to the application. This class contains the job context callback.
     /// </summary>
-    public sealed class EntryPoint
+    public sealed class EntryPoint : IEntryPoint
     {
         private readonly ITransactionController _learnerPersistence;
         private readonly IILRProviderService _ilrProviderService;

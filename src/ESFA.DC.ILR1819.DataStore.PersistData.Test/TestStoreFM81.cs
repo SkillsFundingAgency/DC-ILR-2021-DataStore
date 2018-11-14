@@ -43,8 +43,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             var fm81Output = await ReadAndDeserialiseAsync(fm81FileName, ukprn, jobContextMessage, persist, serialise);
 
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
             {
                 SqlTransaction transaction = null;
                 try
@@ -56,8 +55,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     _output.WriteLine($"SQL Connect: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreClear storeClear = new StoreClear(connection, transaction);
-                    await storeClear.ClearAsync(ukprn, Path.GetFileName(fm81FileName), cancellationToken);
+                    StoreClear storeClear = new StoreClear();
+                    await storeClear.ClearAsync(connection, transaction, ukprn, Path.GetFileName(fm81FileName), cancellationToken);
 
                     _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fm81FileName}");
                     stopwatch.Restart();

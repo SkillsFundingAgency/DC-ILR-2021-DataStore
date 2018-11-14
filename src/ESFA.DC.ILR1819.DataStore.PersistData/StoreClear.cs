@@ -8,19 +8,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreClear : IStoreClear
     {
-        private readonly SqlConnection _connection;
-        private readonly SqlTransaction _transaction;
-
-        public StoreClear(SqlConnection connection, SqlTransaction transaction)
-        {
-            _connection = connection;
-            _transaction = transaction;
-        }
-
-        public async Task ClearAsync(int ukPrn, string filename, CancellationToken cancellationToken)
+        public async Task ClearAsync(SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, string filename, CancellationToken cancellationToken)
         {
             using (SqlCommand sqlCommand =
-                    new SqlCommand("[dbo].[DeleteExistingRecords]", _connection, _transaction))
+                    new SqlCommand("[dbo].[DeleteExistingRecords]", sqlConnection, sqlTransaction))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = ukPrn;

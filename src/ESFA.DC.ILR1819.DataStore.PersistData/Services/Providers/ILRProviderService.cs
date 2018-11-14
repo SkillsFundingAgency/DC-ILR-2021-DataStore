@@ -12,9 +12,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 {
     public class ILRProviderService : IILRProviderService
     {
-        private IStreamableKeyValuePersistenceService _storage;
-        private IXmlSerializationService _xmlSerializationService;
-        private ILogger _logger;
+        private readonly IStreamableKeyValuePersistenceService _storage;
+        private readonly IXmlSerializationService _xmlSerializationService;
+        private readonly ILogger _logger;
 
         public ILRProviderService(
             IStreamableKeyValuePersistenceService storage,

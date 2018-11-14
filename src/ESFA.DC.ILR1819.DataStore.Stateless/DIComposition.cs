@@ -239,6 +239,14 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<FM70Service>().As<IModelService>()
                 .InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<StoreIlr>().As<IStoreIlr>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreValidationOutput>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
+
             containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
                 .As<IList<IModelService>>();
         }

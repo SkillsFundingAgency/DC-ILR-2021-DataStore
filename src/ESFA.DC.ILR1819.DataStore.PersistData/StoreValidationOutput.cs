@@ -17,40 +17,25 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreValidationOutput : IStoreValidationOutput
     {
-        private readonly SqlConnection _connection;
-
-        private readonly SqlTransaction _transaction;
-
-        private readonly IJobContextMessage _jobContextMessage;
-
         private readonly IValidationErrorsService _validationErrorsService;
-
         private readonly ILogger _logger;
 
         public StoreValidationOutput(
-            SqlConnection connection,
-            SqlTransaction transaction,
             ILogger logger,
-            IJobContextMessage jobContextMessage,
             IValidationErrorsService validationErrorsService)
         {
-            _connection = connection;
-            _transaction = transaction;
-            _jobContextMessage = jobContextMessage;
             _validationErrorsService = validationErrorsService;
             _logger = logger;
         }
 
-        public async Task StoreAsync(int ukPrn, IMessage ilr, CancellationToken cancellationToken)
+        public async Task StoreAsync(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
         {
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 1");
-            string validationErrorsStorageKey =
-                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
+            string validationErrorsStorageKey = jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 2");
-            string validationErrorsLookupStorageKey =
-                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups].ToString();
+            string validationErrorsLookupStorageKey = jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups].ToString();
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 3");
-            string filename = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
+            string filename = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 4");
             List<ValidationErrorDto> validationErrorDtos = (await _validationErrorsService.GetValidationErrorsAsync(
                 validationErrorsStorageKey,
@@ -100,7 +85,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 7");
-            using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
+            using (BulkInsert bulkInsert = new BulkInsert(sqlConnection, sqlTransaction, cancellationToken))
             {
                 await bulkInsert.Insert("dbo.ValidationError", validationErrors);
             }

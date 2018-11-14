@@ -18,27 +18,29 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
     public class TransactionController : ITransactionController
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
-        private readonly IValidationErrorsService _validationErrorsService;
         private readonly ILogger _logger;
-        private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
-        private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
         private readonly IList<IModelService> _modelServices;
+        private readonly IStoreFileDetails _storeFileDetails;
+        private readonly IStoreIlr _storeIlr;
+        private readonly IStoreValidationOutput _storeValidationOutput;
+        private readonly IStoreClear _storeClear;
 
         public TransactionController(
             PersistDataConfiguration persistDataConfiguration,
-            IValidationErrorsService validationErrorsService,
             ILogger logger,
-            ILearnerValidDataBuilder learnerValidDataBuilder,
-            ILearnerInvalidDataBuilder learnerInvalidDataBuilder,
-            IList<IModelService> modelServices)
+            IList<IModelService> modelServices,
+            IStoreFileDetails storeFileDetails,
+            IStoreIlr storeIlr,
+            IStoreValidationOutput storeValidationOutput,
+            IStoreClear storeClear)
         {
             _persistDataConfiguration = persistDataConfiguration;
-            _validationErrorsService = validationErrorsService;
             _logger = logger;
-            _learnerValidDataBuilder = learnerValidDataBuilder;
-            _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
-
             _modelServices = modelServices;
+            _storeFileDetails = storeFileDetails;
+            _storeIlr = storeIlr;
+            _storeValidationOutput = storeValidationOutput;
+            _storeClear = storeClear;
         }
 
         public async Task<bool> WriteToDeds(
@@ -51,15 +53,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
             int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
             bool successfullyCommitted = false;
 
-            using (SqlConnection connection =
-                new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
             {
-                SqlTransaction transaction = null;
+                SqlTransaction sqlTransaction = null;
+
                 try
                 {
                     List<Task> tasks = new List<Task>();
 
-                    await connection.OpenAsync(cancellationToken);
+                    await sqlConnection.OpenAsync(cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -67,17 +69,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    transaction = connection.BeginTransaction();
+                    sqlTransaction = sqlConnection.BeginTransaction();
 
-                    StoreClear storeClear = new StoreClear(connection, transaction);
-                    await storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
+                    await _storeClear.ClearAsync(sqlConnection, sqlTransaction, ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
-                    StoreFileDetails storeFileDetails =
-                        new StoreFileDetails(
-                            connection,
-                            transaction,
-                            jobContextMessage);
-                    Task storeFileDetailsTask = storeFileDetails.StoreAsync(cancellationToken);
+                    Task storeFileDetailsTask = _storeFileDetails.StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, cancellationToken);
                     tasks.Add(storeFileDetailsTask);
 
                     if (cancellationToken.IsCancellationRequested)
@@ -86,14 +82,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    StoreIlr storeIlr = new StoreIlr(
-                        connection,
-                        transaction,
-                        jobContextMessage,
-                        _learnerValidDataBuilder,
-                        _learnerInvalidDataBuilder);
-                    Task storeIlrTask =
-                        storeIlr.StoreAsync(message, validLearners, cancellationToken);
+                    Task storeIlrTask = _storeIlr.StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, message, validLearners, cancellationToken);
                     tasks.Add(storeIlrTask);
 
                     if (cancellationToken.IsCancellationRequested)
@@ -112,7 +101,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                             continue;
                         }
 
-                        modelTask = service.StoreModel(connection, transaction, cancellationToken);
+                        modelTask = service.StoreModel(sqlConnection, sqlTransaction, cancellationToken);
 
                         tasks.Add(modelTask);
 
@@ -123,15 +112,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         }
                     }
 
-                    StoreValidationOutput storeValidationOutput =
-                        new StoreValidationOutput(connection, transaction, _logger, jobContextMessage, _validationErrorsService);
-                    Task storeValidationOutputTask =
-                        storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
+                    Task storeValidationOutputTask = _storeValidationOutput.StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, ukPrn, message, cancellationToken);
                     tasks.Add(storeValidationOutputTask);
 
                     await Task.WhenAll(tasks);
 
-                    transaction.Commit();
+                    sqlTransaction.Commit();
                     successfullyCommitted = true;
                 }
                 catch (Exception ex)
@@ -145,7 +131,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         _logger.LogDebug("Not successfully commited trying to rollback");
                         try
                         {
-                            transaction?.Rollback();
+                            sqlTransaction?.Rollback();
                         }
                         catch (Exception ex2)
                         {

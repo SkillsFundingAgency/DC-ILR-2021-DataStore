@@ -55,8 +55,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     _output.WriteLine($"SQL Connect: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreClear storeClear = new StoreClear(connection, transaction);
-                    await storeClear.ClearAsync(ukprn, Path.GetFileName(fm25FileName), cancellationToken);
+                    StoreClear storeClear = new StoreClear();
+                    await storeClear.ClearAsync(connection, transaction, ukprn, Path.GetFileName(fm25FileName), cancellationToken);
 
                     _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fm25FileName}");
                     stopwatch.Restart();

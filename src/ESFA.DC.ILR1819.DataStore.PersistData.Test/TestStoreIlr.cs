@@ -71,8 +71,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"SQL Connect: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreClear storeClear = new StoreClear(connection, transaction);
-                    Task clearTask = storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
+                    StoreClear storeClear = new StoreClear();
+                    Task clearTask = storeClear.ClearAsync(connection, transaction, ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
                     await Task.WhenAll(reandAndSerialiseTask, clearTask);
                     message = reandAndSerialiseTask.Result.Item1;
@@ -80,23 +80,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
                     stopwatch.Restart();
 
-                    StoreFileDetails storeFileDetails =
-                        new StoreFileDetails(
-                            connection,
-                            transaction,
-                            jobContextMessage);
-                    await storeFileDetails.StoreAsync(cancellationToken);
+                    StoreFileDetails storeFileDetails = new StoreFileDetails();
+                    await storeFileDetails.StoreAsync(jobContextMessage, connection, transaction, cancellationToken);
 
                     output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
                     StoreIlr storeIlr = new StoreIlr(
-                        connection,
-                        transaction,
-                        jobContextMessage,
                         validLearnersBuilder,
                         invalidLearnersBuilder);
-                    await storeIlr.StoreAsync(message, validLearners.ToList(), cancellationToken);
+                    await storeIlr.StoreAsync(jobContextMessage, connection, transaction, message, validLearners.ToList(), cancellationToken);
 
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
@@ -107,8 +100,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(connection, transaction, null, jobContextMessage, validationErrorsService.Object);
-                    await storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
+                    StoreValidationOutput storeValidationOutput = new StoreValidationOutput(null, validationErrorsService.Object);
+                    await storeValidationOutput.StoreAsync(jobContextMessage, connection, transaction, ukPrn, message, cancellationToken);
 
                     output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
