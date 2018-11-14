@@ -69,7 +69,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 if (!await _learnerPersistence.WriteToDeds(
                     jobContextMessage,
                     cancellationToken,
-                    ilrFilename,
                     messageTask.Result,
                     validLearnersTask.Result))
                 {

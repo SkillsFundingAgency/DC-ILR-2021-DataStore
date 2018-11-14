@@ -11,7 +11,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface.Service
         Task<bool> WriteToDeds(
             IJobContextMessage jobContextMessage,
             CancellationToken cancellationToken,
-            string ilrFilename,
             Message message,
             List<string> validLearners);
     }

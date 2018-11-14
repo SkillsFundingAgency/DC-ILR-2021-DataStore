@@ -217,6 +217,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\AbstractStore.cs" />
     <Compile Include="Builders\AppFinRecordBuilder.cs" />
     <Compile Include="Builders\ContactPreferenceBuilder.cs" />
     <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />

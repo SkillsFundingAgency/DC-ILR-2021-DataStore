@@ -48,6 +48,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             catch (Exception ex)
             {
                 _logger.LogError("Failed to retrieve and deserialise message", ex);
+                throw;
             }
 
             return message;

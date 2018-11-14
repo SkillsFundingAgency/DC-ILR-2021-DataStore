@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public sealed class StoreRuleAlb : IStoreRuleAlb
+    public sealed class StoreRuleAlb : AbstractStore, IStoreRuleAlb
     {
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection connection, SqlTransaction sqlTransaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
         {
             ALB_global albGlobal = new ALB_global
             {
@@ -21,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion
             };
 
-            StoreGlobal(connection, transaction, cancellationToken, albGlobal);
+            StoreGlobal(connection, sqlTransaction, cancellationToken, albGlobal);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -192,26 +193,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.ALB_Learner_Period", albLearnerPeriods);
-                await bulkInsert.Insert("Rulebase.ALB_Learner_PeriodisedValues", albLearnerPeriodisedValues);
-                await bulkInsert.Insert("Rulebase.ALB_LearningDelivery", albLearningDeliveries);
-                await bulkInsert.Insert("Rulebase.ALB_LearningDelivery_Period", albLearningDeliveryPeriods);
-                await bulkInsert.Insert("Rulebase.ALB_LearningDelivery_PeriodisedValues", albLearningDeliveryPeriodisedValues);
-            }
+            await _bulkInsert.Insert("Rulebase.ALB_Learner_Period", albLearnerPeriods, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ALB_Learner_PeriodisedValues", albLearnerPeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ALB_LearningDelivery", albLearningDeliveries, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ALB_LearningDelivery_Period", albLearningDeliveryPeriods, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ALB_LearningDelivery_PeriodisedValues", albLearningDeliveryPeriodisedValues, sqlTransaction, cancellationToken);
         }
 
-        private async void StoreGlobal(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            CancellationToken cancellationToken,
-            ALB_global albGlobal)
+        private async void StoreGlobal(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken, ALB_global albGlobal)
         {
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal });
-            }
+            await _bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal }, sqlTransaction, cancellationToken);
         }
 
         private decimal? GetPeriodValue(LearnerPeriodisedValue attr, int period)

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public class StoreFM25 : IStoreFM25
+    public class StoreFM25 : AbstractStore, IStoreFM25
     {
         private FM25_global _fm25Global;
         private List<FM25_Learner> _learner;
@@ -88,36 +89,27 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await SaveData(connection, transaction, cancellationToken);
         }
 
-        private async void StoreGlobal(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            CancellationToken cancellationToken)
+        private async void StoreGlobal(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.FM25_global", new List<FM25_global> { _fm25Global });
-                await bulkInsert.Insert("Rulebase.FM25_FM35_global", new List<FM25_FM35_global> { _periodGlobal });
-            }
+            await _bulkInsert.Insert("Rulebase.FM25_global", new List<FM25_global> { _fm25Global }, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.FM25_FM35_global", new List<FM25_FM35_global> { _periodGlobal }, sqlTransaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        private async Task SaveData(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.FM25_Learner", _learner);
-                await bulkInsert.Insert("Rulebase.FM25_FM35_Learner_Period", _periods);
-                await bulkInsert.Insert("Rulebase.FM25_FM35_Learner_PeriodisedValues", _periodValues);
-            }
+            await _bulkInsert.Insert("Rulebase.FM25_Learner", _learner, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.FM25_FM35_Learner_Period", _periods, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.FM25_FM35_Learner_PeriodisedValues", _periodValues, sqlTransaction, cancellationToken);
         }
     }
 }
