@@ -20,8 +20,6 @@ using ESFA.DC.ILR1819.DataStore.Stateless.Modules;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.IO.Redis;
-using ESFA.DC.IO.Redis.Config.Interfaces;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager;
 using ESFA.DC.JobContextManager.Interface;
@@ -45,16 +43,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
         {
             var containerBuilder = new ContainerBuilder();
 
-            // register Cosmos config
-            var azureRedisOptions = configHelper.GetSectionValues<RedisOptions>("RedisSection");
-            containerBuilder.Register(c => new RedisKeyValuePersistenceConfig(
-                    azureRedisOptions.RedisConnectionString))
-                .As<IRedisKeyValuePersistenceServiceConfig>().SingleInstance();
-
-            containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Redis)
-                .InstancePerLifetimeScope();
-
             // register azure blob storage service
             var azureBlobStorageOptions = configHelper.GetSectionValues<AzureStorageOptions>("AzureStorageSection");
             containerBuilder.Register(c =>
@@ -65,6 +53,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
                 .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
+                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Redis)
                 .As<IStreamableKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
