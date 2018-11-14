@@ -36,6 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
 
         public async Task<bool> HandleAsync(JobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
+            ILogger logme = null;
             try
             {
                 using (var childLifeTimeScope = _parentLifeTimeScope.BeginLifetimeScope(c =>
@@ -47,6 +48,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
                     var executionContext = (Logging.ExecutionContext)childLifeTimeScope.Resolve<IExecutionContext>();
                     executionContext.JobId = jobContextMessage.JobId.ToString();
                     var logger = childLifeTimeScope.Resolve<ILogger>();
+                    logme = logger;
                     logger.LogDebug("started Data store");
 
                     var entryPoint = childLifeTimeScope.Resolve<EntryPoint>();
@@ -62,6 +64,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
             }
             catch (Exception ex)
             {
+                logme.LogError("DataStore.MessageHandler", ex);
                 ServiceEventSource.Current.ServiceMessage(_context, "Exception-{0}", ex.ToString());
                 throw;
             }
