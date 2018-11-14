@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using ESFA.DC.ILR1819.DataStore.PersistData;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
@@ -37,6 +38,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                 using (var lifeTime = c.BeginLifetimeScope())
                 {
                     var messageHandler = lifeTime.Resolve<IMessageHandler<JobContextMessage>>();
+                    var entryPoint = lifeTime.Resolve<EntryPoint>();
                     bool ret = await messageHandler.HandleAsync(jobContextMessage, cts.Token);
                 }
             }

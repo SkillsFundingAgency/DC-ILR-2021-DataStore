@@ -27,7 +27,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             {
                 CurFundYr = fundingOutputs.CurFundYr,
                 LARSVersion = fundingOutputs.LARSVersion,
-                UKPRN = ukPrn.ToString(),
+                UKPRN = ukPrn,
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
                 OrgVersion = fundingOutputs.OrgVersion,
                 PostcodeDisadvantageVersion = fundingOutputs.PostcodeDisadvantageVersion
