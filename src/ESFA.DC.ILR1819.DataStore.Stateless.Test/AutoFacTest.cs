@@ -38,7 +38,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                 using (var lifeTime = c.BeginLifetimeScope())
                 {
                     var messageHandler = lifeTime.Resolve<IMessageHandler<JobContextMessage>>();
-                    var entryPoint = lifeTime.Resolve<EntryPoint>();
                     bool ret = await messageHandler.HandleAsync(jobContextMessage, cts.Token);
                 }
             }

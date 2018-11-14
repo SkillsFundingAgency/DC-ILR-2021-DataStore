@@ -145,7 +145,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
 
             // register Entrypoint
-            containerBuilder.RegisterType<EntryPoint>()
+            containerBuilder.RegisterType<EntryPoint>().As<IEntryPoint>()
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
