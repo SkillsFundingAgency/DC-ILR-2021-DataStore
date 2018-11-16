@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
@@ -16,13 +15,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
         private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
-        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public StoreIlr(ILearnerValidDataBuilder learnerValidDataBuilder, ILearnerInvalidDataBuilder learnerInvalidDataBuilder, IDateTimeProvider dateTimeProvider)
+        public StoreIlr(ILearnerValidDataBuilder learnerValidDataBuilder, ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
         {
             _learnerValidDataBuilder = learnerValidDataBuilder;
             _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
-            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
@@ -87,13 +84,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async Task ProcessFileDetails(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, CancellationToken cancellationToken)
         {
-            DateTime nowUtc = _dateTimeProvider.GetNowUtc();
-
-            var originalFileName = dataStoreContext.OriginalFilename;
+            var ukprn = dataStoreContext.Ukprn;
 
             EF.Valid.CollectionDetail collectionDetailsValid = new EF.Valid.CollectionDetail
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 Collection = ilr.HeaderEntity.CollectionDetailsEntity.CollectionString,
                 FilePreparationDate = ilr.HeaderEntity.CollectionDetailsEntity.FilePreparationDate,
                 Year = ilr.HeaderEntity.CollectionDetailsEntity.YearString
@@ -101,7 +96,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             EF.Invalid.CollectionDetail collectionDetailsInvalid = new EF.Invalid.CollectionDetail
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 Collection = ilr.HeaderEntity.CollectionDetailsEntity.CollectionString,
                 FilePreparationDate = ilr.HeaderEntity.CollectionDetailsEntity.FilePreparationDate,
                 Year = ilr.HeaderEntity.CollectionDetailsEntity.YearString
@@ -109,63 +104,72 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             EF.Valid.LearningProvider learningProviderValid = new EF.Valid.LearningProvider
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
+                UKPRN = ukprn
             };
 
             EF.Invalid.LearningProvider learningProviderInvalid = new EF.Invalid.LearningProvider
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
+                UKPRN = ukprn
             };
 
-            EF.Valid.Source sourceValid = new EF.Valid.Source
+            var source = ilr.HeaderEntity.SourceEntity;
+
+            var sourceValid = new EF.Valid.Source
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                ComponentSetVersion = "1.0",
-                DateTime = nowUtc,
-                ProtectiveMarking = "NA",
-                ReferenceData = "NA",
-                Release = "0.1.0",
-                SerialNo = "NA",
-                SoftwarePackage = "DataStore Persist",
-                SoftwareSupplier = "ESFA DC"
+                UKPRN = ukprn,
+                ComponentSetVersion = source.ComponentSetVersion,
+                DateTime = source.DateTime,
+                ProtectiveMarking = source.ProtectiveMarkingString,
+                ReferenceData = source.ReferenceData,
+                Release = source.Release,
+                SerialNo = source.SerialNo,
+                SoftwarePackage = source.SoftwarePackage,
+                SoftwareSupplier = source.SoftwareSupplier
             };
 
-            EF.Invalid.Source sourceInvalid = new EF.Invalid.Source
+            var sourceInvalid = new EF.Invalid.Source
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                ComponentSetVersion = "1.0",
-                DateTime = nowUtc,
-                ProtectiveMarking = "NA",
-                ReferenceData = "NA",
-                Release = "0.1.0",
-                SerialNo = "NA",
-                SoftwarePackage = "DataStore Persist",
-                SoftwareSupplier = "ESFA DC"
+                UKPRN = ukprn,
+                ComponentSetVersion = source.ComponentSetVersion,
+                DateTime = source.DateTime,
+                ProtectiveMarking = source.ProtectiveMarkingString,
+                ReferenceData = source.ReferenceData,
+                Release = source.Release,
+                SerialNo = source.SerialNo,
+                SoftwarePackage = source.SoftwarePackage,
+                SoftwareSupplier = source.SoftwareSupplier
             };
 
-            EF.Valid.SourceFile sourceFileValid = new EF.Valid.SourceFile
-            {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                DateTime = nowUtc,
-                FilePreparationDate = ilr.HeaderEntity.SourceEntity.DateTime,
-                Release = "0.1.0",
-                SerialNo = "NA",
-                SoftwarePackage = "DataStore Persist",
-                SoftwareSupplier = "ESFA DC",
-                SourceFileName = originalFileName,
-            };
+            var sourceFilesValid = ilr
+                .SourceFilesCollection?
+                .Select(sf => new EF.Valid.SourceFile
+                {
+                    UKPRN = ukprn,
+                    DateTime = sf.DateTimeNullable,
+                    FilePreparationDate = sf.FilePreparationDate,
+                    Release = sf.Release,
+                    SerialNo = sf.SerialNo,
+                    SoftwarePackage = sf.SoftwarePackage,
+                    SoftwareSupplier = sf.SoftwareSupplier,
+                    SourceFileName = sf.SourceFileName,
+                }).ToList()
+                ?? new List<EF.Valid.SourceFile>();
 
-            EF.Invalid.SourceFile sourceFileInvalid = new EF.Invalid.SourceFile
-            {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                DateTime = nowUtc,
-                FilePreparationDate = ilr.HeaderEntity.SourceEntity.DateTime,
-                Release = "0.1.0",
-                SerialNo = "NA",
-                SoftwarePackage = "DataStore Persist",
-                SoftwareSupplier = "ESFA DC",
-                SourceFileName = originalFileName,
-            };
+            var sourceFilesInvalid = ilr
+                .SourceFilesCollection?
+                .Select(sf => new EF.Invalid.SourceFile
+                {
+                    UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                    DateTime = sf.DateTimeNullable,
+                    FilePreparationDate = sf.FilePreparationDate,
+                    Release = sf.Release,
+                    SerialNo = sf.SerialNo,
+                    SoftwarePackage = sf.SoftwarePackage,
+                    SoftwareSupplier = sf.SoftwareSupplier,
+                    SourceFileName = sf.SourceFileName,
+                })
+                .ToList()
+                ?? new List<EF.Invalid.SourceFile>();
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -175,12 +179,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await _bulkInsert.Insert("Valid.CollectionDetails", new List<EF.Valid.CollectionDetail> { collectionDetailsValid }, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert("Valid.LearningProvider", new List<EF.Valid.LearningProvider> { learningProviderValid }, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert("Valid.Source", new List<EF.Valid.Source> { sourceValid }, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.SourceFile", new List<EF.Valid.SourceFile> { sourceFileValid }, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.SourceFile", sourceFilesValid, sqlTransaction, cancellationToken);
 
             await _bulkInsert.Insert("Invalid.CollectionDetails", new List<EF.Invalid.CollectionDetail> { collectionDetailsInvalid }, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert("Invalid.LearningProvider", new List<EF.Invalid.LearningProvider> { learningProviderInvalid }, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert("Invalid.Source", new List<EF.Invalid.Source> { sourceInvalid }, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.SourceFile", new List<EF.Invalid.SourceFile> { sourceFileInvalid }, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.SourceFile", sourceFilesInvalid, sqlTransaction, cancellationToken);
         }
 
         private async Task ProcessLearnerDestinationsAndProgressions(

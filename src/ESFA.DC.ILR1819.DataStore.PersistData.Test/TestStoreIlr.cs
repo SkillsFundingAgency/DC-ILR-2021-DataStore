@@ -85,10 +85,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreIlr storeIlr = new StoreIlr(
-                        validLearnersBuilder,
-                        invalidLearnersBuilder,
-                        dateTimeProviderMock.Object);
+                    StoreIlr storeIlr = new StoreIlr(validLearnersBuilder, invalidLearnersBuilder);
                     await storeIlr.StoreAsync(dataStoreContext, connection, transaction, message, validLearners.ToList(), cancellationToken);
 
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
