@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
@@ -15,14 +16,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
         private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        private ValidLearnerData _validLearnerData;
-        private InvalidLearnerData _invalidLearnerData;
-
-        public StoreIlr(ILearnerValidDataBuilder learnerValidDataBuilder, ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
+        public StoreIlr(ILearnerValidDataBuilder learnerValidDataBuilder, ILearnerInvalidDataBuilder learnerInvalidDataBuilder, IDateTimeProvider dateTimeProvider)
         {
             _learnerValidDataBuilder = learnerValidDataBuilder;
             _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
@@ -39,55 +39,55 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             List<string> learnersValid,
             CancellationToken cancellationToken)
         {
-            _validLearnerData = _learnerValidDataBuilder.BuildValidLearnerData(ilr, learnersValid);
-            _invalidLearnerData = _learnerInvalidDataBuilder.BuildInvalidLearnerData(ilr, learnersValid);
+            var validLearnerData = _learnerValidDataBuilder.BuildValidLearnerData(ilr, learnersValid);
+            var invalidLearnerData = _learnerInvalidDataBuilder.BuildInvalidLearnerData(ilr, learnersValid);
 
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            await SaveLearnerRecords(sqlConnection, sqlTransaction, cancellationToken);
+            await PersistLearnerRecords(validLearnerData, invalidLearnerData, sqlConnection, sqlTransaction, cancellationToken);
         }
 
-        private async Task SaveLearnerRecords(SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        private async Task PersistLearnerRecords(ValidLearnerData validLearnerData, InvalidLearnerData invalidLearnerData, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            await _bulkInsert.Insert("Invalid.AppFinRecord", _invalidLearnerData.RecordsInvalidAppFinRecords, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.ContactPreference", _invalidLearnerData.RecordsInvalidContactPreferences, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.EmploymentStatusMonitoring", _invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.Learner", _invalidLearnerData.RecordsInvalidLearners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearnerEmploymentStatus", _invalidLearnerData.RecordsInvalidLearnerEmploymentStatus, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearnerFAM", _invalidLearnerData.RecordsInvalidLearnerFams, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearnerHE", _invalidLearnerData.RecordsInvalidLearnerHes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearnerHEFinancialSupport", _invalidLearnerData.RecordsInvalidLearnerHefinancialSupports, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearningDelivery", _invalidLearnerData.RecordsInvalidLearningDeliverys, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearningDeliveryFAM", _invalidLearnerData.RecordsInvalidLearnerDeliveryFams, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearningDeliveryHE", _invalidLearnerData.RecordsInvalidLearningDeliveryHes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LearningDeliveryWorkPlacement", _invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.LLDDandHealthProblem", _invalidLearnerData.RecordsInvalidLlddandHealthProblems, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.ProviderSpecDeliveryMonitoring", _invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Invalid.ProviderSpecLearnerMonitoring", _invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.AppFinRecord", invalidLearnerData.RecordsInvalidAppFinRecords, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.ContactPreference", invalidLearnerData.RecordsInvalidContactPreferences, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.EmploymentStatusMonitoring", invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.Learner", invalidLearnerData.RecordsInvalidLearners, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearnerEmploymentStatus", invalidLearnerData.RecordsInvalidLearnerEmploymentStatus, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearnerFAM", invalidLearnerData.RecordsInvalidLearnerFams, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearnerHE", invalidLearnerData.RecordsInvalidLearnerHes, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearnerHEFinancialSupport", invalidLearnerData.RecordsInvalidLearnerHefinancialSupports, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearningDelivery", invalidLearnerData.RecordsInvalidLearningDeliverys, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearningDeliveryFAM", invalidLearnerData.RecordsInvalidLearnerDeliveryFams, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearningDeliveryHE", invalidLearnerData.RecordsInvalidLearningDeliveryHes, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearningDeliveryWorkPlacement", invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LLDDandHealthProblem", invalidLearnerData.RecordsInvalidLlddandHealthProblems, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.ProviderSpecDeliveryMonitoring", invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Invalid.ProviderSpecLearnerMonitoring", invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings, sqlTransaction, cancellationToken);
 
-            await _bulkInsert.Insert("Valid.AppFinRecord", _validLearnerData.RecordsValidAppFinRecords, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.ContactPreference", _validLearnerData.RecordsValidContactPreferences, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.EmploymentStatusMonitoring", _validLearnerData.RecordsValidEmploymentStatusMonitorings, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.Learner", _validLearnerData.RecordsValidLearners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearnerEmploymentStatus", _validLearnerData.RecordsValidLearnerEmploymentStatus, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearnerFAM", _validLearnerData.RecordsValidLearnerFams, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearnerHE", _validLearnerData.RecordsValidLearnerHes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearnerHEFinancialSupport", _validLearnerData.RecordsValidLearnerHefinancialSupports, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearningDelivery", _validLearnerData.RecordsValidLearningDeliverys, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearningDeliveryFAM", _validLearnerData.RecordsValidLearnerDeliveryFams, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearningDeliveryHE", _validLearnerData.RecordsValidLearningDeliveryHes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LearningDeliveryWorkPlacement", _validLearnerData.RecordsValidLearningDeliveryWorkPlacements, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.LLDDandHealthProblem", _validLearnerData.RecordsValidLlddandHealthProblems, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.ProviderSpecDeliveryMonitoring", _validLearnerData.RecordsValidProviderSpecDeliveryMonitorings, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Valid.ProviderSpecLearnerMonitoring", _validLearnerData.RecordsValidProviderSpecLearnerMonitorings, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.AppFinRecord", validLearnerData.RecordsValidAppFinRecords, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.ContactPreference", validLearnerData.RecordsValidContactPreferences, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.EmploymentStatusMonitoring", validLearnerData.RecordsValidEmploymentStatusMonitorings, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.Learner", validLearnerData.RecordsValidLearners, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearnerEmploymentStatus", validLearnerData.RecordsValidLearnerEmploymentStatus, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearnerFAM", validLearnerData.RecordsValidLearnerFams, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearnerHE", validLearnerData.RecordsValidLearnerHes, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearnerHEFinancialSupport", validLearnerData.RecordsValidLearnerHefinancialSupports, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearningDelivery", validLearnerData.RecordsValidLearningDeliverys, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearningDeliveryFAM", validLearnerData.RecordsValidLearnerDeliveryFams, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearningDeliveryHE", validLearnerData.RecordsValidLearningDeliveryHes, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LearningDeliveryWorkPlacement", validLearnerData.RecordsValidLearningDeliveryWorkPlacements, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.LLDDandHealthProblem", validLearnerData.RecordsValidLlddandHealthProblems, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.ProviderSpecDeliveryMonitoring", validLearnerData.RecordsValidProviderSpecDeliveryMonitorings, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Valid.ProviderSpecLearnerMonitoring", validLearnerData.RecordsValidProviderSpecLearnerMonitorings, sqlTransaction, cancellationToken);
         }
 
         private async Task ProcessFileDetails(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, CancellationToken cancellationToken)
         {
-            DateTime nowUtc = DateTime.UtcNow;
+            DateTime nowUtc = _dateTimeProvider.GetNowUtc();
 
             var originalFileName = dataStoreContext.OriginalFilename;
 

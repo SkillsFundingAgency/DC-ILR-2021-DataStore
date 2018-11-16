@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 
@@ -9,6 +10,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreFileDetails : IStoreFileDetails
     {
+        private readonly IDateTimeProvider _dateTimeProvider;
+
+        public StoreFileDetails(IDateTimeProvider dateTimeProvider)
+        {
+            _dateTimeProvider = dateTimeProvider;
+        }
+
         public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             await StoreAsync(
@@ -55,7 +63,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             ProcessingData processingData = new ProcessingData
             {
                 UKPRN = ukPrn,
-                ExecutionTime = submissionDateTimeUtc.Value.Subtract(DateTime.UtcNow)
+                ExecutionTime = submissionDateTimeUtc.Value.Subtract(_dateTimeProvider.GetNowUtc())
                     .ToString(@"dd\.hh\:mm\:ss"),
                 ProcessingStep = "End"
             };

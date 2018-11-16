@@ -24,9 +24,14 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                     1,
                     new ITopicItem[] { new TopicItem("SubscriptionName", new List<ITaskItem>()) },
                     0,
-                    DateTime.UtcNow);
-            jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn] = 123;
-            jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename] = "ILR.xml";
+                    new DateTime(2018, 1, 1))
+                {
+                    KeyValuePairs =
+                    {
+                        [JobContextMessageKey.UkPrn] = 123,
+                        [JobContextMessageKey.Filename] = "ILR.xml"
+                    }
+                };
 
             CancellationTokenSource cts = new CancellationTokenSource();
             cts.Cancel();

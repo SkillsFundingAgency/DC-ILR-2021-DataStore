@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
@@ -42,6 +43,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             var persist = new Mock<IKeyValuePersistenceService>();
             var serialise = new Mock<ISerializationService>();
             var validationErrorsService = new Mock<IValidationErrorsService>();
+            var dateTimeProviderMock = new Mock<IDateTimeProvider>();
+            dateTimeProviderMock.Setup(p => p.GetNowUtc()).Returns(new DateTime(2018, 1, 1));
+
             Stopwatch stopwatch = new Stopwatch();
 
             var validLearnersBuilder = new LearnerValidDataBuilder();
@@ -75,7 +79,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
                     stopwatch.Restart();
 
-                    StoreFileDetails storeFileDetails = new StoreFileDetails();
+                    StoreFileDetails storeFileDetails = new StoreFileDetails(dateTimeProviderMock.Object);
                     await storeFileDetails.StoreAsync(dataStoreContext, connection, transaction, cancellationToken);
 
                     output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
@@ -83,7 +87,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
                     StoreIlr storeIlr = new StoreIlr(
                         validLearnersBuilder,
-                        invalidLearnersBuilder);
+                        invalidLearnersBuilder,
+                        dateTimeProviderMock.Object);
                     await storeIlr.StoreAsync(dataStoreContext, connection, transaction, message, validLearners.ToList(), cancellationToken);
 
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
