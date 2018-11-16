@@ -74,13 +74,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     stopwatch.Restart();
 
                     StoreClear storeClear = new StoreClear();
-                    await storeClear.ClearAsync(connection, transaction, ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
+                    await storeClear.ClearAsync(dataStoreContext, transaction, cancellationToken);
 
                     output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
                     stopwatch.Restart();
 
                     StoreFileDetails storeFileDetails = new StoreFileDetails(dateTimeProviderMock.Object);
-                    await storeFileDetails.StoreAsync(dataStoreContext, connection, transaction, cancellationToken);
+                    await storeFileDetails.StoreAsync(dataStoreContext, transaction, cancellationToken);
 
                     output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();

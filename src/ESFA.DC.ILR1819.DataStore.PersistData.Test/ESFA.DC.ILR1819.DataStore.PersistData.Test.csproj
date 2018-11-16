@@ -186,6 +186,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\AbstractStoreTest.cs" />
     <Compile Include="TestStoreFM81.cs" />
     <Compile Include="TestStoreFM70.cs" />
     <Compile Include="TestStoreFM36.cs" />

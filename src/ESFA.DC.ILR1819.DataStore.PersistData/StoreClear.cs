@@ -8,14 +8,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreClear : IStoreClear
     {
-        public async Task ClearAsync(SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, string filename, CancellationToken cancellationToken)
+        public async Task ClearAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             using (SqlCommand sqlCommand =
-                    new SqlCommand("[dbo].[DeleteExistingRecords]", sqlConnection, sqlTransaction))
+                    new SqlCommand("[dbo].[DeleteExistingRecords]", sqlTransaction.Connection, sqlTransaction))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = ukPrn;
-                    sqlCommand.Parameters.Add("@fileName", SqlDbType.NVarChar).Value = filename;
+                    sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = dataStoreContext.Ukprn;
+                    sqlCommand.Parameters.Add("@fileName", SqlDbType.NVarChar).Value = dataStoreContext.OriginalFilename;
                     sqlCommand.CommandTimeout = 600;
                     await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }

@@ -42,7 +42,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
         public async Task<bool> WriteToDeds(IDataStoreContext dataStoreContext, CancellationToken cancellationToken, Message message, List<string> validLearners)
         {
             var ukPrn = dataStoreContext.Ukprn;
-            var originalFileName = dataStoreContext.OriginalFilename;
 
             bool successfullyCommitted = false;
 
@@ -64,9 +63,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                     {
                         try
                         {
-                            await _storeClear.ClearAsync(sqlConnection, sqlTransaction, ukPrn, originalFileName, cancellationToken);
+                            await _storeClear.ClearAsync(dataStoreContext, sqlTransaction, cancellationToken);
 
-                            Task storeFileDetailsTask = _storeFileDetails.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, cancellationToken);
+                            Task storeFileDetailsTask = _storeFileDetails.StoreAsync(dataStoreContext, sqlTransaction, cancellationToken);
                             tasks.Add(storeFileDetailsTask);
 
                             if (cancellationToken.IsCancellationRequested)

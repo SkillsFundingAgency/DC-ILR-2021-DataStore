@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             await StoreAsync(
                 dataStoreContext.OriginalFilename,
@@ -28,7 +28,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 dataStoreContext.InvalidLearnRefNumbersCount,
                 dataStoreContext.ValidationTotalErrorCount,
                 dataStoreContext.ValidationTotalWarningCount,
-                sqlConnection,
                 sqlTransaction,
                 cancellationToken);
         }
@@ -42,7 +41,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             int invalidLearnRefNumbersCount,
             int validationTotalErrorCount,
             int validationTotalWarningCount,
-            SqlConnection sqlConnection,
             SqlTransaction sqlTransaction,
             CancellationToken cancellationToken)
         {
@@ -76,7 +74,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (SqlCommand sqlCommand = new SqlCommand(insertFileDetails, sqlConnection, sqlTransaction))
+            using (SqlCommand sqlCommand = new SqlCommand(insertFileDetails, sqlTransaction.Connection, sqlTransaction))
             {
                 processingData.FileDetailsID = (long)await sqlCommand.ExecuteScalarAsync(cancellationToken);
             }
@@ -88,7 +86,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 return;
             }
 
-            using (SqlCommand sqlCommand = new SqlCommand(insertProcessingData, sqlConnection, sqlTransaction))
+            using (SqlCommand sqlCommand = new SqlCommand(insertProcessingData, sqlTransaction.Connection, sqlTransaction))
             {
                 await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }

@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IStoreFileDetails
     {
-        Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+        Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }
 }
