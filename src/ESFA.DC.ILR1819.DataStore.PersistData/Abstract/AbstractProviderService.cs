@@ -5,22 +5,22 @@ using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Abstract
 {
-    public class BaseFundingModelProviderService<T>
+    public abstract class AbstractProviderService<T>
     {
         private readonly IKeyValuePersistenceService _keyValuePersistenceService;
         private readonly IJsonSerializationService _jsonSerializationService;
         private readonly ILogger _logger;
 
-        protected BaseFundingModelProviderService(IKeyValuePersistenceService keyValuePersistenceService, IJsonSerializationService jsonSerializationService, ILogger logger)
+        protected AbstractProviderService(IKeyValuePersistenceService keyValuePersistenceService, IJsonSerializationService jsonSerializationService, ILogger logger)
         {
             _keyValuePersistenceService = keyValuePersistenceService;
             _jsonSerializationService = jsonSerializationService;
             _logger = logger;
         }
 
-        protected async Task<T> ReadAndDeserialiseFileAsync(string key, CancellationToken cancellationToken)
+        protected async Task<T> ProvideAsync(string key, CancellationToken cancellationToken)
         {
             T fundingOutputs = default(T);
 
@@ -36,7 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             catch (Exception ex)
             {
                 // Todo: Check behaviour
-                _logger.LogError($"Failed to get & deserialise {key} funding data. It will be ignored.", ex);
+                _logger.LogError($"Failed to provide {key} funding data. It will be ignored.", ex);
             }
 
             return fundingOutputs;

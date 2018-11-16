@@ -5,13 +5,14 @@ using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 {
-    public class FM36ProviderService : BaseFundingModelProviderService<FM36Global>, IProviderService<FM36Global>
+    public class FM36ProviderService : AbstractProviderService<FM36Global>, IProviderService<FM36Global>
     {
         public FM36ProviderService(
             [KeyFilter(PersistenceStorageKeys.Redis)]
@@ -24,7 +25,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 
         public Task<FM36Global> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            return ReadAndDeserialiseFileAsync(dataStoreContext.FundingFM36OutputKey, cancellationToken);
+            return ProvideAsync(dataStoreContext.FundingFM36OutputKey, cancellationToken);
         }
     }
 }

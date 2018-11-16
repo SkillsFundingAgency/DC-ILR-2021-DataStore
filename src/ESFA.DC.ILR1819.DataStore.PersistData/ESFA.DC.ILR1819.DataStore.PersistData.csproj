@@ -241,7 +241,7 @@
     <Compile Include="Services\Providers\FM36ProviderService.cs" />
     <Compile Include="Services\Providers\FM35ProviderService.cs" />
     <Compile Include="Services\TransactionController.cs" />
-    <Compile Include="Services\Providers\BaseFundingModelProviderService.cs" />
+    <Compile Include="Abstract\AbstractProviderService.cs" />
     <Compile Include="Services\Providers\FM25ProviderService.cs" />
     <Compile Include="Services\Providers\ALBProviderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
