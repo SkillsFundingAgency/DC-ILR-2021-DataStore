@@ -233,7 +233,6 @@
     <Compile Include="Builders\ProviderSpecDeliveryMonitoringBuilder.cs" />
     <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
-    <Compile Include="Constant\FundModelConstants.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Services\ModelService.cs" />

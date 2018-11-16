@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
@@ -14,14 +13,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
         private readonly IJsonSerializationService _jsonSerializationService;
         private readonly ILogger _logger;
 
-        private readonly string _fundModelName;
-
-        protected BaseFundingModelProviderService(IKeyValuePersistenceService keyValuePersistenceService, IJsonSerializationService jsonSerializationService, ILogger logger, string fundModelName)
+        protected BaseFundingModelProviderService(IKeyValuePersistenceService keyValuePersistenceService, IJsonSerializationService jsonSerializationService, ILogger logger)
         {
             _keyValuePersistenceService = keyValuePersistenceService;
             _jsonSerializationService = jsonSerializationService;
             _logger = logger;
-            _fundModelName = fundModelName;
         }
 
         protected async Task<T> ReadAndDeserialiseFileAsync(string key, CancellationToken cancellationToken)
@@ -40,7 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             catch (Exception ex)
             {
                 // Todo: Check behaviour
-                _logger.LogError($"Failed to get & deserialise {_fundModelName} funding data. It will be ignored.", ex);
+                _logger.LogError($"Failed to get & deserialise {key} funding data. It will be ignored.", ex);
             }
 
             return fundingOutputs;
