@@ -216,6 +216,7 @@
   <ItemGroup>
     <Compile Include="AutoFacTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stubs\ModelServiceStub.cs" />
     <Compile Include="TestConfigurationHelper.cs" />
   </ItemGroup>
   <ItemGroup>

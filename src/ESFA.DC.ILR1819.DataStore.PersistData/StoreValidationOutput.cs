@@ -10,8 +10,6 @@ using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ValidationError = ESFA.DC.ILR1819.DataStore.EF.ValidationError;
 
@@ -22,26 +20,18 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private readonly IValidationErrorsService _validationErrorsService;
         private readonly ILogger _logger;
 
-        public StoreValidationOutput(
-            ILogger logger,
-            IValidationErrorsService validationErrorsService)
+        public StoreValidationOutput(ILogger logger, IValidationErrorsService validationErrorsService)
         {
             _validationErrorsService = validationErrorsService;
             _logger = logger;
         }
 
-        public async Task StoreAsync(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
         {
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 1");
-            string validationErrorsStorageKey = jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 2");
-            string validationErrorsLookupStorageKey = jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups].ToString();
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 3");
-            string filename = Path.GetFileName(jobContextMessage.KeyValuePairs["OriginalFilename"].ToString());
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 4");
             List<ValidationErrorDto> validationErrorDtos = (await _validationErrorsService.GetValidationErrorsAsync(
-                validationErrorsStorageKey,
-                validationErrorsLookupStorageKey)).ToList();
+                dataStoreContext.ValidationErrorsKey,
+                dataStoreContext.ValidationErrorsLookupsKey)).ToList();
             List<ValidationError> validationErrors = new List<ValidationError>(validationErrorDtos.Count);
 
             _logger?.LogDebug($"StoreValidationOutput.StoreAsync 5 {validationErrorDtos.Count}");
@@ -70,7 +60,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         LearnRefNumber = validationErrorDto.LearnerReferenceNumber,
                         RuleName = validationErrorDto.RuleName,
                         Severity = validationErrorDto.Severity.Substring(0, 1),
-                        Source = filename
+                        Source = dataStoreContext.OriginalFilename,
                     });
                     ++index;
                 }

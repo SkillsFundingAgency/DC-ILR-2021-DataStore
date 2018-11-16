@@ -59,9 +59,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.Auditing.Interface, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.Auditing.Interface.0.2.0-beta0001\lib\netstandard2.0\ESFA.DC.Auditing.Interface.dll</HintPath>
-    </Reference>
     <Reference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model, Version=0.1.297.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.0.1.297\lib\netstandard2.0\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.dll</HintPath>
     </Reference>
@@ -106,12 +103,6 @@
     </Reference>
     <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.JobContext.Interface, Version=0.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobContext.Interface.0.2.4-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.Interface.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.JobContextManager, Version=0.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobContextManager.0.2.4-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.2.4-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
@@ -242,14 +233,10 @@
     <Compile Include="Builders\ProviderSpecDeliveryMonitoringBuilder.cs" />
     <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
+    <Compile Include="Constant\FundModelConstants.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
-    <Compile Include="Services\ModelServices\ALBService.cs" />
-    <Compile Include="Services\ModelServices\FM81Service.cs" />
-    <Compile Include="Services\ModelServices\FM70Service.cs" />
-    <Compile Include="Services\ModelServices\FM36Service.cs" />
-    <Compile Include="Services\ModelServices\FM35Service.cs" />
-    <Compile Include="Services\ModelServices\FM25Service.cs" />
+    <Compile Include="Services\ModelService.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />
     <Compile Include="Services\Providers\FM70ProviderService.cs" />
     <Compile Include="Services\Providers\FM36ProviderService.cs" />

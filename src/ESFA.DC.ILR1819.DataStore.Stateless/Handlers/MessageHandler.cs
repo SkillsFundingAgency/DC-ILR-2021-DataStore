@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData;
+using ESFA.DC.ILR1819.DataStore.Stateless.Context;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.JobContextManager.Model.Interface;
@@ -60,7 +61,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
                         throw;
                     }
 
-                    var result = await entryPoint.Callback(jobContextMessage, cancellationToken);
+                    var dataStoreContext = new DataStoreJobContextMessageContext(jobContextMessage);
+
+                    var result = await entryPoint.Callback(dataStoreContext, cancellationToken);
 
                     logger.LogDebug("Completed Data Store");
 

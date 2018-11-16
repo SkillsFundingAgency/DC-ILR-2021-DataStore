@@ -8,8 +8,6 @@ using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
@@ -18,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
         private readonly ILogger _logger;
-        private readonly IList<IModelService> _modelServices;
+        private readonly IEnumerable<IModelService> _modelServices;
         private readonly IStoreFileDetails _storeFileDetails;
         private readonly IStoreIlr _storeIlr;
         private readonly IStoreValidationOutput _storeValidationOutput;
@@ -27,7 +25,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
         public TransactionController(
             PersistDataConfiguration persistDataConfiguration,
             ILogger logger,
-            IList<IModelService> modelServices,
+            IEnumerable<IModelService> modelServices,
             IStoreFileDetails storeFileDetails,
             IStoreIlr storeIlr,
             IStoreValidationOutput storeValidationOutput,
@@ -42,14 +40,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
             _storeClear = storeClear;
         }
 
-        public async Task<bool> WriteToDeds(
-            IJobContextMessage jobContextMessage,
-            CancellationToken cancellationToken,
-            Message message,
-            List<string> validLearners)
+        public async Task<bool> WriteToDeds(IDataStoreContext dataStoreContext, CancellationToken cancellationToken, Message message, List<string> validLearners)
         {
-            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
-            var originalFileName = Path.GetFileName(jobContextMessage.KeyValuePairs["OriginalFilename"].ToString());
+            var ukPrn = dataStoreContext.Ukprn;
+            var originalFileName = dataStoreContext.OriginalFilename;
 
             bool successfullyCommitted = false;
 
@@ -73,7 +67,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         {
                             await _storeClear.ClearAsync(sqlConnection, sqlTransaction, ukPrn, originalFileName, cancellationToken);
 
-                            Task storeFileDetailsTask = _storeFileDetails.StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, cancellationToken);
+                            Task storeFileDetailsTask = _storeFileDetails.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, cancellationToken);
                             tasks.Add(storeFileDetailsTask);
 
                             if (cancellationToken.IsCancellationRequested)
@@ -82,7 +76,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                                 return false;
                             }
 
-                            Task storeIlrTask = _storeIlr.StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, message, validLearners, cancellationToken);
+                            Task storeIlrTask = _storeIlr.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, message, validLearners, cancellationToken);
                             tasks.Add(storeIlrTask);
 
                             if (cancellationToken.IsCancellationRequested)
@@ -91,19 +85,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                                 return false;
                             }
 
-                            foreach (var service in _modelServices)
+                            foreach (var modelService in _modelServices)
                             {
-                                Task modelTask = Task.CompletedTask;
-                                bool success = await service.GetModel(jobContextMessage, cancellationToken);
-                                if (!success)
-                                {
-                                    _logger.LogDebug($"Failed to get model so not storing");
-                                    continue;
-                                }
+                                var modelServiceTask = modelService.GetAndStoreModel(dataStoreContext, sqlConnection, sqlTransaction, cancellationToken);
 
-                                modelTask = service.StoreModel(sqlConnection, sqlTransaction, cancellationToken);
-
-                                tasks.Add(modelTask);
+                                tasks.Add(modelServiceTask);
 
                                 if (cancellationToken.IsCancellationRequested)
                                 {
@@ -112,7 +98,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                                 }
                             }
 
-                            Task storeValidationOutputTask = _storeValidationOutput.StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, ukPrn, message, cancellationToken);
+                            Task storeValidationOutputTask = _storeValidationOutput.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, ukPrn, message, cancellationToken);
                             tasks.Add(storeValidationOutputTask);
 
                             await Task.WhenAll(tasks);

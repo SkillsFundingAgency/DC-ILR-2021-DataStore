@@ -8,8 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using Moq;
@@ -31,7 +29,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         public async Task StoreFM25()
         {
             CancellationToken cancellationToken = default(CancellationToken);
-            var jobContextMessage = new JobContextMessage();
             var persist = new Mock<IKeyValuePersistenceService>();
             var serialise = new Mock<ISerializationService>();
 
@@ -40,7 +37,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             int ukprn = 10033677;
             var fm25FileName = "Fm25.json";
 
-            var fm25Output = await ReadAndDeserialiseAsync(fm25FileName, ukprn, jobContextMessage, persist, serialise);
+            var fm25Output = await ReadAndDeserialiseAsync(fm25FileName, persist, serialise);
 
             using (SqlConnection connection =
                 new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
@@ -98,8 +95,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
         private async Task<FM25Global> ReadAndDeserialiseAsync(
             string fm25Filename,
-            int ukPrn,
-            JobContextMessage jobContextMessage,
             Mock<IKeyValuePersistenceService> persist,
             Mock<ISerializationService> serialise)
         {
@@ -116,16 +111,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             FM25Global fundingOutputs = jsonSerialiser.Deserialize<FM25Global>(fm25Contents);
             _output.WriteLine($"Deserialise FM25: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
-
-            jobContextMessage.KeyValuePairs = new Dictionary<string, object>
-            {
-                [JobContextMessageKey.Filename] = Path.GetFileName(fm25Filename),
-                [JobContextMessageKey.FileSizeInBytes] = new FileInfo(fm25Filename).Length,
-                [JobContextMessageKey.UkPrn] = ukPrn,
-                [JobContextMessageKey.FundingFm25Output] = keyFm25Output
-            };
-
-            jobContextMessage.SubmissionDateTimeUtc = DateTime.UtcNow;
 
             persist.Setup(x => x.GetAsync(keyFm25Output, It.IsAny<CancellationToken>())).ReturnsAsync(fm25Contents);
 

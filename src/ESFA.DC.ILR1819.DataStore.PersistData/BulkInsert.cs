@@ -13,39 +13,41 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     {
         public async Task Insert<T>(string table, IList<T> source, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            var sqlBulkCopy = BuildSqlBulkCopy(sqlTransaction.Connection, sqlTransaction);
-
-            try
+            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlTransaction.Connection, sqlTransaction))
             {
-                if (!source.Any())
+                try
                 {
-                    return;
-                }
-
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
-
-                var columnNames = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).Select(p => p.Name).ToArray();
-
-                using (var reader = ObjectReader.Create(source, columnNames))
-                {
-                    sqlBulkCopy.DestinationTableName = table;
-
-                    foreach (var name in columnNames)
+                    if (!source.Any())
                     {
-                        sqlBulkCopy.ColumnMappings.Add(name, name);
+                        return;
                     }
 
-                    await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken);
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    var columnNames = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).Select(p => p.Name)
+                        .ToArray();
+
+                    using (var reader = ObjectReader.Create(source, columnNames))
+                    {
+                        sqlBulkCopy.DestinationTableName = table;
+
+                        foreach (var name in columnNames)
+                        {
+                            sqlBulkCopy.ColumnMappings.Add(name, name);
+                        }
+
+                        await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(table);
-                Console.Write(ex);
-                throw;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(table);
+                    Console.Write(ex);
+                    throw;
+                }
             }
         }
 

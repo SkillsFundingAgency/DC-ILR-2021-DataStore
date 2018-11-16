@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -8,9 +7,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using Moq;
@@ -21,6 +19,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
     public class TestStoreFM36
     {
+        private const string Fm36OutputKey = "FM36_Output";
+
         private readonly ITestOutputHelper _output;
 
         public TestStoreFM36(ITestOutputHelper output)
@@ -32,16 +32,17 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         public async Task StoreFM36()
         {
             CancellationToken cancellationToken = default(CancellationToken);
-            var jobContextMessage = new JobContextMessage();
             var persist = new Mock<IKeyValuePersistenceService>();
             var serialise = new Mock<ISerializationService>();
 
             Stopwatch stopwatch = new Stopwatch();
 
             int ukprn = 10033670;
-            var fm36FileName = "Fm36.json";
+            var fileName = "Fm36.json";
+            var outputKey = "FM36_Output";
 
-            var fm36Output = await ReadAndDeserialiseAsync(fm36FileName, ukprn, jobContextMessage, persist, serialise);
+            var dataStoreContext = BuildDataStoreContext(fileName, ukprn, outputKey);
+            var fm36Output = await ReadAndDeserialiseAsync(fileName, persist, serialise);
 
             using (SqlConnection connection =
                 new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
@@ -57,9 +58,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     stopwatch.Restart();
 
                     StoreClear storeClear = new StoreClear();
-                    await storeClear.ClearAsync(connection, transaction, ukprn, Path.GetFileName(fm36FileName), cancellationToken);
+                    await storeClear.ClearAsync(connection, transaction, ukprn, Path.GetFileName(fileName), cancellationToken);
 
-                    _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fm36FileName}");
+                    _output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukprn} {fileName}");
                     stopwatch.Restart();
 
                     StoreFM36 store36 = new StoreFM36();
@@ -97,15 +98,25 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             }
         }
 
+        private IDataStoreContext BuildDataStoreContext(string fileName, int ukprn, string outputKey)
+        {
+            var dataStoreContextMock = new Mock<IDataStoreContext>();
+
+            dataStoreContextMock.SetupGet(c => c.Filename).Returns(Path.GetFileName(fileName));
+            dataStoreContextMock.SetupGet(c => c.FileSizeInBytes).Returns(new FileInfo(fileName).Length);
+            dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(ukprn);
+            dataStoreContextMock.SetupGet(c => c.FundingFM36OutputKey).Returns(outputKey);
+            dataStoreContextMock.SetupGet(c => c.SubmissionDateTimeUtc).Returns(new DateTime(2018, 1, 1));
+
+            return dataStoreContextMock.Object;
+        }
+
         private async Task<FM36Global> ReadAndDeserialiseAsync(
             string fm35Filename,
-            int ukPrn,
-            JobContextMessage jobContextMessage,
             Mock<IKeyValuePersistenceService> persist,
             Mock<ISerializationService> serialise)
         {
             var jsonSerialiser = new JsonSerializationService();
-            const string keyFm36Output = "FM36_Output";
             string fm36Contents;
 
             Stopwatch stopwatch = new Stopwatch();
@@ -118,17 +129,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             _output.WriteLine($"Deserialise FM36: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
-            jobContextMessage.KeyValuePairs = new Dictionary<string, object>
-            {
-                [JobContextMessageKey.Filename] = Path.GetFileName(fm35Filename),
-                [JobContextMessageKey.FileSizeInBytes] = new FileInfo(fm35Filename).Length,
-                [JobContextMessageKey.UkPrn] = ukPrn,
-                [JobContextMessageKey.FundingFm35Output] = keyFm36Output
-            };
-
-            jobContextMessage.SubmissionDateTimeUtc = DateTime.UtcNow;
-
-            persist.Setup(x => x.GetAsync(keyFm36Output, It.IsAny<CancellationToken>())).ReturnsAsync(fm36Contents);
+            persist.Setup(x => x.GetAsync(Fm36OutputKey, It.IsAny<CancellationToken>())).ReturnsAsync(fm36Contents);
 
             serialise.Setup(x => x.Deserialize<FM36Global>(fm36Contents)).Returns(fundingOutputs);
 

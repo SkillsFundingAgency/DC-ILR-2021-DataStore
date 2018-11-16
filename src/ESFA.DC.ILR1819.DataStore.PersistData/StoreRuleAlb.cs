@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public sealed class StoreRuleAlb : AbstractStore, IStoreRuleAlb
+    public sealed class StoreRuleAlb : AbstractStore, IStoreService<ALBGlobal>
     {
         public async Task StoreAsync(SqlConnection connection, SqlTransaction sqlTransaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
         {

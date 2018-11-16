@@ -5,69 +5,45 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreFileDetails : IStoreFileDetails
     {
-        public async Task StoreAsync(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            GetAndCheckValues(jobContextMessage, out var ukPrn, out var fileSizeInBytes, out var validLearnRefNumbersCount, out var invalidLearnRefNumbersCount, out var validationTotalErrorCount, out var validationTotalWarningCount);
-            await StoreAsync(jobContextMessage, sqlConnection, sqlTransaction, ukPrn, fileSizeInBytes, validLearnRefNumbersCount, invalidLearnRefNumbersCount, validationTotalErrorCount, validationTotalWarningCount, cancellationToken);
-        }
-
-        private void GetAndCheckValues(IJobContextMessage jobContextMessage, out int ukPrn, out long fileSizeInBytes, out int validLearnRefNumbersCount, out int invalidLearnRefNumbersCount, out int validationTotalErrorCount, out int validationTotalWarningCount)
-        {
-            if (!jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.UkPrn) || !int.TryParse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString(), out ukPrn))
-            {
-                throw new ArgumentException($"{nameof(JobContextMessageKey.UkPrn)} is expected to be a number");
-            }
-
-            if (!jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.FileSizeInBytes) || !long.TryParse(jobContextMessage.KeyValuePairs[JobContextMessageKey.FileSizeInBytes].ToString(), out fileSizeInBytes))
-            {
-                throw new ArgumentException($"{nameof(JobContextMessageKey.FileSizeInBytes)} is expected to be a number");
-            }
-
-            if (!jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.ValidLearnRefNumbersCount) || !int.TryParse(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbersCount].ToString(), out validLearnRefNumbersCount))
-            {
-                throw new ArgumentException($"{nameof(JobContextMessageKey.ValidLearnRefNumbersCount)} is expected to be a number");
-            }
-
-            if (!jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.InvalidLearnRefNumbersCount) || !int.TryParse(jobContextMessage.KeyValuePairs[JobContextMessageKey.InvalidLearnRefNumbersCount].ToString(), out invalidLearnRefNumbersCount))
-            {
-                throw new ArgumentException($"{nameof(JobContextMessageKey.InvalidLearnRefNumbersCount)} is expected to be a number");
-            }
-
-            if (!jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.ValidationTotalErrorCount) || !int.TryParse(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationTotalErrorCount].ToString(), out validationTotalErrorCount))
-            {
-                throw new ArgumentException($"{nameof(JobContextMessageKey.ValidationTotalErrorCount)} is expected to be a number");
-            }
-
-            if (!jobContextMessage.KeyValuePairs.ContainsKey(JobContextMessageKey.ValidationTotalWarningCount) || !int.TryParse(jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationTotalWarningCount].ToString(), out validationTotalWarningCount))
-            {
-                throw new ArgumentException($"{nameof(JobContextMessageKey.ValidationTotalWarningCount)} is expected to be a number");
-            }
+            await StoreAsync(
+                dataStoreContext.OriginalFilename,
+                dataStoreContext.SubmissionDateTimeUtc,
+                dataStoreContext.Ukprn,
+                dataStoreContext.FileSizeInBytes,
+                dataStoreContext.ValidLearnRefNumbersCount,
+                dataStoreContext.InvalidLearnRefNumbersCount,
+                dataStoreContext.ValidationTotalErrorCount,
+                dataStoreContext.ValidationTotalWarningCount,
+                sqlConnection,
+                sqlTransaction,
+                cancellationToken);
         }
 
         private async Task StoreAsync(
-            IJobContextMessage jobContextMessage,
-            SqlConnection sqlConnection,
-            SqlTransaction sqlTransaction,
+            string fileName,
+            DateTime? submissionDateTimeUtc,
             int ukPrn,
             long fileSizeInBytes,
             int validLearnRefNumbersCount,
             int invalidLearnRefNumbersCount,
             int validationTotalErrorCount,
             int validationTotalWarningCount,
+            SqlConnection sqlConnection,
+            SqlTransaction sqlTransaction,
             CancellationToken cancellationToken)
         {
             FileDetail fileDetails = new FileDetail
             {
                 UKPRN = ukPrn,
-                Filename = Path.GetFileName(jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString()),
-                SubmittedTime = jobContextMessage.SubmissionDateTimeUtc,
+                Filename = fileName,
+                SubmittedTime = submissionDateTimeUtc,
                 FileSizeKb = fileSizeInBytes / 1024,
                 Success = true,
                 TotalLearnersSubmitted = validLearnRefNumbersCount + invalidLearnRefNumbersCount,
@@ -80,7 +56,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             ProcessingData processingData = new ProcessingData
             {
                 UKPRN = ukPrn,
-                ExecutionTime = jobContextMessage.SubmissionDateTimeUtc.Subtract(DateTime.UtcNow)
+                ExecutionTime = submissionDateTimeUtc.Value.Subtract(DateTime.UtcNow)
                     .ToString(@"dd\.hh\:mm\:ss"),
                 ProcessingStep = "End"
             };

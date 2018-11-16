@@ -5,14 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public class StoreFM81 : AbstractStore, IStoreFM81
+    public class StoreFM81 : AbstractStore, IStoreService<FM81Global>
     {
         private const string PeriodPrefix = "Period";
 

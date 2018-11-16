@@ -11,12 +11,9 @@ using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.Logging;
-using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
@@ -41,7 +38,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
-            var jobContextMessage = new JobContextMessage();
             var storage = new Mock<IKeyValuePersistenceService>();
             var persist = new Mock<IKeyValuePersistenceService>();
             var serialise = new Mock<ISerializationService>();
@@ -57,7 +53,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             }
 
             Message message = null;
-            Task<Tuple<Message, ALBGlobal, ValidationErrorDto[]>> reandAndSerialiseTask = ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, jobContextMessage, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
+            Tuple<Message, ALBGlobal, ValidationErrorDto[], IDataStoreContext> readAndSerialise = await ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
+            var dataStoreContext = readAndSerialise.Item4;
+            message = readAndSerialise.Item1;
 
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
             {
@@ -72,16 +70,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     stopwatch.Restart();
 
                     StoreClear storeClear = new StoreClear();
-                    Task clearTask = storeClear.ClearAsync(connection, transaction, ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
-
-                    await Task.WhenAll(reandAndSerialiseTask, clearTask);
-                    message = reandAndSerialiseTask.Result.Item1;
+                    await storeClear.ClearAsync(connection, transaction, ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
 
                     output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
                     stopwatch.Restart();
 
                     StoreFileDetails storeFileDetails = new StoreFileDetails();
-                    await storeFileDetails.StoreAsync(jobContextMessage, connection, transaction, cancellationToken);
+                    await storeFileDetails.StoreAsync(dataStoreContext, connection, transaction, cancellationToken);
 
                     output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
@@ -89,19 +84,19 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     StoreIlr storeIlr = new StoreIlr(
                         validLearnersBuilder,
                         invalidLearnersBuilder);
-                    await storeIlr.StoreAsync(jobContextMessage, connection, transaction, message, validLearners.ToList(), cancellationToken);
+                    await storeIlr.StoreAsync(dataStoreContext, connection, transaction, message, validLearners.ToList(), cancellationToken);
 
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
                     StoreRuleAlb storeRuleAlb = new StoreRuleAlb();
-                    await storeRuleAlb.StoreAsync(connection, transaction, ukPrn, reandAndSerialiseTask.Result.Item2, cancellationToken);
+                    await storeRuleAlb.StoreAsync(connection, transaction, ukPrn, readAndSerialise.Item2, cancellationToken);
 
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
                     StoreValidationOutput storeValidationOutput = new StoreValidationOutput(null, validationErrorsService.Object);
-                    await storeValidationOutput.StoreAsync(jobContextMessage, connection, transaction, ukPrn, message, cancellationToken);
+                    await storeValidationOutput.StoreAsync(dataStoreContext, connection, transaction, ukPrn, message, cancellationToken);
 
                     output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
@@ -171,11 +166,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             return validLearners.Distinct().ToArray();
         }
 
-        private async Task<Tuple<Message, ALBGlobal, ValidationErrorDto[]>> ReadAndDeserialiseAsync(
+        private async Task<Tuple<Message, ALBGlobal, ValidationErrorDto[], IDataStoreContext>> ReadAndDeserialiseAsync(
             string ilrFilename,
             string albFilename,
             string valErrorsDtoFilename,
-            JobContextMessage jobContextMessage,
             List<string> validLearners,
             Mock<IKeyValuePersistenceService> storage,
             Mock<IKeyValuePersistenceService> persist,
@@ -230,22 +224,20 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             output.WriteLine($"Deserialise Val: {stopwatch.ElapsedMilliseconds}");
             stopwatch.Restart();
 
-            jobContextMessage.KeyValuePairs = new Dictionary<string, object>
-            {
-                [JobContextMessageKey.Filename] = Path.GetFileName(ilrFilename),
-                [JobContextMessageKey.ValidLearnRefNumbers] = validLearnersKey,
-                [JobContextMessageKey.FileSizeInBytes] = new FileInfo(ilrFilename).Length,
-                [JobContextMessageKey.UkPrn] = message.HeaderEntity.SourceEntity.UKPRN,
-                [JobContextMessageKey.ValidLearnRefNumbersCount] = validLearners.Count,
-                [JobContextMessageKey.InvalidLearnRefNumbersCount] = message.Learner.Length - validLearners.Count,
-                [JobContextMessageKey.ValidationTotalErrorCount] = 10,
-                [JobContextMessageKey.ValidationTotalWarningCount] = 20,
-                [JobContextMessageKey.FundingAlbOutput] = keyAlbOutput,
-                [JobContextMessageKey.ValidationErrors] = keyValErrors,
-                [JobContextMessageKey.ValidationErrorLookups] = keyValErrorsLookup
-            };
+            var dataStoreContextMock = new Mock<IDataStoreContext>();
 
-            jobContextMessage.SubmissionDateTimeUtc = DateTime.UtcNow;
+            dataStoreContextMock.SetupGet(c => c.Filename).Returns(Path.GetFileName(ilrFilename));
+            dataStoreContextMock.SetupGet(c => c.ValidLearnRefNumbersKey).Returns(validLearnersKey);
+            dataStoreContextMock.SetupGet(c => c.FileSizeInBytes).Returns(new FileInfo(ilrFilename).Length);
+            dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(message.HeaderEntity.SourceEntity.UKPRN);
+            dataStoreContextMock.SetupGet(c => c.ValidLearnRefNumbersCount).Returns(validLearners.Count);
+            dataStoreContextMock.SetupGet(c => c.InvalidLearnRefNumbersCount).Returns(message.Learner.Length - validLearners.Count);
+            dataStoreContextMock.SetupGet(c => c.ValidationTotalErrorCount).Returns(10);
+            dataStoreContextMock.SetupGet(c => c.ValidationTotalWarningCount).Returns(20);
+            dataStoreContextMock.SetupGet(c => c.FundingALBOutputKey).Returns(keyAlbOutput);
+            dataStoreContextMock.SetupGet(c => c.ValidationErrorsKey).Returns(keyValErrors);
+            dataStoreContextMock.SetupGet(c => c.ValidationErrorsLookupsKey).Returns(keyValErrorsLookup);
+            dataStoreContextMock.SetupGet(c => c.SubmissionDateTimeUtc).Returns(new DateTime(2018, 1, 1));
 
             storage.Setup(x => x.GetAsync(Path.GetFileName(ilrFilename), It.IsAny<CancellationToken>())).ReturnsAsync(ilrContents);
             //storage.Setup(x => x.GetAsync(Path.GetFileName(albFilename))).ReturnsAsync(albContents);
@@ -262,7 +254,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
             output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 
-            return new Tuple<Message, ALBGlobal, ValidationErrorDto[]>(message, fundingOutputs, validationErrorDtos);
+            return new Tuple<Message, ALBGlobal, ValidationErrorDto[], IDataStoreContext>(message, fundingOutputs, validationErrorDtos, dataStoreContextMock.Object);
         }
     }
 }

@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public class StoreFM25 : AbstractStore, IStoreFM25
+    public class StoreFM25 : AbstractStore, IStoreService<FM25Global>
     {
         private FM25_global _fm25Global;
         private List<FM25_Learner> _learner;

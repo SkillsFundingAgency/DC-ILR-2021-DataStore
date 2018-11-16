@@ -9,8 +9,6 @@ using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
@@ -22,17 +20,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private ValidLearnerData _validLearnerData;
         private InvalidLearnerData _invalidLearnerData;
 
-        public StoreIlr(
-            ILearnerValidDataBuilder learnerValidDataBuilder,
-            ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
+        public StoreIlr(ILearnerValidDataBuilder learnerValidDataBuilder, ILearnerInvalidDataBuilder learnerInvalidDataBuilder)
         {
             _learnerValidDataBuilder = learnerValidDataBuilder;
             _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
         }
 
-        public async Task StoreAsync(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, List<string> validLearners, CancellationToken cancellationToken)
         {
-            await ProcessFileDetails(jobContextMessage, sqlConnection, sqlTransaction, ilr, cancellationToken);
+            await ProcessFileDetails(dataStoreContext, sqlConnection, sqlTransaction, ilr, cancellationToken);
             await ProcessLearners(sqlConnection, sqlTransaction, ilr, validLearners, cancellationToken);
             await ProcessLearnerDestinationsAndProgressions(sqlConnection, sqlTransaction, ilr, validLearners, cancellationToken);
         }
@@ -90,11 +86,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await _bulkInsert.Insert("Valid.ProviderSpecLearnerMonitoring", _validLearnerData.RecordsValidProviderSpecLearnerMonitorings, sqlTransaction, cancellationToken);
         }
 
-        private async Task ProcessFileDetails(IJobContextMessage jobContextMessage, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, CancellationToken cancellationToken)
+        private async Task ProcessFileDetails(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, IMessage ilr, CancellationToken cancellationToken)
         {
             DateTime nowUtc = DateTime.UtcNow;
 
-            var originalFileName = Path.GetFileName(jobContextMessage.KeyValuePairs["OriginalFilename"].ToString());
+            var originalFileName = dataStoreContext.OriginalFilename;
 
             EF.Valid.CollectionDetail collectionDetailsValid = new EF.Valid.CollectionDetail
             {
