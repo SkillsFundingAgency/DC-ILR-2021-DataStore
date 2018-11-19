@@ -12,7 +12,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class StoreRuleAlb : AbstractStore, IStoreService<ALBGlobal>
     {
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction sqlTransaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
         {
             ALB_global albGlobal = new ALB_global
             {
@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion
             };
 
-            StoreGlobal(connection, sqlTransaction, cancellationToken, albGlobal);
+            StoreGlobal(sqlTransaction, cancellationToken, albGlobal);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -200,7 +200,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await _bulkInsert.Insert("Rulebase.ALB_LearningDelivery_PeriodisedValues", albLearningDeliveryPeriodisedValues, sqlTransaction, cancellationToken);
         }
 
-        private async void StoreGlobal(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken, ALB_global albGlobal)
+        private async void StoreGlobal(SqlTransaction sqlTransaction, CancellationToken cancellationToken, ALB_global albGlobal)
         {
             await _bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal }, sqlTransaction, cancellationToken);
         }

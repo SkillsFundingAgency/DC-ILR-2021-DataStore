@@ -1,19 +1,9 @@
-﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Data.SqlClient;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract;
-using ESFA.DC.IO.Interfaces;
-using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Serialization.Json;
-using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {

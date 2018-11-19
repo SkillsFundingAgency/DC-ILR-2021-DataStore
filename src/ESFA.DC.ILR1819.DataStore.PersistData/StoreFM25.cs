@@ -20,7 +20,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<FM25_FM35_Learner_Period> _periods;
         private List<FM25_FM35_Learner_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM25Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM25Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm25Global = new FM25_global
             {
@@ -37,7 +37,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 UKPRN = ukPrn
             };
 
-            StoreGlobal(connection, transaction, cancellationToken);
+            StoreGlobal(transaction, cancellationToken);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -86,10 +86,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 }
             }
 
-            await SaveData(connection, transaction, cancellationToken);
+            await SaveData(transaction, cancellationToken);
         }
 
-        private async void StoreGlobal(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        private async void StoreGlobal(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -100,7 +100,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await _bulkInsert.Insert("Rulebase.FM25_FM35_global", new List<FM25_FM35_global> { _periodGlobal }, sqlTransaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

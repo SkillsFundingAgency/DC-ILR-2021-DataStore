@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<TBL_LearningDelivery_Period> _periods;
         private List<TBL_LearningDelivery_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction sqlTransaction, int ukPrn, FM81Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM81Global fundingOutputs, CancellationToken cancellationToken)
         {
             _FM81Global = new TBL_global
             {
@@ -31,7 +31,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
             };
 
-            StoreGlobal(connection, sqlTransaction, cancellationToken);
+            StoreGlobal(sqlTransaction, cancellationToken);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -98,10 +98,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 }
             }
 
-            await SaveData(connection, sqlTransaction, cancellationToken);
+            await SaveData(sqlTransaction, cancellationToken);
         }
 
-        private async void StoreGlobal(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        private async void StoreGlobal(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -111,7 +111,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
              await _bulkInsert.Insert("Rulebase.TBL_global", new List<TBL_global> { _FM81Global }, sqlTransaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

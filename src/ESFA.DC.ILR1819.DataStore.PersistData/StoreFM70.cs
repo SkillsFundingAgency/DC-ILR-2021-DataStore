@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<ESF_LearningDeliveryDeliverable_Period> _periods;
         private List<ESF_LearningDeliveryDeliverable_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm70Global = new ESF_global
             {
@@ -31,7 +31,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
             };
 
-            StoreGlobal(connection, transaction, cancellationToken);
+            StoreGlobal(transaction, cancellationToken);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -50,7 +50,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PopulateLearningDeliveries(learner, ukPrn);
             }
 
-            await SaveData(connection, transaction, cancellationToken);
+            await SaveData(transaction, cancellationToken);
         }
 
         private void PopulateDPOutcomes(FM70Learner learner, int ukPrn)
@@ -136,10 +136,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private async void StoreGlobal(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            CancellationToken cancellationToken)
+        private async void StoreGlobal(SqlTransaction transaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -149,7 +146,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await _bulkInsert.Insert("Rulebase.ESF_global", new List<ESF_global> { _fm70Global }, transaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

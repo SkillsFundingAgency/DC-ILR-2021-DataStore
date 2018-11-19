@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IModelService
     {
-        Task GetAndStoreModel(IDataStoreContext dataStoreContext, SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken);
+        Task GetAndStoreModel(IDataStoreContext dataStoreContext, SqlTransaction transaction, CancellationToken cancellationToken);
     }
 }

@@ -85,7 +85,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
                             foreach (var modelService in _modelServices)
                             {
-                                var modelServiceTask = modelService.GetAndStoreModel(dataStoreContext, sqlConnection, sqlTransaction, cancellationToken);
+                                var modelServiceTask = modelService.GetAndStoreModel(dataStoreContext, sqlTransaction, cancellationToken);
 
                                 tasks.Add(modelServiceTask);
 
