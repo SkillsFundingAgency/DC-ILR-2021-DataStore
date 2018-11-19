@@ -204,8 +204,17 @@
     <None Include="ALBOutput1000.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="App.config">
+  <None Include="app.config">
+      <TransformOnBuild>true</TransformOnBuild>
       <SubType>Designer</SubType>
+    </None>
+    <None Include="app.Debug.config">
+      <DependentUpon>app.config</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
+    </None>
+    <None Include="app.Release.config">
+      <DependentUpon>app.config</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
     </None>
     <None Include="control-20180618-133604.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
