@@ -10,7 +10,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public sealed class StoreRuleAlb : AbstractStore, IStoreService<ALBGlobal>
+    public sealed class StoreALB : AbstractStore, IStoreService<ALBGlobal>
     {
         public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
         {

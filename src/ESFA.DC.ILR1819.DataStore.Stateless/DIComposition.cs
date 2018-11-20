@@ -186,7 +186,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
         private static void RegisterServices(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<StoreRuleAlb>().As<IStoreService<ALBGlobal>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreALB>().As<IStoreService<ALBGlobal>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM25>().As<IStoreService<FM25Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM35>().As<IStoreService<FM35Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM36>().As<IStoreService<FM36Global>>().InstancePerLifetimeScope();

@@ -222,7 +222,7 @@
     <Compile Include="StoreFM70.cs" />
     <Compile Include="StoreFM36.cs" />
     <Compile Include="StoreIlr.cs" />
-    <Compile Include="StoreRuleAlb.cs" />
+    <Compile Include="StoreALB.cs" />
     <Compile Include="StoreValidationOutput.cs" />
   </ItemGroup>
   <ItemGroup>

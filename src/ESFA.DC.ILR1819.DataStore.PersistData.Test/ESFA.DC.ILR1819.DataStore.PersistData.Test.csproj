@@ -188,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractStoreTest.cs" />
+    <Compile Include="TestStoreALB.cs" />
     <Compile Include="TestStoreFM81.cs" />
     <Compile Include="TestStoreFM70.cs" />
     <Compile Include="TestStoreFM36.cs" />
@@ -200,7 +201,7 @@
     <None Include="9999_6_ValidationErrors.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ALBOutput1000.json">
+    <None Include="ALB.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config">
