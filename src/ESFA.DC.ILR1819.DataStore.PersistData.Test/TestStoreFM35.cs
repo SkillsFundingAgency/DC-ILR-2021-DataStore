@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract;
 using Xunit;
 
@@ -9,6 +10,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
     public class TestStoreFM35 : AbstractStoreTest<FM35Global>
     {
+        public static readonly IStoreService<FM35Global> StoreService = new StoreFM35();
+
+        public TestStoreFM35()
+            : base(StoreService)
+        {
+        }
+
         [Fact]
         public async Task StoreFM35()
         {

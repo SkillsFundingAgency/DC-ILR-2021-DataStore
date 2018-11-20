@@ -229,6 +229,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             var dataStoreContextMock = new Mock<IDataStoreContext>();
 
             dataStoreContextMock.SetupGet(c => c.Filename).Returns(Path.GetFileName(ilrFilename));
+            dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(Path.GetFileName(ilrFilename));
             dataStoreContextMock.SetupGet(c => c.ValidLearnRefNumbersKey).Returns(validLearnersKey);
             dataStoreContextMock.SetupGet(c => c.FileSizeInBytes).Returns(new FileInfo(ilrFilename).Length);
             dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(message.HeaderEntity.SourceEntity.UKPRN);
