@@ -3,16 +3,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public class StoreFM70 : IStoreFM70
+    public class StoreFM70 : AbstractStore, IStoreService<FM70Global>
     {
         private const string PeriodPrefix = "Period";
 
@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<ESF_LearningDeliveryDeliverable_Period> _periods;
         private List<ESF_LearningDeliveryDeliverable_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm70Global = new ESF_global
             {
@@ -31,7 +31,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
             };
 
-            StoreGlobal(connection, transaction, cancellationToken);
+            StoreGlobal(transaction, cancellationToken);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -50,7 +50,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PopulateLearningDeliveries(learner, ukPrn);
             }
 
-            await SaveData(connection, transaction, cancellationToken);
+            await SaveData(transaction, cancellationToken);
         }
 
         private void PopulateDPOutcomes(FM70Learner learner, int ukPrn)
@@ -136,37 +136,28 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private async void StoreGlobal(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            CancellationToken cancellationToken)
+        private async void StoreGlobal(SqlTransaction transaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.ESF_global", new List<ESF_global> { _fm70Global });
-            }
+            await _bulkInsert.Insert("Rulebase.ESF_global", new List<ESF_global> { _fm70Global }, transaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.ESF_DPOutcome", _dpOutcomes);
-                await bulkInsert.Insert("Rulebase.ESF_LearningDelivery", _learningDeliveries);
-                await bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable", _deliverableValues);
-                await bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_Period", _periods);
-                await bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_PeriodisedValues", _periodValues);
-            }
+            await _bulkInsert.Insert("Rulebase.ESF_DPOutcome", _dpOutcomes, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ESF_LearningDelivery", _learningDeliveries, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable", _deliverableValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_Period", _periods, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_PeriodisedValues", _periodValues, sqlTransaction, cancellationToken);
         }
 
         private static TR GetPeriodValueForDelivery<TR>(LearningDeliveryDeliverableValues attribute, string name, int period)

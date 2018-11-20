@@ -3,16 +3,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public class StoreFM35 : IStoreFM35
+    public class StoreFM35 : AbstractStore, IStoreService<FM35Global>
     {
         private const string PeriodPrefix = "Period";
 
@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<FM35_LearningDelivery_Period> _periods;
         private List<FM35_LearningDelivery_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int ukPrn, FM35Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM35Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm35Global = new FM35_global
             {
@@ -33,7 +33,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PostcodeDisadvantageVersion = fundingOutputs.PostcodeDisadvantageVersion
             };
 
-            StoreGlobal(connection, transaction, cancellationToken);
+            StoreGlobal(transaction, cancellationToken);
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -104,38 +104,29 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 }
             }
 
-            await SaveData(connection, transaction, cancellationToken);
+            await SaveData(transaction, cancellationToken);
         }
 
-        private async void StoreGlobal(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            CancellationToken cancellationToken)
+        private async void StoreGlobal(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.FM35_global", new List<FM35_global> { _fm35Global });
-            }
+            await _bulkInsert.Insert("Rulebase.FM35_global", new List<FM35_global> { _fm35Global }, sqlTransaction, cancellationToken);
         }
 
-        private async Task SaveData(SqlConnection connection, SqlTransaction transaction, CancellationToken cancellationToken)
+        private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("Rulebase.FM35_LearningDelivery", _learningDeliveries);
-                await bulkInsert.Insert("Rulebase.FM35_LearningDelivery_Period", _periods);
-                await bulkInsert.Insert("Rulebase.FM35_LearningDelivery_PeriodisedValues", _periodValues);
-            }
+            await _bulkInsert.Insert("Rulebase.FM35_LearningDelivery", _learningDeliveries, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.FM35_LearningDelivery_Period", _periods, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("Rulebase.FM35_LearningDelivery_PeriodisedValues", _periodValues, sqlTransaction, cancellationToken);
         }
 
         private static TR GetPeriodValueForDelivery<TR>(LearningDelivery attribute, string name, int period)

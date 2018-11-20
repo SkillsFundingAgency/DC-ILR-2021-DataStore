@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.Model;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
@@ -10,11 +11,11 @@ using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 {
-    public class ILRProviderService : IILRProviderService
+    public class ILRProviderService : IProviderService<Message>
     {
-        private IStreamableKeyValuePersistenceService _storage;
-        private IXmlSerializationService _xmlSerializationService;
-        private ILogger _logger;
+        private readonly IStreamableKeyValuePersistenceService _storage;
+        private readonly IXmlSerializationService _xmlSerializationService;
+        private readonly ILogger _logger;
 
         public ILRProviderService(
             IStreamableKeyValuePersistenceService storage,
@@ -26,7 +27,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             _logger = logger;
         }
 
-        public async Task<Message> ReadAndDeserialiseIlrAsync(string ilrFilename, CancellationToken cancellationToken)
+        public async Task<Message> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             Message message = null;
 
@@ -34,7 +35,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    await _storage.GetAsync(ilrFilename, ms, cancellationToken);
+                    await _storage.GetAsync(dataStoreContext.Filename, ms, cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -48,6 +49,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
             catch (Exception ex)
             {
                 _logger.LogError("Failed to retrieve and deserialise message", ex);
+                throw;
             }
 
             return message;

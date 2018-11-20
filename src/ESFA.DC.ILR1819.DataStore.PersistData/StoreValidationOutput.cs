@@ -8,53 +8,29 @@ using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.Interface;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
+using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.Logging.Interfaces;
 using ValidationError = ESFA.DC.ILR1819.DataStore.EF.ValidationError;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public sealed class StoreValidationOutput : IStoreValidationOutput
+    public sealed class StoreValidationOutput : AbstractStore, IStoreValidationOutput
     {
-        private readonly SqlConnection _connection;
-
-        private readonly SqlTransaction _transaction;
-
-        private readonly IJobContextMessage _jobContextMessage;
-
         private readonly IValidationErrorsService _validationErrorsService;
-
         private readonly ILogger _logger;
 
-        public StoreValidationOutput(
-            SqlConnection connection,
-            SqlTransaction transaction,
-            ILogger logger,
-            IJobContextMessage jobContextMessage,
-            IValidationErrorsService validationErrorsService)
+        public StoreValidationOutput(ILogger logger, IValidationErrorsService validationErrorsService)
         {
-            _connection = connection;
-            _transaction = transaction;
-            _jobContextMessage = jobContextMessage;
             _validationErrorsService = validationErrorsService;
             _logger = logger;
         }
 
-        public async Task StoreAsync(int ukPrn, IMessage ilr, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
         {
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 1");
-            string validationErrorsStorageKey =
-                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 2");
-            string validationErrorsLookupStorageKey =
-                _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups].ToString();
-            _logger?.LogDebug("StoreValidationOutput.StoreAsync 3");
-            string filename = _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 4");
             List<ValidationErrorDto> validationErrorDtos = (await _validationErrorsService.GetValidationErrorsAsync(
-                validationErrorsStorageKey,
-                validationErrorsLookupStorageKey)).ToList();
+                dataStoreContext.ValidationErrorsKey,
+                dataStoreContext.ValidationErrorsLookupsKey)).ToList();
             List<ValidationError> validationErrors = new List<ValidationError>(validationErrorDtos.Count);
 
             _logger?.LogDebug($"StoreValidationOutput.StoreAsync 5 {validationErrorDtos.Count}");
@@ -83,7 +59,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                         LearnRefNumber = validationErrorDto.LearnerReferenceNumber,
                         RuleName = validationErrorDto.RuleName,
                         Severity = validationErrorDto.Severity.Substring(0, 1),
-                        Source = filename
+                        Source = dataStoreContext.OriginalFilename,
                     });
                     ++index;
                 }
@@ -100,10 +76,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 7");
-            using (BulkInsert bulkInsert = new BulkInsert(_connection, _transaction, cancellationToken))
-            {
-                await bulkInsert.Insert("dbo.ValidationError", validationErrors);
-            }
+
+            await _bulkInsert.Insert("dbo.ValidationError", validationErrors, sqlTransaction, cancellationToken);
 
             _logger?.LogDebug("StoreValidationOutput.StoreAsync done");
         }

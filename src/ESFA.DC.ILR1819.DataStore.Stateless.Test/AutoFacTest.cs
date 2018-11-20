@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Stateless.Test.Stubs;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.JobContextManager.Model.Interface;
+using FluentAssertions;
 using Xunit;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
@@ -21,9 +24,14 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                     1,
                     new ITopicItem[] { new TopicItem("SubscriptionName", new List<ITaskItem>()) },
                     0,
-                    DateTime.UtcNow);
-            jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn] = 123;
-            jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename] = "ILR.xml";
+                    new DateTime(2018, 1, 1))
+                {
+                    KeyValuePairs =
+                    {
+                        [JobContextMessageKey.UkPrn] = 123,
+                        [JobContextMessageKey.Filename] = "ILR.xml"
+                    }
+                };
 
             CancellationTokenSource cts = new CancellationTokenSource();
             cts.Cancel();
@@ -45,6 +53,21 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        [Fact]
+        public void EnumerableTest()
+        {
+            var containerBuilder = new ContainerBuilder();
+
+            containerBuilder.RegisterType<ModelServiceStub>().As<IModelService>();
+            containerBuilder.RegisterType<ModelServiceStub>().As<IModelService>();
+
+            var container = containerBuilder.Build();
+
+            var modelServices = container.Resolve<IEnumerable<IModelService>>();
+
+            modelServices.Should().HaveCount(2);
         }
     }
 }

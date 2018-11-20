@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.Model;
-using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
@@ -18,48 +14,44 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
     public class TransactionController : ITransactionController
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
-        private readonly IValidationErrorsService _validationErrorsService;
         private readonly ILogger _logger;
-        private readonly ILearnerValidDataBuilder _learnerValidDataBuilder;
-        private readonly ILearnerInvalidDataBuilder _learnerInvalidDataBuilder;
-        private readonly IList<IModelService> _modelServices;
+        private readonly IEnumerable<IModelService> _modelServices;
+        private readonly IStoreFileDetails _storeFileDetails;
+        private readonly IStoreIlr _storeIlr;
+        private readonly IStoreValidationOutput _storeValidationOutput;
+        private readonly IStoreClear _storeClear;
 
         public TransactionController(
             PersistDataConfiguration persistDataConfiguration,
-            IValidationErrorsService validationErrorsService,
             ILogger logger,
-            ILearnerValidDataBuilder learnerValidDataBuilder,
-            ILearnerInvalidDataBuilder learnerInvalidDataBuilder,
-            IList<IModelService> modelServices)
+            IEnumerable<IModelService> modelServices,
+            IStoreFileDetails storeFileDetails,
+            IStoreIlr storeIlr,
+            IStoreValidationOutput storeValidationOutput,
+            IStoreClear storeClear)
         {
             _persistDataConfiguration = persistDataConfiguration;
-            _validationErrorsService = validationErrorsService;
             _logger = logger;
-            _learnerValidDataBuilder = learnerValidDataBuilder;
-            _learnerInvalidDataBuilder = learnerInvalidDataBuilder;
-
             _modelServices = modelServices;
+            _storeFileDetails = storeFileDetails;
+            _storeIlr = storeIlr;
+            _storeValidationOutput = storeValidationOutput;
+            _storeClear = storeClear;
         }
 
-        public async Task<bool> WriteToDeds(
-            IJobContextMessage jobContextMessage,
-            CancellationToken cancellationToken,
-            string ilrFilename,
-            Message message,
-            List<string> validLearners)
+        public async Task<bool> WriteToDeds(IDataStoreContext dataStoreContext, CancellationToken cancellationToken, Message message, List<string> validLearners)
         {
-            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
+            var ukPrn = dataStoreContext.Ukprn;
+
             bool successfullyCommitted = false;
 
-            using (SqlConnection connection =
-                new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
+            try
             {
-                SqlTransaction transaction = null;
-                try
+                using (SqlConnection sqlConnection = new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
                 {
                     List<Task> tasks = new List<Task>();
 
-                    await connection.OpenAsync(cancellationToken);
+                    await sqlConnection.OpenAsync(cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -67,92 +59,77 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    transaction = connection.BeginTransaction();
-
-                    StoreClear storeClear = new StoreClear(connection, transaction);
-                    await storeClear.ClearAsync(ukPrn, Path.GetFileName(ilrFilename), cancellationToken);
-
-                    StoreFileDetails storeFileDetails =
-                        new StoreFileDetails(
-                            connection,
-                            transaction,
-                            jobContextMessage);
-                    Task storeFileDetailsTask = storeFileDetails.StoreAsync(cancellationToken);
-                    tasks.Add(storeFileDetailsTask);
-
-                    if (cancellationToken.IsCancellationRequested)
+                    using (var sqlTransaction = sqlConnection.BeginTransaction())
                     {
-                        _logger.LogDebug("WriteToDEDS exiting with cancellation request");
-                        return false;
-                    }
-
-                    StoreIlr storeIlr = new StoreIlr(
-                        connection,
-                        transaction,
-                        jobContextMessage,
-                        _learnerValidDataBuilder,
-                        _learnerInvalidDataBuilder);
-                    Task storeIlrTask =
-                        storeIlr.StoreAsync(message, validLearners, cancellationToken);
-                    tasks.Add(storeIlrTask);
-
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        _logger.LogDebug("WriteToDEDS exiting with cancellation request");
-                        return false;
-                    }
-
-                    foreach (var service in _modelServices)
-                    {
-                        Task modelTask = Task.CompletedTask;
-                        bool success = await service.GetModel(jobContextMessage, cancellationToken);
-                        if (!success)
-                        {
-                            _logger.LogDebug($"Failed to get model so not storing");
-                            continue;
-                        }
-
-                        modelTask = service.StoreModel(connection, transaction, cancellationToken);
-
-                        tasks.Add(modelTask);
-
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            _logger.LogDebug("WriteToDEDS exiting with cancellation request");
-                            return false;
-                        }
-                    }
-
-                    StoreValidationOutput storeValidationOutput =
-                        new StoreValidationOutput(connection, transaction, _logger, jobContextMessage, _validationErrorsService);
-                    Task storeValidationOutputTask =
-                        storeValidationOutput.StoreAsync(ukPrn, message, cancellationToken);
-                    tasks.Add(storeValidationOutputTask);
-
-                    await Task.WhenAll(tasks);
-
-                    transaction.Commit();
-                    successfullyCommitted = true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError("WriteToDEDS Failed to persist to DEDs", ex);
-                }
-                finally
-                {
-                    if (!successfullyCommitted)
-                    {
-                        _logger.LogDebug("Not successfully commited trying to rollback");
                         try
                         {
-                            transaction?.Rollback();
+                            await _storeClear.ClearAsync(dataStoreContext, sqlTransaction, cancellationToken);
+
+                            Task storeFileDetailsTask = _storeFileDetails.StoreAsync(dataStoreContext, sqlTransaction, cancellationToken);
+                            tasks.Add(storeFileDetailsTask);
+
+                            if (cancellationToken.IsCancellationRequested)
+                            {
+                                _logger.LogDebug("WriteToDEDS exiting with cancellation request");
+                                return false;
+                            }
+
+                            Task storeIlrTask = _storeIlr.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, message, validLearners, cancellationToken);
+                            tasks.Add(storeIlrTask);
+
+                            if (cancellationToken.IsCancellationRequested)
+                            {
+                                _logger.LogDebug("WriteToDEDS exiting with cancellation request");
+                                return false;
+                            }
+
+                            foreach (var modelService in _modelServices)
+                            {
+                                var modelServiceTask = modelService.GetAndStoreModel(dataStoreContext, sqlTransaction, cancellationToken);
+
+                                tasks.Add(modelServiceTask);
+
+                                if (cancellationToken.IsCancellationRequested)
+                                {
+                                    _logger.LogDebug("WriteToDEDS exiting with cancellation request");
+                                    return false;
+                                }
+                            }
+
+                            Task storeValidationOutputTask = _storeValidationOutput.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, ukPrn, message, cancellationToken);
+                            tasks.Add(storeValidationOutputTask);
+
+                            await Task.WhenAll(tasks);
+
+                            sqlTransaction.Commit();
+                            successfullyCommitted = true;
                         }
-                        catch (Exception ex2)
+                        catch (Exception ex)
                         {
-                            _logger.LogError("Failed to rollback DEDs persist transaction", ex2);
+                            _logger.LogError("WriteToDEDS Failed to persist to DEDs", ex);
+                        }
+                        finally
+                        {
+                            if (!successfullyCommitted)
+                            {
+                                _logger.LogDebug("Not successfully commited trying to rollback");
+                                try
+                                {
+                                    sqlTransaction?.Rollback();
+                                }
+                                catch (Exception ex2)
+                                {
+                                    _logger.LogError("Failed to rollback DEDs persist transaction", ex2);
+                                }
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError("Transaction Controller Transactional Exception", exception);
+                throw;
             }
 
             return successfullyCommitted;
