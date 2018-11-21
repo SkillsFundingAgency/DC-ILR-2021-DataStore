@@ -20,12 +20,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         [Fact]
         public async Task StoreALB()
         {
-            await StoreTestAsync(10033677, "ALB.json", "ALB_Output");
+            await StoreTestAsync(10044670, "JsonOutputs/ALB.json", "ALB_Output");
         }
 
         protected override void ExecuteAssertions(ALBGlobal outputModel, int ukprn, SqlConnection sqlConnection)
         {
-            using (SqlCommand sqlCommand = new SqlCommand($"SELECT Count(1) FROM Rulebase.ALB_LearningDelivery Where LearnRefNumber = '0ALB01'", sqlConnection))
+            using (SqlCommand sqlCommand = new SqlCommand($"SELECT Count(1) FROM Rulebase.ALB_LearningDelivery Where UKPRN = {ukprn} AND LearnRefNumber = '0ALB01'", sqlConnection))
             {
                 Assert.Equal(outputModel.Learners.FirstOrDefault(l => l.LearnRefNumber == "0ALB01")?.LearningDeliveries.Count ?? 0, sqlCommand.ExecuteScalar());
             }

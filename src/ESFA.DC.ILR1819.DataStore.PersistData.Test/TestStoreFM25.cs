@@ -20,7 +20,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         [Fact]
         public async Task StoreFM25()
         {
-            await StoreTestAsync(10033677, "Fm25.json", "FM25_Output");
+            await StoreTestAsync(10033671, "JsonOutputs/Fm25.json", "FM25_Output");
         }
 
         protected override void ExecuteAssertions(FM25Global outputModel, int ukprn, SqlConnection sqlConnection)

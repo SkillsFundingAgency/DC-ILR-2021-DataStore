@@ -8,14 +8,13 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public class StoreFM36 : AbstractStore, IStoreService<FM36Global>
     {
-        private const string PeriodPrefix = "Period";
-
         private AEC_global _fm36Global;
         private List<AEC_LearningDelivery> _learningDeliveries;
         private List<AEC_LearningDelivery_Period> _periods;
@@ -243,7 +242,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
-            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
 
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
@@ -252,7 +251,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = episode.PriceEpisodePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
-            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
 
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }

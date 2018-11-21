@@ -200,6 +200,7 @@
     <Compile Include="Builders\ProviderSpecDeliveryMonitoringBuilder.cs" />
     <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
+    <Compile Include="Constants\PersistDataConstants.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Services\ModelService.cs" />

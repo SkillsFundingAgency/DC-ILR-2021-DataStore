@@ -35,7 +35,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         }
 
         [Theory]
-        [InlineData("ILR-10033670-1819-20180704-120055-03.xml", "ALB.json", "9999_6_ValidationErrors.json", 10033670, new[] { "3Addl103" })]
+        [InlineData("ILR-10033670-1819-20180704-120055-03.xml", "JsonOutputs/ALB.json", "9999_6_ValidationErrors.json", 10033670, new[] { "3Addl103" })]
         public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
