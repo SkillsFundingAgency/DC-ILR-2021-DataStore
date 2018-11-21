@@ -8,14 +8,13 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public class StoreFM70 : AbstractStore, IStoreService<FM70Global>
     {
-        private const string PeriodPrefix = "Period";
-
         private ESF_global _fm70Global;
         private List<ESF_DPOutcome> _dpOutcomes;
         private List<ESF_LearningDelivery> _learningDeliveries;
@@ -164,7 +163,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = attribute.LearningDeliveryDeliverablePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
-            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
 
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }

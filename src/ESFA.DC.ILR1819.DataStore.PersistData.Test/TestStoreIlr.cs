@@ -25,6 +25,7 @@ using Xunit.Abstractions;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
+    [Collection("StoreData Tests")]
     public sealed class TestStoreIlr
     {
         private readonly ITestOutputHelper output;
@@ -35,7 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         }
 
         [Theory]
-        [InlineData("ILR-10033670-1819-20180704-120055-03.xml", "ALBOutput1000.json", "9999_6_ValidationErrors.json", 10033670, new[] { "3Addl103" })]
+        [InlineData("IlrFiles/ILR-10033670-1819-20180704-120055-03.xml", "JsonOutputs/ALB.json", "JsonOutputs/9999_6_ValidationErrors.json", 10033670, new[] { "3Addl103" })]
         public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
@@ -91,7 +92,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreRuleAlb storeRuleAlb = new StoreRuleAlb();
+                    StoreALB storeRuleAlb = new StoreALB();
                     await storeRuleAlb.StoreAsync(transaction, ukPrn, readAndSerialise.Item2, cancellationToken);
 
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
@@ -229,6 +230,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             var dataStoreContextMock = new Mock<IDataStoreContext>();
 
             dataStoreContextMock.SetupGet(c => c.Filename).Returns(Path.GetFileName(ilrFilename));
+            dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(Path.GetFileName(ilrFilename));
             dataStoreContextMock.SetupGet(c => c.ValidLearnRefNumbersKey).Returns(validLearnersKey);
             dataStoreContextMock.SetupGet(c => c.FileSizeInBytes).Returns(new FileInfo(ilrFilename).Length);
             dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(message.HeaderEntity.SourceEntity.UKPRN);
