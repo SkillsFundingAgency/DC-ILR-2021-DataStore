@@ -8,6 +8,7 @@ using Xunit.Abstractions;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
+    [Collection("StoreData Tests")]
     public class TestStoreFM25 : AbstractStoreTest<FM25Global>
     {
         public static readonly IStoreService<FM25Global> StoreService = new StoreFM25();

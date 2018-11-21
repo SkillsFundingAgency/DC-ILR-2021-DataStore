@@ -25,6 +25,7 @@ using Xunit.Abstractions;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
+    [Collection("StoreData Tests")]
     public sealed class TestStoreIlr
     {
         private readonly ITestOutputHelper output;

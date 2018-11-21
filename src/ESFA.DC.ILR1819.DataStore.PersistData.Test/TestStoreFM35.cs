@@ -8,6 +8,7 @@ using Xunit;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 {
+    [Collection("StoreData Tests")]
     public class TestStoreFM35 : AbstractStoreTest<FM35Global>
     {
         public static readonly IStoreService<FM35Global> StoreService = new StoreFM35();
