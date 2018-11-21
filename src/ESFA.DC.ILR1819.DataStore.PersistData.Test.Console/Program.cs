@@ -14,9 +14,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Console
                 TestStoreIlr testStoreIlr = new TestStoreIlr(new TestOutputHelper());
                 testStoreIlr
                     .StoreIlr(
-                        @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\ILR-90000062-1819-20180521-135604-00.xml",
-                        @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\ALB.json",
-                        @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\9999_6_ValidationErrors.json",
+                        @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\IlrFiles\ILR-90000062-1819-20180521-135604-00.xml",
+                        @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\JsonOutputs\ALB.json",
+                        @"C:\Users\DevUser\source\repos\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.PersistData.Test\JsonOutputs\9999_6_ValidationErrors.json",
                         90000062,
                         new [] { "0Accm01" }).GetAwaiter().GetResult();
             }

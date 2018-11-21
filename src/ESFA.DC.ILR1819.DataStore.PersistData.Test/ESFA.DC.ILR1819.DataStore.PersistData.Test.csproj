@@ -198,7 +198,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="9999_6_ValidationErrors.json">
+    <None Include="JsonOutputs\9999_6_ValidationErrors.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="JsonOutputs\ALB.json">
@@ -216,10 +216,10 @@
       <DependentUpon>app.config</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
     </None>
-    <None Include="control-20180618-133604.csv">
+    <None Include="ReportOutputs\control-20180618-133604.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="control-20180618-152718.csv">
+    <None Include="ReportOutputs\control-20180618-152718.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ESFA.DC.ILR1819.DataStore.PersistData.Test.ruleset">
@@ -266,7 +266,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ILR-10033670-1819-20180704-120055-03.xml">
+    <Content Include="IlrFiles\ILR-10033670-1819-20180704-120055-03.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
