@@ -24,6 +24,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             StoreGlobal(sqlTransaction, cancellationToken, albGlobal);
 
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+                .Select(l => new ALB_Learner
+                {
+                    UKPRN = ukPrn,
+                    LearnRefNumber = l.LearnRefNumber
+                }).ToList());
+
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
                 return;
@@ -202,7 +209,22 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
         private async void StoreGlobal(SqlTransaction sqlTransaction, CancellationToken cancellationToken, ALB_global albGlobal)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
             await _bulkInsert.Insert("Rulebase.ALB_global", new List<ALB_global> { albGlobal }, sqlTransaction, cancellationToken);
+        }
+
+        private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<ALB_Learner> albLearners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.ALB_Learner", albLearners, sqlTransaction, cancellationToken);
         }
 
         private decimal? GetPeriodValue(LearnerPeriodisedValue attr, int period)

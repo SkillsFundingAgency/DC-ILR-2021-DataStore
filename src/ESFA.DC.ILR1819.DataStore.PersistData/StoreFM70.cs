@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<ESF_LearningDeliveryDeliverable_Period> _periods;
         private List<ESF_LearningDeliveryDeliverable_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm70Global = new ESF_global
             {
@@ -30,7 +30,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 RulebaseVersion = fundingOutputs.RulebaseVersion,
             };
 
-            StoreGlobal(transaction, cancellationToken);
+            StoreGlobal(sqlTransaction, cancellationToken);
+
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+              .Select(l => new ESF_Learner
+              {
+                  UKPRN = ukPrn,
+                  LearnRefNumber = l.LearnRefNumber
+              }).ToList());
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -49,7 +56,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PopulateLearningDeliveries(learner, ukPrn);
             }
 
-            await SaveData(transaction, cancellationToken);
+            await SaveData(sqlTransaction, cancellationToken);
         }
 
         private void PopulateDPOutcomes(FM70Learner learner, int ukPrn)
@@ -143,6 +150,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
             await _bulkInsert.Insert("Rulebase.ESF_global", new List<ESF_global> { _fm70Global }, transaction, cancellationToken);
+        }
+
+        private async void StoreLearners(SqlTransaction transaction, CancellationToken cancellationToken, List<ESF_Learner> esfLearners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.ESF_Learner", esfLearners, transaction, cancellationToken);
         }
 
         private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)

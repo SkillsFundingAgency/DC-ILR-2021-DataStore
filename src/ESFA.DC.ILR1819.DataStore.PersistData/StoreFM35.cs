@@ -20,7 +20,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<FM35_LearningDelivery_Period> _periods;
         private List<FM35_LearningDelivery_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM35Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM35Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm35Global = new FM35_global
             {
@@ -32,7 +32,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PostcodeDisadvantageVersion = fundingOutputs.PostcodeDisadvantageVersion
             };
 
-            StoreGlobal(transaction, cancellationToken);
+            StoreGlobal(sqlTransaction, cancellationToken);
+
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+               .Select(l => new FM35_Learner
+               {
+                   UKPRN = ukPrn,
+                   LearnRefNumber = l.LearnRefNumber
+               }).ToList());
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -103,7 +110,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 }
             }
 
-            await SaveData(transaction, cancellationToken);
+            await SaveData(sqlTransaction, cancellationToken);
         }
 
         private async void StoreGlobal(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
@@ -114,6 +121,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
             await _bulkInsert.Insert("Rulebase.FM35_global", new List<FM35_global> { _fm35Global }, sqlTransaction, cancellationToken);
+        }
+
+        private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<FM35_Learner> fm35Learners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.FM35_Learner", fm35Learners, sqlTransaction, cancellationToken);
         }
 
         private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)

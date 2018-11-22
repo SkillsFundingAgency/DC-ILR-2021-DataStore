@@ -25,7 +25,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<AEC_ApprenticeshipPriceEpisode_Period> _priceEpisodePeriods;
         private List<AEC_ApprenticeshipPriceEpisode_PeriodisedValues> _priceEpisodePeriodValues;
 
-        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM36Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM36Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm36Global = new AEC_global
             {
@@ -35,7 +35,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 Year = fundingOutputs.Year
             };
 
-            StoreGlobal(transaction, cancellationToken);
+            StoreGlobal(sqlTransaction, cancellationToken);
+
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+              .Select(l => new AEC_Learner
+              {
+                  UKPRN = ukPrn,
+                  LearnRefNumber = l.LearnRefNumber,
+                  ULN = l.ULN
+              }).ToList());
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -57,7 +65,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PopulatePriceEpisodes(learner, ukPrn);
             }
 
-            await SaveData(transaction, cancellationToken);
+            await SaveData(sqlTransaction, cancellationToken);
         }
 
         private void PopulateLearningDeliveries(FM36Learner learner, int ukPrn)
@@ -220,6 +228,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
             await _bulkInsert.Insert("Rulebase.AEC_global", new List<AEC_global> { _fm36Global }, sqlTransaction, cancellationToken);
+        }
+
+        private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<AEC_Learner> aecLearners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.AEC_Learner", aecLearners, sqlTransaction, cancellationToken);
         }
 
         private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
