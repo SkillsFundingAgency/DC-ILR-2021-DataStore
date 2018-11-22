@@ -32,6 +32,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             StoreGlobal(sqlTransaction, cancellationToken);
 
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+             .Select(l => new TBL_Learner
+             {
+                 UKPRN = ukPrn,
+                 LearnRefNumber = l.LearnRefNumber
+             }).ToList());
+
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
                 return;
@@ -108,6 +115,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
 
              await _bulkInsert.Insert("Rulebase.TBL_global", new List<TBL_global> { _FM81Global }, sqlTransaction, cancellationToken);
+        }
+
+        private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<TBL_Learner> tblLearners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.TBL_Learner", tblLearners, sqlTransaction, cancellationToken);
         }
 
         private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)

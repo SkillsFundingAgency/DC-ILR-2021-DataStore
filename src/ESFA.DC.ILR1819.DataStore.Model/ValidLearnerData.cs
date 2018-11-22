@@ -12,7 +12,7 @@ namespace ESFA.DC.ILR1819.DataStore.Model
             RecordsValidLearningDeliverys = new List<LearningDelivery>();
             RecordsValidContactPreferences = new List<ContactPreference>();
             RecordsValidEmploymentStatusMonitorings = new List<EmploymentStatusMonitoring>();
-            RecordsValidLearnerEmploymentStatus = new List<LearnerEmploymentStatu>();
+            RecordsValidLearnerEmploymentStatus = new List<LearnerEmploymentStatus>();
             RecordsValidLearnerFams = new List<LearnerFAM>();
             RecordsValidLearnerDeliveryFams = new List<LearningDeliveryFAM>();
             RecordsValidLearnerHes = new List<LearnerHE>();
@@ -34,7 +34,7 @@ namespace ESFA.DC.ILR1819.DataStore.Model
 
         public List<EmploymentStatusMonitoring> RecordsValidEmploymentStatusMonitorings { get; set; }
 
-        public List<LearnerEmploymentStatu> RecordsValidLearnerEmploymentStatus { get; set; }
+        public List<LearnerEmploymentStatus> RecordsValidLearnerEmploymentStatus { get; set; }
 
         public List<LearnerFAM> RecordsValidLearnerFams { get; set; }
 
