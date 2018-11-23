@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearningDeliveryFAMBuilder
     {
         public static LearningDeliveryFAM BuildValidFamRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryFAM learningDeliveryFam,
@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
             return new LearningDeliveryFAM
             {
                 LearningDeliveryFAM_Id = learnerDeliveryFamId,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 AimSeqNumber = learningDelivery.AimSeqNumber,
                 LearnDelFAMCode = learningDeliveryFam.LearnDelFAMCode,

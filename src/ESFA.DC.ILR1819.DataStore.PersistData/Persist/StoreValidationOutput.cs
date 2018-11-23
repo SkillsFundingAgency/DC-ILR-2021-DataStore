@@ -12,7 +12,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.Logging.Interfaces;
 using ValidationError = ESFA.DC.ILR1819.DataStore.EF.ValidationError;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public sealed class StoreValidationOutput : AbstractStore, IStoreValidationOutput
     {

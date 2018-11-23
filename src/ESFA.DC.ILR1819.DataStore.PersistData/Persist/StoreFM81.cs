@@ -11,7 +11,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Rulebase;
 using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public class StoreFM81 : AbstractStore, IStoreService<FM81Global>
     {

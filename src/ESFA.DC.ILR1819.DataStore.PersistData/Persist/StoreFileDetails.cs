@@ -6,7 +6,7 @@ using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public sealed class StoreFileDetails : IStoreFileDetails
     {

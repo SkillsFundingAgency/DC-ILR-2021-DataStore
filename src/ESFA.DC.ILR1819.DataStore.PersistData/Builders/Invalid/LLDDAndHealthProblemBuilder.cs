@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class LLDDAndHealthProblemBuilder
     {
         public static LLDDandHealthProblem BuildInvalidLLDDandHealthProblem(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILLDDAndHealthProblem llddAndHealthProblem,
             int learnerId,
@@ -19,7 +19,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
                 LearnRefNumber = learner.LearnRefNumber,
                 LLDDCat = llddAndHealthProblem.LLDDCat,
                 PrimaryLLDD = llddAndHealthProblem.PrimaryLLDDNullable,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
+                UKPRN = ukprn
             };
         }
     }

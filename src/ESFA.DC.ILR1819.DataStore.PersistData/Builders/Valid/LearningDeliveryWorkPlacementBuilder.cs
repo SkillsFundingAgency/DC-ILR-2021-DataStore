@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearningDeliveryWorkPlacementBuilder
     {
         public static LearningDeliveryWorkPlacement BuildValidWorkPlacementRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryWorkPlacement learningDeliveryWorkPlacement)
@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
             return new LearningDeliveryWorkPlacement
             {
                 AimSeqNumber = learningDelivery.AimSeqNumber,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 WorkPlaceEmpId = learningDeliveryWorkPlacement.WorkPlaceEmpIdNullable.GetValueOrDefault(-1),
                 WorkPlaceEndDate = learningDeliveryWorkPlacement.WorkPlaceEndDateNullable,

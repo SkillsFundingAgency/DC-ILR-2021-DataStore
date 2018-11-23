@@ -184,7 +184,7 @@
     <Compile Include="Builders\Invalid\LearnerFAMBuilder.cs" />
     <Compile Include="Builders\Invalid\LearnerHEBuilder.cs" />
     <Compile Include="Builders\Invalid\LearnerHEFinancialSupportBuilder.cs" />
-    <Compile Include="Builders\Invalid\LearnerInvalidDataBuilder.cs" />
+    <Compile Include="Builders\LearnerInvalidDataBuilder.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryFAMBuilder.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryHEBuilder.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="Builders\Valid\LearnerFAMBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerHEBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerHEFinancialSupportBuilder.cs" />
-    <Compile Include="Builders\Valid\LearnerValidDataBuilder.cs" />
+    <Compile Include="Builders\LearnerValidDataBuilder.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryFAMBuilder.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryHEBuilder.cs" />
@@ -230,16 +230,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Providers\ILRProviderService.cs" />
     <Compile Include="Services\Providers\ValidLearnerProviderService.cs" />
-    <Compile Include="StoreClear.cs" />
-    <Compile Include="StoreFileDetails.cs" />
-    <Compile Include="StoreFM81.cs" />
-    <Compile Include="StoreFM35.cs" />
-    <Compile Include="StoreFM25.cs" />
-    <Compile Include="StoreFM70.cs" />
-    <Compile Include="StoreFM36.cs" />
-    <Compile Include="StoreIlr.cs" />
-    <Compile Include="StoreALB.cs" />
-    <Compile Include="StoreValidationOutput.cs" />
+    <Compile Include="Persist\StoreClear.cs" />
+    <Compile Include="Persist\StoreFileDetails.cs" />
+    <Compile Include="Persist\StoreFM81.cs" />
+    <Compile Include="Persist\StoreFM35.cs" />
+    <Compile Include="Persist\StoreFM25.cs" />
+    <Compile Include="Persist\StoreFM70.cs" />
+    <Compile Include="Persist\StoreFM36.cs" />
+    <Compile Include="Persist\StoreIlr.cs" />
+    <Compile Include="Persist\StoreALB.cs" />
+    <Compile Include="Persist\StoreValidationOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">

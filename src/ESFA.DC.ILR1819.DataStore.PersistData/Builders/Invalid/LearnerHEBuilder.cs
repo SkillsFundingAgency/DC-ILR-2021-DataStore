@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class LearnerHEBuilder
     {
         public static LearnerHE BuildInvalidLearnerHE(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             int learnerId,
             int learnerHEId)
@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
                 Learner_Id = learnerId,
                 LearnRefNumber = learner.LearnRefNumber,
                 TTACCOM = learner.LearnerHEEntity.TTACCOMNullable,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 UCASPERID = learner.LearnerHEEntity.UCASPERID
             };
         }

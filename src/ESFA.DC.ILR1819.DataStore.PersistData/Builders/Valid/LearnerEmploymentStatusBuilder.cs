@@ -6,13 +6,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearnerEmploymentStatusBuilder
     {
         public static LearnerEmploymentStatus BuildValidLearnerEmploymentStatus(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerEmploymentStatus learnerEmploymentStatus)
         {
             return new LearnerEmploymentStatus
             {
-                UKPRN = ilr.LearningProviderEntity.UKPRN,
+                UKPRN = ukprn,
                 AgreeId = learnerEmploymentStatus.AgreeId,
                 LearnRefNumber = learner.LearnRefNumber,
                 DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,

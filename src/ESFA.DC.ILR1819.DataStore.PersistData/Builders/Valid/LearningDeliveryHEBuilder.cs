@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearningDeliveryHEBuilder
     {
         public static LearningDeliveryHE BuildValidHERecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryHE heRecord)
@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
             return new LearningDeliveryHE
             {
                 AimSeqNumber = learningDelivery.AimSeqNumber,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 DOMICILE = learningDelivery.LearningDeliveryHEEntity.DOMICILE,
                 ELQ = learningDelivery.LearningDeliveryHEEntity.ELQNullable,

@@ -6,14 +6,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearnerHEBuilder
     {
         public static LearnerHE BuildValidLearnerHE(
-            IMessage ilr,
+            int ukprn,
             ILearner learner)
         {
             return new LearnerHE
             {
                 LearnRefNumber = learner.LearnRefNumber,
                 TTACCOM = learner.LearnerHEEntity.TTACCOMNullable,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 UCASPERID = learner.LearnerHEEntity.UCASPERID
             };
         }
