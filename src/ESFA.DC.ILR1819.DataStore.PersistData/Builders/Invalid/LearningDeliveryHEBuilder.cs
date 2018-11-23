@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class LearningDeliveryHEBuilder
     {
         public static LearningDeliveryHE BuildInvalidHERecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryHE heRecord,
@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
             {
                 LearningDeliveryHE_Id = learningDeliveryHEId,
                 AimSeqNumber = learningDelivery.AimSeqNumber,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 DOMICILE = learningDelivery.LearningDeliveryHEEntity.DOMICILE,
                 ELQ = learningDelivery.LearningDeliveryHEEntity.ELQNullable,

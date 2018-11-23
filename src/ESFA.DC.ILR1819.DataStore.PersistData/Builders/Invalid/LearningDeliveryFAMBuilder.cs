@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class LearningDeliveryFAMBuilder
     {
         public static LearningDeliveryFAM BuildInvalidFamRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryFAM learningDeliveryFam,
@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
             {
                 LearningDeliveryFAM_Id = learnerDeliveryFamId,
                 LearningDelivery_Id = learnerDeliveryId,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 AimSeqNumber = learningDelivery.AimSeqNumber,
                 LearnDelFAMCode = learningDeliveryFam.LearnDelFAMCode,

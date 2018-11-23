@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class LearningDeliveryBuilder
     {
         public static LearningDelivery BuildInvalidLearningDelivery(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             int learnerId,
@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
             {
                 Learner_Id = learnerId,
                 LearningDelivery_Id = learnerDeliveryId,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 LearnAimRef = learningDelivery.LearnAimRef,
                 AimSeqNumber = learningDelivery.AimSeqNumber,

@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class ProviderSpecDeliveryMonitoringBuilder
     {
         public static ProviderSpecDeliveryMonitoring BuildInvalidProviderSpecDeliveryMonitoringRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             IProviderSpecDeliveryMonitoring providerSpecDeliveryMonitoring,
@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
                 LearnRefNumber = learner.LearnRefNumber,
                 ProvSpecDelMon = providerSpecDeliveryMonitoring.ProvSpecDelMon,
                 ProvSpecDelMonOccur = providerSpecDeliveryMonitoring.ProvSpecDelMonOccur,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN
+                UKPRN = ukprn
             };
         }
     }

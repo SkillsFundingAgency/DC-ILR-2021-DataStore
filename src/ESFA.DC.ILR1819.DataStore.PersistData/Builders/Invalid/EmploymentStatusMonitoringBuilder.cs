@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class EmploymentStatusMonitoringBuilder
     {
         public static EmploymentStatusMonitoring BuildInvalidEmploymentStatusMonitoring(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerEmploymentStatus learnerEmploymentStatus,
             IEmploymentStatusMonitoring employmentStatusMonitoring,
@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
             {
                 EmploymentStatusMonitoring_Id = learnerEmploymentStatusMonitoringId,
                 LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
                 ESMCode = employmentStatusMonitoring.ESMCode,

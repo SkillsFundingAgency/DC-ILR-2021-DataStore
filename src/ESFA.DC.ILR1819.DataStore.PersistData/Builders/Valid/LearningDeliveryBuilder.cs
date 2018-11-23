@@ -5,11 +5,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
 {
     public class LearningDeliveryBuilder
     {
-        public static LearningDelivery BuildValidLearningDelivery(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery)
+        public static LearningDelivery BuildValidLearningDelivery(int ukprn, ILearner learner, ILearningDelivery learningDelivery)
         {
             return new LearningDelivery
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 LearnAimRef = learningDelivery.LearnAimRef,
                 AimSeqNumber = learningDelivery.AimSeqNumber,

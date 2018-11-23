@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;

@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearnerHEFinancialSupportBuilder
     {
         public static LearnerHEFinancialSupport BuildValidLearnerHEFinancialSupport(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerHEFinancialSupport heFinancialSupport)
         {
@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
                 FINAMOUNT = heFinancialSupport.FINAMOUNT,
                 FINTYPE = heFinancialSupport.FINTYPE,
                 LearnRefNumber = learner.LearnRefNumber,
-                UKPRN = ilr.LearningProviderEntity.UKPRN
+                UKPRN = ukprn
             };
         }
     }

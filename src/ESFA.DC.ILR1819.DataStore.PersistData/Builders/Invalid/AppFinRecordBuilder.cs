@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class AppFinRecordBuilder
     {
         public static AppFinRecord BuildInvalidAppFinRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             IAppFinRecord appFinRecord,
@@ -18,7 +18,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
                 AppFinRecord_Id = appFinRecordId,
                 LearningDelivery_Id = learnerDeliveryId,
                 LearnRefNumber = learner.LearnRefNumber,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 AFinAmount = appFinRecord.AFinAmount,
                 AFinCode = appFinRecord.AFinCode,
                 AFinDate = appFinRecord.AFinDate,

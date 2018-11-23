@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class LearnerFAMBuilder
     {
         public static LearnerFAM BuildInvalidLearnerFAM(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerFAM learnerFaM,
             int learnerId,
@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
             {
                 LearnerFAM_Id = learnerFAMId,
                 Learner_Id = learnerId,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 LearnFAMCode = learnerFaM.LearnFAMCode,
                 LearnFAMType = learnerFaM.LearnFAMType

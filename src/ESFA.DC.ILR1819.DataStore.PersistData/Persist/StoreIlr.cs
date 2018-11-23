@@ -9,7 +9,7 @@ using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public sealed class StoreIlr : AbstractStore, IStoreIlr
     {

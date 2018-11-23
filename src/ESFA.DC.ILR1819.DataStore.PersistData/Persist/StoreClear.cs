@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public sealed class StoreClear : IStoreClear
     {

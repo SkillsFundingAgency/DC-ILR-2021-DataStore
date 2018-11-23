@@ -6,13 +6,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class ContactPreferenceBuilder
     {
         public static ContactPreference BuildValidContactPreference(
-            IMessage ilr,
+            int ukprn,
             ILearner ilrLearner,
             IContactPreference contactPreference)
         {
             return new ContactPreference
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = ilrLearner.LearnRefNumber,
                 ContPrefCode = contactPreference.ContPrefCode,
                 ContPrefType = contactPreference.ContPrefType

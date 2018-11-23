@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
     public class ContactPreferenceBuilder
     {
         public static ContactPreference BuildInvalidContactPreference(
-            IMessage ilr,
+            int ukprn,
             ILearner ilrLearner,
             IContactPreference contactPreference,
             int learnerId,
@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
             {
                 ContactPreference_Id = contactPreferenceId,
                 Learner_Id = learnerId,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = ilrLearner.LearnRefNumber,
                 ContPrefCode = contactPreference.ContPrefCode,
                 ContPrefType = contactPreference.ContPrefType

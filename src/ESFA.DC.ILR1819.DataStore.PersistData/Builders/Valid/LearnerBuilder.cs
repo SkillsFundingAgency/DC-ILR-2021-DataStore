@@ -5,12 +5,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
 {
     public class LearnerBuilder
     {
-        public static Learner BuildValidLearner(IMessage ilr, ILearner ilrLearner)
+        public static Learner BuildValidLearner(int ukprn, ILearner ilrLearner)
         {
             return new Learner
             {
                 LearnRefNumber = ilrLearner.LearnRefNumber,
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 Accom = ilrLearner.AccomNullable,
                 AddLine1 = ilrLearner.AddLine1,
                 AddLine2 = ilrLearner.AddLine2,

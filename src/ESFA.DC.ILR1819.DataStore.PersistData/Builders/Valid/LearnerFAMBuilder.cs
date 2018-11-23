@@ -6,13 +6,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid
     public class LearnerFAMBuilder
     {
         public static LearnerFAM BuildValidLearnerFAM(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerFAM learnerFaM)
         {
             return new LearnerFAM
             {
-                UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
+                UKPRN = ukprn,
                 LearnRefNumber = learner.LearnRefNumber,
                 LearnFAMCode = learnerFaM.LearnFAMCode,
                 LearnFAMType = learnerFaM.LearnFAMType
