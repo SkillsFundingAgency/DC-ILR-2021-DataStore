@@ -114,6 +114,7 @@
     <Compile Include="IDataStoreContext.cs" />
     <Compile Include="IEntryPoint.cs" />
     <Compile Include="ILearnerInvalidDataBuilder.cs" />
+    <Compile Include="IRulebaseDataBuilder.cs" />
     <Compile Include="ILearnerValidDataBuilder.cs" />
     <Compile Include="IModelService.cs" />
     <Compile Include="IStoreClear.cs" />

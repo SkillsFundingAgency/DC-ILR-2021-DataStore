@@ -15,11 +15,14 @@ using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
+using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.PersistData;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Rulebase;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services;
@@ -84,8 +87,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
             // Version info
-            var versionInfo = configHelper.GetSectionValues<VersionInfo>("VersionSection");
-            containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>().SingleInstance();
+            var versionInfo = configHelper.GetSectionValues<DataStore.Dto.VersionInfo >("VersionSection");
+            containerBuilder.RegisterInstance(versionInfo).As<DataStore.Dto.VersionInfo >().SingleInstance();
 
             // register logger
             var loggerOptions =
@@ -230,12 +233,19 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ModelService<ALBGlobal>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM25Global>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM35Global>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM36Global>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM70Global>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM81Global>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ModelService<ALBGlobal, IEnumerable<ALB_global>>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ModelService<FM25Global, IEnumerable<FM25_global>>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ModelService<FM35Global, IEnumerable<FM35_global>>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ModelService<FM36Global, IEnumerable<AEC_global>>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ModelService<FM70Global, IEnumerable<ESF_global>>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ModelService<FM81Global, IEnumerable<TBL_global>>>().As<IModelService>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<ALBDataBuilder>().As<IRulebaseDataBuilder<ALBGlobal, ALB_global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM25DataBuilder>().As<IRulebaseDataBuilder<FM25Global, FM25_global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM35DataBuilder>().As<IRulebaseDataBuilder<FM35Global, FM35_global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36DataBuilder>().As<IRulebaseDataBuilder<FM36Global, AEC_global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM70DataBuilder>().As<IRulebaseDataBuilder<FM70Global, ESF_global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM81DataBuilder>().As<IRulebaseDataBuilder<FM81Global, TBL_global>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>().InstancePerLifetimeScope();
 
