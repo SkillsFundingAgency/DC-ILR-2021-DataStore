@@ -1,7 +1,7 @@
 ﻿using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Rulebase
 {
     public class FM35LearningDeliveryBuilder
     {
