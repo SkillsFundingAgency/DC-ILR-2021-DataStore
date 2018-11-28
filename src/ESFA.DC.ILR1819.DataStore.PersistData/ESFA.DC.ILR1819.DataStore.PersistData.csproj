@@ -203,7 +203,6 @@
     <Compile Include="Builders\Valid\EmploymentStatusMonitoringBuilder.cs" />
     <Compile Include="Builders\Rulebase\Old\FM25LearnerBuilder.cs" />
     <Compile Include="Builders\Rulebase\Old\FM81LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\Rulebase\Old\FM35LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Rulebase\Old\FM70LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Rulebase\Old\FM36LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Rulebase\Old\FM36PriceEpisodeBuilder.cs" />
@@ -221,9 +220,12 @@
     <Compile Include="Builders\Valid\ProviderSpecDeliveryMonitoringBuilder.cs" />
     <Compile Include="Builders\Valid\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
+    <Compile Include="Constants\FM35Constants.cs" />
     <Compile Include="Constants\PersistDataConstants.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
+    <Compile Include="Model\FundModelPeriodisedValue.cs" />
+    <Compile Include="Persist\Mappers\FM35Mapper.cs" />
     <Compile Include="Services\ModelService.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />
     <Compile Include="Services\Providers\FM70ProviderService.cs" />

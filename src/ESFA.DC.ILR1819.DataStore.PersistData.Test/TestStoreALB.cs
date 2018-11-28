@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         [Fact]
         public async Task StoreALB()
         {
-            await StoreTestAsync(10044670, "JsonOutputs/ALB.json", "ALB_Output");
+            await StoreTestAsync(10033670, "JsonOutputs/ALB.json", "ALB_Output");
         }
 
         protected override void ExecuteAssertions(ALBGlobal outputModel, int ukprn, SqlConnection sqlConnection)

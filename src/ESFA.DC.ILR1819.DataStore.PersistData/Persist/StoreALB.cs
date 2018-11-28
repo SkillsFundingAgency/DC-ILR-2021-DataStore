@@ -12,8 +12,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public sealed class StoreALB : AbstractStore, IStoreService<ALBGlobal>
     {
-        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, ALBGlobal fundingOutputs, CancellationToken cancellationToken)
         {
+            var ukPrn = fundingOutputs.UKPRN;
+
             ALB_global albGlobal = new ALB_global
             {
                 UKPRN = ukPrn,

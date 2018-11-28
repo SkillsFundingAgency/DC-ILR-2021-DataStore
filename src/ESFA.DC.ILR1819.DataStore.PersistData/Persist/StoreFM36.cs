@@ -25,8 +25,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
         private List<AEC_ApprenticeshipPriceEpisode_Period> _priceEpisodePeriods;
         private List<AEC_ApprenticeshipPriceEpisode_PeriodisedValues> _priceEpisodePeriodValues;
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM36Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, FM36Global fundingOutputs, CancellationToken cancellationToken)
         {
+            var ukPrn = fundingOutputs.UKPRN;
+
             _fm36Global = new AEC_global
             {
                 LARSVersion = fundingOutputs.LARSVersion,
@@ -256,7 +258,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             await _bulkInsert.Insert("Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues", _priceEpisodePeriodValues, sqlTransaction, cancellationToken);
         }
 
-        private static TR GetPeriodValueForDelivery<TR>(LearningDelivery attribute, string name, int period)
+        private TR GetPeriodValueForDelivery<TR>(LearningDelivery attribute, string name, int period)
         {
             var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
@@ -265,7 +267,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
 
-        private static TR GetPeriodValueForEpisode<TR>(PriceEpisode episode, string name, int period)
+        private TR GetPeriodValueForEpisode<TR>(PriceEpisode episode, string name, int period)
         {
             var a = episode.PriceEpisodePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 

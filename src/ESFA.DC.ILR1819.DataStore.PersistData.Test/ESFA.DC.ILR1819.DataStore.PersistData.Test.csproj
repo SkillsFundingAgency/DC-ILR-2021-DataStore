@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractStoreTest.cs" />
+    <Compile Include="FM35MapperTests.cs" />
     <Compile Include="TestStoreALB.cs" />
     <Compile Include="TestStoreFM81.cs" />
     <Compile Include="TestStoreFM70.cs" />
