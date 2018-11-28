@@ -22,8 +22,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
         private List<ESF_LearningDeliveryDeliverable_Period> _periods;
         private List<ESF_LearningDeliveryDeliverable_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM70Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, FM70Global fundingOutputs, CancellationToken cancellationToken)
         {
+            var ukPrn = fundingOutputs.UKPRN;
+
             _fm70Global = new ESF_global
             {
                 UKPRN = ukPrn,
@@ -176,7 +178,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_PeriodisedValues", _periodValues, sqlTransaction, cancellationToken);
         }
 
-        private static TR GetPeriodValueForDelivery<TR>(LearningDeliveryDeliverableValues attribute, string name, int period)
+        private TR GetPeriodValueForDelivery<TR>(LearningDeliveryDeliverableValues attribute, string name, int period)
         {
             var a = attribute.LearningDeliveryDeliverablePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 

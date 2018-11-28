@@ -87,8 +87,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
             // Version info
-            var versionInfo = configHelper.GetSectionValues<DataStore.Dto.VersionInfo >("VersionSection");
-            containerBuilder.RegisterInstance(versionInfo).As<DataStore.Dto.VersionInfo >().SingleInstance();
+            var versionInfo = configHelper.GetSectionValues<DataStore.Dto.VersionInfo>("VersionSection");
+            containerBuilder.RegisterInstance(versionInfo).As<DataStore.Dto.VersionInfo>().SingleInstance();
 
             // register logger
             var loggerOptions =
@@ -254,6 +254,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreValidationOutput>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>().InstancePerLifetimeScope();
 
             containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
                 .As<IList<IModelService>>();

@@ -47,7 +47,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
 
                     await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
 
-                    await _storeService.StoreAsync(transaction, ukprn, outputModel, cancellationToken);
+                    await _storeService.StoreAsync(transaction, outputModel, cancellationToken);
 
                     transaction.Commit();
                 }
@@ -79,7 +79,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
 
                     await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
 
-                    await _storeService.StoreAsync(transaction, ukprn, model, cancellationToken);
+                    await _storeService.StoreAsync(transaction, model, cancellationToken);
 
                     transaction.Commit();
                 }

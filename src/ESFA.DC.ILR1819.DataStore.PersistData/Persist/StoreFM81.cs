@@ -15,14 +15,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public class StoreFM81 : AbstractStore, IStoreService<FM81Global>
     {
-        private TBL_global _FM81Global;
+        private TBL_global _fm81Global;
         private List<TBL_LearningDelivery> _learningDeliveries;
         private List<TBL_LearningDelivery_Period> _periods;
         private List<TBL_LearningDelivery_PeriodisedValues> _periodValues;
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM81Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, FM81Global fundingOutputs, CancellationToken cancellationToken)
         {
-            _FM81Global = new TBL_global
+            var ukPrn = fundingOutputs.UKPRN;
+
+            _fm81Global = new TBL_global
             {
                 CurFundYr = fundingOutputs.CurFundYr,
                 LARSVersion = fundingOutputs.LARSVersion,
@@ -114,7 +116,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 return;
             }
 
-             await _bulkInsert.Insert("Rulebase.TBL_global", new List<TBL_global> { _FM81Global }, sqlTransaction, cancellationToken);
+             await _bulkInsert.Insert("Rulebase.TBL_global", new List<TBL_global> { _fm81Global }, sqlTransaction, cancellationToken);
         }
 
         private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<TBL_Learner> tblLearners)
@@ -139,7 +141,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             await _bulkInsert.Insert("Rulebase.TBL_LearningDelivery_PeriodisedValues", _periodValues, sqlTransaction, cancellationToken);
         }
 
-        private static TR GetPeriodValueForDelivery<TR>(LearningDelivery attribute, string name, int period)
+        private TR GetPeriodValueForDelivery<TR>(LearningDelivery attribute, string name, int period)
         {
             var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
