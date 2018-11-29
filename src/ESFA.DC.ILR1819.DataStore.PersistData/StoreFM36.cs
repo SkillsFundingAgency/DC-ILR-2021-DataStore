@@ -8,14 +8,13 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public class StoreFM36 : AbstractStore, IStoreService<FM36Global>
     {
-        private const string PeriodPrefix = "Period";
-
         private AEC_global _fm36Global;
         private List<AEC_LearningDelivery> _learningDeliveries;
         private List<AEC_LearningDelivery_Period> _periods;
@@ -26,7 +25,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         private List<AEC_ApprenticeshipPriceEpisode_Period> _priceEpisodePeriods;
         private List<AEC_ApprenticeshipPriceEpisode_PeriodisedValues> _priceEpisodePeriodValues;
 
-        public async Task StoreAsync(SqlTransaction transaction, int ukPrn, FM36Global fundingOutputs, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, int ukPrn, FM36Global fundingOutputs, CancellationToken cancellationToken)
         {
             _fm36Global = new AEC_global
             {
@@ -36,7 +35,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 Year = fundingOutputs.Year
             };
 
-            StoreGlobal(transaction, cancellationToken);
+            StoreGlobal(sqlTransaction, cancellationToken);
+
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+              .Select(l => new AEC_Learner
+              {
+                  UKPRN = ukPrn,
+                  LearnRefNumber = l.LearnRefNumber,
+                  ULN = l.ULN
+              }).ToList());
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -58,7 +65,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 PopulatePriceEpisodes(learner, ukPrn);
             }
 
-            await SaveData(transaction, cancellationToken);
+            await SaveData(sqlTransaction, cancellationToken);
         }
 
         private void PopulateLearningDeliveries(FM36Learner learner, int ukPrn)
@@ -223,6 +230,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             await _bulkInsert.Insert("Rulebase.AEC_global", new List<AEC_global> { _fm36Global }, sqlTransaction, cancellationToken);
         }
 
+        private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<AEC_Learner> aecLearners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.AEC_Learner", aecLearners, sqlTransaction, cancellationToken);
+        }
+
         private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -243,7 +260,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
-            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
 
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
@@ -252,7 +269,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = episode.PriceEpisodePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
-            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
 
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }

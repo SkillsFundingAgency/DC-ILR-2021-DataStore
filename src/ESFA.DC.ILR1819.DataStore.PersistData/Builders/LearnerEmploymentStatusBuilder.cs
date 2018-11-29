@@ -4,12 +4,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 {
     public class LearnerEmploymentStatusBuilder
     {
-        public static EF.Valid.LearnerEmploymentStatu BuildValidLearnerEmploymentStatus(
+        public static EF.Valid.LearnerEmploymentStatus BuildValidLearnerEmploymentStatus(
             IMessage ilr,
             ILearner learner,
             ILearnerEmploymentStatus learnerEmploymentStatus)
         {
-            return new EF.Valid.LearnerEmploymentStatu
+            return new EF.Valid.LearnerEmploymentStatus
             {
                 UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
                 AgreeId = learnerEmploymentStatus.AgreeId,

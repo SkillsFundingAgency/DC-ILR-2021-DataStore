@@ -8,14 +8,13 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public class StoreFM81 : AbstractStore, IStoreService<FM81Global>
     {
-        private const string PeriodPrefix = "Period";
-
         private TBL_global _FM81Global;
         private List<TBL_LearningDelivery> _learningDeliveries;
         private List<TBL_LearningDelivery_Period> _periods;
@@ -32,6 +31,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             };
 
             StoreGlobal(sqlTransaction, cancellationToken);
+
+            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
+             .Select(l => new TBL_Learner
+             {
+                 UKPRN = ukPrn,
+                 LearnRefNumber = l.LearnRefNumber
+             }).ToList());
 
             if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
             {
@@ -111,6 +117,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
              await _bulkInsert.Insert("Rulebase.TBL_global", new List<TBL_global> { _FM81Global }, sqlTransaction, cancellationToken);
         }
 
+        private async void StoreLearners(SqlTransaction sqlTransaction, CancellationToken cancellationToken, List<TBL_Learner> tblLearners)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            await _bulkInsert.Insert("Rulebase.TBL_Learner", tblLearners, sqlTransaction, cancellationToken);
+        }
+
         private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -127,7 +143,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var a = attribute.LearningDeliveryPeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
 
-            var value = a?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(a);
+            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
 
             return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }

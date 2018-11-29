@@ -19,6 +19,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
         private readonly IStoreClear _storeClear = new StoreClear();
         private readonly IJsonSerializationService _jsonSerializationService = new JsonSerializationService();
 
+        protected AbstractStoreTest(IStoreService<T> storeService)
+        {
+            _storeService = storeService;
+        }
+
         public async Task StoreTestAsync(int ukprn, string fileName, string outputKey)
         {
             CancellationToken cancellationToken = CancellationToken.None;
