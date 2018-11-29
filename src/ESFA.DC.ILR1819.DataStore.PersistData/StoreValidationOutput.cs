@@ -25,7 +25,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             _logger = logger;
         }
 
-        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
         {
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 4");
             List<ValidationErrorDto> validationErrorDtos = (await _validationErrorsService.GetValidationErrorsAsync(

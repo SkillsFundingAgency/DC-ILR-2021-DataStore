@@ -98,7 +98,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     stopwatch.Restart();
 
                     StoreValidationOutput storeValidationOutput = new StoreValidationOutput(null, validationErrorsService.Object);
-                    await storeValidationOutput.StoreAsync(dataStoreContext, connection, transaction, ukPrn, message, cancellationToken);
+                    await storeValidationOutput.StoreAsync(dataStoreContext, transaction, ukPrn, message, cancellationToken);
 
                     output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();

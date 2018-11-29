@@ -96,7 +96,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                                 }
                             }
 
-                            Task storeValidationOutputTask = _storeValidationOutput.StoreAsync(dataStoreContext, sqlConnection, sqlTransaction, ukPrn, message, cancellationToken);
+                            Task storeValidationOutputTask = _storeValidationOutput.StoreAsync(dataStoreContext, sqlTransaction, ukPrn, message, cancellationToken);
                             tasks.Add(storeValidationOutputTask);
 
                             await Task.WhenAll(tasks);
