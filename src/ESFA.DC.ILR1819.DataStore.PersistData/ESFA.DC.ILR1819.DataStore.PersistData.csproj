@@ -220,11 +220,13 @@
     <Compile Include="Builders\Valid\ProviderSpecDeliveryMonitoringBuilder.cs" />
     <Compile Include="Builders\Valid\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
+    <Compile Include="Constants\FM25Constants.cs" />
     <Compile Include="Constants\FM35Constants.cs" />
     <Compile Include="Constants\PersistDataConstants.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Model\FundModelPeriodisedValue.cs" />
+    <Compile Include="Persist\Mappers\FM25Mapper.cs" />
     <Compile Include="Persist\Mappers\FM35Mapper.cs" />
     <Compile Include="Services\ModelService.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />

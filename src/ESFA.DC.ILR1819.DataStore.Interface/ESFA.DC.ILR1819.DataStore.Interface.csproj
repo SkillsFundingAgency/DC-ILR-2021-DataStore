@@ -126,6 +126,7 @@
     <Compile Include="IBulkInsert.cs" />
     <Compile Include="IDataStoreContext.cs" />
     <Compile Include="IEntryPoint.cs" />
+    <Compile Include="Mappers\IFM25Mapper.cs" />
     <Compile Include="ILearnerInvalidDataBuilder.cs" />
     <Compile Include="IRulebaseDataBuilder.cs" />
     <Compile Include="ILearnerValidDataBuilder.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="ITopicAndTaskSectionOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IProviderService.cs" />
-    <Compile Include="IFM35Mapper.cs" />
+    <Compile Include="Mappers\IFM35Mapper.cs" />
     <Compile Include="Service\IStoreService.cs" />
     <Compile Include="Service\ITransactionController.cs" />
     <Compile Include="Service\IValidLearnerProviderService.cs" />
@@ -157,5 +158,6 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
