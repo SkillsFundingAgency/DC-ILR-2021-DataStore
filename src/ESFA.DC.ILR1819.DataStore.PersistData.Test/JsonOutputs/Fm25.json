@@ -98,7 +98,7 @@
       "LearnerPeriodisedValues": [
         {
           "LearnRefNumber": "0Addl103",
-          "AttributeName": "0.0",
+          "AttributeName": "Attribute1",
           "Period1": 0.0,
           "Period2": 0.0,
           "Period3": 0.0,

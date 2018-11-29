@@ -1,0 +1,106 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using ESFA.DC.ILR.FundingService.FM25.Model.Output;
+using ESFA.DC.ILR1819.DataStore.EF;
+using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
+
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
+{
+    public class FM25Mapper : IFM25Mapper
+    {
+        public FM25Mapper()
+        {
+        }
+
+        public FM25_global MapFM25Global(FM25Global fm25Global)
+        {
+            return new FM25_global
+            {
+                UKPRN = fm25Global.UKPRN.Value,
+                LARSVersion = fm25Global.LARSVersion,
+                OrgVersion = fm25Global.OrgVersion,
+                PostcodeDisadvantageVersion = fm25Global.PostcodeDisadvantageVersion,
+                RulebaseVersion = fm25Global.RulebaseVersion
+            };
+        }
+
+        public IEnumerable<FM25_Learner> MapFM25Learners(FM25Global fm25Global)
+        {
+            return fm25Global.Learners.Select(l => new FM25_Learner
+            {
+                UKPRN = fm25Global.UKPRN.Value,
+                LearnRefNumber = l.LearnRefNumber,
+                AcadMonthPayment = l.AcadMonthPayment,
+                OnProgPayment = l.OnProgPayment,
+                AcadProg = l.AcadProg,
+                ActualDaysILCurrYear = l.ActualDaysILCurrYear,
+                AreaCostFact1618Hist = l.AreaCostFact1618Hist,
+                Block1DisadvUpliftNew = l.Block1DisadvUpliftNew,
+                Block2DisadvElementsNew = l.Block2DisadvElementsNew,
+                ConditionOfFundingEnglish = l.ConditionOfFundingEnglish,
+                ConditionOfFundingMaths = l.ConditionOfFundingMaths,
+                CoreAimSeqNumber = l.CoreAimSeqNumber,
+                FullTimeEquiv = l.FullTimeEquiv,
+                FundLine = l.FundLine,
+                LearnerActEndDate = l.LearnerActEndDate,
+                LearnerPlanEndDate = l.LearnerPlanEndDate,
+                LearnerStartDate = l.LearnerStartDate,
+                NatRate = l.NatRate,
+                PlannedDaysILCurrYear = l.PlannedDaysILCurrYear,
+                ProgWeightHist = l.ProgWeightHist,
+                ProgWeightNew = l.ProgWeightNew,
+                PrvDisadvPropnHist = l.PrvDisadvPropnHist,
+                PrvHistLrgProgPropn = l.PrvHistLrgProgPropn,
+                PrvRetentFactHist = l.PrvRetentFactHist,
+                RateBand = l.RateBand,
+                RetentNew = l.RetentNew,
+                StartFund = l.StartFund,
+                ThresholdDays = l.ThresholdDays
+            });
+        }
+
+        public FM25_FM35_global MapFM25_35_Global(FM25Global fm25Global)
+        {
+            return new FM25_FM35_global
+            {
+                UKPRN = fm25Global.UKPRN.Value,
+                RulebaseVersion = fm25Global.RulebaseVersion
+            };
+        }
+
+        public IEnumerable<FM25_FM35_Learner_Period> MapFM25_35_LearnerPeriod(FM25Global fm25Global)
+        {
+            return fm25Global.Learners.SelectMany(l => l.LearnerPeriods.Select(lp => new FM25_FM35_Learner_Period
+            {
+                UKPRN = fm25Global.UKPRN.Value,
+                LearnRefNumber = l.LearnRefNumber,
+                Period = lp.Period.Value,
+                LnrOnProgPay = lp.LnrOnProgPay
+            }));
+        }
+
+        public IEnumerable<FM25_FM35_Learner_PeriodisedValues> MapFM25_35_LearnerPeriodisedValues(FM25Global fm25Global)
+        {
+            return
+                  fm25Global.Learners.SelectMany(l => l.LearnerPeriodisedValues.Select(lpv =>
+                  new FM25_FM35_Learner_PeriodisedValues
+                  {
+                      UKPRN = fm25Global.UKPRN.Value,
+                      LearnRefNumber = l.LearnRefNumber,
+                      AttributeName = lpv.AttributeName,
+                      Period_1 = lpv.Period1,
+                      Period_2 = lpv.Period2,
+                      Period_3 = lpv.Period3,
+                      Period_4 = lpv.Period4,
+                      Period_5 = lpv.Period5,
+                      Period_6 = lpv.Period6,
+                      Period_7 = lpv.Period7,
+                      Period_8 = lpv.Period8,
+                      Period_9 = lpv.Period9,
+                      Period_10 = lpv.Period10,
+                      Period_11 = lpv.Period11,
+                      Period_12 = lpv.Period12
+                  }));
+        }
+    }
+}

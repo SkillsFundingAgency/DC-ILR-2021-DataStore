@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
-using ESFA.DC.ILR1819.DataStore.Model;
-using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
-using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract;
-using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using Moq;
 using Xunit;
@@ -37,7 +31,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         [Fact]
         public async Task StoreFM35()
         {
-            await StoreTestAsync(_ukprn, _fundingOutputs, "FileName");
+            await StoreTestAsync(_ukprn, _fundingOutputs, "FM35_Output");
         }
 
         protected override void ExecuteAssertions(FM35Global outputModel, int ukprn, SqlConnection sqlConnection)
@@ -50,7 +44,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
 
         private static StoreFM35 StoreFM35Setup()
         {
-           var rulebaseData =
+           var fundingOutput =
            new FM35_global
            {
                UKPRN = _ukprn,
@@ -93,11 +87,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                }
            };
 
-            var global = rulebaseData;
-            var learners = rulebaseData.FM35_Learner;
-            var learningDeliveries = rulebaseData.FM35_Learner.SelectMany(ld => ld.FM35_LearningDelivery);
-            var learningDeliveryPeriod = rulebaseData.FM35_Learner.SelectMany(ld => ld.FM35_LearningDelivery.SelectMany(p => p.FM35_LearningDelivery_Period));
-            var learningDeliveryPeriodisedValues = rulebaseData.FM35_Learner.SelectMany(ld => ld.FM35_LearningDelivery.SelectMany(p => p.FM35_LearningDelivery_PeriodisedValues));
+            var global = fundingOutput;
+            var learners = fundingOutput.FM35_Learner;
+            var learningDeliveries = fundingOutput.FM35_Learner.SelectMany(ld => ld.FM35_LearningDelivery);
+            var learningDeliveryPeriod = fundingOutput.FM35_Learner.SelectMany(ld => ld.FM35_LearningDelivery.SelectMany(p => p.FM35_LearningDelivery_Period));
+            var learningDeliveryPeriodisedValues = fundingOutput.FM35_Learner.SelectMany(ld => ld.FM35_LearningDelivery.SelectMany(p => p.FM35_LearningDelivery_PeriodisedValues));
 
             var fm35MapperMock = new Mock<IFM35Mapper>();
             IBulkInsert bulkInsert = new BulkInsert();
