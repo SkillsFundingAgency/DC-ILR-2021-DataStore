@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Model
+﻿namespace ESFA.DC.ILR1819.DataStore.PersistData.Model
 {
-    public struct FundModelPeriodisedValue<T>
+    public struct FundModelLearningDeliveryPeriodisedValue<T>
     {
-        public FundModelPeriodisedValue(int ukprn, string learnRefNumber, int aimSeqNumber, T learningDeliveryPeriodisedValue)
+        public FundModelLearningDeliveryPeriodisedValue(int ukprn, string learnRefNumber, int aimSeqNumber, T learningDeliveryPeriodisedValue)
         {
             Ukprn = ukprn;
             LearnRefNumber = learnRefNumber;

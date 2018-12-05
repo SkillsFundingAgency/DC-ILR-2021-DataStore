@@ -17,6 +17,7 @@ using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.PersistData;
@@ -25,6 +26,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Rulebase;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
+using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
@@ -240,12 +242,9 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<ModelService<FM70Global, IEnumerable<ESF_global>>>().As<IModelService>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ModelService<FM81Global, IEnumerable<TBL_global>>>().As<IModelService>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ALBDataBuilder>().As<IRulebaseDataBuilder<ALBGlobal, ALB_global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM25DataBuilder>().As<IRulebaseDataBuilder<FM25Global, FM25_global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM35DataBuilder>().As<IRulebaseDataBuilder<FM35Global, FM35_global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM36DataBuilder>().As<IRulebaseDataBuilder<FM36Global, AEC_global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM70DataBuilder>().As<IRulebaseDataBuilder<FM70Global, ESF_global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM81DataBuilder>().As<IRulebaseDataBuilder<FM81Global, TBL_global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM25Mapper>().As<IFM25Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>().InstancePerLifetimeScope();
 

@@ -80,11 +80,11 @@
     <Reference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.Interface.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.Interface.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.ILR.ValidationErrors, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.dll</HintPath>
@@ -104,11 +104,11 @@
     <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.12-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
+    <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
+    <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.JobContext.Interface, Version=0.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobContext.Interface.0.2.4-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.Interface.dll</HintPath>

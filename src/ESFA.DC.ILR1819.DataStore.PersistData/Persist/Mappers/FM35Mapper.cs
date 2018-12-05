@@ -124,11 +124,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
 
         public IEnumerable<FM35_LearningDelivery_Period> MapLearningDeliveryPeriods(FM35Global fm35Global)
         {
-            IEnumerable<FundModelPeriodisedValue<LearningDeliveryPeriodisedValue>> periodisedValueList = new List<FundModelPeriodisedValue<LearningDeliveryPeriodisedValue>>();
-
             var periodisedValues = fm35Global.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(fm35Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
+               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(fm35Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
 
             var learningDeliveryPeriods = new List<FM35_LearningDelivery_Period>();
 
@@ -170,7 +168,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
         {
             var periodisedValues = fm35Global.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(fm35Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
+               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(fm35Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
 
             return
                    periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
