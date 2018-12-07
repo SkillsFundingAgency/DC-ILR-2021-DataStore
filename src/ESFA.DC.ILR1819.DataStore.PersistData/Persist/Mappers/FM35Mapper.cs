@@ -140,24 +140,24 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                         LearnRefNumber = pv.LearnRefNumber,
                         AimSeqNumber = pv.AimSeqNumber,
                         Period = i,
-                        AchievePayPct = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.AchievePayPct), i),
-                        AchievePayPctTrans = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.AchievePayPctTrans), i),
-                        AchievePayment = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.AchievePayment), i),
-                        BalancePayment = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePayment), i),
-                        BalancePaymentUncapped = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePaymentUncapped), i),
-                        BalancePct = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePct), i),
-                        BalancePctTrans = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePctTrans), i),
-                        EmpOutcomePay = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.EmpOutcomePay), i),
-                        EmpOutcomePct = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.EmpOutcomePct), i),
-                        EmpOutcomePctTrans = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.EmpOutcomePctTrans), i),
-                        InstPerPeriod = GetPeriodValueForDelivery<int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.InstPerPeriod), i),
-                        LearnSuppFund = GetPeriodValueForDelivery<bool?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.LearnSuppFund), i),
-                        LearnSuppFundCash = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.LearnSuppFundCash), i),
-                        OnProgPayment = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPayment), i),
-                        OnProgPayPct = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPayPct), i),
-                        OnProgPayPctTrans = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPayPctTrans), i),
-                        OnProgPaymentUncapped = GetPeriodValueForDelivery<decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPaymentUncapped), i),
-                        TransInstPerPeriod = GetPeriodValueForDelivery<int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.TransInstPerPeriod), i)
+                        AchievePayPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.AchievePayPct), i),
+                        AchievePayPctTrans = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.AchievePayPctTrans), i),
+                        AchievePayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.AchievePayment), i),
+                        BalancePayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePayment), i),
+                        BalancePaymentUncapped = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePaymentUncapped), i),
+                        BalancePct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePct), i),
+                        BalancePctTrans = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.BalancePctTrans), i),
+                        EmpOutcomePay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.EmpOutcomePay), i),
+                        EmpOutcomePct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.EmpOutcomePct), i),
+                        EmpOutcomePctTrans = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.EmpOutcomePctTrans), i),
+                        InstPerPeriod = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.InstPerPeriod), i),
+                        LearnSuppFund = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, bool?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.LearnSuppFund), i),
+                        LearnSuppFundCash = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.LearnSuppFundCash), i),
+                        OnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPayment), i),
+                        OnProgPayPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPayPct), i),
+                        OnProgPayPctTrans = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPayPctTrans), i),
+                        OnProgPaymentUncapped = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.OnProgPaymentUncapped), i),
+                        TransInstPerPeriod = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM35Constants.TransInstPerPeriod), i)
                     }));
             }
 
@@ -192,13 +192,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                        Period_11 = p.Period11,
                        Period_12 = p.Period12
                    }));
-        }
-
-        private static TR GetPeriodValueForDelivery<TR>(LearningDeliveryPeriodisedValue periodisedValue, int period)
-        {
-            var value = periodisedValue?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(periodisedValue);
-
-            return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
     }
 }

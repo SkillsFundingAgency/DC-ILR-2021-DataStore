@@ -51,7 +51,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                         UKPRN = pv.Ukprn,
                         LearnRefNumber = pv.LearnRefNumber,
                         Period = i,
-                        ALBSeqNum = GetPeriodValue<LearnerPeriodisedValue, int?>(pv.LearnerPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.ALBSeqNum), i),
+                        ALBSeqNum = PeriodisedValueHelper.GetPeriodValue<LearnerPeriodisedValue, int?>(pv.LearnerPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.ALBSeqNum), i),
                     }));
             }
 
@@ -134,11 +134,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                         LearnRefNumber = pv.LearnRefNumber,
                         AimSeqNumber = pv.AimSeqNumber,
                         Period = i,
-                        ALBSupportPayment = GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.ALBSupportPayment), i),
-                        AreaUpliftBalPayment = GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.AreaUpliftBalPayment), i),
-                        AreaUpliftOnProgPayment = GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.AreaUpliftOnProgPayment), i),
-                        LearnDelCarLearnPilotBalPayment = GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.LearnDelCarLearnPilotBalPayment), i),
-                        LearnDelCarLearnPilotOnProgPayment = GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.LearnDelCarLearnPilotOnProgPayment), i)
+                        ALBSupportPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.ALBSupportPayment), i),
+                        AreaUpliftBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.AreaUpliftBalPayment), i),
+                        AreaUpliftOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.AreaUpliftOnProgPayment), i),
+                        LearnDelCarLearnPilotBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.LearnDelCarLearnPilotBalPayment), i),
+                        LearnDelCarLearnPilotOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.LearnDelCarLearnPilotOnProgPayment), i)
                     }));
             }
 
@@ -173,13 +173,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                        Period_11 = p.Period11,
                        Period_12 = p.Period12
                    }));
-        }
-
-        private static TR GetPeriodValue<T, TR>(T periodisedValue, int period)
-        {
-            var value = periodisedValue?.GetType().GetProperty($"{PeriodPrefix}{period.ToString()}")?.GetValue(periodisedValue);
-
-            return TypeHelper.PeriodValueTypeHandler<TR>(value);
         }
     }
 }

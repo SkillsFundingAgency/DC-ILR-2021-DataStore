@@ -1,190 +1,53 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
+using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
-using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Rulebase;
 using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
-using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
-    public class StoreFM70 : AbstractStore, IStoreService<FM70Global>
+    public class StoreFM70 : IStoreService<FM70Global>
     {
-        private ESF_global _fm70Global;
-        private List<ESF_DPOutcome> _dpOutcomes;
-        private List<ESF_LearningDelivery> _learningDeliveries;
-        private List<ESF_LearningDeliveryDeliverable> _deliverableValues;
-        private List<ESF_LearningDeliveryDeliverable_Period> _periods;
-        private List<ESF_LearningDeliveryDeliverable_PeriodisedValues> _periodValues;
+        private readonly IFM70Mapper _fm70Mapper;
+        private readonly IBulkInsert _bulkInsert;
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, FM70Global fundingOutputs, CancellationToken cancellationToken)
+        public StoreFM70()
         {
-            var ukPrn = fundingOutputs.UKPRN;
-
-            _fm70Global = new ESF_global
-            {
-                UKPRN = ukPrn,
-                RulebaseVersion = fundingOutputs.RulebaseVersion,
-            };
-
-            StoreGlobal(sqlTransaction, cancellationToken);
-
-            StoreLearners(sqlTransaction, cancellationToken, fundingOutputs.Learners
-              .Select(l => new ESF_Learner
-              {
-                  UKPRN = ukPrn,
-                  LearnRefNumber = l.LearnRefNumber
-              }).ToList());
-
-            if (fundingOutputs.Learners == null || !fundingOutputs.Learners.Any())
-            {
-                return;
-            }
-
-            _dpOutcomes = new List<ESF_DPOutcome>();
-            _learningDeliveries = new List<ESF_LearningDelivery>();
-            _deliverableValues = new List<ESF_LearningDeliveryDeliverable>();
-            _periods = new List<ESF_LearningDeliveryDeliverable_Period>();
-            _periodValues = new List<ESF_LearningDeliveryDeliverable_PeriodisedValues>();
-
-            foreach (var learner in fundingOutputs.Learners)
-            {
-                PopulateDPOutcomes(learner, ukPrn);
-                PopulateLearningDeliveries(learner, ukPrn);
-            }
-
-            await SaveData(sqlTransaction, cancellationToken);
         }
 
-        private void PopulateDPOutcomes(FM70Learner learner, int ukPrn)
+        public StoreFM70(IFM70Mapper fm70Mapper, IBulkInsert bulkInsert)
         {
-            foreach (var dpOutcome in learner.LearnerDPOutcomes)
-            {
-                _dpOutcomes.Add(new ESF_DPOutcome
-                {
-                    UKPRN = ukPrn,
-                    LearnRefNumber = learner.LearnRefNumber,
-                    OutCode = dpOutcome.OutCode,
-                    OutStartDate = dpOutcome.OutStartDate,
-                    OutType = dpOutcome.OutType,
-                    OutcomeDateForProgression = dpOutcome.OutcomeDateForProgression,
-                    PotentialESFProgressionType = dpOutcome.PotentialESFProgressionType,
-                    ProgressionType = dpOutcome.ProgressionType,
-                    ReachedSixMonthPoint = dpOutcome.ReachedSixMonthPoint,
-                    ReachedThreeMonthPoint = dpOutcome.ReachedThreeMonthPoint,
-                    ReachedTwelveMonthPoint = dpOutcome.ReachedTwelveMonthPoint
-                });
-            }
+            _bulkInsert = bulkInsert;
+            _fm70Mapper = fm70Mapper;
         }
 
-        private void PopulateLearningDeliveries(FM70Learner learner, int ukPrn)
-        {
-            foreach (var delivery in learner.LearningDeliveries)
-            {
-                _learningDeliveries.Add(FM70LearningDeliveryBuilder.BuildLearningDelivery(delivery, ukPrn, learner.LearnRefNumber));
-
-                foreach (var value in delivery.LearningDeliveryDeliverableValues)
-                {
-                    _deliverableValues.Add(new ESF_LearningDeliveryDeliverable()
-                    {
-                        UKPRN = ukPrn,
-                        AimSeqNumber = delivery.AimSeqNumber ?? 0,
-                        LearnRefNumber = learner.LearnRefNumber,
-                        DeliverableCode = value.DeliverableCode,
-                        DeliverableUnitCost = value.DeliverableUnitCost
-                    });
-
-                    for (var i = 1; i < 13; i++)
-                    {
-                        _periods.Add(new ESF_LearningDeliveryDeliverable_Period
-                        {
-                            LearnRefNumber = learner.LearnRefNumber,
-                            UKPRN = ukPrn,
-                            Period = i,
-                            AimSeqNumber = delivery.AimSeqNumber ?? 0,
-                            DeliverableCode = value.DeliverableCode,
-                            AchievementEarnings = GetPeriodValueForDelivery<decimal?>(value, "AchievementEarnings", i),
-                            AdditionalProgCostEarnings = GetPeriodValueForDelivery<decimal?>(value, "AdditionalProgCostEarnings", i),
-                            DeliverableVolume = GetPeriodValueForDelivery<long?>(value, "DeliverableVolume", i),
-                            ProgressionEarnings = GetPeriodValueForDelivery<decimal?>(value, "ProgressionEarnings", i),
-                            StartEarnings = GetPeriodValueForDelivery<decimal?>(value, "StartEarnings", i),
-                            ReportingVolume = GetPeriodValueForDelivery<int?>(value, "ReportingVolume", i),
-                        });
-                    }
-
-                    foreach (var periodisedValue in value.LearningDeliveryDeliverablePeriodisedValues)
-                    {
-                        _periodValues.Add(new ESF_LearningDeliveryDeliverable_PeriodisedValues
-                        {
-                            UKPRN = ukPrn,
-                            AimSeqNumber = delivery.AimSeqNumber ?? 0,
-                            LearnRefNumber = learner.LearnRefNumber,
-                            AttributeName = periodisedValue.AttributeName,
-                            DeliverableCode = value.DeliverableCode,
-                            Period_1 = periodisedValue.Period1,
-                            Period_2 = periodisedValue.Period2,
-                            Period_3 = periodisedValue.Period3,
-                            Period_4 = periodisedValue.Period4,
-                            Period_5 = periodisedValue.Period5,
-                            Period_6 = periodisedValue.Period6,
-                            Period_7 = periodisedValue.Period7,
-                            Period_8 = periodisedValue.Period8,
-                            Period_9 = periodisedValue.Period9,
-                            Period_10 = periodisedValue.Period10,
-                            Period_11 = periodisedValue.Period11,
-                            Period_12 = periodisedValue.Period12
-                        });
-                    }
-                }
-            }
-        }
-
-        private async void StoreGlobal(SqlTransaction transaction, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlTransaction sqlTransaction, FM70Global fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            await _bulkInsert.Insert("Rulebase.ESF_global", new List<ESF_global> { _fm70Global }, transaction, cancellationToken);
-        }
+            var global = new List<ESF_global> { _fm70Mapper.MapGlobal(fundingOutput) };
+            var learners = _fm70Mapper.MapLearners(fundingOutput);
+            var learnerDPOutcomes = _fm70Mapper.MapDPOutcomes(fundingOutput);
+            var learningDeliveries = _fm70Mapper.MapLearningDeliveries(fundingOutput);
+            var learningDeliveryDeliverables = _fm70Mapper.MapLearningDeliveryDeliverables(fundingOutput);
+            var learningDeliveryDeliverablePeriods = _fm70Mapper.MapLearningDeliveryDeliverablePeriods(fundingOutput);
+            var learningDeliveryDeliverablePeriodisedValues = _fm70Mapper.MapLearningDeliveryDeliverablePeriodisedValues(fundingOutput);
 
-        private async void StoreLearners(SqlTransaction transaction, CancellationToken cancellationToken, List<ESF_Learner> esfLearners)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
-            await _bulkInsert.Insert("Rulebase.ESF_Learner", esfLearners, transaction, cancellationToken);
-        }
-
-        private async Task SaveData(SqlTransaction sqlTransaction, CancellationToken cancellationToken)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
-            await _bulkInsert.Insert("Rulebase.ESF_DPOutcome", _dpOutcomes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Rulebase.ESF_LearningDelivery", _learningDeliveries, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable", _deliverableValues, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_Period", _periods, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert("Rulebase.ESF_LearningDeliveryDeliverable_PeriodisedValues", _periodValues, sqlTransaction, cancellationToken);
-        }
-
-        private TR GetPeriodValueForDelivery<TR>(LearningDeliveryDeliverableValues attribute, string name, int period)
-        {
-            var a = attribute.LearningDeliveryDeliverablePeriodisedValues.FirstOrDefault(attr => attr.AttributeName == name);
-
-            var value = a?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(a);
-
-            return TypeHelper.PeriodValueTypeHandler<TR>(value);
+            await _bulkInsert.Insert(FM70Constants.FM70_global, global, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_Learner, learners, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_DPOutcome, learnerDPOutcomes, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDelivery, learningDeliveries, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable, learningDeliveryDeliverables, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable_Period, learningDeliveryDeliverablePeriods, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable_PeriodisedValues, learningDeliveryDeliverablePeriodisedValues, sqlTransaction, cancellationToken);
         }
     }
 }
