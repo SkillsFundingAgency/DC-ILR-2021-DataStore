@@ -35,7 +35,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
             if (fundingModelData.GetType().GetProperty("Learners").GetValue(fundingModelData) == null)
             {
-                _logger.LogDebug($"No Learners to Persist");
+                _logger.LogDebug($"No " + fundingModelData.GetType().Name + " data to Persist");
                 return;
             }
 
