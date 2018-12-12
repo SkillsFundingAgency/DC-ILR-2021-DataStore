@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
         private readonly ILogger _logger;
-        private readonly IEnumerable<IModelService> _modelServices;
+        private readonly IEnumerable<IFundModelService> _fundModelServices;
         private readonly IStoreFileDetails _storeFileDetails;
         private readonly IStoreIlr _storeIlr;
         private readonly IStoreValidationOutput _storeValidationOutput;
@@ -24,7 +24,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
         public TransactionController(
             PersistDataConfiguration persistDataConfiguration,
             ILogger logger,
-            IEnumerable<IModelService> modelServices,
+            IEnumerable<IFundModelService> modelServices,
             IStoreFileDetails storeFileDetails,
             IStoreIlr storeIlr,
             IStoreValidationOutput storeValidationOutput,
@@ -32,7 +32,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
         {
             _persistDataConfiguration = persistDataConfiguration;
             _logger = logger;
-            _modelServices = modelServices;
+            _fundModelServices = modelServices;
             _storeFileDetails = storeFileDetails;
             _storeIlr = storeIlr;
             _storeValidationOutput = storeValidationOutput;
@@ -83,9 +83,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                                 return false;
                             }
 
-                            foreach (var modelService in _modelServices)
+                            foreach (var fundModelService in _fundModelServices)
                             {
-                                var modelServiceTask = modelService.GetAndStoreModel(dataStoreContext, sqlTransaction, cancellationToken);
+                                var modelServiceTask = fundModelService.GetAndStoreFundModel(dataStoreContext, sqlTransaction, cancellationToken);
 
                                 tasks.Add(modelServiceTask);
 

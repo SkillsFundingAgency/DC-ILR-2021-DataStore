@@ -184,14 +184,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     IALBMapper albMapperMock = new ALBMapper();
                     IBulkInsert bulkInsert = new BulkInsert();
 
-                    //albMapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
-                    //albMapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
-                    //albMapperMock.Setup(fm => fm.MapLearnerPeriods(_fundingOutputs)).Returns(learnerPeriods);
-                    //albMapperMock.Setup(fm => fm.MapLearnerPeriodisedValues(_fundingOutputs)).Returns(learnerPeriodisedValues);
-                    //albMapperMock.Setup(fm => fm.MapLearningDeliveries(_fundingOutputs)).Returns(learningDeliveries);
-                    //albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriods(_fundingOutputs)).Returns(learningDeliveryPeriod);
-                    //albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriodisedValues(_fundingOutputs)).Returns(learningDeliveryPeriodisedValues);
-
+                    // albMapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
+                    // albMapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
+                    // albMapperMock.Setup(fm => fm.MapLearnerPeriods(_fundingOutputs)).Returns(learnerPeriods);
+                    // albMapperMock.Setup(fm => fm.MapLearnerPeriodisedValues(_fundingOutputs)).Returns(learnerPeriodisedValues);
+                    // albMapperMock.Setup(fm => fm.MapLearningDeliveries(_fundingOutputs)).Returns(learningDeliveries);
+                    // albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriods(_fundingOutputs)).Returns(learningDeliveryPeriod);
+                    // albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriodisedValues(_fundingOutputs)).Returns(learningDeliveryPeriodisedValues);
                     StoreALB storeRuleAlb = new StoreALB(albMapperMock, bulkInsert);
                     await storeRuleAlb.StoreAsync(transaction, readAndSerialise.Item2, cancellationToken);
 

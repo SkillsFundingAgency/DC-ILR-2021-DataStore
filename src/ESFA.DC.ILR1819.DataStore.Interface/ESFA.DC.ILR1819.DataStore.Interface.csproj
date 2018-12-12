@@ -128,7 +128,7 @@
     <Compile Include="Mappers\IFM25Mapper.cs" />
     <Compile Include="ILearnerInvalidDataBuilder.cs" />
     <Compile Include="ILearnerValidDataBuilder.cs" />
-    <Compile Include="IModelService.cs" />
+    <Compile Include="IFundModelService.cs" />
     <Compile Include="IStoreClear.cs" />
     <Compile Include="IStoreFileDetails.cs" />
     <Compile Include="IStoreIlr.cs" />

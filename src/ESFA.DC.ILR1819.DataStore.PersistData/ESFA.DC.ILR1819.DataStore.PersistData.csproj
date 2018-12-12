@@ -235,7 +235,7 @@
     <Compile Include="Persist\Mappers\FM81Mapper.cs" />
     <Compile Include="Persist\Mappers\FM70Mapper.cs" />
     <Compile Include="Persist\Mappers\FM35Mapper.cs" />
-    <Compile Include="Services\ModelService.cs" />
+    <Compile Include="Services\FundModelService.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />
     <Compile Include="Services\Providers\FM70ProviderService.cs" />
     <Compile Include="Services\Providers\FM36ProviderService.cs" />

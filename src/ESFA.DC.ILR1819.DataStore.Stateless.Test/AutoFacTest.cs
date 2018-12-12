@@ -60,12 +60,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
         {
             var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.RegisterType<ModelServiceStub>().As<IModelService>();
-            containerBuilder.RegisterType<ModelServiceStub>().As<IModelService>();
+            containerBuilder.RegisterType<ModelServiceStub>().As<IFundModelService>();
+            containerBuilder.RegisterType<ModelServiceStub>().As<IFundModelService>();
 
             var container = containerBuilder.Build();
 
-            var modelServices = container.Resolve<IEnumerable<IModelService>>();
+            var modelServices = container.Resolve<IEnumerable<IFundModelService>>();
 
             modelServices.Should().HaveCount(2);
         }

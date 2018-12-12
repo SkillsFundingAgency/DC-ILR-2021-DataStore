@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Autofac;
 using Autofac.Features.AttributeFilters;
-using Autofac.Features.Variance;
 using ESFA.DC.Auditing.Interface;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
@@ -19,12 +18,8 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
-using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.PersistData;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Rulebase;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services;
@@ -235,12 +230,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ModelService<ALBGlobal, IEnumerable<ALB_global>>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM25Global, IEnumerable<FM25_global>>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM35Global, IEnumerable<FM35_global>>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM36Global, IEnumerable<AEC_global>>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM70Global, IEnumerable<ESF_global>>>().As<IModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ModelService<FM81Global, IEnumerable<TBL_global>>>().As<IModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<ALBGlobal, IEnumerable<ALB_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM25Global, IEnumerable<FM25_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM35Global, IEnumerable<FM35_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM36Global, IEnumerable<AEC_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM70Global, IEnumerable<ESF_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM81Global, IEnumerable<TBL_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM81Mapper>().As<IFM81Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM70Mapper>().As<IFM70Mapper>().InstancePerLifetimeScope();
@@ -259,8 +254,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
 
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>().InstancePerLifetimeScope();
 
-            containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
-                .As<IList<IModelService>>();
+            containerBuilder.Register(c => new List<IFundModelService>(c.Resolve<IEnumerable<IFundModelService>>()))
+                .As<IList<IFundModelService>>();
         }
     }
 }
