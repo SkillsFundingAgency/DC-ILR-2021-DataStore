@@ -6,7 +6,6 @@ using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Model;
-using static ESFA.DC.ILR1819.DataStore.PersistData.Constants.PersistDataConstants;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
 {
@@ -105,7 +104,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
         {
             var periodisedValues = fm36Global.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues)));
+               new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
 
             var learningDeliveryPeriods = new List<AEC_LearningDelivery_Period>();
 
@@ -121,12 +120,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                         Period = i,
                         DisadvFirstPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.DisadvFirstPayment), i),
                         DisadvSecondPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.DisadvSecondPayment), i),
-                        FundLineType = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, string>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.FundLineType), i),
+                        FundLineType = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedTextValues, string>(pv.LearningDeliveryPeriodisedTextValue.FirstOrDefault(a => a.AttributeName == FM36Constants.FundLineType), i),
                         InstPerPeriod = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.InstPerPeriod), i),
                         LDApplic1618FrameworkUpliftBalancingPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LDApplic1618FrameworkUpliftBalancingPayment), i),
                         LDApplic1618FrameworkUpliftCompletionPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LDApplic1618FrameworkUpliftCompletionPayment), i),
                         LDApplic1618FrameworkUpliftOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LDApplic1618FrameworkUpliftOnProgPayment), i),
-                        LearnDelContType = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, string>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelContType), i),
+                        LearnDelContType = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedTextValues, string>(pv.LearningDeliveryPeriodisedTextValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelContType), i),
                         LearnDelFirstEmp1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelFirstEmp1618Pay), i),
                         LearnDelFirstProv1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelFirstProv1618Pay), i),
                         LearnDelLevyNonPayInd = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelLevyNonPayInd), i),
@@ -138,6 +137,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                         LearnSuppFundCash = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnSuppFundCash), i),
                         MathEngBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngBalPayment), i),
                         MathEngBalPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngBalPct), i),
+                        MathEngOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngOnProgPayment), i),
+                        MathEngOnProgPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngOnProgPct), i),
                         ProgrammeAimBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.ProgrammeAimBalPayment), i),
                         ProgrammeAimCompletionPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.ProgrammeAimCompletionPayment), i),
                         ProgrammeAimOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.ProgrammeAimOnProgPayment), i),
@@ -154,7 +155,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
         {
             var periodisedValues = fm36Global.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues)));
+               new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
 
             return
                    periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
@@ -183,11 +184,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
         public IEnumerable<AEC_LearningDelivery_PeriodisedTextValues> MapLearningDeliveryPeriodisedTextValues(FM36Global fm36Global)
         {
             var periodisedValues = fm36Global.Learners
-               .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues)));
+              .SelectMany(l => l.LearningDeliveries.Select(ld =>
+              new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
 
             return
-                   periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
+                   periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedTextValue
                    .Select(p =>
                    new AEC_LearningDelivery_PeriodisedTextValues
                    {
@@ -195,18 +196,18 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                        AimSeqNumber = pv.AimSeqNumber,
                        LearnRefNumber = pv.LearnRefNumber,
                        AttributeName = p.AttributeName,
-                       Period_1 = p.Period1.ToString(),
-                       Period_2 = p.Period2.ToString(),
-                       Period_3 = p.Period3.ToString(),
-                       Period_4 = p.Period4.ToString(),
-                       Period_5 = p.Period5.ToString(),
-                       Period_6 = p.Period6.ToString(),
-                       Period_7 = p.Period7.ToString(),
-                       Period_8 = p.Period8.ToString(),
-                       Period_9 = p.Period9.ToString(),
-                       Period_10 = p.Period10.ToString(),
-                       Period_11 = p.Period11.ToString(),
-                       Period_12 = p.Period12.ToString()
+                       Period_1 = p.Period1,
+                       Period_2 = p.Period2,
+                       Period_3 = p.Period3,
+                       Period_4 = p.Period4,
+                       Period_5 = p.Period5,
+                       Period_6 = p.Period6,
+                       Period_7 = p.Period7,
+                       Period_8 = p.Period8,
+                       Period_9 = p.Period9,
+                       Period_10 = p.Period10,
+                       Period_11 = p.Period11,
+                       Period_12 = p.Period12
                    }));
         }
 

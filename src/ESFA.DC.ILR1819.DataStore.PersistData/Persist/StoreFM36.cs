@@ -38,6 +38,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             var learningDeliveries = _fm36Mapper.MapLearningDeliveries(fundingOutput);
             var learningDeliveryPeriod = _fm36Mapper.MapLearningDeliveryPeriods(fundingOutput);
             var learningDeliveryPeriodisedValues = _fm36Mapper.MapLearningDeliveryPeriodisedValues(fundingOutput);
+            var learningDeliveryPeriodisedTextValues = _fm36Mapper.MapLearningDeliveryPeriodisedTextValues(fundingOutput);
             var priceEpisodes = _fm36Mapper.MapPriceEpisodes(fundingOutput);
             var priceEpisodePeriod = _fm36Mapper.MapPriceEpisodePeriods(fundingOutput);
             var priceEpisodePeriodisedValues = _fm36Mapper.MapPriceEpisodePeriodisedValues(fundingOutput);
@@ -47,6 +48,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery, learningDeliveries, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_Period, learningDeliveryPeriod, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_PeriodisedTextValues, learningDeliveryPeriodisedTextValues, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisodes, priceEpisodes, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisode_Period, priceEpisodePeriod, sqlTransaction, cancellationToken);
             await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisode_PeriodisedValues, priceEpisodePeriodisedValues, sqlTransaction, cancellationToken);

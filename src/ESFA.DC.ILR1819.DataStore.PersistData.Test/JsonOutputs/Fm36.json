@@ -1210,6 +1210,38 @@
               "Period11": null,
               "Period12": null
             }
+          ],
+          "LearningDeliveryPeriodisedTextValues": [
+            {
+              "AttributeName": "FundLineType",
+              "Period1": "type",
+              "Period2": "type",
+              "Period3": "type",
+              "Period4": "type",
+              "Period5": "type",
+              "Period6": "type",
+              "Period7": "type",
+              "Period8": "type",
+              "Period9": "type",
+              "Period10": "type",
+              "Period11": "type",
+              "Period12": "type"
+            },
+            {
+              "AttributeName": "LearnDelContType",
+              "Period1": "type",
+              "Period2": "type",
+              "Period3": "type",
+              "Period4": "type",
+              "Period5": "type",
+              "Period6": "type",
+              "Period7": "type",
+              "Period8": "type",
+              "Period9": "type",
+              "Period10": "type",
+              "Period11": "type",
+              "Period12": "type"
+            }
           ]
         },
         {
@@ -1658,6 +1690,38 @@
               "Period10": null,
               "Period11": null,
               "Period12": null
+            }
+          ],
+          "LearningDeliveryPeriodisedTextValues": [
+            {
+              "AttributeName": "FundLineType",
+              "Period1": "type",
+              "Period2": "type",
+              "Period3": "type",
+              "Period4": "type",
+              "Period5": "type",
+              "Period6": "type",
+              "Period7": "type",
+              "Period8": "type",
+              "Period9": "type",
+              "Period10": "type",
+              "Period11": "type",
+              "Period12": "type"
+            },
+            {
+              "AttributeName": "LearnDelContType",
+              "Period1": "type",
+              "Period2": "type",
+              "Period3": "type",
+              "Period4": "type",
+              "Period5": "type",
+              "Period6": "type",
+              "Period7": "type",
+              "Period8": "type",
+              "Period9": "type",
+              "Period10": "type",
+              "Period11": "type",
+              "Period12": "type"
             }
           ]
         }
