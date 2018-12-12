@@ -4,6 +4,7 @@ using System.Linq;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 {
@@ -18,147 +19,149 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 
         public ValidLearnerData BuildValidLearnerData(IMessage ilr, List<string> learnersValid)
         {
+            var ukprn = ilr.LearningProviderEntity.UKPRN;
+
             var learners = ilr.Learners
                 .Where(l => learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase)).ToList();
 
-            PopulateValidLearners(ilr, learners);
+            PopulateValidLearners(ukprn, learners);
 
             return _validLearnerData;
         }
 
-        private void PopulateValidLearners(IMessage ilr, List<ILearner> learners)
+        private void PopulateValidLearners(int ukprn, List<ILearner> learners)
         {
             int lLDDandHealthProblemID = 1;
             int learningDeliveryFamId = 1;
 
             learners.ForEach(learner =>
             {
-                _validLearnerData.RecordsValidLearners.Add(LearnerBuilder.BuildValidLearner(ilr, learner));
+                _validLearnerData.RecordsValidLearners.Add(LearnerBuilder.BuildValidLearner(ukprn, learner));
 
-                learner.ContactPreferences?.ToList().ForEach(contactPreference => { PopulateContactPreferences(ilr, learner, contactPreference); });
+                learner.ContactPreferences?.ToList().ForEach(contactPreference => { PopulateContactPreferences(ukprn, learner, contactPreference); });
                 learner.LearningDeliveries?.ToList().ForEach(learningDelivery =>
                 {
-                    PopulateLearningDelivery(ilr, learner, learningDelivery);
+                    PopulateLearningDelivery(ukprn, learner, learningDelivery);
 
                     if (learningDelivery.LearningDeliveryHEEntity != null)
                     {
-                        PopulateLearningDeliveryHERecord(ilr, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity);
+                        PopulateLearningDeliveryHERecord(ukprn, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity);
                     }
 
                     learningDelivery.AppFinRecords?.ToList()
-                        .ForEach(appFinRecord => { PopulateLearningDeliveryAppFinRecord(ilr, learner, learningDelivery, appFinRecord); });
+                        .ForEach(appFinRecord => { PopulateLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord); });
                     learningDelivery.LearningDeliveryFAMs?.ToList()
-                        .ForEach(famRecord => PopulateLearningDeliveryFAMRecord(ilr, learner, learningDelivery, famRecord, learningDeliveryFamId++));
+                        .ForEach(famRecord => PopulateLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learningDeliveryFamId++));
                     learningDelivery.LearningDeliveryWorkPlacements?.ToList()
-                        .ForEach(workPlacement => PopulateLearningDeliveryWorkPlacement(ilr, learner, learningDelivery, workPlacement));
+                        .ForEach(workPlacement => PopulateLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement));
                     learningDelivery.ProviderSpecDeliveryMonitorings?.ToList()
-                        .ForEach(monitoring => PopulateProviderSpecDeliveryMonitoring(ilr, learner, learningDelivery, monitoring));
+                        .ForEach(monitoring => PopulateProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring));
                 });
 
                 learner.LearnerEmploymentStatuses?.ToList()
                     .ForEach(employmentStatus =>
                     {
-                        PopulateLearnerEmploymentStatus(ilr, learner, employmentStatus);
+                        PopulateLearnerEmploymentStatus(ukprn, learner, employmentStatus);
 
                         employmentStatus.EmploymentStatusMonitorings?.ToList()
-                            .ForEach(monitoring => PopulateEmploymentStatusMonitoring(ilr, learner, employmentStatus, monitoring));
+                            .ForEach(monitoring => PopulateEmploymentStatusMonitoring(ukprn, learner, employmentStatus, monitoring));
                     });
 
                 learner.LearnerFAMs?.ToList()
-                    .ForEach(fam => PopulateLearnerFAM(ilr, learner, fam));
+                    .ForEach(fam => PopulateLearnerFAM(ukprn, learner, fam));
 
                 if (learner.LearnerHEEntity != null)
                 {
-                    PopulateLearnerHE(ilr, learner);
+                    PopulateLearnerHE(ukprn, learner);
                     learner.LearnerHEEntity.LearnerHEFinancialSupports?.ToList()
-                        .ForEach(support => PopulateLearnerHEFinancialSupport(ilr, learner, support));
+                        .ForEach(support => PopulateLearnerHEFinancialSupport(ukprn, learner, support));
                 }
 
                 learner.LLDDAndHealthProblems?.ToList()
-                    .ForEach(problem => PopulateLLDDAndHealthProblem(ilr, learner, problem, lLDDandHealthProblemID++));
+                    .ForEach(problem => PopulateLLDDAndHealthProblem(ukprn, learner, problem, lLDDandHealthProblemID++));
 
                 learner.ProviderSpecLearnerMonitorings?.ToList()
-                    .ForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ilr, learner, monitoring));
+                    .ForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ukprn, learner, monitoring));
             });
         }
 
-        private void PopulateContactPreferences(IMessage ilr, ILearner learner, IContactPreference contactPreference)
+        private void PopulateContactPreferences(int ukprn, ILearner learner, IContactPreference contactPreference)
         {
-           _validLearnerData.RecordsValidContactPreferences.Add(ContactPreferenceBuilder.BuildValidContactPreference(ilr, learner, contactPreference));
+           _validLearnerData.RecordsValidContactPreferences.Add(ContactPreferenceBuilder.BuildValidContactPreference(ukprn, learner, contactPreference));
         }
 
-        private void PopulateLearningDelivery(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery)
+        private void PopulateLearningDelivery(int ukprn, ILearner learner, ILearningDelivery learningDelivery)
         {
-            _validLearnerData.RecordsValidLearningDeliverys.Add(LearningDeliveryBuilder.BuildValidLearningDelivery(ilr, learner, learningDelivery));
+            _validLearnerData.RecordsValidLearningDeliverys.Add(LearningDeliveryBuilder.BuildValidLearningDelivery(ukprn, learner, learningDelivery));
         }
 
-        private void PopulateLearningDeliveryAppFinRecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, IAppFinRecord appFinRecord)
+        private void PopulateLearningDeliveryAppFinRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IAppFinRecord appFinRecord)
         {
-            _validLearnerData.RecordsValidAppFinRecords.Add(AppFinRecordBuilder.BuildValidAppFinRecord(ilr, learner, learningDelivery, appFinRecord));
+            _validLearnerData.RecordsValidAppFinRecords.Add(AppFinRecordBuilder.BuildValidAppFinRecord(ukprn, learner, learningDelivery, appFinRecord));
         }
 
-        private void PopulateLearningDeliveryFAMRecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryFAM famRecord, int id)
+        private void PopulateLearningDeliveryFAMRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryFAM famRecord, int id)
         {
-            _validLearnerData.RecordsValidLearnerDeliveryFams.Add(LearningDeliveryFAMBuilder.BuildValidFamRecord(ilr, learner, learningDelivery, famRecord, id));
+            _validLearnerData.RecordsValidLearnerDeliveryFams.Add(LearningDeliveryFAMBuilder.BuildValidFamRecord(ukprn, learner, learningDelivery, famRecord, id));
         }
 
-        private void PopulateLearningDeliveryHERecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryHE heRecord)
+        private void PopulateLearningDeliveryHERecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryHE heRecord)
         {
-            _validLearnerData.RecordsValidLearningDeliveryHes.Add(LearningDeliveryHEBuilder.BuildValidHERecord(ilr, learner, learningDelivery, heRecord));
+            _validLearnerData.RecordsValidLearningDeliveryHes.Add(LearningDeliveryHEBuilder.BuildValidHERecord(ukprn, learner, learningDelivery, heRecord));
         }
 
-        private void PopulateLearningDeliveryWorkPlacement(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryWorkPlacement workPlacement)
+        private void PopulateLearningDeliveryWorkPlacement(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryWorkPlacement workPlacement)
         {
             _validLearnerData.RecordsValidLearningDeliveryWorkPlacements
-                .Add(LearningDeliveryWorkPlacementBuilder.BuildValidWorkPlacementRecord(ilr, learner, learningDelivery, workPlacement));
+                .Add(LearningDeliveryWorkPlacementBuilder.BuildValidWorkPlacementRecord(ukprn, learner, learningDelivery, workPlacement));
         }
 
-        private void PopulateProviderSpecDeliveryMonitoring(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, IProviderSpecDeliveryMonitoring monitoring)
+        private void PopulateProviderSpecDeliveryMonitoring(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IProviderSpecDeliveryMonitoring monitoring)
         {
             _validLearnerData.RecordsValidProviderSpecDeliveryMonitorings
-                .Add(ProviderSpecDeliveryMonitoringBuilder.BuildValidProviderSpecDeliveryMonitoringRecord(ilr, learner, learningDelivery, monitoring));
+                .Add(ProviderSpecDeliveryMonitoringBuilder.BuildValidProviderSpecDeliveryMonitoringRecord(ukprn, learner, learningDelivery, monitoring));
         }
 
-        private void PopulateLearnerEmploymentStatus(IMessage ilr, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus)
+        private void PopulateLearnerEmploymentStatus(int ukprn, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus)
         {
             _validLearnerData.RecordsValidLearnerEmploymentStatus
-                .Add(LearnerEmploymentStatusBuilder.BuildValidLearnerEmploymentStatus(ilr, learner, learnerEmploymentStatus));
+                .Add(LearnerEmploymentStatusBuilder.BuildValidLearnerEmploymentStatus(ukprn, learner, learnerEmploymentStatus));
         }
 
-        private void PopulateEmploymentStatusMonitoring(IMessage ilr, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus, IEmploymentStatusMonitoring employmentStatusMonitoring)
+        private void PopulateEmploymentStatusMonitoring(int ukprn, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus, IEmploymentStatusMonitoring employmentStatusMonitoring)
         {
             _validLearnerData.RecordsValidEmploymentStatusMonitorings
-                .Add(EmploymentStatusMonitoringBuilder.BuildValidEmploymentStatusMonitoring(ilr, learner, learnerEmploymentStatus, employmentStatusMonitoring));
+                .Add(EmploymentStatusMonitoringBuilder.BuildValidEmploymentStatusMonitoring(ukprn, learner, learnerEmploymentStatus, employmentStatusMonitoring));
         }
 
-        private void PopulateLearnerFAM(IMessage ilr, ILearner learner, ILearnerFAM fam)
+        private void PopulateLearnerFAM(int ukprn, ILearner learner, ILearnerFAM fam)
         {
             _validLearnerData.RecordsValidLearnerFams
-                .Add(LearnerFAMBuilder.BuildValidLearnerFAM(ilr, learner, fam));
+                .Add(LearnerFAMBuilder.BuildValidLearnerFAM(ukprn, learner, fam));
         }
 
-        private void PopulateLearnerHE(IMessage ilr, ILearner learner)
+        private void PopulateLearnerHE(int ukprn, ILearner learner)
         {
             _validLearnerData.RecordsValidLearnerHes
-                .Add(LearnerHEBuilder.BuildValidLearnerHE(ilr, learner));
+                .Add(LearnerHEBuilder.BuildValidLearnerHE(ukprn, learner));
         }
 
-        private void PopulateLearnerHEFinancialSupport(IMessage ilr, ILearner learner, ILearnerHEFinancialSupport support)
+        private void PopulateLearnerHEFinancialSupport(int ukprn, ILearner learner, ILearnerHEFinancialSupport support)
         {
             _validLearnerData.RecordsValidLearnerHefinancialSupports
-                .Add(LearnerHEFinancialSupportBuilder.BuildValidLearnerHEFinancialSupport(ilr, learner, support));
+                .Add(LearnerHEFinancialSupportBuilder.BuildValidLearnerHEFinancialSupport(ukprn, learner, support));
         }
 
-        private void PopulateLLDDAndHealthProblem(IMessage ilr, ILearner learner, ILLDDAndHealthProblem problem, int id)
+        private void PopulateLLDDAndHealthProblem(int ukprn, ILearner learner, ILLDDAndHealthProblem problem, int id)
         {
             _validLearnerData.RecordsValidLlddandHealthProblems
-                .Add(LLDDAndHealthProblemBuilder.BuildValidLLDDandHealthProblem(ilr, learner, problem, id));
+                .Add(LLDDAndHealthProblemBuilder.BuildValidLLDDandHealthProblem(ukprn, learner, problem, id));
         }
 
-        private void PopulateProviderSpecLearnerMonitorings(IMessage ilr, ILearner learner, IProviderSpecLearnerMonitoring monitoring)
+        private void PopulateProviderSpecLearnerMonitorings(int ukprn, ILearner learner, IProviderSpecLearnerMonitoring monitoring)
         {
             _validLearnerData.RecordsValidProviderSpecLearnerMonitorings
-                .Add(ProviderSpecLearnerMonitoringBuilder.BuildValidProviderSpecLearnerMonitoring(ilr, learner, monitoring));
+                .Add(ProviderSpecLearnerMonitoringBuilder.BuildValidProviderSpecLearnerMonitoring(ukprn, learner, monitoring));
         }
     }
 }

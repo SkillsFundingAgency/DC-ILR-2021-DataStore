@@ -4,6 +4,7 @@ using System.Linq;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 {
@@ -18,15 +19,17 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 
         public InvalidLearnerData BuildInvalidLearnerData(IMessage ilr, List<string> learnersValid)
         {
+            var ukprn = ilr.LearningProviderEntity.UKPRN;
+
             var learners = ilr.Learners
                 .Where(l => !learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase)).ToList();
 
-            PopulateInvalidLearners(ilr, learners);
+            PopulateInvalidLearners(ukprn, learners);
 
             return _invalidLearnerData;
         }
 
-        private void PopulateInvalidLearners(IMessage ilr, List<ILearner> learners)
+        private void PopulateInvalidLearners(int ukprn, List<ILearner> learners)
         {
             int learnerId = 1;
             int learnerDeliveryId = 1;
@@ -46,34 +49,34 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
 
             learners.ForEach(learner =>
             {
-                _invalidLearnerData.RecordsInvalidLearners.Add(LearnerBuilder.BuildInvalidLearner(ilr, learner, learnerId));
+                _invalidLearnerData.RecordsInvalidLearners.Add(LearnerBuilder.BuildInvalidLearner(ukprn, learner, learnerId));
 
-                learner.ContactPreferences?.ToList().ForEach(contactPreference => PopulateContactPreferences(ilr, learner, contactPreference, learnerId, contactPreferenceId++));
+                learner.ContactPreferences?.ToList().ForEach(contactPreference => PopulateContactPreferences(ukprn, learner, contactPreference, learnerId, contactPreferenceId++));
 
                 learner.LearningDeliveries?.ToList().ForEach(learningDelivery =>
                 {
-                    PopulateLearningDelivery(ilr, learner, learningDelivery, learnerId, learnerDeliveryId);
+                    PopulateLearningDelivery(ukprn, learner, learningDelivery, learnerId, learnerDeliveryId);
 
                     if (learningDelivery.LearningDeliveryHEEntity != null)
                     {
-                        PopulateLearningDeliveryHERecord(ilr, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity, learningDeliveryHEId++);
+                        PopulateLearningDeliveryHERecord(ukprn, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity, learningDeliveryHEId++);
                     }
 
                     learningDelivery.AppFinRecords?.ToList()
                         .ForEach(appFinRecord =>
-                            PopulateLearningDeliveryAppFinRecord(ilr, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++));
+                            PopulateLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++));
 
                     learningDelivery.LearningDeliveryFAMs?.ToList()
                         .ForEach(famRecord =>
-                            PopulateLearningDeliveryFAMRecord(ilr, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++));
+                            PopulateLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++));
 
                     learningDelivery.LearningDeliveryWorkPlacements?.ToList()
                         .ForEach(workPlacement =>
-                            PopulateLearningDeliveryWorkPlacement(ilr, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++));
+                            PopulateLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++));
 
                     learningDelivery.ProviderSpecDeliveryMonitorings?.ToList()
                         .ForEach(monitoring =>
-                            PopulateProviderSpecDeliveryMonitoring(ilr, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++));
+                            PopulateProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++));
 
                     learnerDeliveryId++;
                 });
@@ -81,54 +84,54 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
                 learner.LearnerEmploymentStatuses?.ToList()
                     .ForEach(employmentStatus =>
                     {
-                        PopulateLearnerEmploymentStatus(ilr, learner, employmentStatus, learnerId, learnerEmploymentStatusId);
+                        PopulateLearnerEmploymentStatus(ukprn, learner, employmentStatus, learnerId, learnerEmploymentStatusId);
 
                         employmentStatus.EmploymentStatusMonitorings?.ToList()
                             .ForEach(monitoring =>
-                                PopulateEmploymentStatusMonitoring(ilr, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++));
+                                PopulateEmploymentStatusMonitoring(ukprn, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++));
 
                         learnerEmploymentStatusId++;
                     });
 
                 learner.LearnerFAMs?.ToList()
-                    .ForEach(fam => PopulateLearnerFAM(ilr, learner, fam, learnerId, learnerFAMId++));
+                    .ForEach(fam => PopulateLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId++));
 
                 if (learner.LearnerHEEntity != null)
                 {
-                    PopulateLearnerHE(ilr, learner, learnerId, learnerHEId++);
+                    PopulateLearnerHE(ukprn, learner, learnerId, learnerHEId++);
                     learner.LearnerHEEntity.LearnerHEFinancialSupports?.ToList()
-                        .ForEach(support => PopulateLearnerHEFinancialSupport(ilr, learner, support, learnerHEFinancialSupportId++));
+                        .ForEach(support => PopulateLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId++));
                 }
 
                 learner.LLDDAndHealthProblems?.ToList()
-                    .ForEach(problem => PopulateLLDDAndHealthProblem(ilr, learner, problem, learnerId, lLDDandHealthProblemID++));
+                    .ForEach(problem => PopulateLLDDAndHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemID++));
 
                 learner.ProviderSpecLearnerMonitorings?.ToList()
-                    .ForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ilr, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++));
+                    .ForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++));
 
                 learnerId++;
             });
         }
 
         private void PopulateContactPreferences(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             IContactPreference contactPreference,
             int learnerId,
             int contactPreferenceId)
         {
            _invalidLearnerData.RecordsInvalidContactPreferences.Add(
-               ContactPreferenceBuilder.BuildInvalidContactPreference(ilr, learner, contactPreference, learnerId, contactPreferenceId));
+               ContactPreferenceBuilder.BuildInvalidContactPreference(ukprn, learner, contactPreference, learnerId, contactPreferenceId));
         }
 
-        private void PopulateLearningDelivery(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, int learnerId, int deliveryId)
+        private void PopulateLearningDelivery(int ukprn, ILearner learner, ILearningDelivery learningDelivery, int learnerId, int deliveryId)
         {
             _invalidLearnerData.RecordsInvalidLearningDeliverys.Add(
-                LearningDeliveryBuilder.BuildInvalidLearningDelivery(ilr, learner, learningDelivery, learnerId, deliveryId));
+                LearningDeliveryBuilder.BuildInvalidLearningDelivery(ukprn, learner, learningDelivery, learnerId, deliveryId));
         }
 
         private void PopulateLearningDeliveryAppFinRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             IAppFinRecord appFinRecord,
@@ -136,11 +139,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             int appFinRecordId)
         {
             _invalidLearnerData.RecordsInvalidAppFinRecords.Add(
-                AppFinRecordBuilder.BuildInvalidAppFinRecord(ilr, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId));
+                AppFinRecordBuilder.BuildInvalidAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId));
         }
 
         private void PopulateLearningDeliveryFAMRecord(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryFAM famRecord,
@@ -148,16 +151,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             int famId)
         {
             _invalidLearnerData.RecordsInvalidLearnerDeliveryFams.Add(
-                LearningDeliveryFAMBuilder.BuildInvalidFamRecord(ilr, learner, learningDelivery, famRecord, learnerDeliveryId, famId));
+                LearningDeliveryFAMBuilder.BuildInvalidFamRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, famId));
         }
 
-        private void PopulateLearningDeliveryHERecord(IMessage ilr, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryHE heRecord, int id)
+        private void PopulateLearningDeliveryHERecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryHE heRecord, int id)
         {
-            _invalidLearnerData.RecordsInvalidLearningDeliveryHes.Add(LearningDeliveryHEBuilder.BuildInvalidHERecord(ilr, learner, learningDelivery, heRecord, id));
+            _invalidLearnerData.RecordsInvalidLearningDeliveryHes.Add(LearningDeliveryHEBuilder.BuildInvalidHERecord(ukprn, learner, learningDelivery, heRecord, id));
         }
 
         private void PopulateLearningDeliveryWorkPlacement(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             ILearningDeliveryWorkPlacement workPlacement,
@@ -166,11 +169,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         {
             _invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements
                 .Add(LearningDeliveryWorkPlacementBuilder
-                    .BuildInvalidWorkPlacementRecord(ilr, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId));
+                    .BuildInvalidWorkPlacementRecord(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId));
         }
 
         private void PopulateProviderSpecDeliveryMonitoring(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearningDelivery learningDelivery,
             IProviderSpecDeliveryMonitoring monitoring,
@@ -179,11 +182,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         {
             _invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings
                 .Add(ProviderSpecDeliveryMonitoringBuilder
-                    .BuildInvalidProviderSpecDeliveryMonitoringRecord(ilr, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId));
+                    .BuildInvalidProviderSpecDeliveryMonitoringRecord(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId));
         }
 
         private void PopulateLearnerEmploymentStatus(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerEmploymentStatus learnerEmploymentStatus,
             int learnerId,
@@ -191,11 +194,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         {
             _invalidLearnerData.RecordsInvalidLearnerEmploymentStatus
                 .Add(LearnerEmploymentStatusBuilder
-                    .BuildInvalidLearnerEmploymentStatus(ilr, learner, learnerEmploymentStatus, learnerId, learnerEmploymentStatusId));
+                    .BuildInvalidLearnerEmploymentStatus(ukprn, learner, learnerEmploymentStatus, learnerId, learnerEmploymentStatusId));
         }
 
         private void PopulateEmploymentStatusMonitoring(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerEmploymentStatus learnerEmploymentStatus,
             IEmploymentStatusMonitoring employmentStatusMonitoring,
@@ -205,49 +208,49 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
             _invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings
                 .Add(EmploymentStatusMonitoringBuilder
                     .BuildInvalidEmploymentStatusMonitoring(
-                        ilr, learner, learnerEmploymentStatus, employmentStatusMonitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId));
+                        ukprn, learner, learnerEmploymentStatus, employmentStatusMonitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId));
         }
 
         private void PopulateLearnerFAM(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerFAM fam,
             int learnerId,
             int learnerFAMId)
         {
             _invalidLearnerData.RecordsInvalidLearnerFams
-                .Add(LearnerFAMBuilder.BuildInvalidLearnerFAM(ilr, learner, fam, learnerId, learnerFAMId));
+                .Add(LearnerFAMBuilder.BuildInvalidLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId));
         }
 
-        private void PopulateLearnerHE(IMessage ilr, ILearner learner, int learnerId, int learnerHEId)
+        private void PopulateLearnerHE(int ukprn, ILearner learner, int learnerId, int learnerHEId)
         {
             _invalidLearnerData.RecordsInvalidLearnerHes
-                .Add(LearnerHEBuilder.BuildInvalidLearnerHE(ilr, learner, learnerId, learnerHEId));
+                .Add(LearnerHEBuilder.BuildInvalidLearnerHE(ukprn, learner, learnerId, learnerHEId));
         }
 
         private void PopulateLearnerHEFinancialSupport(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILearnerHEFinancialSupport support,
             int learnerHEFinancialSupportId)
         {
             _invalidLearnerData.RecordsInvalidLearnerHefinancialSupports
-                .Add(LearnerHEFinancialSupportBuilder.BuildInvalidLearnerHEFinancialSupport(ilr, learner, support, learnerHEFinancialSupportId));
+                .Add(LearnerHEFinancialSupportBuilder.BuildInvalidLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId));
         }
 
         private void PopulateLLDDAndHealthProblem(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             ILLDDAndHealthProblem problem,
             int learnerId,
             int lLDDandHealthProblemId)
         {
             _invalidLearnerData.RecordsInvalidLlddandHealthProblems
-                .Add(LLDDAndHealthProblemBuilder.BuildInvalidLLDDandHealthProblem(ilr, learner, problem, learnerId, lLDDandHealthProblemId));
+                .Add(LLDDAndHealthProblemBuilder.BuildInvalidLLDDandHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemId));
         }
 
         private void PopulateProviderSpecLearnerMonitorings(
-            IMessage ilr,
+            int ukprn,
             ILearner learner,
             IProviderSpecLearnerMonitoring monitoring,
             int learnerId,
@@ -255,7 +258,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders
         {
             _invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings
                 .Add(ProviderSpecLearnerMonitoringBuilder
-                    .BuildInvalidProviderSpecLearnerMonitoring(ilr, learner, monitoring, learnerId, providerSpecLearnerMonitoringId));
+                    .BuildInvalidProviderSpecLearnerMonitoring(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId));
         }
     }
 }

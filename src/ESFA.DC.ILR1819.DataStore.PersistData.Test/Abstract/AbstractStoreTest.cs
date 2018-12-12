@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
@@ -46,7 +47,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
 
                     await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
 
-                    await _storeService.StoreAsync(transaction, ukprn, outputModel, cancellationToken);
+                    await _storeService.StoreAsync(transaction, outputModel, cancellationToken);
 
                     transaction.Commit();
                 }
@@ -57,6 +58,38 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
                 }
 
                 ExecuteAssertions(outputModel, ukprn, connection);
+            }
+        }
+
+        public async Task StoreTestAsync(int ukprn, T model, string fileName)
+        {
+            CancellationToken cancellationToken = CancellationToken.None;
+            var dataStoreContextMock = new Mock<IDataStoreContext>();
+            dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(ukprn);
+            dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(fileName);
+
+            using (SqlConnection connection =
+                new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
+            {
+                SqlTransaction transaction = null;
+                try
+                {
+                    await connection.OpenAsync(cancellationToken);
+                    transaction = connection.BeginTransaction();
+
+                    await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
+
+                    await _storeService.StoreAsync(transaction, model, cancellationToken);
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction?.Rollback();
+                    throw;
+                }
+
+                ExecuteAssertions(model, ukprn, connection);
             }
         }
 

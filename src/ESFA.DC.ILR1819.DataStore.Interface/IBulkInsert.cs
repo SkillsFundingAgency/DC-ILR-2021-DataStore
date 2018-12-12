@@ -7,6 +7,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IBulkInsert
     {
-        Task Insert<T>(string table, IList<T> source, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+        Task Insert<T>(string table, IEnumerable<T> source, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }
 }

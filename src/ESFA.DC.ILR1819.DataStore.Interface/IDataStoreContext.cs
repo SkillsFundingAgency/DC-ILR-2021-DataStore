@@ -29,7 +29,7 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
         string FundingFM81OutputKey { get; }
 
         string FundingFM70OutputKey { get; }
-        
+
         string FundingFM36OutputKey { get; }
 
         string FundingFM35OutputKey { get; }

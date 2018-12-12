@@ -12,8 +12,14 @@ using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
+using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid;
+using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
+using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
+using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
@@ -28,6 +34,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
     [Collection("StoreData Tests")]
     public sealed class TestStoreIlr
     {
+        private const int _ukprn = 10033670;
         private readonly ITestOutputHelper output;
 
         public TestStoreIlr(ITestOutputHelper output)
@@ -36,7 +43,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         }
 
         [Theory]
-        [InlineData("IlrFiles/ILR-10033670-1819-20180704-120055-03.xml", "JsonOutputs/ALB.json", "JsonOutputs/9999_6_ValidationErrors.json", 10033670, new[] { "3Addl103" })]
+        [InlineData("IlrFiles/ILR-10033670-1819-20180704-120055-03.xml", "JsonOutputs/ALB.json", "JsonOutputs/9999_6_ValidationErrors.json", _ukprn, new[] { "0ALB01" })]
         public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
@@ -92,8 +99,100 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
                     output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
 
-                    StoreALB storeRuleAlb = new StoreALB();
-                    await storeRuleAlb.StoreAsync(transaction, ukPrn, readAndSerialise.Item2, cancellationToken);
+                    var fundingOutput =
+                    new ALB_global
+                    {
+                        UKPRN = _ukprn,
+                        ALB_Learner = new List<ALB_Learner>
+                        {
+                               new ALB_Learner
+                               {
+                                   LearnRefNumber = "0ALB01",
+                                   UKPRN = _ukprn,
+                                   ALB_Learner_Period = new List<ALB_Learner_Period>
+                                   {
+                                       new ALB_Learner_Period
+                                       {
+                                           LearnRefNumber = "0ALB01",
+                                           UKPRN = _ukprn,
+                                           Period = 1,
+                                           ALBSeqNum = 1
+                                       }
+                                   },
+                                   ALB_Learner_PeriodisedValues = new List<ALB_Learner_PeriodisedValues>
+                                   {
+                                       new ALB_Learner_PeriodisedValues
+                                       {
+                                           LearnRefNumber = "0ALB01",
+                                           UKPRN = _ukprn,
+                                           AttributeName = "ALBSeqNum",
+                                           Period_1 = 1.0m,
+                                           Period_2 = 1.0m,
+                                           Period_3 = 1.0m,
+                                           Period_4 = 1.0m,
+                                           Period_5 = 1.0m,
+                                           Period_6 = 1.0m,
+                                           Period_7 = 1.0m,
+                                           Period_8 = 1.0m,
+                                           Period_9 = 1.0m,
+                                           Period_10 = 1.0m,
+                                           Period_11 = 1.0m,
+                                           Period_12 = 1.0m,
+                                       }
+                                   },
+                                   ALB_LearningDelivery = new List<ALB_LearningDelivery>
+                                   {
+                                       new ALB_LearningDelivery
+                                       {
+                                           UKPRN = _ukprn,
+                                           LearnRefNumber = "0ALB01",
+                                           AimSeqNumber = 1,
+                                           ALB_LearningDelivery_Period = new List<ALB_LearningDelivery_Period>
+                                           {
+                                               new ALB_LearningDelivery_Period
+                                               {
+                                                   UKPRN = _ukprn,
+                                                   LearnRefNumber = "0ALB01",
+                                                   AimSeqNumber = 1,
+                                                   Period = 1
+                                               }
+                                           },
+                                           ALB_LearningDelivery_PeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>
+                                           {
+                                               new ALB_LearningDelivery_PeriodisedValues
+                                               {
+                                                   UKPRN = _ukprn,
+                                                   LearnRefNumber = "0ALB01",
+                                                   AimSeqNumber = 1,
+                                                   AttributeName = "Attribute1"
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                        }
+                    };
+
+                    var global = fundingOutput;
+                    var learners = fundingOutput.ALB_Learner;
+                    var learnerPeriods = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_Period);
+                    var learnerPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_PeriodisedValues);
+                    var learningDeliveries = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery);
+                    var learningDeliveryPeriod = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_Period));
+                    var learningDeliveryPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_PeriodisedValues));
+
+                    IALBMapper albMapperMock = new ALBMapper();
+                    IBulkInsert bulkInsert = new BulkInsert();
+
+                    // albMapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
+                    // albMapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
+                    // albMapperMock.Setup(fm => fm.MapLearnerPeriods(_fundingOutputs)).Returns(learnerPeriods);
+                    // albMapperMock.Setup(fm => fm.MapLearnerPeriodisedValues(_fundingOutputs)).Returns(learnerPeriodisedValues);
+                    // albMapperMock.Setup(fm => fm.MapLearningDeliveries(_fundingOutputs)).Returns(learningDeliveries);
+                    // albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriods(_fundingOutputs)).Returns(learningDeliveryPeriod);
+                    // albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriodisedValues(_fundingOutputs)).Returns(learningDeliveryPeriodisedValues);
+                    StoreALB storeRuleAlb = new StoreALB(albMapperMock, bulkInsert);
+                    await storeRuleAlb.StoreAsync(transaction, readAndSerialise.Item2, cancellationToken);
 
                     output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                     stopwatch.Restart();
@@ -244,8 +343,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             dataStoreContextMock.SetupGet(c => c.SubmissionDateTimeUtc).Returns(new DateTime(2018, 1, 1));
 
             storage.Setup(x => x.GetAsync(Path.GetFileName(ilrFilename), It.IsAny<CancellationToken>())).ReturnsAsync(ilrContents);
-            //storage.Setup(x => x.GetAsync(Path.GetFileName(albFilename))).ReturnsAsync(albContents);
 
+            // storage.Setup(x => x.GetAsync(Path.GetFileName(albFilename))).ReturnsAsync(albContents);
             persist.Setup(x => x.GetAsync(validLearnersKey, It.IsAny<CancellationToken>())).ReturnsAsync(validLearnersSerialised);
             persist.Setup(x => x.GetAsync(keyAlbOutput, It.IsAny<CancellationToken>())).ReturnsAsync(albContents);
 

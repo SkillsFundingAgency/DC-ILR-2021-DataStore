@@ -11,7 +11,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class BulkInsert : IBulkInsert
     {
-        public async Task Insert<T>(string table, IList<T> source, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task Insert<T>(string table, IEnumerable<T> source, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             using (var sqlBulkCopy = BuildSqlBulkCopy(sqlTransaction.Connection, sqlTransaction))
             {

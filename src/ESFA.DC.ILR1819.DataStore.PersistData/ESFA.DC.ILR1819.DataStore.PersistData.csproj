@@ -62,29 +62,29 @@
     <Reference Include="ESFA.DC.DateTimeProvider.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.DateTimeProvider.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.DateTimeProvider.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model, Version=0.1.318.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.0.1.318\lib\netstandard2.0\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM25.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM25.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.FundingService.FM25.Model, Version=0.1.318.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model.0.1.318\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM25.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model, Version=0.1.318.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.0.1.318\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model, Version=0.1.318.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.0.1.318\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model, Version=0.1.318.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.0.1.318\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model, Version=0.1.308.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.0.1.308\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model, Version=0.1.318.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.0.1.318\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.Interface.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.1819.Model.Interface.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.ILR.ValidationErrors.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.ValidationErrors.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.ILR.ValidationErrors.Interface.dll</HintPath>
@@ -101,11 +101,11 @@
     <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.12-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
+    <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
+    <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.2.4-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
@@ -176,34 +176,61 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractStore.cs" />
-    <Compile Include="Builders\AppFinRecordBuilder.cs" />
-    <Compile Include="Builders\ContactPreferenceBuilder.cs" />
-    <Compile Include="Builders\EmploymentStatusMonitoringBuilder.cs" />
-    <Compile Include="Builders\FM25LearnerBuilder.cs" />
-    <Compile Include="Builders\FM81LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\FM35LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\FM70LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\FM36LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\FM36PriceEpisodeBuilder.cs" />
-    <Compile Include="Builders\LearnerBuilder.cs" />
-    <Compile Include="Builders\LearnerEmploymentStatusBuilder.cs" />
-    <Compile Include="Builders\LearnerFAMBuilder.cs" />
-    <Compile Include="Builders\LearnerHEBuilder.cs" />
-    <Compile Include="Builders\LearnerHEFinancialSupportBuilder.cs" />
+    <Compile Include="Builders\Invalid\AppFinRecordBuilder.cs" />
+    <Compile Include="Builders\Invalid\ContactPreferenceBuilder.cs" />
+    <Compile Include="Builders\Invalid\EmploymentStatusMonitoringBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearnerBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearnerEmploymentStatusBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearnerFAMBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearnerHEBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearnerHEFinancialSupportBuilder.cs" />
     <Compile Include="Builders\LearnerInvalidDataBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearningDeliveryBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearningDeliveryFAMBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearningDeliveryHEBuilder.cs" />
+    <Compile Include="Builders\Invalid\LearningDeliveryWorkPlacementBuilder.cs" />
+    <Compile Include="Builders\Invalid\LLDDAndHealthProblemBuilder.cs" />
+    <Compile Include="Builders\Invalid\ProviderSpecDeliveryMonitoringBuilder.cs" />
+    <Compile Include="Builders\Invalid\ProviderSpecLearnerMonitoringBuilder.cs" />
+    <Compile Include="Builders\Valid\AppFinRecordBuilder.cs" />
+    <Compile Include="Builders\Valid\ContactPreferenceBuilder.cs" />
+    <Compile Include="Builders\Valid\EmploymentStatusMonitoringBuilder.cs" />
+    <Compile Include="Builders\Valid\LearnerBuilder.cs" />
+    <Compile Include="Builders\Valid\LearnerEmploymentStatusBuilder.cs" />
+    <Compile Include="Builders\Valid\LearnerFAMBuilder.cs" />
+    <Compile Include="Builders\Valid\LearnerHEBuilder.cs" />
+    <Compile Include="Builders\Valid\LearnerHEFinancialSupportBuilder.cs" />
     <Compile Include="Builders\LearnerValidDataBuilder.cs" />
-    <Compile Include="Builders\LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\LearningDeliveryFAMBuilder.cs" />
-    <Compile Include="Builders\LearningDeliveryHEBuilder.cs" />
-    <Compile Include="Builders\LearningDeliveryWorkPlacementBuilder.cs" />
-    <Compile Include="Builders\LLDDAndHealthProblemBuilder.cs" />
-    <Compile Include="Builders\ProviderSpecDeliveryMonitoringBuilder.cs" />
-    <Compile Include="Builders\ProviderSpecLearnerMonitoringBuilder.cs" />
+    <Compile Include="Builders\Valid\LearningDeliveryBuilder.cs" />
+    <Compile Include="Builders\Valid\LearningDeliveryFAMBuilder.cs" />
+    <Compile Include="Builders\Valid\LearningDeliveryHEBuilder.cs" />
+    <Compile Include="Builders\Valid\LearningDeliveryWorkPlacementBuilder.cs" />
+    <Compile Include="Builders\Valid\LLDDAndHealthProblemBuilder.cs" />
+    <Compile Include="Builders\Valid\ProviderSpecDeliveryMonitoringBuilder.cs" />
+    <Compile Include="Builders\Valid\ProviderSpecLearnerMonitoringBuilder.cs" />
     <Compile Include="BulkInsert.cs" />
+    <Compile Include="Constants\FM25Constants.cs" />
+    <Compile Include="Constants\ALBConstants.cs" />
+    <Compile Include="Constants\FM36Constants.cs" />
+    <Compile Include="Constants\FM81Constants.cs" />
+    <Compile Include="Constants\FM70Constants.cs" />
+    <Compile Include="Constants\FM35Constants.cs" />
     <Compile Include="Constants\PersistDataConstants.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Helpers\PeriodisedValueHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
-    <Compile Include="Services\ModelService.cs" />
+    <Compile Include="Model\FundModelLearnerPeriodisedValue.cs" />
+    <Compile Include="Model\FundModelESFLearningDeliveryPeriodisedValue.cs" />
+    <Compile Include="Model\FundModel36LearningDeliveryPeriodisedValue.cs" />
+    <Compile Include="Model\FundModelPriceEpisodePeriodisedValue.cs" />
+    <Compile Include="Model\FundModelLearningDeliveryPeriodisedValue.cs" />
+    <Compile Include="Persist\Mappers\FM25Mapper.cs" />
+    <Compile Include="Persist\Mappers\ALBMapper.cs" />
+    <Compile Include="Persist\Mappers\FM36Mapper.cs" />
+    <Compile Include="Persist\Mappers\FM81Mapper.cs" />
+    <Compile Include="Persist\Mappers\FM70Mapper.cs" />
+    <Compile Include="Persist\Mappers\FM35Mapper.cs" />
+    <Compile Include="Services\FundModelService.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />
     <Compile Include="Services\Providers\FM70ProviderService.cs" />
     <Compile Include="Services\Providers\FM36ProviderService.cs" />
@@ -215,16 +242,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Providers\ILRProviderService.cs" />
     <Compile Include="Services\Providers\ValidLearnerProviderService.cs" />
-    <Compile Include="StoreClear.cs" />
-    <Compile Include="StoreFileDetails.cs" />
-    <Compile Include="StoreFM81.cs" />
-    <Compile Include="StoreFM35.cs" />
-    <Compile Include="StoreFM25.cs" />
-    <Compile Include="StoreFM70.cs" />
-    <Compile Include="StoreFM36.cs" />
-    <Compile Include="StoreIlr.cs" />
-    <Compile Include="StoreALB.cs" />
-    <Compile Include="StoreValidationOutput.cs" />
+    <Compile Include="Persist\StoreClear.cs" />
+    <Compile Include="Persist\StoreFileDetails.cs" />
+    <Compile Include="Persist\StoreFM81.cs" />
+    <Compile Include="Persist\StoreFM35.cs" />
+    <Compile Include="Persist\StoreFM25.cs" />
+    <Compile Include="Persist\StoreFM70.cs" />
+    <Compile Include="Persist\StoreFM36.cs" />
+    <Compile Include="Persist\StoreIlr.cs" />
+    <Compile Include="Persist\StoreALB.cs" />
+    <Compile Include="Persist\StoreValidationOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">
