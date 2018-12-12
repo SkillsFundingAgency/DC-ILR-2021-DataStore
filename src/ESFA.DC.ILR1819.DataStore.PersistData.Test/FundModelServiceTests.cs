@@ -79,7 +79,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, transaction, token);
 
             logger.Invocations.Should().HaveCount(1);
-            logger.Invocations.SelectMany(l => l.Arguments).Should().Contain("No Learners to Persist");
+            logger.Invocations.SelectMany(l => l.Arguments).Should().Contain("No FM35Global data to Persist");
         }
 
         [Fact]

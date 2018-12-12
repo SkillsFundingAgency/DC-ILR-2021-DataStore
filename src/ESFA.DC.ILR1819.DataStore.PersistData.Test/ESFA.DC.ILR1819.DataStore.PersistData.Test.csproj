@@ -256,18 +256,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractStoreTest.cs" />
+    <Compile Include="MapperTests\ALBMapperTests.cs" />
+    <Compile Include="MapperTests\FM70MapperTests.cs" />
     <Compile Include="FundModelServiceTests.cs" />
-    <Compile Include="FM25MapperTests.cs" />
-    <Compile Include="FM36MapperTests.cs" />
-    <Compile Include="FM81MapperTests.cs" />
-    <Compile Include="FM35MapperTests.cs" />
-    <Compile Include="TestStoreALB.cs" />
-    <Compile Include="TestStoreFM70.cs" />
-    <Compile Include="TestStoreFM81.cs" />
-    <Compile Include="TestStoreFM36.cs" />
-    <Compile Include="TestStoreFM35.cs" />
-    <Compile Include="TestStoreFM25.cs" />
-    <Compile Include="TestStoreIlr.cs" />
+    <Compile Include="MapperTests\FM25MapperTests.cs" />
+    <Compile Include="MapperTests\FM36MapperTests.cs" />
+    <Compile Include="MapperTests\FM81MapperTests.cs" />
+    <Compile Include="MapperTests\FM35MapperTests.cs" />
+    <Compile Include="StoreTests\TestStoreALB.cs" />
+    <Compile Include="StoreTests\TestStoreFM70.cs" />
+    <Compile Include="StoreTests\TestStoreFM81.cs" />
+    <Compile Include="StoreTests\TestStoreFM36.cs" />
+    <Compile Include="StoreTests\TestStoreFM35.cs" />
+    <Compile Include="StoreTests\TestStoreFM25.cs" />
+    <Compile Include="StoreTests\TestStoreIlr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

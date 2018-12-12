@@ -14,7 +14,7 @@ using ESFA.DC.Serialization.Json;
 using Moq;
 using Xunit;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 {
     [Collection("StoreData Tests")]
     public class TestStoreFM25 : AbstractStoreTest<FM25Global>
