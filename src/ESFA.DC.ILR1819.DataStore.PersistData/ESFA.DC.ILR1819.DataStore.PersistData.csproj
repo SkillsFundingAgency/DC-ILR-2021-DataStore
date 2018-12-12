@@ -195,11 +195,6 @@
     <Compile Include="Builders\Valid\AppFinRecordBuilder.cs" />
     <Compile Include="Builders\Valid\ContactPreferenceBuilder.cs" />
     <Compile Include="Builders\Valid\EmploymentStatusMonitoringBuilder.cs" />
-    <Compile Include="Builders\Rulebase\Old\FM25LearnerBuilder.cs" />
-    <Compile Include="Builders\Rulebase\Old\FM81LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\Rulebase\Old\FM70LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\Rulebase\Old\FM36LearningDeliveryBuilder.cs" />
-    <Compile Include="Builders\Rulebase\Old\FM36PriceEpisodeBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerEmploymentStatusBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerFAMBuilder.cs" />
