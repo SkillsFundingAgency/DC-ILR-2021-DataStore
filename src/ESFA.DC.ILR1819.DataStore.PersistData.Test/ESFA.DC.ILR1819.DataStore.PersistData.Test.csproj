@@ -256,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractStoreTest.cs" />
+    <Compile Include="ALBMapperTests.cs" />
     <Compile Include="FundModelServiceTests.cs" />
     <Compile Include="FM25MapperTests.cs" />
     <Compile Include="FM36MapperTests.cs" />

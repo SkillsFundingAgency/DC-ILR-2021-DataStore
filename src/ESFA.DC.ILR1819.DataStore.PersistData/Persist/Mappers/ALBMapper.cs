@@ -134,6 +134,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers
                         LearnRefNumber = pv.LearnRefNumber,
                         AimSeqNumber = pv.AimSeqNumber,
                         Period = i,
+                        ALBCode = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.ALBCode), i),
                         ALBSupportPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.ALBSupportPayment), i),
                         AreaUpliftBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.AreaUpliftBalPayment), i),
                         AreaUpliftOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValue, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == ALBConstants.AreaUpliftOnProgPayment), i),
