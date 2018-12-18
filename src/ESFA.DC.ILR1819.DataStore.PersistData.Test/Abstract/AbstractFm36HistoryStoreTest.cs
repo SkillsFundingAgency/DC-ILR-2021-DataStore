@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
     public abstract class AbstractFm36HistoryStoreTest<T>
     {
         private readonly IStoreFM36HistoryService<T> _storeService;
-        private readonly IStoreClear _storeClear = new StoreFM36HistoryClear();
+        private readonly IStoreFM36HistoryClear _storeClear = new StoreFM36HistoryClear();
         private readonly IJsonSerializationService _jsonSerializationService = new JsonSerializationService();
 
         protected AbstractFm36HistoryStoreTest(IStoreFM36HistoryService<T> storeService)

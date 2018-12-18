@@ -238,11 +238,12 @@
     <Compile Include="Persist\StoreFM36HistoryClear.cs" />
     <Compile Include="Persist\StoreFM36History.cs" />
     <Compile Include="Services\FundModelService.cs" />
+    <Compile Include="Services\FM36HistoryTransactionController.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />
     <Compile Include="Services\Providers\FM70ProviderService.cs" />
     <Compile Include="Services\Providers\FM36ProviderService.cs" />
     <Compile Include="Services\Providers\FM35ProviderService.cs" />
-    <Compile Include="Services\TransactionController.cs" />
+    <Compile Include="Services\IlrTransactionController.cs" />
     <Compile Include="Abstract\AbstractProviderService.cs" />
     <Compile Include="Services\Providers\FM25ProviderService.cs" />
     <Compile Include="Services\Providers\ALBProviderService.cs" />

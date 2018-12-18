@@ -197,8 +197,11 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreFM81>().As<IStoreService<FM81Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM36History>().As<IStoreFM36HistoryService<FM36Global>>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
+            containerBuilder.RegisterType<IlrTransactionController>().As<IIlrTransactionController>()
                 .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM36HistoryTransactionController>().As<IFM36HistoryTransactionController>()
+               .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ILRProviderService>().As<IProviderService<Message>>()
                 .InstancePerLifetimeScope();
@@ -253,7 +256,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreValidationOutput>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreFM36HistoryClear>().As<IStoreClear>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36HistoryClear>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>().InstancePerLifetimeScope();
 

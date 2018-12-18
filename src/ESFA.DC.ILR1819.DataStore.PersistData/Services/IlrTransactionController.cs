@@ -11,7 +11,7 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 {
-    public class TransactionController : ITransactionController
+    public class IlrTransactionController : IIlrTransactionController
     {
         private readonly PersistDataConfiguration _persistDataConfiguration;
         private readonly ILogger _logger;
@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
         private readonly IStoreValidationOutput _storeValidationOutput;
         private readonly IStoreClear _storeClear;
 
-        public TransactionController(
+        public IlrTransactionController(
             PersistDataConfiguration persistDataConfiguration,
             ILogger logger,
             IEnumerable<IFundModelService> modelServices,

@@ -6,7 +6,7 @@ using ESFA.DC.ILR1819.DataStore.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
-    public sealed class StoreFM36HistoryClear : IStoreClear
+    public sealed class StoreFM36HistoryClear : IStoreFM36HistoryClear
     {
         public async Task ClearAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
