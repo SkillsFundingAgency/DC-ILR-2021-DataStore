@@ -67,7 +67,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             var dataStoreContext = readAndSerialise.Item4;
             message = readAndSerialise.Item1;
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
             {
                 SqlTransaction transaction = null;
                 try

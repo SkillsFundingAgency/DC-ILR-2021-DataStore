@@ -214,6 +214,7 @@
     <Compile Include="BulkInsert.cs" />
     <Compile Include="Constants\FM25Constants.cs" />
     <Compile Include="Constants\ALBConstants.cs" />
+    <Compile Include="Constants\FM36HistoryConstants.cs" />
     <Compile Include="Constants\FM36Constants.cs" />
     <Compile Include="Constants\FM81Constants.cs" />
     <Compile Include="Constants\FM70Constants.cs" />
@@ -234,6 +235,8 @@
     <Compile Include="Persist\Mappers\FM70Mapper.cs" />
     <Compile Include="Persist\Mappers\FM35Mapper.cs" />
     <Compile Include="Persist\Mappers\FM36HistoryMapper.cs" />
+    <Compile Include="Persist\StoreFM36HistoryClear.cs" />
+    <Compile Include="Persist\StoreFM36History.cs" />
     <Compile Include="Services\FundModelService.cs" />
     <Compile Include="Services\Providers\FM81ProviderService.cs" />
     <Compile Include="Services\Providers\FM70ProviderService.cs" />

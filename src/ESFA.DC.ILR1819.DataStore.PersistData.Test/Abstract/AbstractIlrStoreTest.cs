@@ -14,13 +14,13 @@ using Moq;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
 {
-    public abstract class AbstractStoreTest<T>
+    public abstract class AbstractIlrStoreTest<T>
     {
         private readonly IStoreService<T> _storeService;
         private readonly IStoreClear _storeClear = new StoreClear();
         private readonly IJsonSerializationService _jsonSerializationService = new JsonSerializationService();
 
-        protected AbstractStoreTest(IStoreService<T> storeService)
+        protected AbstractIlrStoreTest(IStoreService<T> storeService)
         {
             _storeService = storeService;
         }
@@ -37,7 +37,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
             var outputModel = ReadAndDeserialiseAsync<T>(fileName, outputKey, keyValuePersistenceServiceMock, serializationServiceMock);
 
             using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
+                new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
             {
                 SqlTransaction transaction = null;
                 try
@@ -69,7 +69,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
             dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(fileName);
 
             using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
+                new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
             {
                 SqlTransaction transaction = null;
                 try

@@ -258,7 +258,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\AbstractStoreTest.cs" />
+    <Compile Include="Abstract\AbstractFm36HistoryStoreTest.cs" />
+    <Compile Include="Abstract\AbstractIlrStoreTest.cs" />
     <Compile Include="MapperTests\ALBMapperTests.cs" />
     <Compile Include="MapperTests\FM36HistoryMapperTests.cs" />
     <Compile Include="MapperTests\FM70MapperTests.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="MapperTests\FM81MapperTests.cs" />
     <Compile Include="MapperTests\FM35MapperTests.cs" />
     <Compile Include="StoreTests\TestStoreALB.cs" />
+    <Compile Include="StoreTests\TestStoreFM36History.cs" />
     <Compile Include="StoreTests\TestStoreFM70.cs" />
     <Compile Include="StoreTests\TestStoreFM81.cs" />
     <Compile Include="StoreTests\TestStoreFM36.cs" />

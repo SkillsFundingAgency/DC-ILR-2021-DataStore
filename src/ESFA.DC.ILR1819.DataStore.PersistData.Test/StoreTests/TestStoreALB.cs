@@ -17,7 +17,7 @@ using Xunit;
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 {
     [Collection("StoreData Tests")]
-    public class TestStoreALB : AbstractStoreTest<ALBGlobal>
+    public class TestStoreALB : AbstractIlrStoreTest<ALBGlobal>
     {
         private static readonly int _ukprn = 10033670;
         private static readonly ALBGlobal _fundingOutputs = new JsonSerializationService().Deserialize<ALBGlobal>(File.ReadAllText(@"JsonOutputs/ALB.json"));
