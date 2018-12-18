@@ -10,6 +10,10 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 
         string OriginalFilename { get; }
 
+        string CollectionYear { get; }
+
+        string ReturnCode { get; }
+
         DateTime? SubmissionDateTimeUtc { get; }
 
         long FileSizeInBytes { get; }

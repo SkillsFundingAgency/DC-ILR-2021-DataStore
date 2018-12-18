@@ -243,6 +243,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM25Mapper>().As<IFM25Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>().InstancePerLifetimeScope();
 
