@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Context
 
         public string CollectionYear => _jobContextMessage.KeyValuePairs["CollectionYear"].ToString();
 
-        public string ReturnCode => _jobContextMessage.KeyValuePairs["ReturnCode"].ToString();
+        public string ReturnCode => _jobContextMessage.KeyValuePairs["ReturnPeriod"].ToString();
 
         public DateTime? SubmissionDateTimeUtc => _jobContextMessage.SubmissionDateTimeUtc;
 
