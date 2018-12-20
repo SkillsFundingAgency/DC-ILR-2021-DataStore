@@ -3,6 +3,7 @@
   <Parameters>
     <Parameter Name="ESFA.DC.ILR1819.DataStore.Stateless_InstanceCount" Value="__DataStore_Stateless_InstanceCount__" />
     <Parameter Name="ILRDataStoreConnectionString" Value="__ILR1819DataStoreConnectionString__" />
+    <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="__AppEarnHistoryDataStoreConnectionString__" />
     <Parameter Name="AuditQueueName" Value="__AuditQueueName__" />
     <Parameter Name="TopicName" Value="__TopicName__" />
     <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />

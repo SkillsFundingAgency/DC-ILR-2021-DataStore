@@ -6,6 +6,7 @@
   "Learners": [
     {
       "LearnRefNumber": "3DOB01",
+      "ULN": 9900278304,
       "PriceEpisodes": [
         {
           "PriceEpisodeIdentifier": "2-420-1-14/10/2017",
@@ -1728,31 +1729,34 @@
       ],
       "HistoricEarningOutputValues": [
         {
-          "AppIdentifierOutput": "2-420-1",
+          "AppIdentifierOutput": "25-5",
           "AppProgCompletedInTheYearOutput": false,
-          "HistoricDaysInYearOutput": 365,
-          "HistoricEffectiveTNPStartDateOutput": null,
-          "HistoricEmpIdEndWithinYearOutput": 154549452,
-          "HistoricEmpIdStartWithinYearOutput": null,
-          "HistoricFworkCodeOutput": 420,
+          "BalancingProgAimPaymentsInTheYear": 0.0,
+          "CompletionProgAimPaymentsInTheYear": 0.0,
+          "HistoricDaysInYearOutput": 274,
+          "HistoricEffectiveTNPStartDateOutput": "2018-10-31T00:00:00+00:00",
+          "HistoricEmpIdEndWithinYearOutput": 914429647,
+          "HistoricEmpIdStartWithinYearOutput": 914429647,
+          "HistoricFworkCodeOutput": null,
           "HistoricLearner1618AtStartOutput": true,
-          "HistoricPMRAmountOutput": null,
-          "HistoricProgrammeStartDateIgnorePathwayOutput": "2017-10-14T00:00:00+01:00",
-          "HistoricProgrammeStartDateMatchPathwayOutput": "2017-10-14T00:00:00+01:00",
-          "HistoricProgTypeOutput": 2,
-          "HistoricPwayCodeOutput": 1,
-          "HistoricSTDCodeOutput": null,
-          "HistoricTNP1Output": 0.0,
+          "OnProgProgAimPaymentsInTheYear": 3000.0,
+          "HistoricPMRAmountOutput": 0.0,
+          "HistoricProgrammeStartDateIgnorePathwayOutput": "2018-10-31T00:00:00+00:00",
+          "HistoricProgrammeStartDateMatchPathwayOutput": "2018-10-31T00:00:00+00:00",
+          "HistoricProgTypeOutput": 25,
+          "HistoricPwayCodeOutput": null,
+          "HistoricSTDCodeOutput": 5,
+          "HistoricTNP1Output": 10500.0,
           "HistoricTNP2Output": 0.0,
           "HistoricTNP3Output": 0.0,
           "HistoricTNP4Output": 0.0,
-          "HistoricTotal1618UpliftPaymentsInTheYear": null,
-          "HistoricTotalProgAimPaymentsInTheYear": null,
-          "HistoricULNOutput": 9900001906,
+          "HistoricTotal1618UpliftPaymentsInTheYear": 0.0,
+          "HistoricTotalProgAimPaymentsInTheYear": 3000.0,
+          "HistoricULNOutput": 9900278304,
           "HistoricUptoEndDateOutput": "2019-07-31T00:00:00+01:00",
           "HistoricVirtualTNP3EndofThisYearOutput": 0.0,
           "HistoricVirtualTNP4EndofThisYearOutput": 0.0,
-          "HistoricLearnDelProgEarliestACT2DateOutput": null
+          "HistoricLearnDelProgEarliestACT2DateOutput": "2018-10-31T00:00:00+00:00"
         }
       ]
     }

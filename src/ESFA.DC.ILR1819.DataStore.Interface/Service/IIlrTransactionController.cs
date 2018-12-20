@@ -5,7 +5,7 @@ using ESFA.DC.ILR.Model;
 
 namespace ESFA.DC.ILR1819.DataStore.Interface.Service
 {
-    public interface ITransactionController
+    public interface IIlrTransactionController
     {
         Task<bool> WriteToDeds(
             IDataStoreContext dataStoreContext,

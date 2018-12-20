@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
@@ -15,19 +16,25 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     /// </summary>
     public sealed class EntryPoint : IEntryPoint
     {
-        private readonly ITransactionController _learnerPersistence;
+        private readonly IIlrTransactionController _ilrPersistence;
+        private readonly IFM36HistoryTransactionController _fm36HistoryPersistence;
         private readonly IProviderService<Message> _ilrProviderService;
+        private readonly IProviderService<FM36Global> _fm36ProviderService;
         private readonly IValidLearnerProviderService _validLearnerProviderService;
         private readonly ILogger _logger;
 
         public EntryPoint(
-            ITransactionController learnerPersistence,
+            IIlrTransactionController ilrPersistence,
+            IFM36HistoryTransactionController fm36HistoryPersistence,
             IProviderService<Message> ilrProviderService,
+            IProviderService<FM36Global> fm36ProviderService,
             IValidLearnerProviderService validLearnerProviderService,
             ILogger logger)
         {
-            _learnerPersistence = learnerPersistence;
+            _ilrPersistence = ilrPersistence;
+            _fm36HistoryPersistence = fm36HistoryPersistence;
             _ilrProviderService = ilrProviderService;
+            _fm36ProviderService = fm36ProviderService;
             _validLearnerProviderService = validLearnerProviderService;
             _logger = logger;
         }
@@ -35,7 +42,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         /// <summary>
         /// Callback from Job Context Manager.
         /// </summary>
-        /// <param name="jobContextMessage">The job context message.</param>
+        /// <param name="dataStoreContext">The dataStore context.</param>
         /// <param name="cancellationToken">The callback cancellation token.</param>
         /// <returns>True if the callback succeeded, or false if the callback failed.</returns>
         public async Task<bool> Callback(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
@@ -49,6 +56,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                 stopWatch.Start();
                 Task<Message> messageTask = _ilrProviderService.ProvideAsync(dataStoreContext, cancellationToken);
                 Task<List<string>> validLearnersTask = _validLearnerProviderService.ReadAndDeserialiseValidLearnersAsync(dataStoreContext, cancellationToken);
+                Task<FM36Global> fm36GlobalTask = _fm36ProviderService.ProvideAsync(dataStoreContext, cancellationToken);
 
                 await Task.WhenAll(messageTask, validLearnersTask);
 
@@ -64,9 +72,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     return false;
                 }
 
-                if (!await _learnerPersistence.WriteToDeds(dataStoreContext, cancellationToken, messageTask.Result, validLearnersTask.Result))
+                if (!await _ilrPersistence.WriteToDeds(dataStoreContext, cancellationToken, messageTask.Result, validLearnersTask.Result))
                 {
-                    _logger.LogError("write to DataStore failed");
+                    _logger.LogError("Write to ILR DataStore failed");
+                    return false;
+                }
+
+                if (!await _fm36HistoryPersistence.WriteToDeds(dataStoreContext, cancellationToken, fm36GlobalTask.Result))
+                {
+                    _logger.LogError("Write to AppEarnHistory DataStore failed");
                     return false;
                 }
 

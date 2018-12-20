@@ -195,9 +195,13 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreFM36>().As<IStoreService<FM36Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM70>().As<IStoreService<FM70Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM81>().As<IStoreService<FM81Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36History>().As<IStoreFM36HistoryService<FM36Global>>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
+            containerBuilder.RegisterType<IlrTransactionController>().As<IIlrTransactionController>()
                 .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM36HistoryTransactionController>().As<IFM36HistoryTransactionController>()
+               .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ILRProviderService>().As<IProviderService<Message>>()
                 .InstancePerLifetimeScope();
@@ -243,6 +247,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM25Mapper>().As<IFM25Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>().InstancePerLifetimeScope();
 
@@ -251,6 +256,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreValidationOutput>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36HistoryClear>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>().InstancePerLifetimeScope();
 

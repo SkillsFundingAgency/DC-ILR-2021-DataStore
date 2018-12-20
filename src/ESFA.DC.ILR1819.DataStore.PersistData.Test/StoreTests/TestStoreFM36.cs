@@ -17,7 +17,7 @@ using Xunit;
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 {
     [Collection("StoreData Tests")]
-    public class TestStoreFM36 : AbstractStoreTest<FM36Global>
+    public class TestStoreFM36 : AbstractIlrStoreTest<FM36Global>
     {
         private static readonly int _ukprn = 10033660;
         private static readonly FM36Global _fundingOutputs = new JsonSerializationService().Deserialize<FM36Global>(File.ReadAllText(@"JsonOutputs/Fm36.json"));
