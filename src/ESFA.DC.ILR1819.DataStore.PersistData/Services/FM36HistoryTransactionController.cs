@@ -53,7 +53,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                     if (fm36Global == null || fm36Global.Learners == null)
                     {
                         _logger.LogDebug("FM36 output empty. No data to persist.");
-                        return false;
+                        // Nothing to do, so I'm going to tell my calling layer that I have succeeded
+                        return true;
                     }
 
                     using (var sqlTransaction = sqlConnection.BeginTransaction())
