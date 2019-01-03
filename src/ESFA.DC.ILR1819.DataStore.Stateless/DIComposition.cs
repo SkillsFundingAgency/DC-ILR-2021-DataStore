@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.Auditing.Interface;
+using ESFA.DC.Data.ILR.ValidationErrors.Model;
+using ESFA.DC.Data.ILR.ValidationErrors.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
@@ -11,8 +13,6 @@ using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
-using ESFA.DC.ILR.ValidationErrors;
-using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
@@ -64,6 +64,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
                 .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
                 .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Redis)
+                .As<IKeyValuePersistenceService>()
                 .As<IStreamableKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
@@ -160,11 +161,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .InstancePerLifetimeScope();
 
             // register ValidationError service
-            containerBuilder.Register(c => new ValidationErrorsService(
-                c.ResolveKeyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob),
-                c.Resolve<IJsonSerializationService>(),
-                c.Resolve<ILogger>())).As<IValidationErrorsService>()
-                .InstancePerLifetimeScope();
+            containerBuilder.Register(b => new ValidationErrors(persistDataConfig.IlrValidationErrorsConnectionString))
+                .As<IValidationErrors>().InstancePerDependency();
 
             containerBuilder.RegisterType<JobContextManager<JobContextMessage>>().As<IJobContextManager<JobContextMessage>>()
                 .InstancePerLifetimeScope();

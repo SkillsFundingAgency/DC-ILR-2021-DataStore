@@ -17,6 +17,7 @@
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
     <Parameter Name="JobStatusConnectionString" DefaultValue="" />
+    <Parameter Name="IlrValidationErrorsConnectionString" DefaultValue="" />
     <!-- Topic Names -->
     <Parameter Name="TopicValidation" DefaultValue="Validation" />
     <Parameter Name="TopicFunding" DefaultValue="Funding" />
@@ -36,6 +37,7 @@
           <Section Name="DataStoreSection">
             <Parameter Name="ILRDataStoreConnectionString" Value="[ILRDataStoreConnectionString]" />
             <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="[AppEarnHistoryDataStoreConnectionString]" />
+            <Parameter Name="IlrValidationErrorsConnectionString" Value="[IlrValidationErrorsConnectionString]" />
           </Section>
           <Section Name="ServiceBusSettings">
             <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
