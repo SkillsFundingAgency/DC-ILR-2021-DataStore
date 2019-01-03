@@ -15,7 +15,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                     return (T)(object)new PersistDataConfiguration()
                     {
                         ILRDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
-                        AppEarnHistoryDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
+                        AppEarnHistoryDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
+                        IlrValidationErrorsConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                     };
                 case "RedisSection":
                     return (T)(object)new RedisOptions();
