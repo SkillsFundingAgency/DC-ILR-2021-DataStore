@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -70,7 +71,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             return validationErrors?.Select(ve =>
             {
                 var fieldValues = GetFieldValuesString(ve.ValidationErrorParameters);
-                var errorMessage = rules.FirstOrDefault(r => r.Rulename == ve.RuleName)?.Message;
+                var errorMessage = rules.FirstOrDefault(r => string.Equals(r.Rulename, ve.RuleName, StringComparison.OrdinalIgnoreCase))?.Message;
 
                 var learningDelivery = message.Learners
                     .SingleOrDefault(x => x.LearnRefNumber == ve.LearnerReferenceNumber)?
