@@ -73,9 +73,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 var fieldValues = GetFieldValuesString(ve.ValidationErrorParameters);
                 var errorMessage = rules.FirstOrDefault(r => string.Equals(r.Rulename, ve.RuleName, StringComparison.OrdinalIgnoreCase))?.Message;
 
-                var learningDelivery = message.Learners
-                    .SingleOrDefault(x => x.LearnRefNumber == ve.LearnerReferenceNumber)?
-                    .LearningDeliveries.SingleOrDefault(x => x.AimSeqNumber == ve.AimSequenceNumber);
+                var learningDelivery =
+                    message?
+                    .Learners?
+                    .FirstOrDefault(x => x.LearnRefNumber == ve.LearnerReferenceNumber)?
+                    .LearningDeliveries
+                    .FirstOrDefault(x => x.AimSeqNumber == ve.AimSequenceNumber);
 
                 var severity = ve.Severity != null && ve.Severity.Length >= 1 ? ve.Severity?.Substring(0, 1) : null;
 
