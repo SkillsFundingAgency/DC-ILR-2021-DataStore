@@ -33,6 +33,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 return;
             }
 
+            if (fundingOutput == null || fundingOutput.Learners == null)
+            {
+                return;
+            }
+
             var appsEarningsHistories = _fm36HistoryMapper.MapAppsEarningsHistory(fundingOutput, dataStoreContext.ReturnCode, dataStoreContext.CollectionYear);
 
             await _bulkInsert.Insert(FM36HistoryConstants.AppEarnHistory, appsEarningsHistories, sqlTransaction, cancellationToken);

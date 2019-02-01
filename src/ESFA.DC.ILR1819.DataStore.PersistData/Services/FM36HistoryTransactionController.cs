@@ -40,8 +40,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
             {
                 using (SqlConnection sqlConnection = new SqlConnection(_persistDataConfiguration.AppEarnHistoryDataStoreConnectionString))
                 {
-                    List<Task> tasks = new List<Task>();
-
                     await sqlConnection.OpenAsync(cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
@@ -50,36 +48,29 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                         return false;
                     }
 
-                    if (fm36Global == null || fm36Global.Learners == null)
-                    {
-                        _logger.LogDebug("FM36 output empty. No data to persist.");
-                        // Nothing to do, so I'm going to tell my calling layer that I have succeeded
-                        return true;
-                    }
-
                     using (var sqlTransaction = sqlConnection.BeginTransaction())
                     {
                         try
                         {
                             await _storeClear.ClearAsync(dataStoreContext, sqlTransaction, cancellationToken);
+                            _logger.LogDebug("FM36 History Clean Up successful");
 
-                            Task storeHistoryTask = _storeFM36HistoryService.StoreAsync(dataStoreContext, sqlTransaction, fm36Global, cancellationToken);
-                            tasks.Add(storeHistoryTask);
+                            await _storeFM36HistoryService.StoreAsync(dataStoreContext, sqlTransaction, fm36Global, cancellationToken);
 
                             if (cancellationToken.IsCancellationRequested)
                             {
-                                _logger.LogDebug("WriteToDEDS exiting with cancellation request");
+                                sqlTransaction.Rollback();
+                                _logger.LogDebug("WriteToDEDS FM36 History exiting with cancellation request");
                                 return false;
                             }
 
-                            await Task.WhenAll(tasks);
-
                             sqlTransaction.Commit();
                             successfullyCommitted = true;
+                            _logger.LogDebug("FM36 History persisted successfully");
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogError("WriteToDEDS Failed to persist to DEDs", ex);
+                            _logger.LogError("WriteToDEDS FM36 Failed to persist to DEDs", ex);
                         }
                         finally
                         {
