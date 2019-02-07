@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
             _logger = logger;
         }
 
-        public async Task GetAndStoreFundModel(IDataStoreContext dataStoreContext, SqlTransaction transaction, CancellationToken cancellationToken)
+        public async Task GetAndStoreFundModel(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
             var fundingModelData = await _providerService.ProvideAsync(dataStoreContext, cancellationToken);
 
@@ -39,7 +39,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
                 return;
             }
 
-            await _storeService.StoreAsync(transaction, fundingModelData, cancellationToken);
+            await _storeService.StoreAsync(sqlConnection, fundingModelData, cancellationToken);
         }
     }
 }

@@ -8,14 +8,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using ESFA.DC.Data.AppsEarningsHistory.Model;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
+using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR.ValidationErrors.Interface;
 using ESFA.DC.ILR.ValidationErrors.Interface.Models;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
+using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
@@ -32,19 +35,21 @@ using Xunit.Abstractions;
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 {
     [Collection("StoreData Tests")]
-    public sealed class TestStoreIlr
+    public sealed class TransactionControllerTests
     {
         private const int _ukprn = 10033670;
         private readonly ITestOutputHelper output;
+        private static readonly FM36Global _fundingOutputs = new JsonSerializationService().Deserialize<FM36Global>(File.ReadAllText(@"JsonOutputs/Fm36.json"));
+        private static readonly IStoreFM36HistoryService StoreService = StoreFM36HistorySetup();
 
-        public TestStoreIlr(ITestOutputHelper output)
+        public TransactionControllerTests(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Theory]
         [InlineData("IlrFiles/ILR-10033670-1819-20180704-120055-03.xml", "JsonOutputs/ALB.json", "JsonOutputs/9999_6_ValidationErrors.json", _ukprn, new[] { "0ALB01" })]
-        public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
+        public async Task WriteToDeds(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
             var logger = new Mock<ILogger>();
@@ -69,6 +74,86 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             Tuple<Message, ALBGlobal, ValidationErrorDto[], IDataStoreContext> readAndSerialise = await ReadAndDeserialiseAsync(ilrFilename, albDataFilename, valErrorsFilename, validLearners.ToList(), storage, persist, serialise, validationErrorsService);
             var dataStoreContext = readAndSerialise.Item4;
             message = readAndSerialise.Item1;
+
+            var fundingOutput =
+            new ALB_global
+            {
+                UKPRN = _ukprn,
+                ALB_Learner = new List<ALB_Learner>
+                {
+                       new ALB_Learner
+                       {
+                           LearnRefNumber = "0ALB01",
+                           UKPRN = _ukprn,
+                           ALB_Learner_Period = new List<ALB_Learner_Period>
+                           {
+                               new ALB_Learner_Period
+                               {
+                                   LearnRefNumber = "0ALB01",
+                                   UKPRN = _ukprn,
+                                   Period = 1,
+                                   ALBSeqNum = 1
+                               }
+                           },
+                           ALB_Learner_PeriodisedValues = new List<ALB_Learner_PeriodisedValues>
+                           {
+                               new ALB_Learner_PeriodisedValues
+                               {
+                                   LearnRefNumber = "0ALB01",
+                                   UKPRN = _ukprn,
+                                   AttributeName = "ALBSeqNum",
+                                   Period_1 = 1.0m,
+                                   Period_2 = 1.0m,
+                                   Period_3 = 1.0m,
+                                   Period_4 = 1.0m,
+                                   Period_5 = 1.0m,
+                                   Period_6 = 1.0m,
+                                   Period_7 = 1.0m,
+                                   Period_8 = 1.0m,
+                                   Period_9 = 1.0m,
+                                   Period_10 = 1.0m,
+                                   Period_11 = 1.0m,
+                                   Period_12 = 1.0m,
+                               }
+                           },
+                           ALB_LearningDelivery = new List<ALB_LearningDelivery>
+                           {
+                               new ALB_LearningDelivery
+                               {
+                                   UKPRN = _ukprn,
+                                   LearnRefNumber = "0ALB01",
+                                   AimSeqNumber = 1,
+                                   ALB_LearningDelivery_Period = new List<ALB_LearningDelivery_Period>
+                                   {
+                                       new ALB_LearningDelivery_Period
+                                       {
+                                           UKPRN = _ukprn,
+                                           LearnRefNumber = "0ALB01",
+                                           AimSeqNumber = 1,
+                                           Period = 1
+                                       }
+                                   },
+                                   ALB_LearningDelivery_PeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>
+                                   {
+                                       new ALB_LearningDelivery_PeriodisedValues
+                                       {
+                                           UKPRN = _ukprn,
+                                           LearnRefNumber = "0ALB01",
+                                           AimSeqNumber = 1,
+                                           AttributeName = "Attribute1"
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                }
+            };
+
+            var dataStoreContextMock = new Mock<IDataStoreContext>();
+            dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(10033660);
+            //dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(fileName);
+            dataStoreContextMock.SetupGet(c => c.ReturnCode).Returns("01");
+            dataStoreContextMock.SetupGet(c => c.CollectionYear).Returns("1819");
 
             try
             {
@@ -99,88 +184,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                         output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();
 
-                        var fundingOutput =
-                        new ALB_global
-                        {
-                            UKPRN = _ukprn,
-                            ALB_Learner = new List<ALB_Learner>
-                            {
-                                   new ALB_Learner
-                                   {
-                                       LearnRefNumber = "0ALB01",
-                                       UKPRN = _ukprn,
-                                       ALB_Learner_Period = new List<ALB_Learner_Period>
-                                       {
-                                           new ALB_Learner_Period
-                                           {
-                                               LearnRefNumber = "0ALB01",
-                                               UKPRN = _ukprn,
-                                               Period = 1,
-                                               ALBSeqNum = 1
-                                           }
-                                       },
-                                       ALB_Learner_PeriodisedValues = new List<ALB_Learner_PeriodisedValues>
-                                       {
-                                           new ALB_Learner_PeriodisedValues
-                                           {
-                                               LearnRefNumber = "0ALB01",
-                                               UKPRN = _ukprn,
-                                               AttributeName = "ALBSeqNum",
-                                               Period_1 = 1.0m,
-                                               Period_2 = 1.0m,
-                                               Period_3 = 1.0m,
-                                               Period_4 = 1.0m,
-                                               Period_5 = 1.0m,
-                                               Period_6 = 1.0m,
-                                               Period_7 = 1.0m,
-                                               Period_8 = 1.0m,
-                                               Period_9 = 1.0m,
-                                               Period_10 = 1.0m,
-                                               Period_11 = 1.0m,
-                                               Period_12 = 1.0m,
-                                           }
-                                       },
-                                       ALB_LearningDelivery = new List<ALB_LearningDelivery>
-                                       {
-                                           new ALB_LearningDelivery
-                                           {
-                                               UKPRN = _ukprn,
-                                               LearnRefNumber = "0ALB01",
-                                               AimSeqNumber = 1,
-                                               ALB_LearningDelivery_Period = new List<ALB_LearningDelivery_Period>
-                                               {
-                                                   new ALB_LearningDelivery_Period
-                                                   {
-                                                       UKPRN = _ukprn,
-                                                       LearnRefNumber = "0ALB01",
-                                                       AimSeqNumber = 1,
-                                                       Period = 1
-                                                   }
-                                               },
-                                               ALB_LearningDelivery_PeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>
-                                               {
-                                                   new ALB_LearningDelivery_PeriodisedValues
-                                                   {
-                                                       UKPRN = _ukprn,
-                                                       LearnRefNumber = "0ALB01",
-                                                       AimSeqNumber = 1,
-                                                       AttributeName = "Attribute1"
-                                                   }
-                                               }
-                                           }
-                                       }
-                                   }
-                            }
-                        };
-
-                        var global = fundingOutput;
-                        var learners = fundingOutput.ALB_Learner;
-                        var learnerPeriods = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_Period);
-                        var learnerPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_PeriodisedValues);
-                        var learningDeliveries = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery);
-                        var learningDeliveryPeriod = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_Period));
-                        var learningDeliveryPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_PeriodisedValues));
-
                         IALBMapper albMapperMock = new ALBMapper();
                         IBulkInsert bulkInsert = new BulkInsert();
 
@@ -190,8 +193,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                         output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();
 
-                        // StoreValidationOutput storeValidationOutput = new StoreValidationOutput(null, validationErrorsService.Object);
-                        // await storeValidationOutput.StoreAsync(dataStoreContext, transaction, ukPrn, message, cancellationToken);
                         output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();
 
@@ -220,6 +221,28 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 
                         output.WriteLine($"Assert: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();
+
+                        using (SqlConnection connection2 = new SqlConnection(ConfigurationManager.AppSettings["Fm36HistoryTestConnectionString"]))
+                        {
+                            await connection2.OpenAsync();
+
+                            var storeFM36HistoryClear = new StoreFM36HistoryClear();
+                            await storeFM36HistoryClear.ClearAsync(dataStoreContextMock.Object, connection2, cancellationToken);
+
+                            using (SqlCommand sqlCommand =
+                               new SqlCommand($"SELECT Count(LearnRefNumber) FROM dbo.AppsEarningsHistory", connection2))
+                            {
+                                Assert.Equal(0, sqlCommand.ExecuteScalar());
+                            }
+
+                            await StoreService.StoreAsync(dataStoreContextMock.Object, connection2, _fundingOutputs, cancellationToken);
+
+                            using (SqlCommand sqlCommand =
+                                new SqlCommand($"SELECT Count(LearnRefNumber) FROM dbo.AppsEarningsHistory", connection2))
+                            {
+                                Assert.Equal(1, sqlCommand.ExecuteScalar());
+                            }
+                        }
                     }
 
                     scope.Complete();
@@ -346,6 +369,56 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             output.WriteLine($"Moq: {stopwatch.ElapsedMilliseconds}");
 
             return new Tuple<Message, ALBGlobal, ValidationErrorDto[], IDataStoreContext>(message, fundingOutputs, validationErrorDtos, dataStoreContextMock.Object);
+        }
+
+        private static StoreFM36History StoreFM36HistorySetup()
+        {
+            var historyOutput = new List<AppsEarningsHistory>
+            {
+                new AppsEarningsHistory
+                {
+                    UKPRN = 10033660,
+                    CollectionReturnCode = "R01",
+                    CollectionYear = "1819",
+                    LatestInYear = true,
+                    LearnRefNumber = "3DOB01",
+                    AppIdentifier = "25-5",
+                    AppProgCompletedInTheYearInput = false,
+                    BalancingProgAimPaymentsInTheYear = 0.0m,
+                    CompletionProgaimPaymentsInTheYear = 0.0m,
+                    DaysInYear = 274,
+                    HistoricEffectiveTNPStartDateInput = new System.DateTime(2018, 07, 31),
+                    HistoricEmpIdEndWithinYear = 914429647,
+                    HistoricEmpIdStartWithinYear = 914429647,
+                    FworkCode = null,
+                    HistoricLearner1618StartInput = true,
+                    OnProgProgAimPaymentsInTheYear = 3000.0m,
+                    HistoricPMRAmount = 0.0m,
+                    ProgrammeStartDateIgnorePathway = new System.DateTime(2018, 10, 31),
+                    ProgrammeStartDateMatchPathway = new System.DateTime(2018, 10, 31),
+                    ProgType = 25,
+                    PwayCode = null,
+                    STDCode = 5,
+                    HistoricTNP1Input = 10500.0m,
+                    HistoricTNP2Input = 0.0m,
+                    HistoricTNP3Input = 0.0m,
+                    HistoricTNP4Input = 0.0m,
+                    HistoricTotal1618UpliftPaymentsInTheYearInput = 0.0m,
+                    TotalProgAimPaymentsInTheYear = 3000.0m,
+                    ULN = 9900278304,
+                    UptoEndDate = new System.DateTime(2018, 07, 31),
+                    HistoricVirtualTNP3EndOfTheYearInput = 0.0m,
+                    HistoricVirtualTNP4EndOfTheYearInput = 0.0m,
+                    HistoricLearnDelProgEarliestACT2DateInput = new System.DateTime(2018, 10, 31),
+                }
+            };
+
+            var fm36HistoryMapperMock = new Mock<IFM36HistoryMapper>();
+            IBulkInsert bulkInsert = new BulkInsert();
+
+            fm36HistoryMapperMock.Setup(fm => fm.MapAppsEarningsHistory(_fundingOutputs, It.IsAny<string>(), It.IsAny<string>())).Returns(historyOutput);
+
+            return new StoreFM36History(fm36HistoryMapperMock.Object, bulkInsert);
         }
     }
 }

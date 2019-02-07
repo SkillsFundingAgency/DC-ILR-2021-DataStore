@@ -8,10 +8,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
     public sealed class StoreFM36HistoryClear : IStoreFM36HistoryClear
     {
-        public async Task ClearAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
             using (SqlCommand sqlCommand =
-                    new SqlCommand("[dbo].[PrepareForNewData]", sqlTransaction.Connection, sqlTransaction))
+                    new SqlCommand("[dbo].[PrepareForNewData]", sqlConnection))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add("@pCollectionYear", SqlDbType.Int).Value = dataStoreContext.CollectionYear;

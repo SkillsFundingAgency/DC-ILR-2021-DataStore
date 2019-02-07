@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _fm25Mapper = fm25Mapper;
         }
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, FM25Global fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection sqlConnection, FM25Global fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -39,11 +39,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             var fm25_35learnerPeriod = _fm25Mapper.MapFM25_35_LearnerPeriod(fundingOutput);
             var fm25_35learnerPeriodisedValues = _fm25Mapper.MapFM25_35_LearnerPeriodisedValues(fundingOutput);
 
-            await _bulkInsert.Insert(FM25Constants.FM25_global, global, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM25Constants.FM25_Learner, learners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM25Constants.FM25_FM35_global, fm25_35global, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM25Constants.FM25_FM35_Learner_Period, fm25_35learnerPeriod, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM25Constants.FM25_FM35_Learner_PeriodisedValues, fm25_35learnerPeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM25Constants.FM25_global, global, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM25Constants.FM25_Learner, learners, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM25Constants.FM25_FM35_global, fm25_35global, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM25Constants.FM25_FM35_Learner_Period, fm25_35learnerPeriod, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM25Constants.FM25_FM35_Learner_PeriodisedValues, fm25_35learnerPeriodisedValues, sqlConnection, cancellationToken);
         }
     }
 }

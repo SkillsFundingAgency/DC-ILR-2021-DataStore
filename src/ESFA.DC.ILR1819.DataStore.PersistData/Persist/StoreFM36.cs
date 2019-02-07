@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _fm36Mapper = fm36Mapper;
         }
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, FM36Global fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection sqlConnection, FM36Global fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -43,15 +43,15 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             var priceEpisodePeriod = _fm36Mapper.MapPriceEpisodePeriods(fundingOutput);
             var priceEpisodePeriodisedValues = _fm36Mapper.MapPriceEpisodePeriodisedValues(fundingOutput);
 
-            await _bulkInsert.Insert(FM36Constants.FM36_global, global, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_Learner, learners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery, learningDeliveries, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_Period, learningDeliveryPeriod, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_PeriodisedTextValues, learningDeliveryPeriodisedTextValues, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisodes, priceEpisodes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisode_Period, priceEpisodePeriod, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisode_PeriodisedValues, priceEpisodePeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_global, global, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_Learner, learners, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery, learningDeliveries, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_Period, learningDeliveryPeriod, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_LearningDelivery_PeriodisedTextValues, learningDeliveryPeriodisedTextValues, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisodes, priceEpisodes, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisode_Period, priceEpisodePeriod, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM36Constants.FM36_PriceEpisode_PeriodisedValues, priceEpisodePeriodisedValues, sqlConnection, cancellationToken);
         }
     }
 }

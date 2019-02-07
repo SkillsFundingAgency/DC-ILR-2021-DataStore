@@ -17,11 +17,11 @@ using Xunit;
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 {
     [Collection("StoreData Tests")]
-    public class TestStoreFM36History : AbstractFm36HistoryStoreTest<FM36Global>
+    public class TestStoreFM36History : AbstractFm36HistoryStoreTest
     {
         private static readonly int _ukprn = 10033660;
         private static readonly FM36Global _fundingOutputs = new JsonSerializationService().Deserialize<FM36Global>(File.ReadAllText(@"JsonOutputs/Fm36.json"));
-        private static readonly IStoreFM36HistoryService<FM36Global> StoreService = StoreFM36HistorySetup();
+        private static readonly IStoreFM36HistoryService StoreService = StoreFM36HistorySetup();
 
         public TestStoreFM36History()
           : base(StoreService)

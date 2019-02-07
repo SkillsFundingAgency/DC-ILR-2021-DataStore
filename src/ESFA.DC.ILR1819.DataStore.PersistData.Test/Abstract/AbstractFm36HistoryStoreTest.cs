@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
+using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
@@ -14,56 +16,18 @@ using Moq;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
 {
-    public abstract class AbstractFm36HistoryStoreTest<T>
+    public abstract class AbstractFm36HistoryStoreTest
     {
-        private readonly IStoreFM36HistoryService<T> _storeService;
+        private readonly IStoreFM36HistoryService _storeService;
         private readonly IStoreFM36HistoryClear _storeClear = new StoreFM36HistoryClear();
         private readonly IJsonSerializationService _jsonSerializationService = new JsonSerializationService();
 
-        protected AbstractFm36HistoryStoreTest(IStoreFM36HistoryService<T> storeService)
+        protected AbstractFm36HistoryStoreTest(IStoreFM36HistoryService storeService)
         {
             _storeService = storeService;
         }
 
-        public async Task StoreTestAsync(int ukprn, string fileName, string outputKey)
-        {
-            CancellationToken cancellationToken = CancellationToken.None;
-            var keyValuePersistenceServiceMock = new Mock<IKeyValuePersistenceService>();
-            var serializationServiceMock = new Mock<ISerializationService>();
-            var dataStoreContextMock = new Mock<IDataStoreContext>();
-            dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(ukprn);
-            dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(fileName);
-            dataStoreContextMock.SetupGet(c => c.ReturnCode).Returns("01");
-            dataStoreContextMock.SetupGet(c => c.CollectionYear).Returns("1819");
-
-            var outputModel = ReadAndDeserialiseAsync<T>(fileName, outputKey, keyValuePersistenceServiceMock, serializationServiceMock);
-
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["Fm36HistoryTestConnectionString"]))
-            {
-                SqlTransaction transaction = null;
-                try
-                {
-                    await connection.OpenAsync(cancellationToken);
-                    transaction = connection.BeginTransaction();
-
-                    await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
-
-                    await _storeService.StoreAsync(dataStoreContextMock.Object, transaction, outputModel, cancellationToken);
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction?.Rollback();
-                    throw;
-                }
-
-                ExecuteAssertions(outputModel, ukprn, connection);
-            }
-        }
-
-        public async Task StoreTestAsync(int ukprn, T model, string fileName)
+        public async Task StoreTestAsync(int ukprn, FM36Global model, string fileName)
         {
             CancellationToken cancellationToken = CancellationToken.None;
             var dataStoreContextMock = new Mock<IDataStoreContext>();
@@ -72,32 +36,30 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
             dataStoreContextMock.SetupGet(c => c.ReturnCode).Returns("01");
             dataStoreContextMock.SetupGet(c => c.CollectionYear).Returns("1819");
 
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["Fm36HistoryTestConnectionString"]))
+            try
             {
-                SqlTransaction transaction = null;
-                try
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    await connection.OpenAsync(cancellationToken);
-                    transaction = connection.BeginTransaction();
+                    using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["Fm36HistoryTestConnectionString"]))
+                    {
+                        await connection.OpenAsync();
 
-                    await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
+                        await _storeClear.ClearAsync(dataStoreContextMock.Object, connection, cancellationToken);
+                        await _storeService.StoreAsync(dataStoreContextMock.Object, connection, model, cancellationToken);
 
-                    await _storeService.StoreAsync(dataStoreContextMock.Object, transaction, model, cancellationToken);
+                        ExecuteAssertions(model, ukprn, connection);
+                    }
 
-                    transaction.Commit();
+                    scope.Complete();
                 }
-                catch (Exception ex)
-                {
-                    transaction?.Rollback();
-                    throw;
-                }
-
-                ExecuteAssertions(model, ukprn, connection);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
-        protected abstract void ExecuteAssertions(T outputModel, int ukprn, SqlConnection sqlConnection);
+        protected abstract void ExecuteAssertions(FM36Global outputModel, int ukprn, SqlConnection sqlConnection);
 
         private T ReadAndDeserialiseAsync<T>(
             string filename,

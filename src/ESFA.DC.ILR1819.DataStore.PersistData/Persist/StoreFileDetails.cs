@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
             await StoreAsync(
                 dataStoreContext.OriginalFilename,
@@ -28,7 +28,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 dataStoreContext.InvalidLearnRefNumbersCount,
                 dataStoreContext.ValidationTotalErrorCount,
                 dataStoreContext.ValidationTotalWarningCount,
-                sqlTransaction,
+                sqlConnection,
                 cancellationToken);
         }
 
@@ -41,7 +41,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             int invalidLearnRefNumbersCount,
             int validationTotalErrorCount,
             int validationTotalWarningCount,
-            SqlTransaction sqlTransaction,
+            SqlConnection sqlConnection,
             CancellationToken cancellationToken)
         {
             FileDetail fileDetails = new FileDetail
@@ -74,7 +74,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 return;
             }
 
-            using (SqlCommand sqlCommand = new SqlCommand(insertFileDetails, sqlTransaction.Connection, sqlTransaction))
+            using (SqlCommand sqlCommand = new SqlCommand(insertFileDetails, sqlConnection))
             {
                 processingData.FileDetailsID = (long)await sqlCommand.ExecuteScalarAsync(cancellationToken);
             }
@@ -86,7 +86,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 return;
             }
 
-            using (SqlCommand sqlCommand = new SqlCommand(insertProcessingData, sqlTransaction.Connection, sqlTransaction))
+            using (SqlCommand sqlCommand = new SqlCommand(insertProcessingData, sqlConnection))
             {
                 await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }

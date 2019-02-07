@@ -8,7 +8,7 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test.Stubs
 {
     public class ModelServiceStub : IFundModelService
     {
-        public Task GetAndStoreFundModel(IDataStoreContext dataStoreContext, SqlTransaction transaction, CancellationToken cancellationToken)
+        public Task GetAndStoreFundModel(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

@@ -11,9 +11,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
     public sealed class BulkInsert : IBulkInsert
     {
-        public async Task Insert<T>(string table, IEnumerable<T> source, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
-            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlTransaction.Connection, sqlTransaction))
+            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection))
             {
                 try
                 {
@@ -51,7 +51,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection, SqlTransaction sqlTransaction)
+        // transaction is null in order to use existing Connection with Options overload.
+        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection, SqlTransaction sqlTransaction = null)
         {
             return new SqlBulkCopy(sqlConnection, SqlBulkCopyOptions.Default, sqlTransaction)
             {
