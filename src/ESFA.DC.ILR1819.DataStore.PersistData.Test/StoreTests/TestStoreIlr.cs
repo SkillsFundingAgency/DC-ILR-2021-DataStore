@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
@@ -19,6 +20,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
 using ESFA.DC.IO.Interfaces;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
@@ -45,6 +47,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
         public async Task StoreIlr(string ilrFilename, string albDataFilename, string valErrorsFilename, int ukPrn, string[] validLearners)
         {
             CancellationToken cancellationToken = default(CancellationToken);
+            var logger = new Mock<ILogger>();
             var storage = new Mock<IKeyValuePersistenceService>();
             var persist = new Mock<IKeyValuePersistenceService>();
             var serialise = new Mock<ISerializationService>();
@@ -67,176 +70,164 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             var dataStoreContext = readAndSerialise.Item4;
             message = readAndSerialise.Item1;
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
+            try
             {
-                SqlTransaction transaction = null;
-                try
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    stopwatch.Restart();
-                    await connection.OpenAsync(cancellationToken);
-                    transaction = connection.BeginTransaction();
-
-                    output.WriteLine($"SQL Connect: {stopwatch.ElapsedMilliseconds}");
-                    stopwatch.Restart();
-
-                    StoreClear storeClear = new StoreClear();
-                    await storeClear.ClearAsync(dataStoreContext, transaction, cancellationToken);
-
-                    output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
-                    stopwatch.Restart();
-
-                    StoreFileDetails storeFileDetails = new StoreFileDetails(dateTimeProviderMock.Object);
-                    await storeFileDetails.StoreAsync(dataStoreContext, transaction, cancellationToken);
-
-                    output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
-                    stopwatch.Restart();
-
-                    StoreIlr storeIlr = new StoreIlr(validLearnersBuilder, invalidLearnersBuilder);
-                    await storeIlr.StoreAsync(dataStoreContext, connection, transaction, message, validLearners.ToList(), cancellationToken);
-
-                    output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
-                    stopwatch.Restart();
-
-                    var fundingOutput =
-                    new ALB_global
+                    using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
                     {
-                        UKPRN = _ukprn,
-                        ALB_Learner = new List<ALB_Learner>
+                        await connection.OpenAsync();
+
+                        output.WriteLine($"SQL Connect: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
+
+                        StoreClear storeClear = new StoreClear();
+                        await storeClear.ClearAsync(dataStoreContext, connection, cancellationToken);
+
+                        output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
+                        stopwatch.Restart();
+
+                        StoreFileDetails storeFileDetails = new StoreFileDetails(dateTimeProviderMock.Object);
+                        await storeFileDetails.StoreAsync(dataStoreContext, connection, cancellationToken);
+
+                        output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
+
+                        StoreIlr storeIlr = new StoreIlr(logger.Object, validLearnersBuilder, invalidLearnersBuilder);
+                        await storeIlr.StoreAsync(dataStoreContext, connection, message, validLearners.ToList(), cancellationToken);
+
+                        output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
+
+                        var fundingOutput =
+                        new ALB_global
                         {
-                               new ALB_Learner
-                               {
-                                   LearnRefNumber = "0ALB01",
-                                   UKPRN = _ukprn,
-                                   ALB_Learner_Period = new List<ALB_Learner_Period>
+                            UKPRN = _ukprn,
+                            ALB_Learner = new List<ALB_Learner>
+                            {
+                                   new ALB_Learner
                                    {
-                                       new ALB_Learner_Period
+                                       LearnRefNumber = "0ALB01",
+                                       UKPRN = _ukprn,
+                                       ALB_Learner_Period = new List<ALB_Learner_Period>
                                        {
-                                           LearnRefNumber = "0ALB01",
-                                           UKPRN = _ukprn,
-                                           Period = 1,
-                                           ALBSeqNum = 1
-                                       }
-                                   },
-                                   ALB_Learner_PeriodisedValues = new List<ALB_Learner_PeriodisedValues>
-                                   {
-                                       new ALB_Learner_PeriodisedValues
-                                       {
-                                           LearnRefNumber = "0ALB01",
-                                           UKPRN = _ukprn,
-                                           AttributeName = "ALBSeqNum",
-                                           Period_1 = 1.0m,
-                                           Period_2 = 1.0m,
-                                           Period_3 = 1.0m,
-                                           Period_4 = 1.0m,
-                                           Period_5 = 1.0m,
-                                           Period_6 = 1.0m,
-                                           Period_7 = 1.0m,
-                                           Period_8 = 1.0m,
-                                           Period_9 = 1.0m,
-                                           Period_10 = 1.0m,
-                                           Period_11 = 1.0m,
-                                           Period_12 = 1.0m,
-                                       }
-                                   },
-                                   ALB_LearningDelivery = new List<ALB_LearningDelivery>
-                                   {
-                                       new ALB_LearningDelivery
-                                       {
-                                           UKPRN = _ukprn,
-                                           LearnRefNumber = "0ALB01",
-                                           AimSeqNumber = 1,
-                                           ALB_LearningDelivery_Period = new List<ALB_LearningDelivery_Period>
+                                           new ALB_Learner_Period
                                            {
-                                               new ALB_LearningDelivery_Period
-                                               {
-                                                   UKPRN = _ukprn,
-                                                   LearnRefNumber = "0ALB01",
-                                                   AimSeqNumber = 1,
-                                                   Period = 1
-                                               }
-                                           },
-                                           ALB_LearningDelivery_PeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>
+                                               LearnRefNumber = "0ALB01",
+                                               UKPRN = _ukprn,
+                                               Period = 1,
+                                               ALBSeqNum = 1
+                                           }
+                                       },
+                                       ALB_Learner_PeriodisedValues = new List<ALB_Learner_PeriodisedValues>
+                                       {
+                                           new ALB_Learner_PeriodisedValues
                                            {
-                                               new ALB_LearningDelivery_PeriodisedValues
+                                               LearnRefNumber = "0ALB01",
+                                               UKPRN = _ukprn,
+                                               AttributeName = "ALBSeqNum",
+                                               Period_1 = 1.0m,
+                                               Period_2 = 1.0m,
+                                               Period_3 = 1.0m,
+                                               Period_4 = 1.0m,
+                                               Period_5 = 1.0m,
+                                               Period_6 = 1.0m,
+                                               Period_7 = 1.0m,
+                                               Period_8 = 1.0m,
+                                               Period_9 = 1.0m,
+                                               Period_10 = 1.0m,
+                                               Period_11 = 1.0m,
+                                               Period_12 = 1.0m,
+                                           }
+                                       },
+                                       ALB_LearningDelivery = new List<ALB_LearningDelivery>
+                                       {
+                                           new ALB_LearningDelivery
+                                           {
+                                               UKPRN = _ukprn,
+                                               LearnRefNumber = "0ALB01",
+                                               AimSeqNumber = 1,
+                                               ALB_LearningDelivery_Period = new List<ALB_LearningDelivery_Period>
                                                {
-                                                   UKPRN = _ukprn,
-                                                   LearnRefNumber = "0ALB01",
-                                                   AimSeqNumber = 1,
-                                                   AttributeName = "Attribute1"
+                                                   new ALB_LearningDelivery_Period
+                                                   {
+                                                       UKPRN = _ukprn,
+                                                       LearnRefNumber = "0ALB01",
+                                                       AimSeqNumber = 1,
+                                                       Period = 1
+                                                   }
+                                               },
+                                               ALB_LearningDelivery_PeriodisedValues = new List<ALB_LearningDelivery_PeriodisedValues>
+                                               {
+                                                   new ALB_LearningDelivery_PeriodisedValues
+                                                   {
+                                                       UKPRN = _ukprn,
+                                                       LearnRefNumber = "0ALB01",
+                                                       AimSeqNumber = 1,
+                                                       AttributeName = "Attribute1"
+                                                   }
                                                }
                                            }
                                        }
                                    }
-                               }
+                            }
+                        };
+
+                        var global = fundingOutput;
+                        var learners = fundingOutput.ALB_Learner;
+                        var learnerPeriods = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_Period);
+                        var learnerPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_PeriodisedValues);
+                        var learningDeliveries = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery);
+                        var learningDeliveryPeriod = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_Period));
+                        var learningDeliveryPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_PeriodisedValues));
+
+                        IALBMapper albMapperMock = new ALBMapper();
+                        IBulkInsert bulkInsert = new BulkInsert();
+
+                        StoreALB storeRuleAlb = new StoreALB(albMapperMock, bulkInsert);
+                        await storeRuleAlb.StoreAsync(connection, readAndSerialise.Item2, cancellationToken);
+
+                        output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
+
+                        // StoreValidationOutput storeValidationOutput = new StoreValidationOutput(null, validationErrorsService.Object);
+                        // await storeValidationOutput.StoreAsync(dataStoreContext, transaction, ukPrn, message, cancellationToken);
+                        output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
+
+                        output.WriteLine($"Commit: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
+
+                        using (SqlCommand sqlCommand =
+                            new SqlCommand($"SELECT Count(LearnRefNumber) FROM Valid.Learner Where UKPRN = {ukPrn}", connection))
+                        {
+                            Assert.Equal(validLearners.Length, sqlCommand.ExecuteScalar());
                         }
-                    };
 
-                    var global = fundingOutput;
-                    var learners = fundingOutput.ALB_Learner;
-                    var learnerPeriods = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_Period);
-                    var learnerPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_PeriodisedValues);
-                    var learningDeliveries = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery);
-                    var learningDeliveryPeriod = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_Period));
-                    var learningDeliveryPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(ld => ld.ALB_LearningDelivery.SelectMany(p => p.ALB_LearningDelivery_PeriodisedValues));
+                        using (SqlCommand sqlCommand =
+                            new SqlCommand(
+                                $"SELECT Count(LearnRefNumber) FROM Invalid.Learner Where UKPRN = {ukPrn}",
+                                connection))
+                        {
+                            Assert.Equal(message?.Learner.Length - validLearners.Length, sqlCommand.ExecuteScalar());
+                        }
 
-                    IALBMapper albMapperMock = new ALBMapper();
-                    IBulkInsert bulkInsert = new BulkInsert();
+                        using (SqlCommand sqlCommand =
+                            new SqlCommand($"SELECT Count(LearnRefNumber) FROM Rulebase.ALB_Learner Where UKPRN = {ukPrn}", connection))
+                        {
+                            Assert.Equal(4, sqlCommand.ExecuteScalar());
+                        }
 
-                    // albMapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
-                    // albMapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
-                    // albMapperMock.Setup(fm => fm.MapLearnerPeriods(_fundingOutputs)).Returns(learnerPeriods);
-                    // albMapperMock.Setup(fm => fm.MapLearnerPeriodisedValues(_fundingOutputs)).Returns(learnerPeriodisedValues);
-                    // albMapperMock.Setup(fm => fm.MapLearningDeliveries(_fundingOutputs)).Returns(learningDeliveries);
-                    // albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriods(_fundingOutputs)).Returns(learningDeliveryPeriod);
-                    // albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriodisedValues(_fundingOutputs)).Returns(learningDeliveryPeriodisedValues);
-                    StoreALB storeRuleAlb = new StoreALB(albMapperMock, bulkInsert);
-                    await storeRuleAlb.StoreAsync(transaction, readAndSerialise.Item2, cancellationToken);
-
-                    output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
-                    stopwatch.Restart();
-
-                    // StoreValidationOutput storeValidationOutput = new StoreValidationOutput(null, validationErrorsService.Object);
-                    // await storeValidationOutput.StoreAsync(dataStoreContext, transaction, ukPrn, message, cancellationToken);
-                    output.WriteLine($"Store Val: {stopwatch.ElapsedMilliseconds}");
-                    stopwatch.Restart();
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    output.WriteLine(ex.ToString());
-
-                    try
-                    {
-                        transaction?.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-                        output.WriteLine(ex2.ToString());
+                        output.WriteLine($"Assert: {stopwatch.ElapsedMilliseconds}");
+                        stopwatch.Restart();
                     }
 
-                    Assert.True(false);
+                    scope.Complete();
                 }
-
-                output.WriteLine($"Commit: {stopwatch.ElapsedMilliseconds}");
-                stopwatch.Restart();
-
-                using (SqlCommand sqlCommand =
-                    new SqlCommand($"SELECT Count(LearnRefNumber) FROM Valid.Learner Where UKPRN = {ukPrn}", connection))
-                {
-                    Assert.Equal(validLearners.Length, sqlCommand.ExecuteScalar());
-                }
-
-                using (SqlCommand sqlCommand =
-                    new SqlCommand(
-                        $"SELECT Count(LearnRefNumber) FROM Invalid.Learner Where UKPRN = {ukPrn}",
-                        connection))
-                {
-                    Assert.Equal(message?.Learner.Length - validLearners.Length, sqlCommand.ExecuteScalar());
-                }
-
-                output.WriteLine($"Assert: {stopwatch.ElapsedMilliseconds}");
-                stopwatch.Restart();
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 

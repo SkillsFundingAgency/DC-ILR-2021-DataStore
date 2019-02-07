@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _albMapper = albMapper;
         }
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, ALBGlobal fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection sqlConnection, ALBGlobal fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -41,13 +41,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             var learningDeliveryPeriod = _albMapper.MapLearningDeliveryPeriods(fundingOutput);
             var learningDeliveryPeriodisedValues = _albMapper.MapLearningDeliveryPeriodisedValues(fundingOutput);
 
-            await _bulkInsert.Insert(ALBConstants.ALB_global, global, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(ALBConstants.ALB_Learner, learners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(ALBConstants.ALB_Learner_Period, learnerPeriods, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(ALBConstants.ALB_Learner_PeriodisedValues, learnerPeriodisedValues, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery, learningDeliveries, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery_Period, learningDeliveryPeriod, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_global, global, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_Learner, learners, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_Learner_Period, learnerPeriods, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_Learner_PeriodisedValues, learnerPeriodisedValues, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery, learningDeliveries, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery_Period, learningDeliveryPeriod, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlConnection, cancellationToken);
         }
     }
 }

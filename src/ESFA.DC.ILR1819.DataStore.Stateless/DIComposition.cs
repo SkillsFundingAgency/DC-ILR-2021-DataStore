@@ -193,13 +193,10 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<StoreFM36>().As<IStoreService<FM36Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM70>().As<IStoreService<FM70Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM81>().As<IStoreService<FM81Global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreFM36History>().As<IStoreFM36HistoryService<FM36Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36History>().As<IStoreFM36HistoryService>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<IlrTransactionController>().As<IIlrTransactionController>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM36HistoryTransactionController>().As<IFM36HistoryTransactionController>()
-               .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
+                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ILRProviderService>().As<IProviderService<Message>>()
                 .InstancePerLifetimeScope();

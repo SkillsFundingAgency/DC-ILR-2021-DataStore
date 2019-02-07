@@ -16,23 +16,20 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     /// </summary>
     public sealed class EntryPoint : IEntryPoint
     {
-        private readonly IIlrTransactionController _ilrPersistence;
-        private readonly IFM36HistoryTransactionController _fm36HistoryPersistence;
+        private readonly ITransactionController _transaction;
         private readonly IProviderService<Message> _ilrProviderService;
         private readonly IProviderService<FM36Global> _fm36ProviderService;
         private readonly IValidLearnerProviderService _validLearnerProviderService;
         private readonly ILogger _logger;
 
         public EntryPoint(
-            IIlrTransactionController ilrPersistence,
-            IFM36HistoryTransactionController fm36HistoryPersistence,
+            ITransactionController transaction,
             IProviderService<Message> ilrProviderService,
             IProviderService<FM36Global> fm36ProviderService,
             IValidLearnerProviderService validLearnerProviderService,
             ILogger logger)
         {
-            _ilrPersistence = ilrPersistence;
-            _fm36HistoryPersistence = fm36HistoryPersistence;
+            _transaction = transaction;
             _ilrProviderService = ilrProviderService;
             _fm36ProviderService = fm36ProviderService;
             _validLearnerProviderService = validLearnerProviderService;
@@ -72,15 +69,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     return false;
                 }
 
-                if (!await _ilrPersistence.WriteToDeds(dataStoreContext, cancellationToken, messageTask.Result, validLearnersTask.Result))
+                if (!await _transaction.WriteToDeds(dataStoreContext, cancellationToken, messageTask.Result, validLearnersTask.Result, fm36GlobalTask.Result))
                 {
-                    _logger.LogError("Write to ILR DataStore failed");
-                    return false;
-                }
-
-                if (!await _fm36HistoryPersistence.WriteToDeds(dataStoreContext, cancellationToken, fm36GlobalTask.Result))
-                {
-                    _logger.LogError("Write to AppEarnHistory DataStore failed");
+                    _logger.LogError("Write to DataStore failed");
                     return false;
                 }
 

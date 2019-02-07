@@ -11,7 +11,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
-    public class StoreFM36History : IStoreFM36HistoryService<FM36Global>
+    public class StoreFM36History : IStoreFM36HistoryService
     {
         private readonly IFM36HistoryMapper _fm36HistoryMapper;
         private readonly IBulkInsert _bulkInsert;
@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _fm36HistoryMapper = fm36HistoryMapper;
         }
 
-        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, FM36Global fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, FM36Global fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -40,7 +40,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 
             var appsEarningsHistories = _fm36HistoryMapper.MapAppsEarningsHistory(fundingOutput, dataStoreContext.ReturnCode, dataStoreContext.CollectionYear);
 
-            await _bulkInsert.Insert(FM36HistoryConstants.AppEarnHistory, appsEarningsHistories, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM36HistoryConstants.AppEarnHistory, appsEarningsHistories, sqlConnection, cancellationToken);
         }
     }
 }

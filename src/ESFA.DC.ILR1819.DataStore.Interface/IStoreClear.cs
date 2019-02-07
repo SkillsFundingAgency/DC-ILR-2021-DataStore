@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IStoreClear
     {
-        Task ClearAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+        Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken);
     }
 }

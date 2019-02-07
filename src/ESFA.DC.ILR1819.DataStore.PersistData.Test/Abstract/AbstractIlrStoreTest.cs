@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
@@ -36,28 +37,27 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
 
             var outputModel = ReadAndDeserialiseAsync<T>(fileName, outputKey, keyValuePersistenceServiceMock, serializationServiceMock);
 
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
+            try
             {
-                SqlTransaction transaction = null;
-                try
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    await connection.OpenAsync(cancellationToken);
-                    transaction = connection.BeginTransaction();
+                    using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
+                    {
+                        await sqlConnection.OpenAsync();
 
-                    await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
+                        await _storeClear.ClearAsync(dataStoreContextMock.Object, sqlConnection, cancellationToken);
 
-                    await _storeService.StoreAsync(transaction, outputModel, cancellationToken);
+                        await _storeService.StoreAsync(sqlConnection, outputModel, cancellationToken);
 
-                    transaction.Commit();
+                        ExecuteAssertions(outputModel, ukprn, sqlConnection);
+                    }
+
+                    scope.Complete();
                 }
-                catch (Exception ex)
-                {
-                    transaction?.Rollback();
-                    throw;
-                }
-
-                ExecuteAssertions(outputModel, ukprn, connection);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
@@ -68,28 +68,27 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.Abstract
             dataStoreContextMock.SetupGet(c => c.Ukprn).Returns(ukprn);
             dataStoreContextMock.SetupGet(c => c.OriginalFilename).Returns(fileName);
 
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
+            try
             {
-                SqlTransaction transaction = null;
-                try
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    await connection.OpenAsync(cancellationToken);
-                    transaction = connection.BeginTransaction();
+                    using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
+                    {
+                        await sqlConnection.OpenAsync();
 
-                    await _storeClear.ClearAsync(dataStoreContextMock.Object, transaction, cancellationToken);
+                        await _storeClear.ClearAsync(dataStoreContextMock.Object, sqlConnection, cancellationToken);
 
-                    await _storeService.StoreAsync(transaction, model, cancellationToken);
+                        await _storeService.StoreAsync(sqlConnection, model, cancellationToken);
 
-                    transaction.Commit();
+                        ExecuteAssertions(model, ukprn, sqlConnection);
+                    }
+
+                    scope.Complete();
                 }
-                catch (Exception ex)
-                {
-                    transaction?.Rollback();
-                    throw;
-                }
-
-                ExecuteAssertions(model, ukprn, connection);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 

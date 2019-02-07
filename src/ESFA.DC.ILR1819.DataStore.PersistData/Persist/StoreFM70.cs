@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _fm70Mapper = fm70Mapper;
         }
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, FM70Global fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection sqlConnection, FM70Global fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -41,13 +41,13 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             var learningDeliveryDeliverablePeriods = _fm70Mapper.MapLearningDeliveryDeliverablePeriods(fundingOutput);
             var learningDeliveryDeliverablePeriodisedValues = _fm70Mapper.MapLearningDeliveryDeliverablePeriodisedValues(fundingOutput);
 
-            await _bulkInsert.Insert(FM70Constants.FM70_global, global, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM70Constants.FM70_Learner, learners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM70Constants.FM70_DPOutcome, learnerDPOutcomes, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM70Constants.FM70_LearningDelivery, learningDeliveries, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable, learningDeliveryDeliverables, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable_Period, learningDeliveryDeliverablePeriods, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable_PeriodisedValues, learningDeliveryDeliverablePeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_global, global, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_Learner, learners, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_DPOutcome, learnerDPOutcomes, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDelivery, learningDeliveries, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable, learningDeliveryDeliverables, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable_Period, learningDeliveryDeliverablePeriods, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM70Constants.FM70_LearningDeliveryDeliverable_PeriodisedValues, learningDeliveryDeliverablePeriodisedValues, sqlConnection, cancellationToken);
         }
     }
 }

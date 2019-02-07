@@ -7,6 +7,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 {
     public interface IStoreValidationOutput
     {
-        Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken);
+        Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, int ukPrn, IMessage ilr, CancellationToken cancellationToken);
     }
 }

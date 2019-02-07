@@ -32,7 +32,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _validationErrors = validationErrors;
         }
 
-        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlTransaction sqlTransaction, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
+        public async Task StoreAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, int ukPrn, IMessage ilr, CancellationToken cancellationToken)
         {
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 4");
 
@@ -51,7 +51,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 
             _logger?.LogDebug("StoreValidationOutput.StoreAsync 7");
 
-            await _bulkInsert.Insert("dbo.ValidationError", validationErrors, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert("dbo.ValidationError", validationErrors, sqlConnection, cancellationToken);
 
             _logger?.LogDebug("StoreValidationOutput.StoreAsync done");
         }

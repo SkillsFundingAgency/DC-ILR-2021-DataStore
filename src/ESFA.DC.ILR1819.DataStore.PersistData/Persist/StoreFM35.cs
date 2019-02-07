@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             _fm35Mapper = fm35Mapper;
         }
 
-        public async Task StoreAsync(SqlTransaction sqlTransaction, FM35Global fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(SqlConnection sqlConnection, FM35Global fundingOutput, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -39,11 +39,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             var learningDeliveryPeriod = _fm35Mapper.MapLearningDeliveryPeriods(fundingOutput);
             var learningDeliveryPeriodisedValues = _fm35Mapper.MapLearningDeliveryPeriodisedValues(fundingOutput);
 
-            await _bulkInsert.Insert(FM35Constants.FM35_global, global, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_Learner, learners, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery, learningDeliveries, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_Period, learningDeliveryPeriod, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_global, global, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_Learner, learners, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery, learningDeliveries, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_Period, learningDeliveryPeriod, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlConnection, cancellationToken);
         }
     }
 }
