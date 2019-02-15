@@ -83,6 +83,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             catch (Exception ex)
             {
                 _logger.LogError($"DataStore callback exception {ex.Message}", ex);
+                throw;
             }
 
             return true;
