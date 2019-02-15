@@ -140,6 +140,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
             catch (TransactionAbortedException ex)
             {
                 _logger.LogError("Write to DEDS failed", ex);
+                throw;
             }
 
             return isSuccessful;
