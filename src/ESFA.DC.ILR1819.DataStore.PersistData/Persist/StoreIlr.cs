@@ -188,13 +188,12 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 return sourceFilesList;
             }
 
-            var sourceFilesArray = sourceFiles.ToArray();
-            var arraySize = sourceFilesArray.Length;
+            var i = 0;
 
-            for (var i = 0; i < arraySize; i++)
+            foreach (var sf in sourceFiles)
             {
-                var sf = sourceFilesArray[i];
-                sourceFilesList.Add(new EF.Invalid.SourceFile
+                sourceFilesList.Add(
+                new EF.Invalid.SourceFile
                 {
                     SourceFile_Id = i,
                     UKPRN = ukprn,
@@ -206,6 +205,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                     SoftwareSupplier = sf.SoftwareSupplier,
                     SourceFileName = sf.SourceFileName,
                 });
+
+                i++;
             }
 
             return sourceFilesList;
