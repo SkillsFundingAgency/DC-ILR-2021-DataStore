@@ -159,21 +159,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
                 }).ToList()
                 ?? new List<EF.Valid.SourceFile>();
 
-            var sourceFilesInvalid = ilr
-                .SourceFilesCollection?
-                .Select(sf => new EF.Invalid.SourceFile
-                {
-                    UKPRN = ilr.HeaderEntity.SourceEntity.UKPRN,
-                    DateTime = sf.DateTimeNullable,
-                    FilePreparationDate = sf.FilePreparationDate,
-                    Release = sf.Release,
-                    SerialNo = sf.SerialNo,
-                    SoftwarePackage = sf.SoftwarePackage,
-                    SoftwareSupplier = sf.SoftwareSupplier,
-                    SourceFileName = sf.SourceFileName,
-                })
-                .ToList()
-                ?? new List<EF.Invalid.SourceFile>();
+            var sourceFilesInvalid = BuildInvalidSourceFileCollection(ilr.SourceFilesCollection, ilr.LearningProviderEntity.UKPRN);
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -191,6 +177,39 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
             await _bulkInsert.Insert("Invalid.SourceFile", sourceFilesInvalid, sqlConnection, cancellationToken);
 
             _logger.LogDebug("WriteToDEDS - Process File Details Complete");
+        }
+
+        private List<EF.Invalid.SourceFile> BuildInvalidSourceFileCollection(IEnumerable<ISourceFile> sourceFiles, int ukprn)
+        {
+            var sourceFilesList = new List<EF.Invalid.SourceFile>();
+
+            if (sourceFiles == null)
+            {
+                return sourceFilesList;
+            }
+
+            var i = 0;
+
+            foreach (var sf in sourceFiles)
+            {
+                sourceFilesList.Add(
+                new EF.Invalid.SourceFile
+                {
+                    SourceFile_Id = i,
+                    UKPRN = ukprn,
+                    DateTime = sf.DateTimeNullable,
+                    FilePreparationDate = sf.FilePreparationDate,
+                    Release = sf.Release,
+                    SerialNo = sf.SerialNo,
+                    SoftwarePackage = sf.SoftwarePackage,
+                    SoftwareSupplier = sf.SoftwareSupplier,
+                    SourceFileName = sf.SourceFileName,
+                });
+
+                i++;
+            }
+
+            return sourceFilesList;
         }
 
         private async Task ProcessLearnerDestinationsAndProgressions(
