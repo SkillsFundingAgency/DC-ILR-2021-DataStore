@@ -1,11 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.FileService.Interface;
 using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Service;
-using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
@@ -13,37 +12,27 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
 {
     public class ILRProviderService : IProviderService<Message>
     {
-        private readonly IStreamableKeyValuePersistenceService _storage;
+        private readonly IFileService _fileService;
         private readonly IXmlSerializationService _xmlSerializationService;
         private readonly ILogger _logger;
 
         public ILRProviderService(
-            IStreamableKeyValuePersistenceService storage,
+            IFileService fileService,
             IXmlSerializationService xmlSerializationService,
             ILogger logger)
         {
-            _storage = storage;
+            _fileService = fileService;
             _xmlSerializationService = xmlSerializationService;
             _logger = logger;
         }
 
         public async Task<Message> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            Message message = null;
-
             try
             {
-                using (MemoryStream ms = new MemoryStream())
+                using (var stream = await _fileService.OpenReadStreamAsync(dataStoreContext.Filename, dataStoreContext.Container, cancellationToken))
                 {
-                    await _storage.GetAsync(dataStoreContext.Filename, ms, cancellationToken);
-
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return null;
-                    }
-
-                    ms.Seek(0, SeekOrigin.Begin);
-                    message = _xmlSerializationService.Deserialize<Message>(ms);
+                    return _xmlSerializationService.Deserialize<Message>(stream);
                 }
             }
             catch (Exception ex)
@@ -51,8 +40,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
                 _logger.LogError("Failed to retrieve and deserialise message", ex);
                 throw;
             }
-
-            return message;
         }
     }
 }

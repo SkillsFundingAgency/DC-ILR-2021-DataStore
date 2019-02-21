@@ -10,7 +10,7 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 {
-    public class FundModelService<T, O> : IFundModelService
+    public class FundModelService<T> : IFundModelService
     {
         private readonly IProviderService<T> _providerService;
         private readonly IStoreService<T> _storeService;

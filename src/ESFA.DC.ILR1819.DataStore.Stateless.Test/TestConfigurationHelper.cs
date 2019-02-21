@@ -18,8 +18,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                         AppEarnHistoryDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                         IlrValidationErrorsConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                     };
-                case "RedisSection":
-                    return (T)(object)new RedisOptions();
                 case "TopicAndTaskSection":
                     return (T)GetTopicsAndTasks();
                 case "AzureStorageSection":

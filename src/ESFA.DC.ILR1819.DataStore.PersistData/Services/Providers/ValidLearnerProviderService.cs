@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
         private readonly IJsonSerializationService _jsonSerializationService;
 
         public ValidLearnerProviderService(
-            [KeyFilter(PersistenceStorageKeys.Redis)] IKeyValuePersistenceService keyValuePersistenceService,
+            IKeyValuePersistenceService keyValuePersistenceService,
             IJsonSerializationService jsonSerializationService)
         {
             _keyValuePersistenceService = keyValuePersistenceService;

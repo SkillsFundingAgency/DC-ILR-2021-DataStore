@@ -6,6 +6,10 @@ using ESFA.DC.Auditing.Interface;
 using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.Data.ILR.ValidationErrors.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
+using ESFA.DC.FileService;
+using ESFA.DC.FileService.Config;
+using ESFA.DC.FileService.Config.Interface;
+using ESFA.DC.FileService.Interface;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -61,11 +65,17 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                         azureBlobStorageOptions.AzureBlobContainerName))
                 .As<IAzureStorageKeyValuePersistenceServiceConfig>().SingleInstance();
 
+            containerBuilder.Register(c =>
+                new AzureStorageFileServiceConfiguration()
+                {
+                    ConnectionString = azureBlobStorageOptions.AzureBlobConnectionString
+                })
+                .As<IAzureStorageFileServiceConfiguration>().SingleInstance();
+
+            containerBuilder.RegisterType<AzureStorageFileService>().As<IFileService>().InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Redis)
                 .As<IKeyValuePersistenceService>()
-                .As<IStreamableKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
             // register serialization
@@ -229,12 +239,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<FundModelService<ALBGlobal, IEnumerable<ALB_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FundModelService<FM25Global, IEnumerable<FM25_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FundModelService<FM35Global, IEnumerable<FM35_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FundModelService<FM36Global, IEnumerable<AEC_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FundModelService<FM70Global, IEnumerable<ESF_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FundModelService<FM81Global, IEnumerable<TBL_global>>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<ALBGlobal>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM25Global>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM35Global>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM36Global>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM70Global>>().As<IFundModelService>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FundModelService<FM81Global>>().As<IFundModelService>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FM81Mapper>().As<IFM81Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM70Mapper>().As<IFM70Mapper>().InstancePerLifetimeScope();

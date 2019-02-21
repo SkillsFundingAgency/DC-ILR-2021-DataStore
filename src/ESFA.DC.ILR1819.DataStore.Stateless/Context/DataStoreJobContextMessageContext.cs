@@ -24,6 +24,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Context
 
         public string OriginalFilename => _jobContextMessage.KeyValuePairs["OriginalFilename"].ToString();
 
+        public string Container => _jobContextMessage.KeyValuePairs["Container"].ToString();
+
         public string CollectionYear => _jobContextMessage.KeyValuePairs[JobContextMessageKey.CollectionYear].ToString();
 
         public string ReturnCode => _jobContextMessage.KeyValuePairs[JobContextMessageKey.ReturnPeriod].ToString();

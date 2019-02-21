@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
+using ESFA.DC.FileService.Interface;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
@@ -15,17 +16,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
     public class FM25ProviderService : AbstractProviderService<FM25Global>, IProviderService<FM25Global>
     {
         public FM25ProviderService(
-            [KeyFilter(PersistenceStorageKeys.Redis)]
-            IKeyValuePersistenceService redis,
+            IFileService fileService,
             IJsonSerializationService jsonSerializationService,
             ILogger logger)
-        : base(redis, jsonSerializationService, logger)
+            : base(fileService, jsonSerializationService, logger)
         {
         }
 
         public Task<FM25Global> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            return ProvideAsync(dataStoreContext.FundingFM25OutputKey, cancellationToken);
+            return ProvideAsync(dataStoreContext.FundingFM25OutputKey, dataStoreContext.Container, cancellationToken);
         }
     }
 }

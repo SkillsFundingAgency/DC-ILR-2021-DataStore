@@ -49,101 +49,67 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Services
 
         public async Task<bool> WriteToDeds(IDataStoreContext dataStoreContext, CancellationToken cancellationToken, Message message, List<string> validLearners, FM36Global fm36Global)
         {
-            bool isSuccessful = false;
-
-            try
+            // Create the TransactionScope to execute the commands, guaranteeing
+            // that both commands can commit or roll back as a single unit of work.
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(0, 25, 0), TransactionScopeAsyncFlowOption.Enabled))
             {
-                // Create the TransactionScope to execute the commands, guaranteeing
-                // that both commands can commit or roll back as a single unit of work.
-                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(0, 25, 0), TransactionScopeAsyncFlowOption.Enabled))
+                using (SqlConnection ilrConnection = new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
                 {
-                    using (SqlConnection ilrConnection = new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
+                    await ilrConnection.OpenAsync(cancellationToken);
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    await _storeClearIlr.ClearAsync(dataStoreContext, ilrConnection, cancellationToken);
+                    _logger.LogDebug("WriteToDEDS - ILR Data cleared");
+
+                    await _storeFileDetails.StoreAsync(dataStoreContext, ilrConnection, cancellationToken);
+                    _logger.LogDebug("WriteToDEDS - ILR File Details Stored");
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    await _storeIlr.StoreAsync(dataStoreContext, ilrConnection, message, validLearners, cancellationToken);
+                    _logger.LogDebug("WriteToDEDS - ILR Data Stored");
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    foreach (var fundModelService in _fundModelServices)
                     {
-                        await ilrConnection.OpenAsync();
+                        await fundModelService.GetAndStoreFundModel(dataStoreContext, ilrConnection, cancellationToken);
 
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            _logger.LogDebug("WriteToDEDS for ILR exiting with cancellation request");
-                            return false;
-                        }
-
-                        List<Task> tasks = new List<Task>();
-
-                        await _storeClearIlr.ClearAsync(dataStoreContext, ilrConnection, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR Data cleared");
-
-                        await _storeFileDetails.StoreAsync(dataStoreContext, ilrConnection, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR File Details Stored");
-
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            _logger.LogDebug("WriteToDEDS exiting with cancellation request");
-                            return false;
-                        }
-
-                        await _storeIlr.StoreAsync(dataStoreContext, ilrConnection, message, validLearners, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR Data Stored");
-
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            _logger.LogDebug("WriteToDEDS exiting with cancellation request");
-                            return false;
-                        }
-
-                        foreach (var fundModelService in _fundModelServices)
-                        {
-                            await fundModelService.GetAndStoreFundModel(dataStoreContext, ilrConnection, cancellationToken);
-
-                            if (cancellationToken.IsCancellationRequested)
-                            {
-                                _logger.LogDebug("WriteToDEDS exiting with cancellation request");
-                                return false;
-                            }
-                        }
-
-                        _logger.LogDebug("WriteToDEDS - ILR FundModel Data Stored");
-
-                        await _storeValidationOutput.StoreAsync(dataStoreContext, ilrConnection, dataStoreContext.Ukprn, message, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR Validation Output Data Stored");
-
-                        // Nest the FM36History store so that the ILR data has to be successful
-                        using (SqlConnection fm36HistoryConnection = new SqlConnection(_persistDataConfiguration.AppEarnHistoryDataStoreConnectionString))
-                        {
-                            await fm36HistoryConnection.OpenAsync();
-
-                            if (cancellationToken.IsCancellationRequested)
-                            {
-                                _logger.LogDebug("WriteToDEDS for AppEarnHistory exiting with cancellation request");
-                                return false;
-                            }
-
-                            _logger.LogDebug("WriteToDEDS FM36 History Started");
-
-                            await _storeClearFM36.ClearAsync(dataStoreContext, fm36HistoryConnection, cancellationToken);
-                            _logger.LogDebug("FM36 History Clean Up successful");
-
-                            await _storeFM36HistoryService.StoreAsync(dataStoreContext, fm36HistoryConnection, fm36Global, cancellationToken);
-                            _logger.LogDebug("FM36 History persistance complete");
-                        }
-
-                        _logger.LogDebug("FM36 History Transaction complete");
+                        cancellationToken.ThrowIfCancellationRequested();
                     }
 
-                    // The Complete method commits the transaction. If an exception has been thrown,
-                    // Complete is not called and the transaction is rolled back.
-                    scope.Complete();
+                    _logger.LogDebug("WriteToDEDS - ILR FundModel Data Stored");
+
+                    await _storeValidationOutput.StoreAsync(dataStoreContext, ilrConnection, dataStoreContext.Ukprn, message, cancellationToken);
+                    _logger.LogDebug("WriteToDEDS - ILR Validation Output Data Stored");
+
+                    // Nest the FM36History store so that the ILR data has to be successful
+                    using (SqlConnection fm36HistoryConnection = new SqlConnection(_persistDataConfiguration.AppEarnHistoryDataStoreConnectionString))
+                    {
+                        await fm36HistoryConnection.OpenAsync();
+
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        _logger.LogDebug("WriteToDEDS FM36 History Started");
+
+                        await _storeClearFM36.ClearAsync(dataStoreContext, fm36HistoryConnection, cancellationToken);
+                        _logger.LogDebug("FM36 History Clean Up successful");
+
+                        await _storeFM36HistoryService.StoreAsync(dataStoreContext, fm36HistoryConnection, fm36Global, cancellationToken);
+                        _logger.LogDebug("FM36 History persistance complete");
+                    }
+
+                    _logger.LogDebug("FM36 History Transaction complete");
                 }
 
-                _logger.LogDebug("ILR Transaction complete");
-                isSuccessful = true;
-            }
-            catch (TransactionAbortedException ex)
-            {
-                _logger.LogError("Write to DEDS failed", ex);
-                throw;
+                // The Complete method commits the transaction. If an exception has been thrown,
+                // Complete is not called and the transaction is rolled back.
+                scope.Complete();
             }
 
-            return isSuccessful;
+            _logger.LogDebug("ILR Transaction complete");
+            return true;
         }
     }
 }

@@ -46,7 +46,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         {
             var stopWatch = new Stopwatch();
             _logger.LogDebug("Inside DataStore callback");
-            string ilrFilename = dataStoreContext.Filename;
 
             try
             {

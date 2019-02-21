@@ -10,6 +10,8 @@ namespace ESFA.DC.ILR1819.DataStore.Interface
 
         string OriginalFilename { get; }
 
+        string Container { get; }
+
         string CollectionYear { get; }
 
         string ReturnCode { get; }
