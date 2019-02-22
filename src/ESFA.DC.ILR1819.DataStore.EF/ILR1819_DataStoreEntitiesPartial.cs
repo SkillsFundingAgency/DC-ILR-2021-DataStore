@@ -3,7 +3,7 @@ using ESFA.DC.ILR1819.DataStore.EF.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.EF
 {
-    public partial class Ilr1819RulebaseDataStoreEntities : IIlr1819RulebaseContext
+    public partial class ILR1819_DataStoreEntities : IIlr1819RulebaseContext
     {
         IQueryable<AecApprenticeshipPriceEpisode> IILR1819_DataStoreEntities.AecApprenticeshipPriceEpisodes => AecApprenticeshipPriceEpisodes;
         IQueryable<AecApprenticeshipPriceEpisodePeriod> IILR1819_DataStoreEntities.AecApprenticeshipPriceEpisodePeriods => AecApprenticeshipPriceEpisodePeriods;
