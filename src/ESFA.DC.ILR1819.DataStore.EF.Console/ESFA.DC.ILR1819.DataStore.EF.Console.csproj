@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF.Invalid\ESFA.DC.ILR1819.DataStore.EF.Invalid.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF.Valid\ESFA.DC.ILR1819.DataStore.EF.Valid.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj" />
+  </ItemGroup>
+
+</Project>
