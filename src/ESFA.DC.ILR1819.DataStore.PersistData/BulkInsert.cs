@@ -52,9 +52,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
         }
 
         // transaction is null in order to use existing Connection with Options overload.
-        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection, SqlTransaction sqlTransaction = null)
+        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection)
         {
-            return new SqlBulkCopy(sqlConnection, SqlBulkCopyOptions.Default, sqlTransaction)
+            return new SqlBulkCopy(sqlConnection)
             {
                 BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
                 BulkCopyTimeout = 600

@@ -44,21 +44,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             dataStoreContext.Setup(ds => ds.FundingFM35OutputKey).Returns("FundingFm35Output");
             providerService.Setup(ps => ps.ProvideAsync(dataStoreContext.Object, token)).ReturnsAsync(fundmodelData);
 
-            try
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
                 {
-                    using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
-                    {
-                        var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, sqlConnection, token);
-                    }
-
-                    scope.Complete();
+                    var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, sqlConnection, token);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
+
+                scope.Complete();
             }
 
             logger.Invocations.Should().HaveCount(0);
@@ -81,23 +74,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             dataStoreContext.Setup(ds => ds.FundingFM35OutputKey).Returns("FundingFm35Output");
             providerService.Setup(ps => ps.ProvideAsync(dataStoreContext.Object, token)).ReturnsAsync(fundmodelData);
 
-            try
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
                 {
-                    using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
-                    {
-                        sqlConnection.Open();
+                    sqlConnection.Open();
 
-                        var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, sqlConnection, token);
-                    }
-
-                    scope.Complete();
+                    var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, sqlConnection, token);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
+
+                scope.Complete();
             }
 
             logger.Invocations.Should().HaveCount(1);
@@ -107,11 +93,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
         [Fact]
         public void GetAndStoreModel_NoFundModelData()
         {
-            var fundmodelData = new FM35Global
-            {
-                UKPRN = 12345678
-            };
-
             var token = default(CancellationToken);
 
             var dataStoreContext = new Mock<IDataStoreContext>();
@@ -121,32 +102,25 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test
             dataStoreContext.Setup(ds => ds.FundingFM35OutputKey).Returns("FundingFm35Output");
             providerService.Setup(ps => ps.ProvideAsync(dataStoreContext.Object, token)).ReturnsAsync((FM35Global)null);
 
-            try
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
                 {
-                    using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.AppSettings["IlrTestConnectionString"]))
-                    {
-                        sqlConnection.Open();
+                    sqlConnection.Open();
 
-                        var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, sqlConnection, token);
-                    }
-
-                    scope.Complete();
+                    var modelService = NewService(providerService.Object, logger.Object).GetAndStoreFundModel(dataStoreContext.Object, sqlConnection, token);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
+
+                scope.Complete();
             }
 
             logger.Invocations.Should().HaveCount(1);
             logger.Invocations.SelectMany(l => l.Arguments).Should().Contain("Failed to get model so not storing");
         }
 
-        public FundModelService<FM35Global, FM35_global> NewService(IProviderService<FM35Global> providerService, ILogger logger)
+        public FundModelService<FM35Global> NewService(IProviderService<FM35Global> providerService, ILogger logger)
         {
-            return new FundModelService<FM35Global, FM35_global>(providerService, new StoreFM35(), logger);
+            return new FundModelService<FM35Global>(providerService, new StoreFM35(), logger);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Helpers
     {
         public static O GetPeriodValue<T, O>(T periodisedValue, int period)
         {
-            var value = periodisedValue?.GetType().GetProperty($"{PersistDataConstants.PeriodPrefix}{period.ToString()}")?.GetValue(periodisedValue);
+            var value = periodisedValue?.GetType().GetProperty(PersistDataConstants.PeriodPrefix + period)?.GetValue(periodisedValue);
 
             return TypeHelper.PeriodValueTypeHandler<O>(value);
         }

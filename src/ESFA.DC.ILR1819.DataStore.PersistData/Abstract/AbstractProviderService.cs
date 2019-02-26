@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.FileService.Interface;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
@@ -9,37 +10,33 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Abstract
 {
     public abstract class AbstractProviderService<T>
     {
-        private readonly IKeyValuePersistenceService _keyValuePersistenceService;
+        private readonly IFileService _fileService;
         private readonly IJsonSerializationService _jsonSerializationService;
         private readonly ILogger _logger;
 
-        protected AbstractProviderService(IKeyValuePersistenceService keyValuePersistenceService, IJsonSerializationService jsonSerializationService, ILogger logger)
+        protected AbstractProviderService(IFileService fileService, IJsonSerializationService jsonSerializationService, ILogger logger)
         {
-            _keyValuePersistenceService = keyValuePersistenceService;
+            _fileService = fileService;
             _jsonSerializationService = jsonSerializationService;
             _logger = logger;
         }
 
-        protected async Task<T> ProvideAsync(string key, CancellationToken cancellationToken)
+        protected async Task<T> ProvideAsync(string fileReference, string container, CancellationToken cancellationToken)
         {
-            T fundingOutputs = default(T);
-
             try
             {
-                string data = await _keyValuePersistenceService.GetAsync(key, cancellationToken);
-
-                if (!string.IsNullOrEmpty(data))
+                using (var stream = await _fileService.OpenReadStreamAsync(fileReference, container, cancellationToken))
                 {
-                    fundingOutputs = _jsonSerializationService.Deserialize<T>(data);
+                    return _jsonSerializationService.Deserialize<T>(stream);
                 }
             }
             catch (Exception ex)
             {
                 // Todo: Check behaviour
-                _logger.LogError($"Failed to provide {key} funding data. It will be ignored.", ex);
+                _logger.LogError($"Failed to provide {fileReference} funding data in {container}. It will be ignored.", ex);
             }
 
-            return fundingOutputs;
+            return default(T);
         }
     }
 }
