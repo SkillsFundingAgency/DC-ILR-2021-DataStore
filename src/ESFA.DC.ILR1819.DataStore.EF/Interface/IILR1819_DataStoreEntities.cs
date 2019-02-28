@@ -8,7 +8,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Interface
         IQueryable<FileDetail> FileDetails { get; }
         IQueryable<ProcessingDatum> ProcessingDatas { get; }
         IQueryable<ValidationError> ValidationErrors { get; }
-        IQueryable<VersionInfo> VerionInfoes { get; }
+        IQueryable<VersionInfo> VerionInfos { get; }
         IQueryable<AecApprenticeshipPriceEpisode> AecApprenticeshipPriceEpisodes { get; }
         IQueryable<AecApprenticeshipPriceEpisodePeriod> AecApprenticeshipPriceEpisodePeriods { get; }
         IQueryable<AecApprenticeshipPriceEpisodePeriodisedValue> AecApprenticeshipPriceEpisodePeriodisedValues { get; }

@@ -8,7 +8,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF
         IQueryable<FileDetail> IILR1819_DataStoreEntities.FileDetails => FileDetails;
         IQueryable<ProcessingDatum> IILR1819_DataStoreEntities.ProcessingDatas => ProcessingDatas;
         IQueryable<ValidationError> IILR1819_DataStoreEntities.ValidationErrors => ValidationErrors;
-        IQueryable<VersionInfo> IILR1819_DataStoreEntities.VerionInfoes => VersionInfos;
+        IQueryable<VersionInfo> IILR1819_DataStoreEntities.VerionInfos => VersionInfos;
         IQueryable<AecApprenticeshipPriceEpisode> IILR1819_DataStoreEntities.AecApprenticeshipPriceEpisodes => AecApprenticeshipPriceEpisodes;
         IQueryable<AecApprenticeshipPriceEpisodePeriod> IILR1819_DataStoreEntities.AecApprenticeshipPriceEpisodePeriods => AecApprenticeshipPriceEpisodePeriods;
         IQueryable<AecApprenticeshipPriceEpisodePeriodisedValue> IILR1819_DataStoreEntities.AecApprenticeshipPriceEpisodePeriodisedValues => AecApprenticeshipPriceEpisodePeriodisedValues;
