@@ -1,1 +1,1 @@
-dotnet.exe ef dbcontext scaffold "Server=.\;Database=ILR1819_DataStore;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -c ILR1819_DataStoreEntities --schema Rulebase --force --startup-project . --project ..\ESFA.DC.ILR1819.DataStore.EF --verbose
+dotnet.exe ef dbcontext scaffold "Server=.\;Database=ILR1819_DataStore;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -c ILR1819_DataStoreEntities --schema dbo --schema Rulebase --force --startup-project . --project ..\ESFA.DC.ILR1819.DataStore.EF --verbose

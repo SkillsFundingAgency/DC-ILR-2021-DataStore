@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ESFA.DC.ILR1819.DataStore.EF.Valid.Interface
 {
-    public interface IILR1819_DataStoreEntitiesValid
+    public interface IILR1819_DataStoreEntitiesValid : IDisposable
     {
         IQueryable<AppFinRecord> AppFinRecords { get; }
         IQueryable<CollectionDetail> CollectionDetails { get; }
