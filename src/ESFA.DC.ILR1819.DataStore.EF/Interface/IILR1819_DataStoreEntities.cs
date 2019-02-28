@@ -1,9 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace ESFA.DC.ILR1819.DataStore.EF.Interface
 {
-    public interface IILR1819_DataStoreEntities
+    public interface IILR1819_DataStoreEntities : IDisposable
     {
+        IQueryable<FileDetail> FileDetails { get; }
+        IQueryable<ProcessingDatum> ProcessingDatas { get; }
+        IQueryable<ValidationError> ValidationErrors { get; }
+        IQueryable<VersionInfo> VerionInfoes { get; }
         IQueryable<AecApprenticeshipPriceEpisode> AecApprenticeshipPriceEpisodes { get; }
         IQueryable<AecApprenticeshipPriceEpisodePeriod> AecApprenticeshipPriceEpisodePeriods { get; }
         IQueryable<AecApprenticeshipPriceEpisodePeriodisedValue> AecApprenticeshipPriceEpisodePeriodisedValues { get; }
