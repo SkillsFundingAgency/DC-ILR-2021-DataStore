@@ -99,7 +99,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                }
            };
 
-            var global = fundingOutput;
+            var global = new List<ESF_global>() { fundingOutput };
             var learners = fundingOutput.ESF_Learner;
             var learnerDPOutcomes = new List<ESF_DPOutcome> { new ESF_DPOutcome { UKPRN = _ukprn, LearnRefNumber = "5DOB01" } };
             var learningDeliveries = fundingOutput.ESF_Learner.SelectMany(ld => ld.ESF_LearningDelivery);
@@ -110,7 +110,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             var fm70MapperMock = new Mock<IFM70Mapper>();
             IBulkInsert bulkInsert = new BulkInsert();
 
-            fm70MapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
+            fm70MapperMock.Setup(fm => fm.MapGlobals(_fundingOutputs)).Returns(global);
             fm70MapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
             fm70MapperMock.Setup(fm => fm.MapLearningDeliveries(_fundingOutputs)).Returns(learningDeliveries);
             fm70MapperMock.Setup(fm => fm.MapLearningDeliveryDeliverables(_fundingOutputs)).Returns(learningDeliveryDeliverables);

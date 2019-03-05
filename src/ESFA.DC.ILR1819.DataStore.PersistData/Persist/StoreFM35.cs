@@ -1,49 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
-using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
-using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
-using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
 {
-    public class StoreFM35 : IStoreService<FM35Global>
+    public class StoreFM35 : IStoreService<FM35Data>
     {
-        private readonly IFM35Mapper _fm35Mapper;
         private readonly IBulkInsert _bulkInsert;
 
-        public StoreFM35()
-        {
-        }
-
-        public StoreFM35(IFM35Mapper fm35Mapper, IBulkInsert bulkInsert)
+        public StoreFM35(IBulkInsert bulkInsert)
         {
             _bulkInsert = bulkInsert;
-            _fm35Mapper = fm35Mapper;
         }
 
-        public async Task StoreAsync(SqlConnection sqlConnection, FM35Global fundingOutput, CancellationToken cancellationToken)
+        public async Task StoreAsync(FM35Data model, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
-            var global = new List<FM35_global> { _fm35Mapper.MapGlobal(fundingOutput) };
-            var learners = _fm35Mapper.MapLearners(fundingOutput);
-            var learningDeliveries = _fm35Mapper.MapLearningDeliveries(fundingOutput);
-            var learningDeliveryPeriod = _fm35Mapper.MapLearningDeliveryPeriods(fundingOutput);
-            var learningDeliveryPeriodisedValues = _fm35Mapper.MapLearningDeliveryPeriodisedValues(fundingOutput);
-
-            await _bulkInsert.Insert(FM35Constants.FM35_global, global, sqlConnection, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_Learner, learners, sqlConnection, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery, learningDeliveries, sqlConnection, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_Period, learningDeliveryPeriod, sqlConnection, cancellationToken);
-            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_PeriodisedValues, learningDeliveryPeriodisedValues, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_global, model.Globals, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_Learner, model.Learners, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery, model.LearningDeliveries, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_Period, model.LearningDeliveryPeriods, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(FM35Constants.FM35_LearningDelivery_PeriodisedValues, model.LearningDeliveryPeriodisedValues, sqlConnection, cancellationToken);
         }
     }
 }

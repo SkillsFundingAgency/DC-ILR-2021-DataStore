@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.FileService.Interface;
-using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 

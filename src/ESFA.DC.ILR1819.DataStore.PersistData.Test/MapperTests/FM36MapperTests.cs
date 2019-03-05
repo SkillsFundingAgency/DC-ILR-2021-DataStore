@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
-using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
+using ESFA.DC.ILR1819.DataStore.PersistData.Mapper;
 using ESFA.DC.Serialization.Json;
 using FluentAssertions;
 using Xunit;
@@ -18,10 +18,10 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM36Global()
         {
-            var global = Mapper().MapGlobal(_fundingOutputs);
+            var global = Mapper().MapGlobals(_fundingOutputs);
 
-            global.Should().NotBeNull();
-            global.UKPRN.Should().Be(ukprn);
+            global.Should().NotBeEmpty();
+            global.First().UKPRN.Should().Be(ukprn);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.MapperTests
         }
 
         [Fact]
-        public void FM36LearningDelieries()
+        public void FM36LearningDeliveries()
         {
             var learningDeliveries = Mapper().MapLearningDeliveries(_fundingOutputs);
 

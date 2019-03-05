@@ -49,6 +49,15 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.Data.AppsEarningsHistory.Model, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.Data.AppsEarningsHistory.Model.0.1.1-beta0001\lib\net461\ESFA.DC.Data.AppsEarningsHistory.Model.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.13.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.13-beta0001\lib\net46\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
     </Reference>
@@ -62,6 +71,7 @@
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.13-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,11 +81,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InvalidLearnerData.cs" />
+    <Compile Include="File\ProcessingInformationData.cs" />
+    <Compile Include="File\ValidationData.cs" />
+    <Compile Include="Funding\ALBData.cs" />
+    <Compile Include="DataStoreDataCache.cs" />
+    <Compile Include="File\InvalidHeaderData.cs" />
+    <Compile Include="File\ValidHeaderData.cs" />
+    <Compile Include="Funding\FM25Data.cs" />
+    <Compile Include="Funding\FM35Data.cs" />
+    <Compile Include="Funding\FM36Data.cs" />
+    <Compile Include="Funding\FM70Data.cs" />
+    <Compile Include="Funding\FM81Data.cs" />
+    <Compile Include="History\FM36HistoryData.cs" />
+    <Compile Include="Interface\IDataStoreDataCache.cs" />
+    <Compile Include="File\InvalidLearnerData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidLearnerData.cs" />
+    <Compile Include="File\ValidLearnerData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

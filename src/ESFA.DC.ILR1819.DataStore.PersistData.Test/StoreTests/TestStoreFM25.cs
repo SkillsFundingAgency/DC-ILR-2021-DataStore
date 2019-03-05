@@ -186,9 +186,9 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                 }
             };
 
-            var global = fundingOutput;
+            var global = new List<FM25_global>() { fundingOutput };
             var learners = fundingOutput.FM25_Learner;
-            var fm25_35global = new FM25_FM35_global { UKPRN = fundingOutput.UKPRN, RulebaseVersion = fundingOutput.RulebaseVersion };
+            var fm25_35global = new List<FM25_FM35_global>() { new FM25_FM35_global { UKPRN = fundingOutput.UKPRN, RulebaseVersion = fundingOutput.RulebaseVersion } };
             var fm25_35learnerPeriod = fundingOutput.FM25_Learner.SelectMany(p => p.FM25_FM35_Learner_Period);
             var fm25_35learnerPeriodisedValues = fundingOutput.FM25_Learner.SelectMany(p => p.FM25_FM35_Learner_PeriodisedValues);
 

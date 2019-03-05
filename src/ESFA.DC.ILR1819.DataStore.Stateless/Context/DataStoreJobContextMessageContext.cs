@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model.Interface;

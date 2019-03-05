@@ -51,7 +51,6 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             }
         }
 
-        // transaction is null in order to use existing Connection with Options overload.
         private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection)
         {
             return new SqlBulkCopy(sqlConnection)

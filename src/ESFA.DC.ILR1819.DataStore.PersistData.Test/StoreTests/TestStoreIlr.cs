@@ -17,8 +17,8 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Mapper;
 using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
-using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
@@ -57,8 +57,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
 
             Stopwatch stopwatch = new Stopwatch();
 
-            var validLearnersBuilder = new LearnerValidDataBuilder();
-            var invalidLearnersBuilder = new LearnerInvalidDataBuilder();
+            var validLearnersBuilder = new ValidLearnerDataMapper();
+            var invalidLearnersBuilder = new InvalidLearnerDataMapper();
 
             if (validLearners.Length == 1 && validLearners[0].EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
             {
@@ -87,14 +87,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                         output.WriteLine($"Clear: {stopwatch.ElapsedMilliseconds} {ukPrn} {ilrFilename}");
                         stopwatch.Restart();
 
-                        StoreFileDetails storeFileDetails = new StoreFileDetails(dateTimeProviderMock.Object);
-                        await storeFileDetails.StoreAsync(dataStoreContext, connection, cancellationToken);
+                        ////StoreProcessingInformationData storeFileDetails = new StoreProcessingInformationData(dateTimeProviderMock.Object);
+                        ////await storeFileDetails.StoreAsync(dataStoreContext, connection, cancellationToken);
 
                         output.WriteLine($"File details: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();
 
-                        StoreIlr storeIlr = new StoreIlr(logger.Object, validLearnersBuilder, invalidLearnersBuilder);
-                        await storeIlr.StoreAsync(dataStoreContext, connection, message, validLearners.ToList(), cancellationToken);
+                        ////StoreIlr storeIlr = new StoreIlr(logger.Object, validLearnersBuilder, invalidLearnersBuilder);
+                        ////await storeIlr.StoreAsync(dataStoreContext, connection, message, validLearners.ToList(), cancellationToken);
 
                         output.WriteLine($"Store ILR: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();
@@ -184,8 +184,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                         IALBMapper albMapperMock = new ALBMapper();
                         IBulkInsert bulkInsert = new BulkInsert();
 
-                        StoreALB storeRuleAlb = new StoreALB(albMapperMock, bulkInsert);
-                        await storeRuleAlb.StoreAsync(connection, readAndSerialise.Item2, cancellationToken);
+                        ////StoreALB storeRuleAlb = new StoreALB(albMapperMock, bulkInsert);
+                        ////await storeRuleAlb.StoreAsync(readAndSerialise.Item2, connection, cancellationToken);
 
                         output.WriteLine($"Store ALB: {stopwatch.ElapsedMilliseconds}");
                         stopwatch.Restart();

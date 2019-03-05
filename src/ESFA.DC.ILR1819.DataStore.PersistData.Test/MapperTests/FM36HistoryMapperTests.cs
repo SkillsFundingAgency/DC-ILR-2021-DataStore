@@ -2,8 +2,7 @@
 using System.IO;
 using System.Linq;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
-using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
-using ESFA.DC.ILR1819.DataStore.PersistData.Persist.Mappers;
+using ESFA.DC.ILR1819.DataStore.PersistData.Mapper;
 using ESFA.DC.Serialization.Json;
 using FluentAssertions;
 using Xunit;

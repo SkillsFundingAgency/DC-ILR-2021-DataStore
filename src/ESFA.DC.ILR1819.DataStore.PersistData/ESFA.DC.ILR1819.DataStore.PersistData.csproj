@@ -50,8 +50,8 @@
     <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.PersistData.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.9.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.9.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -135,16 +135,16 @@
       <HintPath>..\packages\FastMember.1.4.1\lib\net461\FastMember.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.3.0.0\lib\net452\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.3.0.3\lib\net452\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.3.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.9.3.2\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.9.3.3\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.7.1\lib\net46\Serilog.dll</HintPath>
+      <HintPath>..\packages\Serilog.2.8.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Enrichers.Environment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Enrichers.Environment.2.1.2\lib\net45\Serilog.Enrichers.Environment.dll</HintPath>
@@ -169,8 +169,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SqlClient, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SqlClient.4.5.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    <Reference Include="System.Data.SqlClient, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.6.0\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -195,7 +195,9 @@
     <Compile Include="Builders\Invalid\LearnerFAMBuilder.cs" />
     <Compile Include="Builders\Invalid\LearnerHEBuilder.cs" />
     <Compile Include="Builders\Invalid\LearnerHEFinancialSupportBuilder.cs" />
-    <Compile Include="Builders\LearnerInvalidDataBuilder.cs" />
+    <Compile Include="DataStoreMapper.cs" />
+    <Compile Include="Mapper\InvalidHeaderDataMapper.cs" />
+    <Compile Include="Mapper\InvalidLearnerDataMapper.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryFAMBuilder.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryHEBuilder.cs" />
@@ -211,7 +213,10 @@
     <Compile Include="Builders\Valid\LearnerFAMBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerHEBuilder.cs" />
     <Compile Include="Builders\Valid\LearnerHEFinancialSupportBuilder.cs" />
-    <Compile Include="Builders\LearnerValidDataBuilder.cs" />
+    <Compile Include="Mapper\ProcessingInformationDataMapper.cs" />
+    <Compile Include="Mapper\ValidationDataMapper.cs" />
+    <Compile Include="Mapper\ValidHeaderDataMapper.cs" />
+    <Compile Include="Mapper\ValidLearnerDataMapper.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryFAMBuilder.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryHEBuilder.cs" />
@@ -228,6 +233,7 @@
     <Compile Include="Constants\FM70Constants.cs" />
     <Compile Include="Constants\FM35Constants.cs" />
     <Compile Include="Constants\PersistDataConstants.cs" />
+    <Compile Include="DataStoreDataCacheProvider.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Helpers\PeriodisedValueHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
@@ -236,37 +242,43 @@
     <Compile Include="Model\FundModel36LearningDeliveryPeriodisedValue.cs" />
     <Compile Include="Model\FundModelPriceEpisodePeriodisedValue.cs" />
     <Compile Include="Model\FundModelLearningDeliveryPeriodisedValue.cs" />
-    <Compile Include="Persist\Mappers\FM25Mapper.cs" />
-    <Compile Include="Persist\Mappers\ALBMapper.cs" />
-    <Compile Include="Persist\Mappers\FM36Mapper.cs" />
-    <Compile Include="Persist\Mappers\FM81Mapper.cs" />
-    <Compile Include="Persist\Mappers\FM70Mapper.cs" />
-    <Compile Include="Persist\Mappers\FM35Mapper.cs" />
-    <Compile Include="Persist\Mappers\FM36HistoryMapper.cs" />
+    <Compile Include="Mapper\FM25Mapper.cs" />
+    <Compile Include="Mapper\ALBMapper.cs" />
+    <Compile Include="Mapper\FM36Mapper.cs" />
+    <Compile Include="Mapper\FM81Mapper.cs" />
+    <Compile Include="Mapper\FM70Mapper.cs" />
+    <Compile Include="Mapper\FM35Mapper.cs" />
+    <Compile Include="Mapper\FM36HistoryMapper.cs" />
+    <Compile Include="DataStorePersistenceService.cs" />
     <Compile Include="Persist\StoreFM36HistoryClear.cs" />
     <Compile Include="Persist\StoreFM36History.cs" />
-    <Compile Include="Services\FundModelService.cs" />
-    <Compile Include="Services\Providers\FM81ProviderService.cs" />
-    <Compile Include="Services\Providers\FM70ProviderService.cs" />
-    <Compile Include="Services\Providers\FM36ProviderService.cs" />
-    <Compile Include="Services\Providers\FM35ProviderService.cs" />
+    <Compile Include="Persist\StoreInvalidHeader.cs" />
+    <Compile Include="Persist\StoreValidHeader.cs" />
+    <Compile Include="Persist\StoreInvalidLearnerData.cs" />
+    <Compile Include="Persist\StoreValidLearnerData.cs" />
+    <Compile Include="DataStoreDataProvider.cs" />
+    <Compile Include="Providers\FM81ProviderService.cs" />
+    <Compile Include="Providers\FM70ProviderService.cs" />
+    <Compile Include="Providers\FM36ProviderService.cs" />
+    <Compile Include="Providers\FM35ProviderService.cs" />
     <Compile Include="Abstract\AbstractProviderService.cs" />
-    <Compile Include="Services\Providers\FM25ProviderService.cs" />
-    <Compile Include="Services\Providers\ALBProviderService.cs" />
+    <Compile Include="Providers\FM25ProviderService.cs" />
+    <Compile Include="Providers\ALBProviderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Providers\ILRProviderService.cs" />
-    <Compile Include="Services\Providers\ValidLearnerProviderService.cs" />
+    <Compile Include="Providers\ILRProviderService.cs" />
+    <Compile Include="Providers\RulesProviderService.cs" />
+    <Compile Include="Providers\ValidationErrorsProviderService.cs" />
+    <Compile Include="Providers\ValidLearnerProviderService.cs" />
     <Compile Include="Persist\StoreClear.cs" />
-    <Compile Include="Persist\StoreFileDetails.cs" />
+    <Compile Include="Persist\StoreProcessingInformationData.cs" />
     <Compile Include="Persist\StoreFM81.cs" />
     <Compile Include="Persist\StoreFM35.cs" />
     <Compile Include="Persist\StoreFM25.cs" />
     <Compile Include="Persist\StoreFM70.cs" />
     <Compile Include="Persist\StoreFM36.cs" />
-    <Compile Include="Persist\StoreIlr.cs" />
     <Compile Include="Persist\StoreALB.cs" />
     <Compile Include="Persist\StoreValidationOutput.cs" />
-    <Compile Include="Services\TransactionController.cs" />
+    <Compile Include="TransactionController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">

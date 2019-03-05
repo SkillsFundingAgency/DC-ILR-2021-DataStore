@@ -118,7 +118,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                 }
             };
 
-            var global = fundingOutput;
+            var global = new List<ALB_global>() { fundingOutput };
             var learners = fundingOutput.ALB_Learner;
             var learnerPeriods = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_Period);
             var learnerPeriodisedValues = fundingOutput.ALB_Learner.SelectMany(l => l.ALB_Learner_PeriodisedValues);
@@ -129,7 +129,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             var albMapperMock = new Mock<IALBMapper>();
             IBulkInsert bulkInsert = new BulkInsert();
 
-            albMapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
+            albMapperMock.Setup(fm => fm.MapGlobals(_fundingOutputs)).Returns(global);
             albMapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
             albMapperMock.Setup(fm => fm.MapLearnerPeriods(_fundingOutputs)).Returns(learnerPeriods);
             albMapperMock.Setup(fm => fm.MapLearnerPeriodisedValues(_fundingOutputs)).Returns(learnerPeriodisedValues);
@@ -137,7 +137,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriods(_fundingOutputs)).Returns(learningDeliveryPeriod);
             albMapperMock.Setup(fm => fm.MapLearningDeliveryPeriodisedValues(_fundingOutputs)).Returns(learningDeliveryPeriodisedValues);
 
-            return new StoreALB(albMapperMock.Object, bulkInsert);
+            return new StoreALB(bulkInsert);
         }
     }
 }

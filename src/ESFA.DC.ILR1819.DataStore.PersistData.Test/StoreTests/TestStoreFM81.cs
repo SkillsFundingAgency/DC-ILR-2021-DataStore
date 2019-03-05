@@ -87,7 +87,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
                 }
             };
 
-            var global = fundingOutput;
+            var global = new List<TBL_global>() { fundingOutput };
             var learners = fundingOutput.TBL_Learner;
             var learningDeliveries = fundingOutput.TBL_Learner.SelectMany(ld => ld.TBL_LearningDelivery);
             var learningDeliveryPeriod = fundingOutput.TBL_Learner.SelectMany(ld => ld.TBL_LearningDelivery.SelectMany(p => p.TBL_LearningDelivery_Period));
@@ -96,7 +96,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.StoreTests
             var fm81MapperMock = new Mock<IFM81Mapper>();
             IBulkInsert bulkInsert = new BulkInsert();
 
-            fm81MapperMock.Setup(fm => fm.MapGlobal(_fundingOutputs)).Returns(global);
+            fm81MapperMock.Setup(fm => fm.MapGlobals(_fundingOutputs)).Returns(global);
             fm81MapperMock.Setup(fm => fm.MapLearners(_fundingOutputs)).Returns(learners);
             fm81MapperMock.Setup(fm => fm.MapLearningDeliveries(_fundingOutputs)).Returns(learningDeliveries);
             fm81MapperMock.Setup(fm => fm.MapLearningDeliveryPeriods(_fundingOutputs)).Returns(learningDeliveryPeriod);

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
-using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR1819.DataStore.Interface;
-using ESFA.DC.ILR1819.DataStore.Interface.Service;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
@@ -17,22 +13,16 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
     public sealed class EntryPoint : IEntryPoint
     {
         private readonly ITransactionController _transaction;
-        private readonly IProviderService<Message> _ilrProviderService;
-        private readonly IProviderService<FM36Global> _fm36ProviderService;
-        private readonly IValidLearnerProviderService _validLearnerProviderService;
+        private readonly IDataStoreDataCacheProvider _dataStoreDataCacheProvider;
         private readonly ILogger _logger;
 
         public EntryPoint(
             ITransactionController transaction,
-            IProviderService<Message> ilrProviderService,
-            IProviderService<FM36Global> fm36ProviderService,
-            IValidLearnerProviderService validLearnerProviderService,
+            IDataStoreDataCacheProvider dataStoreDataCacheProvider,
             ILogger logger)
         {
             _transaction = transaction;
-            _ilrProviderService = ilrProviderService;
-            _fm36ProviderService = fm36ProviderService;
-            _validLearnerProviderService = validLearnerProviderService;
+            _dataStoreDataCacheProvider = dataStoreDataCacheProvider;
             _logger = logger;
         }
 
@@ -50,17 +40,8 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
             try
             {
                 stopWatch.Start();
-                Task<Message> messageTask = _ilrProviderService.ProvideAsync(dataStoreContext, cancellationToken);
-                Task<List<string>> validLearnersTask = _validLearnerProviderService.ReadAndDeserialiseValidLearnersAsync(dataStoreContext, cancellationToken);
-                Task<FM36Global> fm36GlobalTask = _fm36ProviderService.ProvideAsync(dataStoreContext, cancellationToken);
 
-                await Task.WhenAll(messageTask, validLearnersTask);
-
-                if (messageTask.Result == null)
-                {
-                    _logger.LogDebug("DataStore callback could not read file - exiting before persistence");
-                    return false;
-                }
+                var dataStoreDataCache = await _dataStoreDataCacheProvider.ProvideAsync(dataStoreContext, cancellationToken);
 
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -68,7 +49,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
                     return false;
                 }
 
-                if (!await _transaction.WriteToDeds(dataStoreContext, cancellationToken, messageTask.Result, validLearnersTask.Result, fm36GlobalTask.Result))
+                if (!await _transaction.WriteAsync(dataStoreContext, dataStoreDataCache, cancellationToken))
                 {
                     _logger.LogError("Write to DataStore failed");
                     return false;
