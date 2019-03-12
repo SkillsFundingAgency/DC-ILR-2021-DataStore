@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ESFA.DC.ILR1819.DataStore.EF.Console.DesignTime
@@ -8,6 +9,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Console.DesignTime
         public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IPluralizer, ReferenceDataPluralizer>();
+            serviceCollection.AddSingleton<ICandidateNamingService, ReferenceDataCandidateNamingService>();
         }
     }
 }

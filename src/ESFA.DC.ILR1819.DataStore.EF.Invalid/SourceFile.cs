@@ -5,8 +5,8 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class SourceFile
     {
-        public int SourceFileId { get; set; }
-        public int Ukprn { get; set; }
+        public int SourceFile_Id { get; set; }
+        public int UKPRN { get; set; }
         public string SourceFileName { get; set; }
         public DateTime? FilePreparationDate { get; set; }
         public string SoftwareSupplier { get; set; }

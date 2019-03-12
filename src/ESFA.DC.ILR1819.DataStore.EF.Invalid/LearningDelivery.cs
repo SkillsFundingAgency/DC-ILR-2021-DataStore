@@ -5,9 +5,9 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class LearningDelivery
     {
-        public int LearningDeliveryId { get; set; }
-        public int? LearnerId { get; set; }
-        public int Ukprn { get; set; }
+        public int LearningDelivery_Id { get; set; }
+        public int? Learner_Id { get; set; }
+        public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
         public string LearnAimRef { get; set; }
         public long? AimType { get; set; }
@@ -20,13 +20,13 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
         public long? FworkCode { get; set; }
         public long? PwayCode { get; set; }
         public long? StdCode { get; set; }
-        public long? PartnerUkprn { get; set; }
+        public long? PartnerUKPRN { get; set; }
         public string DelLocPostCode { get; set; }
         public long? AddHours { get; set; }
         public long? PriorLearnFundAdj { get; set; }
         public long? OtherFundAdj { get; set; }
         public string ConRefNumber { get; set; }
-        public string EpaorgId { get; set; }
+        public string EPAOrgID { get; set; }
         public long? EmpOutcome { get; set; }
         public long? CompStatus { get; set; }
         public DateTime? LearnActEndDate { get; set; }
@@ -34,6 +34,6 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
         public long? Outcome { get; set; }
         public DateTime? AchDate { get; set; }
         public string OutGrade { get; set; }
-        public string SwsupAimId { get; set; }
+        public string SWSupAimId { get; set; }
     }
 }

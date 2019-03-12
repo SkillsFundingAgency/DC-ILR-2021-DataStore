@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
-    public partial class Dpoutcome
+    public partial class DPOutcome
     {
-        public int DpoutcomeId { get; set; }
-        public int Ukprn { get; set; }
-        public int? LearnerDestinationandProgressionId { get; set; }
+        public int DPOutcome_Id { get; set; }
+        public int UKPRN { get; set; }
+        public int? LearnerDestinationandProgression_Id { get; set; }
         public string LearnRefNumber { get; set; }
         public string OutType { get; set; }
         public long? OutCode { get; set; }

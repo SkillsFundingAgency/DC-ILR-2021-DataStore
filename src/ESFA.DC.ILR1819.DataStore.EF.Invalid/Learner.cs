@@ -5,25 +5,25 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class Learner
     {
-        public int LearnerId { get; set; }
+        public int Learner_Id { get; set; }
         public string LearnRefNumber { get; set; }
-        public int Ukprn { get; set; }
+        public int UKPRN { get; set; }
         public string PrevLearnRefNumber { get; set; }
-        public long? PrevUkprn { get; set; }
-        public long? Pmukprn { get; set; }
-        public long? Uln { get; set; }
+        public long? PrevUKPRN { get; set; }
+        public long? PMUKPRN { get; set; }
+        public long? ULN { get; set; }
         public string FamilyName { get; set; }
         public string GivenNames { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public long? Ethnicity { get; set; }
         public string Sex { get; set; }
-        public long? LlddhealthProb { get; set; }
-        public string Ninumber { get; set; }
+        public long? LLDDHealthProb { get; set; }
+        public string NINumber { get; set; }
         public long? PriorAttain { get; set; }
         public long? Accom { get; set; }
-        public long? Alscost { get; set; }
+        public long? ALSCost { get; set; }
         public long? PlanLearnHours { get; set; }
-        public long? PlanEephours { get; set; }
+        public long? PlanEEPHours { get; set; }
         public string MathGrade { get; set; }
         public string EngGrade { get; set; }
         public string PostcodePrior { get; set; }
@@ -35,6 +35,6 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
         public string TelNo { get; set; }
         public string Email { get; set; }
         public string CampId { get; set; }
-        public long? Otjhours { get; set; }
+        public long? OTJHours { get; set; }
     }
 }

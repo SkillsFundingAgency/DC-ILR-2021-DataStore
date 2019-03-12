@@ -5,14 +5,14 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class AppFinRecord
     {
-        public int AppFinRecordId { get; set; }
-        public int Ukprn { get; set; }
-        public int? LearningDeliveryId { get; set; }
+        public int AppFinRecord_Id { get; set; }
+        public int UKPRN { get; set; }
+        public int? LearningDelivery_Id { get; set; }
         public string LearnRefNumber { get; set; }
         public long AimSeqNumber { get; set; }
-        public string AfinType { get; set; }
-        public long? AfinCode { get; set; }
-        public DateTime? AfinDate { get; set; }
-        public long? AfinAmount { get; set; }
+        public string AFinType { get; set; }
+        public long? AFinCode { get; set; }
+        public DateTime? AFinDate { get; set; }
+        public long? AFinAmount { get; set; }
     }
 }

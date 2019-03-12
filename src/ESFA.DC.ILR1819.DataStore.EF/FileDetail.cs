@@ -5,8 +5,8 @@ namespace ESFA.DC.ILR1819.DataStore.EF
 {
     public partial class FileDetail
     {
-        public long Id { get; set; }
-        public int Ukprn { get; set; }
+        public long ID { get; set; }
+        public int UKPRN { get; set; }
         public string Filename { get; set; }
         public long? FileSizeKb { get; set; }
         public int? TotalLearnersSubmitted { get; set; }

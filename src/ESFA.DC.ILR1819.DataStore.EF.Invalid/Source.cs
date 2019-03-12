@@ -5,9 +5,9 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class Source
     {
-        public int SourceId { get; set; }
+        public int Source_Id { get; set; }
         public string ProtectiveMarking { get; set; }
-        public int Ukprn { get; set; }
+        public int UKPRN { get; set; }
         public string SoftwareSupplier { get; set; }
         public string SoftwarePackage { get; set; }
         public string Release { get; set; }
