@@ -494,6 +494,8 @@ namespace ESFA.DC.ILR1819.DataStore.EF
 
                 entity.Property(e => e.LearnDelFirstProv1618Pay).HasColumnType("decimal(12, 5)");
 
+                entity.Property(e => e.LearnDelLearnAddPayment).HasColumnType("decimal(12, 5)");
+
                 entity.Property(e => e.LearnDelSFAContribPct).HasColumnType("decimal(12, 5)");
 
                 entity.Property(e => e.LearnDelSecondEmp1618Pay).HasColumnType("decimal(12, 5)");
