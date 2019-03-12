@@ -5,9 +5,9 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class LearnerDestinationandProgression
     {
-        public int LearnerDestinationandProgressionId { get; set; }
-        public int Ukprn { get; set; }
+        public int LearnerDestinationandProgression_Id { get; set; }
+        public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
-        public long? Uln { get; set; }
+        public long? ULN { get; set; }
     }
 }

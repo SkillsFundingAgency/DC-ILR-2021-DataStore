@@ -5,9 +5,9 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class LearnerEmploymentStatus
     {
-        public int LearnerEmploymentStatusId { get; set; }
-        public int? LearnerId { get; set; }
-        public int Ukprn { get; set; }
+        public int LearnerEmploymentStatus_Id { get; set; }
+        public int? Learner_Id { get; set; }
+        public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
         public long? EmpStat { get; set; }
         public DateTime? DateEmpStatApp { get; set; }

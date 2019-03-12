@@ -5,7 +5,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
     public partial class LearningProvider
     {
-        public int LearningProviderId { get; set; }
-        public int Ukprn { get; set; }
+        public int LearningProvider_Id { get; set; }
+        public int UKPRN { get; set; }
     }
 }

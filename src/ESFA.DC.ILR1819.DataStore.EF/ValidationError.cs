@@ -6,11 +6,11 @@ namespace ESFA.DC.ILR1819.DataStore.EF
     public partial class ValidationError
     {
         public long Id { get; set; }
-        public int? Ukprn { get; set; }
+        public int? UKPRN { get; set; }
         public string Source { get; set; }
         public string LearnAimRef { get; set; }
         public long? AimSeqNum { get; set; }
-        public string SwsupAimId { get; set; }
+        public string SWSupAimID { get; set; }
         public string ErrorMessage { get; set; }
         public string FieldValues { get; set; }
         public string LearnRefNumber { get; set; }

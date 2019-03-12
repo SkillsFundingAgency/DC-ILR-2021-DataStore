@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
 {
-    public partial class LearnerHe
+    public partial class LearnerHE
     {
-        public int LearnerHeId { get; set; }
-        public int? LearnerId { get; set; }
-        public int Ukprn { get; set; }
+        public int LearnerHE_Id { get; set; }
+        public int? Learner_Id { get; set; }
+        public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
-        public string Ucasperid { get; set; }
-        public long? Ttaccom { get; set; }
+        public string UCASPERID { get; set; }
+        public long? TTACCOM { get; set; }
     }
 }

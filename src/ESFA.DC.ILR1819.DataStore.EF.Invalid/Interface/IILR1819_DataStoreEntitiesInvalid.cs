@@ -8,20 +8,20 @@ namespace ESFA.DC.ILR1819.DataStore.EF.Invalid.Interface
         IQueryable<AppFinRecord> AppFinRecords { get; }
         IQueryable<CollectionDetail> CollectionDetails { get; }
         IQueryable<ContactPreference> ContactPreferences { get; }
-        IQueryable<Dpoutcome> Dpoutcomes { get; }
+        IQueryable<DPOutcome> DPOutcomes { get; }
         IQueryable<EmploymentStatusMonitoring> EmploymentStatusMonitorings { get; }
+        IQueryable<LLDDandHealthProblem> LLDDandHealthProblems { get; }
         IQueryable<Learner> Learners { get; }
         IQueryable<LearnerDestinationandProgression> LearnerDestinationandProgressions { get; }
         IQueryable<LearnerEmploymentStatus> LearnerEmploymentStatuses { get; }
-        IQueryable<LearnerFam> LearnerFams { get; }
-        IQueryable<LearnerHe> LearnerHes { get; }
-        IQueryable<LearnerHefinancialSupport> LearnerHefinancialSupports { get; }
+        IQueryable<LearnerFAM> LearnerFAMs { get; }
+        IQueryable<LearnerHE> LearnerHEs { get; }
+        IQueryable<LearnerHEFinancialSupport> LearnerHEFinancialSupports { get; }
         IQueryable<LearningDelivery> LearningDeliveries { get; }
-        IQueryable<LearningDeliveryFam> LearningDeliveryFams { get; }
-        IQueryable<LearningDeliveryHe> LearningDeliveryHes { get; }
+        IQueryable<LearningDeliveryFAM> LearningDeliveryFAMs { get; }
+        IQueryable<LearningDeliveryHE> LearningDeliveryHEs { get; }
         IQueryable<LearningDeliveryWorkPlacement> LearningDeliveryWorkPlacements { get; }
         IQueryable<LearningProvider> LearningProviders { get; }
-        IQueryable<LlddandHealthProblem> LlddandHealthProblems { get; }
         IQueryable<ProviderSpecDeliveryMonitoring> ProviderSpecDeliveryMonitorings { get; }
         IQueryable<ProviderSpecLearnerMonitoring> ProviderSpecLearnerMonitorings { get; }
         IQueryable<Source> Sources { get; }
