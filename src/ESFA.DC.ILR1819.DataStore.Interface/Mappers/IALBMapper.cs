@@ -15,12 +15,12 @@ namespace ESFA.DC.ILR1819.DataStore.Interface.Mappers
 
         IEnumerable<ALB_Learner_Period> MapLearnerPeriods(ALBGlobal albGlobal);
 
-        IEnumerable<ALB_Learner_PeriodisedValues> MapLearnerPeriodisedValues(ALBGlobal albGlobal);
+        IEnumerable<ALB_Learner_PeriodisedValue> MapLearnerPeriodisedValues(ALBGlobal albGlobal);
 
         IEnumerable<ALB_LearningDelivery> MapLearningDeliveries(ALBGlobal albGlobal);
 
         IEnumerable<ALB_LearningDelivery_Period> MapLearningDeliveryPeriods(ALBGlobal albGlobal);
 
-        IEnumerable<ALB_LearningDelivery_PeriodisedValues> MapLearningDeliveryPeriodisedValues(ALBGlobal albGlobal);
+        IEnumerable<ALB_LearningDelivery_PeriodisedValue> MapLearningDeliveryPeriodisedValues(ALBGlobal albGlobal);
     }
 }

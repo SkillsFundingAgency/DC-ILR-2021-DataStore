@@ -177,7 +177,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<AEC_LearningDelivery_PeriodisedValues> MapLearningDeliveryPeriodisedValues(FM36Global fm36Global)
+        public IEnumerable<AEC_LearningDelivery_PeriodisedValue> MapLearningDeliveryPeriodisedValues(FM36Global fm36Global)
         {
             var periodisedValues = fm36Global.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
@@ -186,7 +186,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return
                    periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
                    .Select(p =>
-                   new AEC_LearningDelivery_PeriodisedValues
+                   new AEC_LearningDelivery_PeriodisedValue
                    {
                        UKPRN = pv.Ukprn,
                        AimSeqNumber = pv.AimSeqNumber,
@@ -207,7 +207,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
                    }));
         }
 
-        public IEnumerable<AEC_LearningDelivery_PeriodisedTextValues> MapLearningDeliveryPeriodisedTextValues(FM36Global fm36Global)
+        public IEnumerable<AEC_LearningDelivery_PeriodisedTextValue> MapLearningDeliveryPeriodisedTextValues(FM36Global fm36Global)
         {
             var periodisedValues = fm36Global.Learners
               .SelectMany(l => l.LearningDeliveries.Select(ld =>
@@ -216,7 +216,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return
                    periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedTextValue
                    .Select(p =>
-                   new AEC_LearningDelivery_PeriodisedTextValues
+                   new AEC_LearningDelivery_PeriodisedTextValue
                    {
                        UKPRN = pv.Ukprn,
                        AimSeqNumber = pv.AimSeqNumber,
@@ -349,7 +349,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<AEC_ApprenticeshipPriceEpisode_PeriodisedValues> MapPriceEpisodePeriodisedValues(FM36Global fm36Global)
+        public IEnumerable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> MapPriceEpisodePeriodisedValues(FM36Global fm36Global)
         {
             var periodisedValues = fm36Global.Learners
                .SelectMany(l => l.PriceEpisodes.Select(pe =>
@@ -358,7 +358,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return
                    periodisedValues.SelectMany(pv => pv.PriceEpisodePeriodisedValue
                    .Select(p =>
-                   new AEC_ApprenticeshipPriceEpisode_PeriodisedValues
+                   new AEC_ApprenticeshipPriceEpisode_PeriodisedValue
                    {
                        UKPRN = pv.Ukprn,
                        LearnRefNumber = pv.LearnRefNumber,

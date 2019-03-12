@@ -75,14 +75,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return learnerPeriods;
         }
 
-        public IEnumerable<ALB_Learner_PeriodisedValues> MapLearnerPeriodisedValues(ALBGlobal albGlobal)
+        public IEnumerable<ALB_Learner_PeriodisedValue> MapLearnerPeriodisedValues(ALBGlobal albGlobal)
         {
             var periodisedValues = albGlobal.Learners.Select(l => new FundModelLearnerPeriodisedValue<List<LearnerPeriodisedValue>>(albGlobal.UKPRN, l.LearnRefNumber, l.LearnerPeriodisedValues));
 
             return
                    periodisedValues.SelectMany(pv => pv.LearnerPeriodisedValue
                    .Select(p =>
-                   new ALB_Learner_PeriodisedValues
+                   new ALB_Learner_PeriodisedValue
                    {
                        UKPRN = pv.Ukprn,
                        LearnRefNumber = pv.LearnRefNumber,
@@ -164,7 +164,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<ALB_LearningDelivery_PeriodisedValues> MapLearningDeliveryPeriodisedValues(ALBGlobal albGLobal)
+        public IEnumerable<ALB_LearningDelivery_PeriodisedValue> MapLearningDeliveryPeriodisedValues(ALBGlobal albGLobal)
         {
             var periodisedValues = albGLobal.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
@@ -173,7 +173,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return
                    periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
                    .Select(p =>
-                   new ALB_LearningDelivery_PeriodisedValues
+                   new ALB_LearningDelivery_PeriodisedValue
                    {
                        UKPRN = pv.Ukprn,
                        AimSeqNumber = pv.AimSeqNumber,

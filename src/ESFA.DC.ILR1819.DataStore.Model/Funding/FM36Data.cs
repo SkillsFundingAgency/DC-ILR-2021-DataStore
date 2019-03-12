@@ -13,14 +13,14 @@ namespace ESFA.DC.ILR1819.DataStore.Model
 
         public ICollection<AEC_LearningDelivery_Period> LearningDeliveryPeriods { get; set; } = new List<AEC_LearningDelivery_Period>();
 
-        public ICollection<AEC_LearningDelivery_PeriodisedValues> LearningDeliveryPeriodisedValues { get; set; } = new List<AEC_LearningDelivery_PeriodisedValues>();
+        public ICollection<AEC_LearningDelivery_PeriodisedValue> LearningDeliveryPeriodisedValues { get; set; } = new List<AEC_LearningDelivery_PeriodisedValue>();
 
-        public ICollection<AEC_LearningDelivery_PeriodisedTextValues> LearningDeliveryPeriodisedTextValues { get; set; } = new List<AEC_LearningDelivery_PeriodisedTextValues>();
+        public ICollection<AEC_LearningDelivery_PeriodisedTextValue> LearningDeliveryPeriodisedTextValues { get; set; } = new List<AEC_LearningDelivery_PeriodisedTextValue>();
 
         public ICollection<AEC_ApprenticeshipPriceEpisode> ApprenticeshipPriceEpisodes { get; set; } = new List<AEC_ApprenticeshipPriceEpisode>();
 
         public ICollection<AEC_ApprenticeshipPriceEpisode_Period> ApprenticeshipPriceEpisodePeriods { get; set; } = new List<AEC_ApprenticeshipPriceEpisode_Period>();
 
-        public ICollection<AEC_ApprenticeshipPriceEpisode_PeriodisedValues> ApprenticeshipPriceEpisodePeriodisedValues { get; set; } = new List<AEC_ApprenticeshipPriceEpisode_PeriodisedValues>();
+        public ICollection<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> ApprenticeshipPriceEpisodePeriodisedValues { get; set; } = new List<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>();
     }
 }

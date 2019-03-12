@@ -13,6 +13,6 @@ namespace ESFA.DC.ILR1819.DataStore.Model
 
         public ICollection<TBL_LearningDelivery_Period> LearningDeliveryPeriods { get; set; } = new List<TBL_LearningDelivery_Period>();
 
-        public ICollection<TBL_LearningDelivery_PeriodisedValues> LearningDeliveryPeriodisedValues { get; set; } = new List<TBL_LearningDelivery_PeriodisedValues>();
+        public ICollection<TBL_LearningDelivery_PeriodisedValue> LearningDeliveryPeriodisedValues { get; set; } = new List<TBL_LearningDelivery_PeriodisedValue>();
     }
 }

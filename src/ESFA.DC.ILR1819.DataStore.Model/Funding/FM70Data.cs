@@ -17,6 +17,6 @@ namespace ESFA.DC.ILR1819.DataStore.Model
 
         public ICollection<ESF_LearningDeliveryDeliverable_Period> LearningDeliveryDeliverablePeriods { get; set; } = new List<ESF_LearningDeliveryDeliverable_Period>();
 
-        public ICollection<ESF_LearningDeliveryDeliverable_PeriodisedValues> LearningDeliveryDeliverablePeriodisedValues { get; set; } = new List<ESF_LearningDeliveryDeliverable_PeriodisedValues>();
+        public ICollection<ESF_LearningDeliveryDeliverable_PeriodisedValue> LearningDeliveryDeliverablePeriodisedValues { get; set; } = new List<ESF_LearningDeliveryDeliverable_PeriodisedValue>();
     }
 }

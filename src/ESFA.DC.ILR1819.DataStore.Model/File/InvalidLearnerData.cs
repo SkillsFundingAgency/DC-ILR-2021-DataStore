@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR1819.DataStore.Model
 
         public List<EmploymentStatusMonitoring> RecordsInvalidEmploymentStatusMonitorings { get; set; } = new List<EmploymentStatusMonitoring>();
 
-        public List<LearnerEmploymentStatu> RecordsInvalidLearnerEmploymentStatus { get; set; } = new List<LearnerEmploymentStatu>();
+        public List<LearnerEmploymentStatus> RecordsInvalidLearnerEmploymentStatus { get; set; } = new List<LearnerEmploymentStatus>();
 
         public List<LearnerFAM> RecordsInvalidLearnerFams { get; set; } = new List<LearnerFAM>();
 

@@ -179,7 +179,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<FM35_LearningDelivery_PeriodisedValues> MapLearningDeliveryPeriodisedValues(FM35Global fm35Global)
+        public IEnumerable<FM35_LearningDelivery_PeriodisedValue> MapLearningDeliveryPeriodisedValues(FM35Global fm35Global)
         {
             var periodisedValues = fm35Global.Learners
                .SelectMany(l => l.LearningDeliveries.Select(ld =>
@@ -188,7 +188,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return
                    periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
                    .Select(p =>
-                   new FM35_LearningDelivery_PeriodisedValues
+                   new FM35_LearningDelivery_PeriodisedValue
                    {
                        UKPRN = pv.Ukprn,
                        AimSeqNumber = pv.AimSeqNumber,

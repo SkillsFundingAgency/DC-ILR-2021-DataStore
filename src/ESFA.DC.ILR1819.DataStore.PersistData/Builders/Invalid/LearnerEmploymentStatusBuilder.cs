@@ -5,14 +5,14 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
 {
     public class LearnerEmploymentStatusBuilder
     {
-        public static LearnerEmploymentStatu BuildInvalidLearnerEmploymentStatus(
+        public static LearnerEmploymentStatus BuildInvalidLearnerEmploymentStatus(
             int ukprn,
             ILearner learner,
             ILearnerEmploymentStatus learnerEmploymentStatus,
             int learnerId,
             int learnerEmploymentStatusId)
         {
-            return new LearnerEmploymentStatu
+            return new LearnerEmploymentStatus
             {
                 Learner_Id = learnerId,
                 LearnerEmploymentStatus_Id = learnerEmploymentStatusId,

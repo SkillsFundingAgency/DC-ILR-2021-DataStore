@@ -98,11 +98,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             }));
         }
 
-        public IEnumerable<FM25_FM35_Learner_PeriodisedValues> MapFM25_35_LearnerPeriodisedValues(FM25Global fm25Global)
+        public IEnumerable<FM25_FM35_Learner_PeriodisedValue> MapFM25_35_LearnerPeriodisedValues(FM25Global fm25Global)
         {
             return
                   fm25Global.Learners.SelectMany(l => l.LearnerPeriodisedValues.Select(lpv =>
-                  new FM25_FM35_Learner_PeriodisedValues
+                  new FM25_FM35_Learner_PeriodisedValue
                   {
                       UKPRN = fm25Global.UKPRN.Value,
                       LearnRefNumber = l.LearnRefNumber,

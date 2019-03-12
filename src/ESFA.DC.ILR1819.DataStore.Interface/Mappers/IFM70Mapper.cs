@@ -21,6 +21,6 @@ namespace ESFA.DC.ILR1819.DataStore.Interface.Mappers
 
         IEnumerable<ESF_LearningDeliveryDeliverable_Period> MapLearningDeliveryDeliverablePeriods(FM70Global fm70Global);
 
-        IEnumerable<ESF_LearningDeliveryDeliverable_PeriodisedValues> MapLearningDeliveryDeliverablePeriodisedValues(FM70Global fm70Global);
+        IEnumerable<ESF_LearningDeliveryDeliverable_PeriodisedValue> MapLearningDeliveryDeliverablePeriodisedValues(FM70Global fm70Global);
     }
 }

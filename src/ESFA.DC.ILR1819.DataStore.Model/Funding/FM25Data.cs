@@ -13,6 +13,6 @@ namespace ESFA.DC.ILR1819.DataStore.Model
 
         public ICollection<FM25_FM35_Learner_Period> Fm25Fm35LearnerPeriods { get; set; } = new List<FM25_FM35_Learner_Period>();
 
-        public ICollection<FM25_FM35_Learner_PeriodisedValues> Fm25Fm35LearnerPeriodisedValues { get; set; } = new List<FM25_FM35_Learner_PeriodisedValues>();
+        public ICollection<FM25_FM35_Learner_PeriodisedValue> Fm25Fm35LearnerPeriodisedValues { get; set; } = new List<FM25_FM35_Learner_PeriodisedValue>();
     }
 }
