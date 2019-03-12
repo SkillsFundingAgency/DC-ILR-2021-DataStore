@@ -36,6 +36,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF
         public decimal? ProgrammeAimProgFundIndMaxEmpCont { get; set; }
         public decimal? ProgrammeAimProgFundIndMinCoInvest { get; set; }
         public decimal? ProgrammeAimTotProgFund { get; set; }
+        public decimal? LearnDelLearnAddPayment { get; set; }
 
         public virtual AEC_LearningDelivery AEC_LearningDelivery { get; set; }
     }
