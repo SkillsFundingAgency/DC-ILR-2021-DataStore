@@ -30,6 +30,7 @@
     [ProgrammeAimProgFundIndMaxEmpCont]            DECIMAL (12, 5) NULL,
     [ProgrammeAimProgFundIndMinCoInvest]           DECIMAL (12, 5) NULL,
     [ProgrammeAimTotProgFund]                      DECIMAL (12, 5) NULL,
+    [LearnDelLearnAddPayment] DECIMAL(12, 5) NULL, 
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC, [AimSeqNumber] ASC, [Period] ASC)
 );
 GO
