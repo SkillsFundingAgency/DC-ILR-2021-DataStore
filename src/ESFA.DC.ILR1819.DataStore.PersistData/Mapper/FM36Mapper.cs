@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
@@ -154,6 +155,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
                         LearnDelContType = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedTextValues, string>(pv.LearningDeliveryPeriodisedTextValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelContType), i),
                         LearnDelFirstEmp1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelFirstEmp1618Pay), i),
                         LearnDelFirstProv1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelFirstProv1618Pay), i),
+                        LearnDelLearnAddPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelLearnAddPayment), i),
                         LearnDelLevyNonPayInd = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelLevyNonPayInd), i),
                         LearnDelSecondEmp1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelSecondEmp1618Pay), i),
                         LearnDelSecondProv1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, int?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelSecondProv1618Pay), i),

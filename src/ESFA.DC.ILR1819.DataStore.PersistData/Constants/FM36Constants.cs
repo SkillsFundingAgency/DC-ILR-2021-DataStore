@@ -27,6 +27,7 @@
         public const string LDApplic1618FrameworkUpliftBalancingPayment = "LDApplic1618FrameworkUpliftBalancingPayment";
         public const string LDApplic1618FrameworkUpliftCompletionPayment = "LDApplic1618FrameworkUpliftCompletionPayment";
         public const string LDApplic1618FrameworkUpliftOnProgPayment = "LDApplic1618FrameworkUpliftOnProgPayment";
+        public const string LearnDelLearnAddPayment = "LearnDelLearnAddPayment";
         public const string LearnDelContType = "LearnDelContType";
         public const string LearnDelFirstEmp1618Pay = "LearnDelFirstEmp1618Pay";
         public const string LearnDelFirstProv1618Pay = "LearnDelFirstProv1618Pay";
