@@ -29,6 +29,7 @@ namespace ESFA.DC.ILR1819.DataStore.EF
         public decimal? LARSWeightedRate { get; set; }
         public DateTime? LatestPossibleStartDate { get; set; }
         public DateTime? LDESFEngagementStartDate { get; set; }
+        public bool? LearnDelLearnerEmpAtStart { get; set; }
         public bool? PotentiallyEligibleForProgression { get; set; }
         public DateTime? ProgressionEndDate { get; set; }
         public bool? Restart { get; set; }

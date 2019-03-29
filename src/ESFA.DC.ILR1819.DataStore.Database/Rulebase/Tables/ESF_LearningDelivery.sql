@@ -17,6 +17,7 @@
     [LARSWeightedRate]                   DECIMAL (10, 5) NULL,
     [LatestPossibleStartDate]            DATE            NULL,
     [LDESFEngagementStartDate]           DATE            NULL,
+	[LearnDelLearnerEmpAtStart]			 BIT		     NULL,
     [PotentiallyEligibleForProgression]  BIT             NULL,
     [ProgressionEndDate]                 DATE            NULL,
     [Restart]                            BIT             NULL,
