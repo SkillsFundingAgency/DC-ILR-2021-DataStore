@@ -781,10 +781,11 @@ namespace ESFA.DC.ILR1819.DataStore.Database.Test
                 ExpectedColumn.CreateDecimal("LARSWeightedRate", 16, true, 10, 5),
                 ExpectedColumn.CreateDate("LatestPossibleStartDate", 17, true),
                 ExpectedColumn.CreateDate("LDESFEngagementStartDate", 18, true),
-                ExpectedColumn.CreateBit("PotentiallyEligibleForProgression", 19, true),
-                ExpectedColumn.CreateDate("ProgressionEndDate", 20, true),
-                ExpectedColumn.CreateBit("Restart", 21, true),
-                ExpectedColumn.CreateDecimal("WeightedRateFromESOL", 22, true, 10, 5)
+                ExpectedColumn.CreateBit("LearnDelLearnerEmpAtStart", 19, true),
+                ExpectedColumn.CreateBit("PotentiallyEligibleForProgression", 20, true),
+                ExpectedColumn.CreateDate("ProgressionEndDate", 21, true),
+                ExpectedColumn.CreateBit("Restart", 22, true),
+                ExpectedColumn.CreateDecimal("WeightedRateFromESOL", 23, true, 10, 5)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Rulebase", "ESF_LearningDelivery", expectedColumns, true);
         }
