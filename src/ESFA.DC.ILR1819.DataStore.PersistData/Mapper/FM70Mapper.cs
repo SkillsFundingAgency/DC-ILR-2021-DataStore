@@ -94,6 +94,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
                    LARSWeightedRate = ld.LearningDeliveryValue.LARSWeightedRate,
                    LatestPossibleStartDate = ld.LearningDeliveryValue.LatestPossibleStartDate,
                    LDESFEngagementStartDate = ld.LearningDeliveryValue.LDESFEngagementStartDate,
+                   LearnDelLearnerEmpAtStart = ld.LearningDeliveryValue.LearnDelLearnerEmpAtStart,
                    PotentiallyEligibleForProgression = ld.LearningDeliveryValue.PotentiallyEligibleForProgression,
                    ProgressionEndDate = ld.LearningDeliveryValue.ProgressionEndDate,
                    Restart = ld.LearningDeliveryValue.Restart,
