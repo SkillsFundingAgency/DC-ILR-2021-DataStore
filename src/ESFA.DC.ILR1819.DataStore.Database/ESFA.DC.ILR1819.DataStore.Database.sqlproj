@@ -102,6 +102,7 @@
     <Folder Include="Security\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="DataLock\Stored Procedures\" />
+    <Folder Include="Valid\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Rulebase\Tables\VAL_global.sql" />
@@ -226,6 +227,7 @@
     <Build Include="Rulebase\Tables\FM70_Learner.sql" />
     <Build Include="Rulebase\Tables\FM35_Learner.sql" />
     <Build Include="Rulebase\Tables\TBL_Learner.sql" />
+    <Build Include="Valid\Stored Procedures\GetLearnerDetails.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
