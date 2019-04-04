@@ -6,7 +6,7 @@ BEGIN
 	SET NOCOUNT ON;
 	
 	SELECT 
-		0 AS Id,
+		0 AS Id, -- Fake Id for EF Core
 		l.Ukprn,
 		l.Uln,
 		l.LearnRefNumber,
