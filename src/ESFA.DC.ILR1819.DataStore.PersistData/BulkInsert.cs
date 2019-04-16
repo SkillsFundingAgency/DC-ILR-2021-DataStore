@@ -1,73 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.ILR1819.DataStore.Interface;
 using FastMember;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData
 {
-    public sealed class BulkInsert : IDisposable
+    public sealed class BulkInsert : IBulkInsert
     {
-        private readonly CancellationToken _cancellationToken;
-
-        private readonly SqlBulkCopy _sqlBulkCopy;
-
-        public BulkInsert(SqlConnection connection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
-            _cancellationToken = cancellationToken;
-            _sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, sqlTransaction)
+            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection))
             {
-                BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
-                BulkCopyTimeout = 600
-            };
-        }
-
-        public async Task Insert<T>(string table, IList<T> source)
-        {
-            try
-            {
-                if (!source.Any())
+                try
                 {
-                    return;
-                }
-
-                if (_cancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
-
-                _sqlBulkCopy.ColumnMappings.Clear();
-                using (ObjectReader reader = ObjectReader.Create(source))
-                {
-                    _sqlBulkCopy.DestinationTableName = table;
-                    DataTable schema = reader.GetSchemaTable();
-                    if (schema == null)
+                    if (!source.Any())
                     {
                         return;
                     }
 
-                    for (int i = 0; i < schema.Rows.Count; i++)
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        _sqlBulkCopy.ColumnMappings.Add(schema.Rows[i].ItemArray[1].ToString(), schema.Rows[i].ItemArray[1].ToString());
+                        return;
                     }
 
-                    await _sqlBulkCopy.WriteToServerAsync(reader, _cancellationToken);
+                    var columnNames = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).Select(p => p.Name)
+                        .ToArray();
+
+                    using (var reader = ObjectReader.Create(source, columnNames))
+                    {
+                        sqlBulkCopy.DestinationTableName = table;
+
+                        foreach (var name in columnNames)
+                        {
+                            sqlBulkCopy.ColumnMappings.Add(name, name);
+                        }
+
+                        await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(table);
-                Console.Write(ex);
-                throw;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(table);
+                    Console.Write(ex);
+                    throw;
+                }
             }
         }
 
-        public void Dispose()
+        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection)
         {
-            ((IDisposable)_sqlBulkCopy)?.Dispose();
+            return new SqlBulkCopy(sqlConnection)
+            {
+                BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
+                BulkCopyTimeout = 600
+            };
         }
     }
 }

@@ -4,6 +4,8 @@
   
   <Section Name="DataStoreSection">
     <Parameter Name="ILRDataStoreConnectionString" Value="" />
+    <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="" />
+    <Parameter Name="IlrValidationErrorsConnectionString" Value="" />
   </Section>
   <Section Name="ServiceBusSettings">
     <Parameter Name="AuditQueueName" Value="" />

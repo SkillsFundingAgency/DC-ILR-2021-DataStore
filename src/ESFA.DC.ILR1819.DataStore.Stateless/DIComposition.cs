@@ -3,16 +3,31 @@ using System.Collections.Generic;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.Auditing.Interface;
+using ESFA.DC.Data.ILR.ValidationErrors.Model;
+using ESFA.DC.Data.ILR.ValidationErrors.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
-using ESFA.DC.ILR.ValidationErrors;
-using ESFA.DC.ILR.ValidationErrors.Interface;
+using ESFA.DC.FileService;
+using ESFA.DC.FileService.Config;
+using ESFA.DC.FileService.Config.Interface;
+using ESFA.DC.FileService.Interface;
+using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
+using ESFA.DC.ILR.FundingService.FM25.Model.Output;
+using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
+using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
+using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
+using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
+using ESFA.DC.ILR.Model;
 using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
-using ESFA.DC.ILR1819.DataStore.Interface.Service;
+using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
+using ESFA.DC.ILR1819.DataStore.Model;
+using ESFA.DC.ILR1819.DataStore.Model.File;
+using ESFA.DC.ILR1819.DataStore.Model.Funding;
+using ESFA.DC.ILR1819.DataStore.Model.History;
 using ESFA.DC.ILR1819.DataStore.PersistData;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders;
+using ESFA.DC.ILR1819.DataStore.PersistData.Mapper;
+using ESFA.DC.ILR1819.DataStore.PersistData.Persist;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services;
-using ESFA.DC.ILR1819.DataStore.PersistData.Services.ModelServices;
 using ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
@@ -20,8 +35,6 @@ using ESFA.DC.ILR1819.DataStore.Stateless.Modules;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.IO.Redis;
-using ESFA.DC.IO.Redis.Config.Interfaces;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager;
 using ESFA.DC.JobContextManager.Interface;
@@ -45,16 +58,6 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
         {
             var containerBuilder = new ContainerBuilder();
 
-            // register Cosmos config
-            var azureRedisOptions = configHelper.GetSectionValues<RedisOptions>("RedisSection");
-            containerBuilder.Register(c => new RedisKeyValuePersistenceConfig(
-                    azureRedisOptions.RedisConnectionString))
-                .As<IRedisKeyValuePersistenceServiceConfig>().SingleInstance();
-
-            containerBuilder.RegisterType<RedisKeyValuePersistenceService>()
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Redis)
-                .InstancePerLifetimeScope();
-
             // register azure blob storage service
             var azureBlobStorageOptions = configHelper.GetSectionValues<AzureStorageOptions>("AzureStorageSection");
             containerBuilder.Register(c =>
@@ -63,9 +66,17 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                         azureBlobStorageOptions.AzureBlobContainerName))
                 .As<IAzureStorageKeyValuePersistenceServiceConfig>().SingleInstance();
 
+            containerBuilder.Register(c =>
+                new AzureStorageFileServiceConfiguration()
+                {
+                    ConnectionString = azureBlobStorageOptions.AzureBlobConnectionString
+                })
+                .As<IAzureStorageFileServiceConfiguration>().SingleInstance();
+
+            containerBuilder.RegisterType<AzureStorageFileService>().As<IFileService>().InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
-                .As<IStreamableKeyValuePersistenceService>()
+                .As<IKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
             // register serialization
@@ -85,8 +96,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
             // Version info
-            var versionInfo = configHelper.GetSectionValues<VersionInfo>("VersionSection");
-            containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>().SingleInstance();
+            var versionInfo = configHelper.GetSectionValues<DataStore.Dto.VersionInfo>("VersionSection");
+            containerBuilder.RegisterInstance(versionInfo).As<DataStore.Dto.VersionInfo>().SingleInstance();
 
             // register logger
             var loggerOptions =
@@ -121,11 +132,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
                 .As<IQueuePublishService<JobStatusDto>>();
 
             // register Jobcontext services
-            var topicConfig = new ServiceBusTopicConfig(
+            var topicConfig = new TopicConfiguration(
                 serviceBusOptions.ServiceBusConnectionString,
                 serviceBusOptions.TopicName,
                 serviceBusOptions.DataStoreSubscriptionName,
-                1);
+                1,
+                maximumCallbackTimeSpan: TimeSpan.FromMinutes(30));
 
             containerBuilder.Register(c =>
             {
@@ -155,16 +167,13 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
 
             // register Entrypoint
-            containerBuilder.RegisterType<EntryPoint>()
+            containerBuilder.RegisterType<EntryPoint>().As<IEntryPoint>()
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
             // register ValidationError service
-            containerBuilder.Register(c => new ValidationErrorsService(
-                c.ResolveKeyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob),
-                c.Resolve<IJsonSerializationService>(),
-                c.Resolve<ILogger>())).As<IValidationErrorsService>()
-                .InstancePerLifetimeScope();
+            containerBuilder.Register(b => new ValidationErrors(persistDataConfig.IlrValidationErrorsConnectionString))
+                .As<IValidationErrors>().InstancePerDependency();
 
             containerBuilder.RegisterType<JobContextManager<JobContextMessage>>().As<IJobContextManager<JobContextMessage>>()
                 .InstancePerLifetimeScope();
@@ -172,85 +181,75 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterType<JobContextMessage>().As<IJobContextMessage>()
                 .InstancePerLifetimeScope();
 
-            RegisterBuilders(containerBuilder);
-            RegisterServices(containerBuilder);
+            RegisterMappers(containerBuilder);
+            RegisterProviders(containerBuilder);
+            RegisterPersistence(containerBuilder);
 
             return containerBuilder;
         }
 
-        private static void RegisterBuilders(ContainerBuilder containerBuilder)
+        private static void RegisterMappers(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<LearnerValidDataBuilder>().As<ILearnerValidDataBuilder>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DataStoreMapper>().As<IDataStoreMapper>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<LearnerInvalidDataBuilder>().As<ILearnerInvalidDataBuilder>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidLearnerDataMapper>().As<IValidLearnerDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<InvalidLearnerDataMapper>().As<IInvalidLearnerDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM81Mapper>().As<IFM81Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM70Mapper>().As<IFM70Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36Mapper>().As<IFM36Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM25Mapper>().As<IFM25Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidHeaderDataMapper>().As<IValidHeaderDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<InvalidHeaderDataMapper>().As<IInvalidHeaderDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ProcessingInformationDataMapper>().As<IProcessingInformationDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidationDataMapper>().As<IValidationDataMapper>().InstancePerLifetimeScope();
         }
 
-        private static void RegisterServices(ContainerBuilder containerBuilder)
+        private static void RegisterProviders(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<StoreRuleAlb>().As<IStoreRuleAlb>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DataStoreDataCacheProvider>().As<IDataStoreDataCacheProvider>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<StoreFM25>().As<IStoreFM25>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DataStoreDataProvider>().As<IDataStoreDataProvider>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<StoreFM35>().As<IStoreFM35>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ILRProviderService>().As<IProviderService<Message>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidLearnerProviderService>().As<IProviderService<List<string>>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ALBProviderService>().As<IProviderService<ALBGlobal>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM25ProviderService>().As<IProviderService<FM25Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM35ProviderService>().As<IProviderService<FM35Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36ProviderService>().As<IProviderService<FM36Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM70ProviderService>().As<IProviderService<FM70Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM81ProviderService>().As<IProviderService<FM81Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidationErrorsProviderService>().As<IProviderService<List<ILR.IO.Model.Validation.ValidationError>>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<RulesProviderService>().As<IProviderService<List<Rule>>>().InstancePerLifetimeScope();
+        }
 
-            containerBuilder.RegisterType<StoreFM36>().As<IStoreFM36>()
-                .InstancePerLifetimeScope();
+        private static void RegisterPersistence(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<StoreFM70>().As<IStoreFM70>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreALB>().As<IStoreService<ALBData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM25>().As<IStoreService<FM25Data>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM35>().As<IStoreService<FM35Data>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36>().As<IStoreService<FM36Data>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM70>().As<IStoreService<FM70Data>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM81>().As<IStoreService<FM81Data>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36History>().As<IStoreService<FM36HistoryData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreProcessingInformationData>().As<IStoreService<ProcessingInformationData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreValidHeader>().As<IStoreService<ValidHeaderData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreInvalidHeader>().As<IStoreService<InvalidHeaderData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreValidLearnerData>().As<IStoreService<ValidLearnerData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreInvalidLearnerData>().As<IStoreService<InvalidLearnerData>>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ILRProviderService>().As<IILRProviderService>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreService<ValidationData>>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ValidLearnerProviderService>().As<IValidLearnerProviderService>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreFM36HistoryClear>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ALBProviderService>().As<IALBProviderService>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM25ProviderService>().As<IFM25ProviderService>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM35ProviderService>().As<IFM35ProviderService>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM36ProviderService>().As<IFM36ProviderService>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM70ProviderService>().As<IFM70ProviderService>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<ALBService>().As<IModelService>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM25Service>().As<IModelService>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM35Service>().As<IModelService>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM36Service>().As<IModelService>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<FM70Service>().As<IModelService>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.Register(c => new List<IModelService>(c.Resolve<IEnumerable<IModelService>>()))
-                .As<IList<IModelService>>();
+            containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>().InstancePerDependency();
         }
     }
 }

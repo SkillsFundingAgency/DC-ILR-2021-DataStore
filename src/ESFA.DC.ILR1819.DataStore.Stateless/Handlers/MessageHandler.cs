@@ -3,10 +3,10 @@ using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using ESFA.DC.ILR1819.DataStore.PersistData;
+using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Stateless.Context;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
@@ -36,32 +36,46 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
 
         public async Task<bool> HandleAsync(JobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
+            ILogger logme = null;
             try
             {
-                using (var childLifeTimeScope = _parentLifeTimeScope.BeginLifetimeScope(c =>
+                using (var childLifeTimeScope = _parentLifeTimeScope.BeginLifetimeScope())
                 {
-                    c.RegisterInstance(jobContextMessage).As<IJobContextMessage>();
-                }))
-                {
-                    // get logger
                     var executionContext = (Logging.ExecutionContext)childLifeTimeScope.Resolve<IExecutionContext>();
                     executionContext.JobId = jobContextMessage.JobId.ToString();
                     var logger = childLifeTimeScope.Resolve<ILogger>();
-                    logger.LogDebug("started Data store");
+                    logme = logger;
+                    logger.LogDebug("Started Data Store");
 
-                    var entryPoint = childLifeTimeScope.Resolve<EntryPoint>();
-                    var result = await entryPoint.Callback(jobContextMessage, cancellationToken);
-                    logger.LogDebug("completed Data store");
+                    IEntryPoint entryPoint;
+                    try
+                    {
+                        entryPoint = childLifeTimeScope.Resolve<IEntryPoint>();
+                        logger.LogDebug("Resolved Entry Point");
+                    }
+                    catch (Exception exception)
+                    {
+                        logger.LogError("Entry Point Resolution Failure", exception);
+                        throw;
+                    }
+
+                    var dataStoreContext = new DataStoreJobContextMessageContext(jobContextMessage);
+
+                    var result = await entryPoint.Callback(dataStoreContext, cancellationToken);
+
+                    logger.LogDebug("Completed Data Store");
+
                     return result;
                 }
             }
             catch (OutOfMemoryException oom)
             {
-                Environment.FailFast("Data Service Out Of Memory", oom);
+                Environment.FailFast("Data Store Out Of Memory", oom);
                 throw;
             }
             catch (Exception ex)
             {
+                logme.LogError("DataStore.MessageHandler", ex);
                 ServiceEventSource.Current.ServiceMessage(_context, "Exception-{0}", ex.ToString());
                 throw;
             }
