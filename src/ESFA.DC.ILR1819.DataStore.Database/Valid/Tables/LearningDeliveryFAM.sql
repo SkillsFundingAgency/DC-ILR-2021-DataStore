@@ -15,6 +15,11 @@ CREATE NONCLUSTERED INDEX [IX_Valid_LearningDeliveryFAM]
     ON [Valid].[LearningDeliveryFAM]([UKPRN] ASC, [LearnRefNumber] ASC, [AimSeqNumber] ASC, [LearnDelFAMType] ASC, [LearnDelFAMDateFrom] ASC);
 GO
 
+CREATE NONCLUSTERED INDEX [IX_Valid_LearningDeliveryFAM_UKPRN_FamType]
+ON [Valid].[LearningDeliveryFAM] ([UKPRN],[LearnDelFAMType])
+INCLUDE ([LearnRefNumber],[AimSeqNumber],[LearnDelFAMCode],[LearnDelFAMDateFrom],[LearnDelFAMDateTo])
+GO
+
 ALTER TABLE [Valid].[LearningDeliveryFAM] ADD CONSTRAINT [FK_LearningDeliveryFAM_LearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [AimSeqNumber])
 REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber]);
 GO
