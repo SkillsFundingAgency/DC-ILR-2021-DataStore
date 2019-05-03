@@ -10,6 +10,7 @@ using ESFA.DC.FileService;
 using ESFA.DC.FileService.Config;
 using ESFA.DC.FileService.Config.Interface;
 using ESFA.DC.FileService.Interface;
+using ESFA.DC.ILR.DataStore.Dto;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -17,7 +18,6 @@ using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
-using ESFA.DC.ILR1819.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.Model;
@@ -96,8 +96,8 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless
             containerBuilder.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
             // Version info
-            var versionInfo = configHelper.GetSectionValues<DataStore.Dto.VersionInfo>("VersionSection");
-            containerBuilder.RegisterInstance(versionInfo).As<DataStore.Dto.VersionInfo>().SingleInstance();
+            var versionInfo = configHelper.GetSectionValues<VersionInfo>("VersionSection");
+            containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>().SingleInstance();
 
             // register logger
             var loggerOptions =

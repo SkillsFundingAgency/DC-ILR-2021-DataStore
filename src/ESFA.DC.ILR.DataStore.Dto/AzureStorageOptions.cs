@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.ILR1819.DataStore.Dto
+﻿namespace ESFA.DC.ILR.DataStore.Dto
 {
     public sealed class AzureStorageOptions
     {

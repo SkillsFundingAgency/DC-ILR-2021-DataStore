@@ -269,9 +269,9 @@
     <Compile Include="TransactionController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Dto\ESFA.DC.ILR.DataStore.Dto.csproj">
       <Project>{7E025741-6AAE-4537-B53D-A6058DBF668B}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.Dto</Name>
+      <Name>ESFA.DC.ILR.DataStore.Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF.Invalid\ESFA.DC.ILR1819.DataStore.EF.Invalid.csproj">
       <Project>{2C8DA159-CB2A-47C7-8AE4-149187B45987}</Project>

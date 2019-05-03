@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
-using ESFA.DC.ILR1819.DataStore.Dto;
+using ESFA.DC.ILR.DataStore.Dto;
 using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Model.Interface;
 using ESFA.DC.Logging.Interfaces;

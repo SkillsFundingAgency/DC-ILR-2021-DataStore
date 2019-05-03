@@ -5,8 +5,4 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ESFA.DC.IO.Redis" Version="0.1.15-beta0001" />
-  </ItemGroup>
-
 </Project>
