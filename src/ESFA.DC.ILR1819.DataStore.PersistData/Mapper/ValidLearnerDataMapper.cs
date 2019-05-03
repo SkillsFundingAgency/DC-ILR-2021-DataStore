@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR1819.DataStore.Interface.Mappers;
 using ESFA.DC.ILR1819.DataStore.Model;
+using ESFA.DC.ILR1819.DataStore.Model.File;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
 

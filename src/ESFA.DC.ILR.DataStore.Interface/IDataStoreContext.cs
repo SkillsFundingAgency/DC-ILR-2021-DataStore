@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESFA.DC.ILR1819.DataStore.Interface
+namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IDataStoreContext
     {

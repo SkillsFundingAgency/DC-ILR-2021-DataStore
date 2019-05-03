@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.Model;
+using ESFA.DC.ILR1819.DataStore.Model.Funding;
 
-namespace ESFA.DC.ILR1819.DataStore.Interface.Mappers
+namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IFM25Mapper
     {

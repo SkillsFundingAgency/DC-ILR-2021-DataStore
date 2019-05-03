@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Console.DesignTime
+namespace ESFA.DC.ILR.DataStore.EF.Console.DesignTime
 {
     public class ReferenceDataCandidateNamingService : CandidateNamingService
     {

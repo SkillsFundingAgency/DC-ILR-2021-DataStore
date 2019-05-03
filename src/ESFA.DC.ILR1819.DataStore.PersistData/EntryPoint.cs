@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData

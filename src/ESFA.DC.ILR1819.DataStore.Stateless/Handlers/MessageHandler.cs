@@ -3,7 +3,7 @@ using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Stateless.Context;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;

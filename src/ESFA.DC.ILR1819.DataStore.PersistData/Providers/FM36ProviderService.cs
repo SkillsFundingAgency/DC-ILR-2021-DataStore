@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.FileService.Interface;
+using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
-using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Providers
 {
     public class FM36ProviderService : AbstractProviderService<FM36Global>, IProviderService<FM36Global>
     {

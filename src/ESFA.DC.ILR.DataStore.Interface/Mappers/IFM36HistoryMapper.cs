@@ -3,7 +3,7 @@ using ESFA.DC.Data.AppsEarningsHistory.Model;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR1819.DataStore.Model.History;
 
-namespace ESFA.DC.ILR1819.DataStore.Interface.Mappers
+namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IFM36HistoryMapper
     {

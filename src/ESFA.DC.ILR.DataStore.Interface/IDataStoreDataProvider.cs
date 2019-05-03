@@ -11,7 +11,7 @@ using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model;
 
-namespace ESFA.DC.ILR1819.DataStore.Interface
+namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IDataStoreDataProvider
     {

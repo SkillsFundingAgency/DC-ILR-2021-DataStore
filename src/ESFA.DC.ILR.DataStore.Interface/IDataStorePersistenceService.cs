@@ -1,12 +1,11 @@
 ﻿using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR1819.DataStore.Model;
 using ESFA.DC.ILR1819.DataStore.Model.File;
 using ESFA.DC.ILR1819.DataStore.Model.Funding;
 using ESFA.DC.ILR1819.DataStore.Model.History;
 
-namespace ESFA.DC.ILR1819.DataStore.Interface
+namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IDataStorePersistenceService
     {

@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.Data.ILR.ValidationErrors.Model.Interfaces;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Providers
 {
     public class RulesProviderService : IProviderService<List<Rule>>
     {

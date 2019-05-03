@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ESFA.DC.ILR1819.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using FluentAssertions;

@@ -235,9 +235,9 @@
       <Project>{7E025741-6AAE-4537-B53D-A6058DBF668B}</Project>
       <Name>ESFA.DC.ILR.DataStore.Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Interface\ESFA.DC.ILR1819.DataStore.Interface.csproj">
-      <Project>{81c857d0-fa4a-40ce-8942-2abeeca94b74}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.Interface</Name>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
+      <Project>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</Project>
+      <Name>ESFA.DC.ILR.DataStore.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.PersistData\ESFA.DC.ILR1819.DataStore.PersistData.csproj">
       <Project>{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}</Project>

@@ -7,8 +7,8 @@
     <ProjectGuid>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR1819.DataStore.Interface</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR1819.DataStore.Interface</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR.DataStore.Interface</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -4,7 +4,7 @@ using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.Model.File;
 
-namespace ESFA.DC.ILR1819.DataStore.Interface.Mappers
+namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IValidationDataMapper
     {

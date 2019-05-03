@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Console.DesignTime
+namespace ESFA.DC.ILR.DataStore.EF.Console.DesignTime
 {
     /// <summary>
     /// https://stackoverflow.com/questions/39281647/entityframework-core-database-first-approach-pluralizing-table-names/47410837#47410837

@@ -1,4 +1,4 @@
-﻿using ESFA.DC.ILR1819.DataStore.Interface;
+﻿using ESFA.DC.ILR.DataStore.Interface;
 
 namespace ESFA.DC.ILR1819.DataStore.Stateless.Configuration
 {

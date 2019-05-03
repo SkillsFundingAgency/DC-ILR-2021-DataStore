@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.FileService.Interface;
+using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Model;
-using ESFA.DC.ILR1819.DataStore.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Services.Providers
+namespace ESFA.DC.ILR1819.DataStore.PersistData.Providers
 {
     public class ILRProviderService : IProviderService<Message>
     {
