@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿using ESFA.DC.ILR1819.DataStore.EF.Console.DesignTime;
+using Microsoft.EntityFrameworkCore.Design;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Console.DesignTime
+namespace ESFA.DC.ILR.DataStore.EF.Console.DesignTime
 {
     public class ReferenceDataPluralizer : IPluralizer
     {

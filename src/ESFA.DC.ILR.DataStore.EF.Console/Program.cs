@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.ILR1819.DataStore.EF.Console
+﻿namespace ESFA.DC.ILR.DataStore.EF.Console
 {
     class Program
     {
