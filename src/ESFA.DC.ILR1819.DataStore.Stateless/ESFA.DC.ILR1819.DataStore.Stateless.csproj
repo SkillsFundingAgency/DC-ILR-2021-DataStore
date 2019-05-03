@@ -468,8 +468,8 @@
     <None Include="Scripts\setup.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">
-      <Project>{276f8378-8eb9-4f43-8ba8-21c37c7dd46b}</Project>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Dto\ESFA.DC.ILR1819.DataStore.Dto.csproj">
+      <Project>{7E025741-6AAE-4537-B53D-A6058DBF668B}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Interface\ESFA.DC.ILR1819.DataStore.Interface.csproj">
