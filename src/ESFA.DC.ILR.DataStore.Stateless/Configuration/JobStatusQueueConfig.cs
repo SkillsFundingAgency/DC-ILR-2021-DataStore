@@ -1,6 +1,6 @@
 ﻿using ESFA.DC.Queueing;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Configuration
+namespace ESFA.DC.ILR.DataStore.Stateless.Configuration
 {
     public sealed class JobStatusQueueConfig : QueueConfiguration
     {

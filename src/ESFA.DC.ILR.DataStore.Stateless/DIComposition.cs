@@ -20,6 +20,9 @@ using ESFA.DC.ILR.DataStore.PersistData;
 using ESFA.DC.ILR.DataStore.PersistData.Mapper;
 using ESFA.DC.ILR.DataStore.PersistData.Persist;
 using ESFA.DC.ILR.DataStore.PersistData.Providers;
+using ESFA.DC.ILR.DataStore.Stateless.Configuration;
+using ESFA.DC.ILR.DataStore.Stateless.Handlers;
+using ESFA.DC.ILR.DataStore.Stateless.Modules;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -27,9 +30,6 @@ using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model;
-using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
-using ESFA.DC.ILR1819.DataStore.Stateless.Handlers;
-using ESFA.DC.ILR1819.DataStore.Stateless.Modules;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
@@ -48,7 +48,7 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless
+namespace ESFA.DC.ILR.DataStore.Stateless
 {
     public class DIComposition
     {

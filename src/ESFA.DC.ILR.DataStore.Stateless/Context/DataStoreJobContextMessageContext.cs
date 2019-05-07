@@ -3,7 +3,7 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Context
+namespace ESFA.DC.ILR.DataStore.Stateless.Context
 {
     public class DataStoreJobContextMessageContext : IDataStoreContext
     {

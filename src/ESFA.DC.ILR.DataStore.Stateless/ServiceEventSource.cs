@@ -5,7 +5,7 @@ using System.Diagnostics.Tracing;
 using System.Fabric;
 using System.Threading.Tasks;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless
+namespace ESFA.DC.ILR.DataStore.Stateless
 {
     [EventSource(Name = "MyCompany-ESFA.DC.ILR1819.DataStore-ESFA.DC.ILR1819.DataStore.Stateless")]
     internal sealed class ServiceEventSource : EventSource

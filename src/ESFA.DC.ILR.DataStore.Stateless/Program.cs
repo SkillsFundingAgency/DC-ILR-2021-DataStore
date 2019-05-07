@@ -4,7 +4,7 @@ using System.Threading;
 using Autofac.Integration.ServiceFabric;
 using ESFA.DC.ServiceFabric.Helpers;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless
+namespace ESFA.DC.ILR.DataStore.Stateless
 {
     public static class Program
     {

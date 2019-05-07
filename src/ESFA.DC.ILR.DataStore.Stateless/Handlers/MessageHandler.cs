@@ -4,12 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.ILR.DataStore.Interface;
-using ESFA.DC.ILR1819.DataStore.Stateless.Context;
+using ESFA.DC.ILR.DataStore.Stateless.Context;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Handlers
+namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
 {
     public sealed class MessageHandler : IMessageHandler<JobContextMessage>
     {

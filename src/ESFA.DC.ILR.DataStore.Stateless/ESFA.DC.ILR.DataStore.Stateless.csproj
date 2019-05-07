@@ -7,8 +7,8 @@
     <ProjectGuid>{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR1819.DataStore.Stateless</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR1819.DataStore.Stateless</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR.DataStore.Stateless</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.Stateless</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

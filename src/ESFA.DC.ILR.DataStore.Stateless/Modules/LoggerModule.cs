@@ -7,7 +7,7 @@ using ESFA.DC.Logging.Config.Interfaces;
 using ESFA.DC.Logging.Enums;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Modules
+namespace ESFA.DC.ILR.DataStore.Stateless.Modules
 {
     public class LoggerModule : Module
     {
