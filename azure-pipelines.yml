@@ -11,7 +11,7 @@ variables:
   BuildConfiguration: 'Release'
   BuildPlatform: 'Any CPU'
   BuildPlatformX64: 'x64'  
-  ServiceFabricProjectFolderName: 'ESFA.DC.ILR1819.DataStore'
+  ServiceFabricProjectFolderName: 'ESFA.DC.ILR.DataStore'
 
 pool:
   name: DCT
