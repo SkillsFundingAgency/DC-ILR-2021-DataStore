@@ -9,8 +9,8 @@
     <ProjectGuid>{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR1819.DataStore.Database.Test</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR1819.DataStore.Database.Test</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR.DataStore.Database.Test</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.Database.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

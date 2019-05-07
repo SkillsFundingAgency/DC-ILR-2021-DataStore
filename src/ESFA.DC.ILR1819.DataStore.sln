@@ -35,9 +35,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.State
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Stateless.Test", "ESFA.DC.ILR.DataStore.Stateless.Test\ESFA.DC.ILR.DataStore.Stateless.Test.csproj", "{09E114FA-2B1A-4A64-9268-5AE0F741EBFF}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ESFA.DC.ILR1819.DataStore.Database", "ESFA.DC.ILR.DataStore.Database\ESFA.DC.ILR1819.DataStore.Database.sqlproj", "{5E3748FB-22A4-4EC1-A5E3-22FEEAAA6D7E}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ESFA.DC.ILR.DataStore.Database", "ESFA.DC.ILR.DataStore.Database\ESFA.DC.ILR.DataStore.Database.sqlproj", "{5E3748FB-22A4-4EC1-A5E3-22FEEAAA6D7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR1819.DataStore.Database.Test", "ESFA.DC.ILR.DataStore.Database.Test\ESFA.DC.ILR1819.DataStore.Database.Test.csproj", "{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Database.Test", "ESFA.DC.ILR.DataStore.Database.Test\ESFA.DC.ILR.DataStore.Database.Test.csproj", "{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

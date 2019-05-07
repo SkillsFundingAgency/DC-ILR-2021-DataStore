@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>ESFA.DC.ILR1819.DataStore.Database</Name>
+    <Name>ESFA.DC.ILR.DataStore.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{5e3748fb-22a4-4ec1-a5e3-22feeaaa6d7e}</ProjectGuid>
@@ -29,6 +29,7 @@
     <IsEncryptionOn>True</IsEncryptionOn>
     <CompatibilityMode>140</CompatibilityMode>
     <Containment>Partial</Containment>
+    <TargetDatabase>ESFA.DC.ILR1819.DataStore.Database</TargetDatabase>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -52,6 +53,7 @@
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <SqlTargetName>ESFA.DC.ILR1819.DataStore</SqlTargetName>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
