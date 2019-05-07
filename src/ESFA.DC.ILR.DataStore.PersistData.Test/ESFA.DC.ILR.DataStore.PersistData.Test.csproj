@@ -329,10 +329,6 @@
       <Project>{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}</Project>
       <Name>ESFA.DC.ILR.DataStore.PersistData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Stateless\ESFA.DC.ILR1819.DataStore.Stateless.csproj">
-      <Project>{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.Stateless</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

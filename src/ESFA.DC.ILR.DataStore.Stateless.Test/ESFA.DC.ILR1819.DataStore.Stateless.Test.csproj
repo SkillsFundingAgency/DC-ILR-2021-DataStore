@@ -239,7 +239,7 @@
       <Project>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Stateless\ESFA.DC.ILR1819.DataStore.Stateless.csproj">
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Stateless\ESFA.DC.ILR1819.DataStore.Stateless.csproj">
       <Project>{5979fa6b-02a2-4cb0-9ca5-7709a0e12862}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.Stateless</Name>
     </ProjectReference>
