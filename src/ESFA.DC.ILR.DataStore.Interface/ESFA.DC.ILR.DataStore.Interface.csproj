@@ -162,13 +162,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj">
+      <Project>{45F608C4-7421-41AA-85CE-D30F4970C8C8}</Project>
+      <Name>ESFA.DC.ILR1819.DataStore.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj">
       <Project>{1FC6E30C-8DC6-44DA-975F-527B0D6FC8C7}</Project>
       <Name>ESFA.DC.ILR1819.DataStore.EF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Model\ESFA.DC.ILR1819.DataStore.Model.csproj">
-      <Project>{45f608c4-7421-41aa-85ce-d30f4970c8c8}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
