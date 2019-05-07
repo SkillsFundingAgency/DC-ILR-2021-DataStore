@@ -9,8 +9,8 @@
     <ProjectGuid>{09E114FA-2B1A-4A64-9268-5AE0F741EBFF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR1819.DataStore.Stateless.Test</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR1819.DataStore.Stateless.Test</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR.DataStore.Stateless.Test</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.Stateless.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

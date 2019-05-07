@@ -3,7 +3,7 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR1819.DataStore.Stateless.Configuration;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
+namespace ESFA.DC.ILR.DataStore.Stateless.Test
 {
     public sealed class TestConfigurationHelper : IConfigurationHelper
     {

@@ -1,11 +1,12 @@
 ﻿using Autofac;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR1819.DataStore.Stateless;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using FluentAssertions;
 using Xunit;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
+namespace ESFA.DC.ILR.DataStore.Stateless.Test
 {
     public sealed class AutoFacTest
     {
