@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
-using ESFA.DC.ILR1819.DataStore.Model;
-using ESFA.DC.ILR1819.DataStore.Model.Interface;
+using ESFA.DC.ILR.DataStore.Model;
+using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR1819.DataStore.PersistData

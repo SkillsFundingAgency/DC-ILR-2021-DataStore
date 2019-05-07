@@ -1,7 +1,7 @@
-﻿using ESFA.DC.ILR1819.DataStore.EF.Invalid;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ESFA.DC.ILR1819.DataStore.EF.Invalid;
 
-namespace ESFA.DC.ILR1819.DataStore.Model.File
+namespace ESFA.DC.ILR.DataStore.Model.File
 {
     public class InvalidHeaderData
     {

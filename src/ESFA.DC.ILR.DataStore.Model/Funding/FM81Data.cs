@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ILR1819.DataStore.EF;
 
-namespace ESFA.DC.ILR1819.DataStore.Model.Funding
+namespace ESFA.DC.ILR.DataStore.Model.Funding
 {
     public class FM81Data
     {
