@@ -14,7 +14,7 @@
   <CodePackage Name="Code" Version="1.0.0">
     <EntryPoint>
       <ExeHost>
-        <Program>ESFA.DC.ILR1819.DataStore.Stateless.exe</Program>
+        <Program>ESFA.DC.ILR.DataStore.Stateless.exe</Program>
       </ExeHost>
     </EntryPoint>
   </CodePackage>

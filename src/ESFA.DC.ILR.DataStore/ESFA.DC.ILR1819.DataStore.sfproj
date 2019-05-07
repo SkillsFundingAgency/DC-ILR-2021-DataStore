@@ -29,7 +29,7 @@
     <None Include="Scripts\Deploy-FabricApplication.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.Stateless\ESFA.DC.ILR1819.DataStore.Stateless.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Stateless\ESFA.DC.ILR.DataStore.Stateless.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
