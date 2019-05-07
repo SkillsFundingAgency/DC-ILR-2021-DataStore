@@ -141,7 +141,7 @@ steps:
   displayName: 'Run xUnit Test - Core Framework'
   inputs:
     command: test
-    projects: 'src/*Tests/*.csproj'
+    projects: 'src/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
     
 - task: VSTest@2
@@ -149,7 +149,7 @@ steps:
   displayName: 'VsTest - testAssemblies'
   inputs:
     testAssemblyVer2: |
-     **\ESFA.DC.ESF.R2.*tests.dll
+     **\ESFA.DC.*test.dll
      !**\*Database.Tests*\**
      !**\packages\**
      !**\obj\**
