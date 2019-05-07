@@ -12,7 +12,7 @@ using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR.DataStore.PersistData
 {
     public class DataStoreDataProvider : IDataStoreDataProvider
     {

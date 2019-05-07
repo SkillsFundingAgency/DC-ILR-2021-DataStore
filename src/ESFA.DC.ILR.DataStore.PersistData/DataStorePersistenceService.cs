@@ -6,7 +6,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.Model.Funding;
 using ESFA.DC.ILR.DataStore.Model.History;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR.DataStore.PersistData
 {
     public class DataStorePersistenceService : IDataStorePersistenceService
     {

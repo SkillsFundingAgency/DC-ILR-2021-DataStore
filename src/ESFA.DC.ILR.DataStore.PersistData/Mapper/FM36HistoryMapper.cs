@@ -6,7 +6,7 @@ using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.History;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM36HistoryMapper : IFM36HistoryMapper
     {

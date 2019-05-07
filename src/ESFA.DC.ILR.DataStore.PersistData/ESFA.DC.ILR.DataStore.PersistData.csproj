@@ -7,8 +7,8 @@
     <ProjectGuid>{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR1819.DataStore.PersistData</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR1819.DataStore.PersistData</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR.DataStore.PersistData</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.PersistData</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

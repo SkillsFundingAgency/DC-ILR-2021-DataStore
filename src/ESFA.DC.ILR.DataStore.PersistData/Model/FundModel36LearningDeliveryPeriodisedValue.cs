@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Model
+namespace ESFA.DC.ILR.DataStore.PersistData.Model
 {
     public struct FundModel36LearningDeliveryPeriodisedValue
     {

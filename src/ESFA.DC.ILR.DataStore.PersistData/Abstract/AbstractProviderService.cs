@@ -5,7 +5,7 @@ using ESFA.DC.FileService.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Abstract
+namespace ESFA.DC.ILR.DataStore.PersistData.Abstract
 {
     public abstract class AbstractProviderService<T>
     {

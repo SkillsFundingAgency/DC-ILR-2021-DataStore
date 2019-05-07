@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.ILR1819.DataStore.PersistData.Constants
+﻿namespace ESFA.DC.ILR.DataStore.PersistData.Constants
 {
     public static class FM35Constants
     {

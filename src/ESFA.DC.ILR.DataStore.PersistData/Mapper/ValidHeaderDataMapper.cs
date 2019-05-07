@@ -5,7 +5,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidHeaderDataMapper : IValidHeaderDataMapper
     {
@@ -38,7 +38,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
 
             validHeaderData.Sources = new List<Source>()
             {
-                new EF.Valid.Source
+                new ILR1819.DataStore.EF.Valid.Source
                 {
                     UKPRN = ukprn,
                     ComponentSetVersion = source.ComponentSetVersion,
@@ -65,7 +65,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
                     SoftwareSupplier = sf.SoftwareSupplier,
                     SourceFileName = sf.SourceFileName,
                 }).ToList()
-                ?? new List<EF.Valid.SourceFile>();
+                ?? new List<ILR1819.DataStore.EF.Valid.SourceFile>();
 
             return validHeaderData;
         }

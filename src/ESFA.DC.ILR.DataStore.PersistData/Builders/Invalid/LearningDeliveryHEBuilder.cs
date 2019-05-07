@@ -1,7 +1,7 @@
 ﻿using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.EF.Invalid;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Invalid
+namespace ESFA.DC.ILR.DataStore.PersistData.Builders.Invalid
 {
     public class LearningDeliveryHEBuilder
     {

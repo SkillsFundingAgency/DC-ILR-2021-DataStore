@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.Funding;
-using ESFA.DC.ILR1819.DataStore.PersistData.Constants;
+using ESFA.DC.ILR.DataStore.PersistData.Constants;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
+namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
     public class StoreALB : IStoreService<ALBData>
     {

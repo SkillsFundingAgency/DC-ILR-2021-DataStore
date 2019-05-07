@@ -14,7 +14,7 @@ using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR.DataStore.PersistData
 {
     public class DataStoreMapper : IDataStoreMapper
     {

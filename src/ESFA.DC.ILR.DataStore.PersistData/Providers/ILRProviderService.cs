@@ -7,7 +7,7 @@ using ESFA.DC.ILR.Model;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Providers
+namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 {
     public class ILRProviderService : IProviderService<Message>
     {

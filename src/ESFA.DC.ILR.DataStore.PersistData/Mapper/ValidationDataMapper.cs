@@ -8,7 +8,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidationDataMapper : IValidationDataMapper
     {
@@ -31,7 +31,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
 
                         var severity = ve.Severity != null && ve.Severity.Length >= 1 ? ve.Severity?.Substring(0, 1) : null;
 
-                        return new EF.ValidationError
+                        return new ILR1819.DataStore.EF.ValidationError
                         {
                             UKPRN = dataStoreContext.Ukprn,
                             SWSupAimID = learningDelivery?.SWSupAimId,
@@ -45,7 +45,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
                             Severity = severity,
                             Source = dataStoreContext.OriginalFilename
                         };
-                }).ToList() ?? new List<EF.ValidationError>()
+                }).ToList() ?? new List<ILR1819.DataStore.EF.ValidationError>()
             };
 
             return validationData;

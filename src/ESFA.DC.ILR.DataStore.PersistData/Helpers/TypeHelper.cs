@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Helpers
+namespace ESFA.DC.ILR.DataStore.PersistData.Helpers
 {
     public class TypeHelper
     {

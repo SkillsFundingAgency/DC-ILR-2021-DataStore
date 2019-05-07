@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.ILR1819.DataStore.PersistData.Model
+﻿namespace ESFA.DC.ILR.DataStore.PersistData.Model
 {
     public struct FundModelESFLearningDeliveryPeriodisedValue<T>
     {

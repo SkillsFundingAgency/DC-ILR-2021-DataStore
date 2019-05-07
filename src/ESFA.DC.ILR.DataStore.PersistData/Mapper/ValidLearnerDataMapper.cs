@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.File;
+using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
+using ESFA.DC.ILR.DataStore.PersistData.Builders.Valid;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Extension;
-using ESFA.DC.ILR1819.DataStore.PersistData.Builders.Valid;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidLearnerDataMapper : IValidLearnerDataMapper
     {
@@ -70,7 +70,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
 
             destinationAndProgressions.NullSafeForEach(destinationAndProgression =>
             {
-                validLearnerData.RecordsValidLearnerDestinationandProgressions.Add(new EF.Valid.LearnerDestinationandProgression
+                validLearnerData.RecordsValidLearnerDestinationandProgressions.Add(new ILR1819.DataStore.EF.Valid.LearnerDestinationandProgression
                 {
                     UKPRN = ukprn,
                     LearnRefNumber = destinationAndProgression.LearnRefNumber,
@@ -79,7 +79,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
 
                 destinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome =>
                 {
-                    validLearnerData.RecordsValidDpOutcomes.Add(new EF.Valid.DPOutcome
+                    validLearnerData.RecordsValidDpOutcomes.Add(new ILR1819.DataStore.EF.Valid.DPOutcome
                     {
                         LearnRefNumber = destinationAndProgression.LearnRefNumber,
                         OutCode = dpOutcome.OutCode,

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR.DataStore.PersistData
 {
     /// <summary>
     /// Entry point to the application. This class contains the job context callback.

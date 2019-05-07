@@ -5,7 +5,7 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Providers
+namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 {
     public class ValidLearnerProviderService : IProviderService<List<string>>
     {

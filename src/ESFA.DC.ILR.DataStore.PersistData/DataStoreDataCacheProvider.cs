@@ -6,7 +6,7 @@ using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ILR.DataStore.PersistData
 {
     public class DataStoreDataCacheProvider : IDataStoreDataCacheProvider
     {

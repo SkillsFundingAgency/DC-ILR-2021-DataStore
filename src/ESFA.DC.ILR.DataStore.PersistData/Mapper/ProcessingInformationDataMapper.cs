@@ -4,7 +4,7 @@ using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR1819.DataStore.EF;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ProcessingInformationDataMapper : IProcessingInformationDataMapper
     {

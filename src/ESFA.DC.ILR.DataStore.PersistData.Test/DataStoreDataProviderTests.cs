@@ -11,7 +11,6 @@ using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model;
-using ESFA.DC.ILR1819.DataStore.PersistData;
 using FluentAssertions;
 using Moq;
 using Xunit;

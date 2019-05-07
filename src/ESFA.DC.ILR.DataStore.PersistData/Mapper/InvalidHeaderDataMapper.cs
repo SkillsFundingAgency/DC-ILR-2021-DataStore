@@ -4,7 +4,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1819.DataStore.EF.Invalid;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class InvalidHeaderDataMapper : IInvalidHeaderDataMapper
     {
@@ -56,11 +56,11 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
             return invalidHeaderData;
         }
 
-        private List<EF.Invalid.SourceFile> BuildInvalidSourceFileCollection(IMessage message)
+        private List<ILR1819.DataStore.EF.Invalid.SourceFile> BuildInvalidSourceFileCollection(IMessage message)
         {
             var ukprn = message.LearningProviderEntity.UKPRN;
 
-            var sourceFilesList = new List<EF.Invalid.SourceFile>();
+            var sourceFilesList = new List<ILR1819.DataStore.EF.Invalid.SourceFile>();
 
             if (message.SourceFilesCollection == null)
             {

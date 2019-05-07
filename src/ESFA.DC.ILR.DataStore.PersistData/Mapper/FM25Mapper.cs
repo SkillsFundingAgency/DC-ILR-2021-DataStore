@@ -5,7 +5,7 @@ using ESFA.DC.ILR.DataStore.Model.Funding;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1819.DataStore.EF;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Mapper
+namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM25Mapper : IFM25Mapper
     {

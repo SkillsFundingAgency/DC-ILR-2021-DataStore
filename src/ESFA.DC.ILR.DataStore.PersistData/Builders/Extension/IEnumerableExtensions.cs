@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Builders.Extension
+namespace ESFA.DC.ILR.DataStore.PersistData.Builders.Extension
 {
     public static class IEnumerableExtensions
     {

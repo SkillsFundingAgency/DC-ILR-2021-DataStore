@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.File;
-using ESFA.DC.ILR1819.DataStore.PersistData.Abstract;
+using ESFA.DC.ILR.DataStore.PersistData.Abstract;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
+namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
     public class StoreInvalidHeader : AbstractStore,  IStoreService<InvalidHeaderData>
     {

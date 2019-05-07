@@ -5,7 +5,7 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR1819.DataStore.EF;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Persist
+namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
     public sealed class StoreProcessingInformationData : IStoreService<ProcessingInformationData>
     {

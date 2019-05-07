@@ -1,6 +1,6 @@
 ﻿using ESFA.DC.ILR.DataStore.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Abstract
+namespace ESFA.DC.ILR.DataStore.PersistData.Abstract
 {
     public abstract class AbstractStore
     {
