@@ -240,7 +240,7 @@
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Stateless\ESFA.DC.ILR.DataStore.Stateless.csproj">
-      <Project>{5979fa6b-02a2-4cb0-9ca5-7709a0e12862}</Project>
+      <Project>{5979FA6B-02A2-4CB0-9CA5-7709A0E12862}</Project>
       <Name>ESFA.DC.ILR.DataStore.Stateless</Name>
     </ProjectReference>
   </ItemGroup>
