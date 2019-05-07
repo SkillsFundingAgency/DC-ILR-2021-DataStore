@@ -7,7 +7,7 @@ using ESFA.DC.Serialization.Json;
 using FluentAssertions;
 using Xunit;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.MapperTests
+namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
 {
     public class FM70MapperTests
     {

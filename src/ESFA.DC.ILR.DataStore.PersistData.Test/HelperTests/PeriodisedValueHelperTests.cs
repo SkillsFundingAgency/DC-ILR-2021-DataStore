@@ -3,7 +3,7 @@ using ESFA.DC.ILR1819.DataStore.PersistData.Helpers;
 using FluentAssertions;
 using Xunit;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData.Test.HelperTests
+namespace ESFA.DC.ILR.DataStore.PersistData.Test.HelperTests
 {
     public class PeriodisedValueHelperTests
     {

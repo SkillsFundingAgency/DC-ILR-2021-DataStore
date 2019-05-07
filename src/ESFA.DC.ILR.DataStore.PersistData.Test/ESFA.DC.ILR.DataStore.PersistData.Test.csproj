@@ -9,8 +9,8 @@
     <ProjectGuid>{D6CDB77D-0593-466E-BE18-4B12EB1F5946}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR1819.DataStore.PersistData.Test</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR1819.DataStore.PersistData.Test</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR.DataStore.PersistData.Test</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.PersistData.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

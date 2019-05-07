@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Model
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR1819.DataStore.PersistData", "ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR1819.DataStore.PersistData.csproj", "{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR1819.DataStore.PersistData.Test", "ESFA.DC.ILR.DataStore.PersistData.Test\ESFA.DC.ILR1819.DataStore.PersistData.Test.csproj", "{D6CDB77D-0593-466E-BE18-4B12EB1F5946}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.PersistData.Test", "ESFA.DC.ILR.DataStore.PersistData.Test\ESFA.DC.ILR.DataStore.PersistData.Test.csproj", "{D6CDB77D-0593-466E-BE18-4B12EB1F5946}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
