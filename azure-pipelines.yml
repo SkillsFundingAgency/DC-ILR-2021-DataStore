@@ -11,7 +11,6 @@ variables:
   BuildConfiguration: 'Release'
   BuildPlatform: 'Any CPU'
   BuildPlatformX64: 'x64'  
-  ServiceFabricProjectFolderName: 'ESFA.DC.ILR.DataStore'
 
 pool:
   name: DCT
@@ -91,14 +90,26 @@ steps:
     Contents: '**\*.pdb'
 
 - task: CopyFiles@2
-  displayName: 'Copy Database Files - Artifact NugetPackages Directory'
+  displayName: 'Copy Nuget Interface Packages Files - Artifact NugetInterface Directory'
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)\src'
+    Contents: |
+     **\*$(BuildConfiguration)*\*Interface.nupkg
+     !**\packages\**
+     !**\bin\x64\**
+    TargetFolder: '$(build.artifactstagingdirectory)\Nuget\Interface'
+    CleanTargetFolder: true
+    flattenFolders: true
+
+- task: CopyFiles@2
+  displayName: 'Copy NugetPackages Files - Artifact NugetPackages Directory'
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src'
     Contents: |
      **\*$(BuildConfiguration)*\*.nupkg
      !**\packages\**
      !**\bin\x64\**
-    TargetFolder: '$(build.artifactstagingdirectory)\NugetPackages'
+    TargetFolder: '$(build.artifactstagingdirectory)\Nuget\Packages'
     CleanTargetFolder: true
     flattenFolders: true
         
@@ -114,7 +125,7 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy Files - $(build.artifactstagingdirectory)\ServiceFabric\PublishProfiles'
   inputs:
-    SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
+    SourceFolder: '$(build.sourcesdirectory)\src'
     Contents: '**\PublishProfiles\Cloud.xml'
     TargetFolder: '$(build.artifactstagingdirectory)\ServiceFabric\PublishProfiles'
     CleanTargetFolder: true
@@ -123,7 +134,7 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy Files - $(build.artifactstagingdirectory)\ServiceFabric\ApplicationParameters'
   inputs:
-    SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
+    SourceFolder: '$(build.sourcesdirectory)\src'
     Contents: '**\ApplicationParameters\*.xml'
     TargetFolder: '$(build.artifactstagingdirectory)\ServiceFabric\ApplicationParameters'
     CleanTargetFolder: true
@@ -141,7 +152,7 @@ steps:
   displayName: 'Run xUnit Test - Core Framework'
   inputs:
     command: test
-    projects: 'src/*Test/*.csproj'
+    projects: 'src/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
     
 - task: VSTest@2
@@ -149,7 +160,7 @@ steps:
   displayName: 'VsTest - testAssemblies'
   inputs:
     testAssemblyVer2: |
-     **\ESFA.DC.*test.dll
+     **\ESFA.DC.ESF.R2.*tests.dll
      !**\*Database.Tests*\**
      !**\packages\**
      !**\obj\**
@@ -173,10 +184,11 @@ steps:
   displayName: 'Publish Artifact: NugetPackages'
   inputs:
     ArtifactName: NugetPackages
-    PathtoPublish: '$(build.artifactstagingdirectory)\NugetPackages'
+    PathtoPublish: '$(build.artifactstagingdirectory)\Nuget'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Databases'
+  enabled: false
   inputs:
     ArtifactName: Databases
     PathtoPublish: '$(build.artifactstagingdirectory)\Databases'
