@@ -119,7 +119,7 @@ steps:
     SourceFolder: '$(build.sourcesdirectory)'
     Contents: |
      **\*.dacpac
-     !**\.Desktop.*\**\*.dacpac
+     !**\*.Desktop.*\**\*.dacpac
     TargetFolder: '$(build.artifactstagingdirectory)\Databases'
     CleanTargetFolder: true
     flattenFolders: true
