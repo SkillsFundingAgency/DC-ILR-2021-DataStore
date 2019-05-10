@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Data.SqlClient;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,25 +11,46 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Service
     {
         public Task DeployAsync(string connectionString, CancellationToken cancellationToken)
         {
-            var dacOptions = new DacDeployOptions()
+            var dacOptions = BuildDacDeployOptions();
+
+            var databaseName = GetDatabaseNameFromInitialCatalog(connectionString);
+
+            var dacServices = new DacServices(connectionString);
+
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ESFA.DC.ILR.DataStore.Desktop.Resources.ESFA.DC.ILR.DataStore.Database.dacpac"))
+            {
+                using (DacPackage dacPackage = DacPackage.Load(stream))
+                {
+                    dacServices.Deploy(dacPackage, databaseName, true, dacOptions, cancellationToken);
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private string GetDatabaseNameFromInitialCatalog(string connectionString)
+        {
+            return new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+        }
+
+        private DacDeployOptions BuildDacDeployOptions()
+        {
+            var dacDeployOptions = new DacDeployOptions()
             {
                 BlockOnPossibleDataLoss = false,
                 CreateNewDatabase = true,
             };
 
-            var dacServiceInstance = new DacServices(connectionString);
+            var defaultValue = "Default";
 
-                var assembly = Assembly.GetExecutingAssembly();
-                var embeddedResources = assembly.GetManifestResourceNames();
+            dacDeployOptions.SqlCommandVariableValues.Add("BUILD_BRANCHNAME", defaultValue);
+            dacDeployOptions.SqlCommandVariableValues.Add("BUILD_BUILDNUMBER", defaultValue);
+            dacDeployOptions.SqlCommandVariableValues.Add("DSCIUserPassword", defaultValue);
+            dacDeployOptions.SqlCommandVariableValues.Add("RELEASE_RELEASENAME", defaultValue);
+            dacDeployOptions.SqlCommandVariableValues.Add("ROUserPassword", defaultValue);
+            dacDeployOptions.SqlCommandVariableValues.Add("RWUserPassword", defaultValue);
 
-                //using (var stream = Assembly.
-
-                //using (DacPackage dacpac = DacPackage.Load(dacpacName))
-                //{
-                //    dacServiceInstance.Deploy(dacpac, databaseName, true,  dacOptions);
-                //}
-
-            return Task.CompletedTask;
+            return dacDeployOptions;
         }
     }
 }

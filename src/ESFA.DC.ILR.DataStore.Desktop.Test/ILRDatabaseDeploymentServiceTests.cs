@@ -16,11 +16,12 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Test
         [Fact]
         public async Task DeployAsync()
         {
-            var connectionStringBuilder = new SqlConnectionStringBuilder();
-
-            connectionStringBuilder.InitialCatalog = "ILR1920";
-            connectionStringBuilder.Authentication = SqlAuthenticationMethod.ActiveDirectoryIntegrated;
-            connectionStringBuilder.DataSource = "(local)";
+            var connectionStringBuilder = new SqlConnectionStringBuilder
+            {
+                InitialCatalog = "ILR1920",
+                IntegratedSecurity = true,
+                DataSource = "(local)"
+            };
 
             var connectionString = connectionStringBuilder.ConnectionString;
 
