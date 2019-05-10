@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\ESFA.DC.ILR.DataStore.Database.dacpac" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ESFA.DC.ILR.DataStore.Database.dacpac" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ESFA.DC.ILR.1920.Desktop.Interface" Version="0.1.0-beta0001" />
+    <PackageReference Include="Microsoft.SqlServer.DacFx.x86" Version="150.4384.2" />
   </ItemGroup>
 
   <ItemGroup>

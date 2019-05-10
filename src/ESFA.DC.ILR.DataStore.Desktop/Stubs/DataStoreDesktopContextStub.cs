@@ -5,28 +5,142 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Stubs
 {
     public class DataStoreDesktopContextStub : IDataStoreContext
     {
-        public int Ukprn { get; set; }
-        public string Filename { get; set; }
-        public string OriginalFilename { get; set; }
-        public string Container { get; set; }
-        public string CollectionYear { get; set; }
-        public string ReturnCode { get; set; }
-        public DateTime? SubmissionDateTimeUtc { get; set; }
-        public long FileSizeInBytes { get; set; }
-        public int ValidLearnRefNumbersCount { get; set; }
-        public int InvalidLearnRefNumbersCount { get; set; }
-        public int ValidationTotalErrorCount { get; set; }
-        public int ValidationTotalWarningCount { get; set; }
-        public string ValidationErrorsKey { get; set; }
-        public string ValidationErrorsLookupsKey { get; set; }
-        public string FundingFM81OutputKey { get; set; }
-        public string FundingFM70OutputKey { get; set; }
-        public string FundingFM36OutputKey { get; set; }
-        public string FundingFM35OutputKey { get; set; }
-        public string FundingFM25OutputKey { get; set; }
-        public string FundingALBOutputKey { get; set; }
-        public string ValidLearnRefNumbersKey { get; set; }
-        public string IlrDatabaseConnectionString { get; set; }
-        public string AppEarnHistoryDatabaseConnectionString { get; set; }
+        public int Ukprn
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string Filename
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string OriginalFilename
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string Container
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string CollectionYear
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string ReturnCode
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public DateTime? SubmissionDateTimeUtc
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public long FileSizeInBytes
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public int ValidLearnRefNumbersCount
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public int InvalidLearnRefNumbersCount
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public int ValidationTotalErrorCount
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public int ValidationTotalWarningCount
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string ValidationErrorsKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string ValidationErrorsLookupsKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string FundingFM81OutputKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string FundingFM70OutputKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string FundingFM36OutputKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string FundingFM35OutputKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string FundingFM25OutputKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string FundingALBOutputKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string ValidLearnRefNumbersKey
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string IlrDatabaseConnectionString
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        public string AppEarnHistoryDatabaseConnectionString
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
     }
 }
