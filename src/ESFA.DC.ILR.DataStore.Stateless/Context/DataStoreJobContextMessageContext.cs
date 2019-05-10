@@ -1,5 +1,6 @@
 ﻿using System;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model.Interface;
 
@@ -8,10 +9,12 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
     public class DataStoreJobContextMessageContext : IDataStoreContext
     {
         private readonly IJobContextMessage _jobContextMessage;
+        private readonly PersistDataConfiguration _persistDataConfiguration;
 
-        public DataStoreJobContextMessageContext(IJobContextMessage jobContextMessage)
+        public DataStoreJobContextMessageContext(IJobContextMessage jobContextMessage, PersistDataConfiguration persistDataConfiguration)
         {
             _jobContextMessage = jobContextMessage;
+            _persistDataConfiguration = persistDataConfiguration;
         }
 
         public int Ukprn => int.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
@@ -55,5 +58,9 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
         public string FundingALBOutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
 
         public string ValidLearnRefNumbersKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString();
+
+        public string IlrDatabaseConnectionString => _persistDataConfiguration.ILRDataStoreConnectionString;
+
+        public string AppEarnHistoryDatabaseConnectionString => _persistDataConfiguration.AppEarnHistoryDataStoreConnectionString;
     }
 }

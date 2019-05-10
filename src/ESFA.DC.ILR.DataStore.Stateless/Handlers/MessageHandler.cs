@@ -7,6 +7,7 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Stateless.Context;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
+using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
@@ -14,6 +15,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
     public sealed class MessageHandler : IMessageHandler<JobContextMessage>
     {
         private readonly ILifetimeScope _parentLifeTimeScope;
+        private readonly IDataStoreContextFactory<IJobContextMessage> _dataStoreContextFactory;
 
         private readonly StatelessServiceContext _context;
 
@@ -28,9 +30,10 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
             _context = null;
         }
 
-        public MessageHandler(ILifetimeScope parentLifeTimeScope, StatelessServiceContext context)
+        public MessageHandler(ILifetimeScope parentLifeTimeScope, IDataStoreContextFactory<IJobContextMessage> dataStoreContextFactory, StatelessServiceContext context)
         {
             _parentLifeTimeScope = parentLifeTimeScope;
+            _dataStoreContextFactory = dataStoreContextFactory;
             _context = context;
         }
 
@@ -59,7 +62,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
                         throw;
                     }
 
-                    var dataStoreContext = new DataStoreJobContextMessageContext(jobContextMessage);
+                    var dataStoreContext = _dataStoreContextFactory.Build(jobContextMessage);
 
                     var result = await entryPoint.Callback(dataStoreContext, cancellationToken);
 

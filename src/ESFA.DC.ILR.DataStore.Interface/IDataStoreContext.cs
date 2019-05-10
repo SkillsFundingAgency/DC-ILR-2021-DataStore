@@ -45,5 +45,9 @@ namespace ESFA.DC.ILR.DataStore.Interface
         string FundingALBOutputKey { get; }
 
         string ValidLearnRefNumbersKey { get; }
+
+        string IlrDatabaseConnectionString { get; }
+
+        string AppEarnHistoryDatabaseConnectionString { get; }
     }
 }

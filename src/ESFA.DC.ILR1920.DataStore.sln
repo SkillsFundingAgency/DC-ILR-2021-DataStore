@@ -40,6 +40,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ESFA.DC.ILR.DataStore.Datab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Database.Test", "ESFA.DC.ILR.DataStore.Database.Test\ESFA.DC.ILR.DataStore.Database.Test.csproj", "{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Desktop", "ESFA.DC.ILR.DataStore.Desktop\ESFA.DC.ILR.DataStore.Desktop.csproj", "{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Desktop.Test", "ESFA.DC.ILR.DataStore.Desktop.Test\ESFA.DC.ILR.DataStore.Desktop.Test.csproj", "{882544D0-CE39-4FD9-A278-4C4F401166FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +177,22 @@ Global
 		{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}.Release|x64.ActiveCfg = Release|x64
 		{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}.Release|x64.Build.0 = Release|x64
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}.Release|x64.Build.0 = Release|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Debug|x64.Build.0 = Debug|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
