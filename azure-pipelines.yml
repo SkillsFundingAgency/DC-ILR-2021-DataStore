@@ -117,7 +117,9 @@ steps:
   displayName: 'Copy Database Files - Artifact Databases Directory'
   inputs:
     SourceFolder: '$(build.sourcesdirectory)'
-    Contents: '**\*.dacpac'
+   Contents: |
+     **\*.dacpac
+     !**\.Desktop.*\**
     TargetFolder: '$(build.artifactstagingdirectory)\Databases'
     CleanTargetFolder: true
     flattenFolders: true
