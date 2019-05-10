@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless
                 builder.RegisterServiceFabricSupport();
 
                 // Register the stateless service.
-                builder.RegisterStatelessService<Stateless>("ESFA.DC.ILR1819.DataStore.StatelessType");
+                builder.RegisterStatelessService<Stateless>("ESFA.DC.ILR1920.DataStore.StatelessType");
 
                 using (var container = builder.Build())
                 {
