@@ -21,6 +21,7 @@ using ESFA.DC.ILR.DataStore.PersistData.Mapper;
 using ESFA.DC.ILR.DataStore.PersistData.Persist;
 using ESFA.DC.ILR.DataStore.PersistData.Providers;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
+using ESFA.DC.ILR.DataStore.Stateless.Context;
 using ESFA.DC.ILR.DataStore.Stateless.Handlers;
 using ESFA.DC.ILR.DataStore.Stateless.Modules;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
@@ -163,6 +164,8 @@ namespace ESFA.DC.ILR.DataStore.Stateless
 
             // register MessageHandler
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<JobContextMessageDataStoreFactory>().As<IDataStoreContextFactory<IJobContextMessage>>();
 
             // register Entrypoint
             containerBuilder.RegisterType<EntryPoint>().As<IEntryPoint>()

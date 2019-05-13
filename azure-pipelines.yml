@@ -117,10 +117,12 @@ steps:
   displayName: 'Copy Database Files - Artifact Databases Directory'
   inputs:
     SourceFolder: '$(build.sourcesdirectory)'
-    Contents: '**\*.dacpac'
+    Contents: |
+     **\*.Database\**\*.dacpac
     TargetFolder: '$(build.artifactstagingdirectory)\Databases'
     CleanTargetFolder: true
     flattenFolders: true
+    
 
 - task: CopyFiles@2
   displayName: 'Copy Files - $(build.artifactstagingdirectory)\ServiceFabric\PublishProfiles'

@@ -1,6 +1,6 @@
-﻿namespace ESFA.DC.ILR.DataStore.Dto
+﻿namespace ESFA.DC.ILR.DataStore.Stateless.Configuration
 {
-    public sealed class PersistDataConfiguration
+    public class PersistDataConfiguration
     {
         public string ILRDataStoreConnectionString { get; set; }
 

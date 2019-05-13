@@ -12,16 +12,13 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 {
     public class TransactionController : ITransactionController
     {
-        private readonly PersistDataConfiguration _persistDataConfiguration;
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly ILogger _logger;
 
         public TransactionController(
-            PersistDataConfiguration persistDataConfiguration,
             IDataStorePersistenceService dataStorePersistenceService,
             ILogger logger)
         {
-            _persistDataConfiguration = persistDataConfiguration;
             _dataStorePersistenceService = dataStorePersistenceService;
             _logger = logger;
         }
@@ -32,7 +29,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             // that both commands can commit or roll back as a single unit of work.
             using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(0, 25, 0), TransactionScopeAsyncFlowOption.Enabled))
             {
-                using (SqlConnection ilrConnection = new SqlConnection(_persistDataConfiguration.ILRDataStoreConnectionString))
+                using (SqlConnection ilrConnection = new SqlConnection(dataStoreContext.IlrDatabaseConnectionString))
                 {
                     await ilrConnection.OpenAsync(cancellationToken);
 
@@ -81,7 +78,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                     cancellationToken.ThrowIfCancellationRequested();
 
                     // Nest the FM36History store so that the ILR data has to be successful
-                    using (SqlConnection fm36HistoryConnection = new SqlConnection(_persistDataConfiguration.AppEarnHistoryDataStoreConnectionString))
+                    using (SqlConnection fm36HistoryConnection = new SqlConnection(dataStoreContext.AppEarnHistoryDatabaseConnectionString))
                     {
                         await fm36HistoryConnection.OpenAsync(cancellationToken);
 
