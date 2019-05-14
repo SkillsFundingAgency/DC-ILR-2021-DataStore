@@ -1,4 +1,5 @@
 ﻿using System;
+using ESFA.DC.ILR.Constants;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.JobContext.Interface;
@@ -19,45 +20,43 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public int Ukprn => int.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
 
-        public string Filename => _jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
+        public string Filename => _jobContextMessage.KeyValuePairs[ILRContextKeys.Filename].ToString();
 
-        public string OriginalFilename => _jobContextMessage.KeyValuePairs["OriginalFilename"].ToString();
+        public string OriginalFilename => _jobContextMessage.KeyValuePairs[ILRContextKeys.OriginalFilename].ToString();
 
-        public string Container => _jobContextMessage.KeyValuePairs["Container"].ToString();
+        public string Container => _jobContextMessage.KeyValuePairs[ILRContextKeys.Container].ToString();
 
-        public string CollectionYear => _jobContextMessage.KeyValuePairs[JobContextMessageKey.CollectionYear].ToString();
+        public string CollectionYear => _jobContextMessage.KeyValuePairs[ILRContextKeys.CollectionYear].ToString();
 
-        public string ReturnCode => _jobContextMessage.KeyValuePairs[JobContextMessageKey.ReturnPeriod].ToString();
+        public string ReturnPeriod => _jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 
         public DateTime? SubmissionDateTimeUtc => _jobContextMessage.SubmissionDateTimeUtc;
 
-        public long FileSizeInBytes => long.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.FileSizeInBytes].ToString());
+        public long FileSizeInBytes => long.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.FileSizeInBytes].ToString());
 
-        public int ValidLearnRefNumbersCount => int.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbersCount].ToString());
+        public int ValidLearnRefNumbersCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.ValidLearnRefNumbersCount].ToString());
 
-        public int InvalidLearnRefNumbersCount => int.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.InvalidLearnRefNumbersCount].ToString());
+        public int InvalidLearnRefNumbersCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.InvalidLearnRefNumbersCount].ToString());
 
-        public int ValidationTotalErrorCount => int.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationTotalErrorCount].ToString());
+        public int ValidationTotalErrorCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationTotalErrorCount].ToString());
 
-        public int ValidationTotalWarningCount => int.Parse(_jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationTotalErrorCount].ToString());
+        public int ValidationTotalWarningCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationTotalErrorCount].ToString());
 
-        public string ValidationErrorsKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrors].ToString();
+        public string ValidationErrors => _jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationErrors].ToString();
 
-        public string ValidationErrorsLookupsKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidationErrorLookups].ToString();
+        public string FundingFM81Output => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingFm81Output].ToString();
 
-        public string FundingFM81OutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingFm81Output].ToString();
+        public string FundingFM70Output => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingFm70Output].ToString();
 
-        public string FundingFM70OutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingFm70Output].ToString();
+        public string FundingFM36Output => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingFm36Output].ToString();
 
-        public string FundingFM36OutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingFm36Output].ToString();
+        public string FundingFM35Output => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingFm35Output].ToString();
 
-        public string FundingFM35OutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingFm35Output].ToString();
+        public string FundingFM25Output => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingFm25Output].ToString();
 
-        public string FundingFM25OutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingFm25Output].ToString();
+        public string FundingALBOutput => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingAlbOutput].ToString();
 
-        public string FundingALBOutputKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.FundingAlbOutput].ToString();
-
-        public string ValidLearnRefNumbersKey => _jobContextMessage.KeyValuePairs[JobContextMessageKey.ValidLearnRefNumbers].ToString();
+        public string ValidLearnRefNumbers => _jobContextMessage.KeyValuePairs[ILRContextKeys.ValidLearnRefNumbers].ToString();
 
         public string IlrDatabaseConnectionString => _persistDataConfiguration.ILRDataStoreConnectionString;
 

@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 
         public async Task<List<string>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            var learnersValidStr = await _keyValuePersistenceService.GetAsync(dataStoreContext.ValidLearnRefNumbersKey, cancellationToken);
+            var learnersValidStr = await _keyValuePersistenceService.GetAsync(dataStoreContext.ValidLearnRefNumbers, cancellationToken);
 
             return _jsonSerializationService.Deserialize<List<string>>(learnersValidStr);
         }

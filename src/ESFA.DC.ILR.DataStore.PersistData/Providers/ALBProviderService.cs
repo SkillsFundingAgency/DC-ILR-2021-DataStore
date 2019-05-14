@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 
         public Task<ALBGlobal> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            return ProvideAsync(dataStoreContext.FundingALBOutputKey, dataStoreContext.Container, cancellationToken);
+            return ProvideAsync(dataStoreContext.FundingALBOutput, dataStoreContext.Container, cancellationToken);
         }
     }
 }

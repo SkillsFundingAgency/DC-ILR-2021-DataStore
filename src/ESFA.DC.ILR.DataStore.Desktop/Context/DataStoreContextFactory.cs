@@ -8,7 +8,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
     {
         public IDataStoreContext Build(IDesktopContext desktopContext)
         {
-            return new DataStoreDesktopContextStub();
+            return new DataStoreDesktopContext(desktopContext);
         }
     }
 }
