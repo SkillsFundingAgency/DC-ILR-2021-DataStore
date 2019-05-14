@@ -448,7 +448,7 @@
     <Compile Include="Context\JobContextMessageDataStoreFactory.cs" />
     <Compile Include="DIComposition.cs" />
     <Compile Include="Handlers\MessageHandler.cs" />
-    <Compile Include="Modules\LoggerModule.cs" />
+    <Compile Include="Modules\IOModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ServiceEventSource.cs" />
@@ -473,6 +473,10 @@
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Model\ESFA.DC.ILR.DataStore.Model.csproj">
       <Project>{45F608C4-7421-41AA-85CE-D30F4970C8C8}</Project>
       <Name>ESFA.DC.ILR.DataStore.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Modules\ESFA.DC.ILR.Datastore.Modules.csproj">
+      <Project>{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}</Project>
+      <Name>ESFA.DC.ILR.Datastore.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj">
       <Project>{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}</Project>

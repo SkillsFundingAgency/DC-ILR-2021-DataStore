@@ -8,7 +8,7 @@
     <Parameter Name="DataStoreSubscriptionName" DefaultValue="" />
     <Parameter Name="TopicMaxConcurrentCalls" DefaultValue="1" />
     <Parameter Name="TopicMaxCallbackTimeSpanMinutes" DefaultValue="30" />
-    <Parameter Name="JobStatusMaxConcurrentCalls" DefaultValue="" />
+    <Parameter Name="JobStatusMaxConcurrentCalls" DefaultValue="1" />
     <Parameter Name="AuditMaxConcurrentCalls" DefaultValue="1" />
     <Parameter Name="ILRDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=ILR1819_DataStore;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=AppEarnHistory;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
@@ -34,7 +34,7 @@
             <Parameter Name="TopicName" Value="[TopicName]" />
             <Parameter Name="SubscriptionName" Value="[DataStoreSubscriptionName]" />
             <Parameter Name="TopicMaxConcurrentCalls" Value="[TopicMaxConcurrentCalls]" />
-            <Parameter Name="TopicMaxCallbackTimeSpanMinutes" Value="[TopicMaxCallbackTImeSpanMinutes" />
+            <Parameter Name="TopicMaxCallbackTimeSpanMinutes" Value="[TopicMaxCallbackTimeSpanMinutes]" />
             <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
             <Parameter Name="JobStatusMaxConcurrentCalls" Value="[JobStatusMaxConcurrentCalls]" />
             <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
