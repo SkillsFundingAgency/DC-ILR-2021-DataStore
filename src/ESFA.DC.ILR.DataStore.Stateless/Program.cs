@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Autofac;
 using Autofac.Integration.ServiceFabric;
-using ESFA.DC.ServiceFabric.Helpers;
+using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ServiceFabric.Common.Config;
 
 namespace ESFA.DC.ILR.DataStore.Stateless
 {
@@ -15,17 +17,19 @@ namespace ESFA.DC.ILR.DataStore.Stateless
         {
             try
             {
-                var builder = DIComposition.BuildContainer(new ConfigurationHelper());
+                var builder = DIComposition.BuildContainer(new ServiceFabricConfigurationService());
 
                 // Register the Autofac magic for Service Fabric support.
                 builder.RegisterServiceFabricSupport();
 
                 // Register the stateless service.
-                builder.RegisterStatelessService<Stateless>("ESFA.DC.ILR1920.DataStore.StatelessType");
+                builder.RegisterStatelessService<ServiceFabric.Common.Stateless>("ESFA.DC.ILR1920.DataStore.StatelessType");
 
                 using (var container = builder.Build())
                 {
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Stateless).Name);
+                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ServiceFabric.Common.Stateless).Name);
+
+                    var entryPoint = container.Resolve<IEntryPoint>();
 
                     // Prevents this host process from terminating so services keep running.
                     Thread.Sleep(Timeout.Infinite);

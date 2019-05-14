@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ILR1819.DataStore.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ILR1819.Database.EF", "ESFA.DC.ILR1819.Database.EF\ESFA.DC.ILR1819.Database.EF.csproj", "{4C1783AF-4FF4-46B8-A096-2C2C3AB1D8F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ILR.DataStore.Dto", "ESFA.DC.ILR.DataStore.Dto\ESFA.DC.ILR.DataStore.Dto.csproj", "{7E025741-6AAE-4537-B53D-A6058DBF668B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ILR.DataStore.EF.Console", "ESFA.DC.ILR.DataStore.EF.Console\ESFA.DC.ILR.DataStore.EF.Console.csproj", "{5A26B7C2-9AAC-45B8-A46A-9AACF8C46BD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Interface", "ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj", "{81C857D0-FA4A-40CE-8942-2ABEECA94B74}"
@@ -40,9 +38,11 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ESFA.DC.ILR.DataStore.Datab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Database.Test", "ESFA.DC.ILR.DataStore.Database.Test\ESFA.DC.ILR.DataStore.Database.Test.csproj", "{46FEB72C-E525-4BF0-ACEA-F18FEEAD49FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Desktop", "ESFA.DC.ILR.DataStore.Desktop\ESFA.DC.ILR.DataStore.Desktop.csproj", "{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ILR.DataStore.Desktop", "ESFA.DC.ILR.DataStore.Desktop\ESFA.DC.ILR.DataStore.Desktop.csproj", "{2CA1EAC0-0E50-4CD9-9B09-78E765E180FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.DataStore.Desktop.Test", "ESFA.DC.ILR.DataStore.Desktop.Test\ESFA.DC.ILR.DataStore.Desktop.Test.csproj", "{882544D0-CE39-4FD9-A278-4C4F401166FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ILR.Datastore.Modules", "ESFA.DC.ILR.Datastore.Modules\ESFA.DC.ILR.Datastore.Modules.csproj", "{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,14 +84,6 @@ Global
 		{4C1783AF-4FF4-46B8-A096-2C2C3AB1D8F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C1783AF-4FF4-46B8-A096-2C2C3AB1D8F3}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C1783AF-4FF4-46B8-A096-2C2C3AB1D8F3}.Release|x64.Build.0 = Release|Any CPU
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Debug|x64.ActiveCfg = Debug|x64
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Debug|x64.Build.0 = Debug|x64
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Release|x64.ActiveCfg = Release|x64
-		{7E025741-6AAE-4537-B53D-A6058DBF668B}.Release|x64.Build.0 = Release|x64
 		{5A26B7C2-9AAC-45B8-A46A-9AACF8C46BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A26B7C2-9AAC-45B8-A46A-9AACF8C46BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A26B7C2-9AAC-45B8-A46A-9AACF8C46BD3}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -193,6 +185,14 @@ Global
 		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|x64.ActiveCfg = Release|Any CPU
 		{882544D0-CE39-4FD9-A278-4C4F401166FF}.Release|x64.Build.0 = Release|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
