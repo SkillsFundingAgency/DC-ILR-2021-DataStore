@@ -441,8 +441,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\AzureStorageKeyValuePersistenceConfig.cs" />
+    <Compile Include="Configuration\IOConfiguration.cs" />
     <Compile Include="Configuration\PersistDataConfiguration.cs" />
+    <Compile Include="Configuration\VersionInfo.cs" />
     <Compile Include="Context\DataStoreJobContextMessageContext.cs" />
     <Compile Include="Context\JobContextMessageDataStoreFactory.cs" />
     <Compile Include="DIComposition.cs" />
@@ -465,10 +466,6 @@
     <None Include="Scripts\setup.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Dto\ESFA.DC.ILR.DataStore.Dto.csproj">
-      <Project>{7E025741-6AAE-4537-B53D-A6058DBF668B}</Project>
-      <Name>ESFA.DC.ILR.DataStore.Dto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
       <Project>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>

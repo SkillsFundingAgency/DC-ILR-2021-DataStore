@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autofac;
-using ESFA.DC.ILR.DataStore.Dto;
+using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.Logging;
 using ESFA.DC.Logging.Config;
 using ESFA.DC.Logging.Config.Interfaces;

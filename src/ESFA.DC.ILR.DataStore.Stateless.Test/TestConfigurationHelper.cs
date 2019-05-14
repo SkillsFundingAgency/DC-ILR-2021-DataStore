@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.ILR.DataStore.Dto;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.ServiceFabric.Common.Config;
@@ -21,11 +20,11 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Test
                         AppEarnHistoryDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                         IlrValidationErrorsConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                     };
-                case "AzureStorageSection":
-                    return (T)(object)new AzureStorageOptions()
+                case "IOConfiguration":
+                    return (T)(object)new IOConfiguration()
                     {
-                        AzureBlobConnectionString = "AzureBlobConnectionString",
-                        AzureBlobContainerName = "AzureBlobContainerName"
+                        ConnectionString = "AzureBlobConnectionString",
+                        ContainerName = "AzureBlobContainerName"
                     };
                 case "VersionSection":
                     return (T)(object)new VersionInfo()

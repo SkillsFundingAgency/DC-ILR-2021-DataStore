@@ -19,9 +19,9 @@
     <Parameter Name="IlrValidationErrorsConnectionString" Value="" />
   </Section>
 
-  <Section  Name="AzureStorageSection">
-    <Parameter Name="AzureBlobConnectionString" Value="" />
-    <Parameter Name="AzureBlobContainerName" Value="" />
+  <Section  Name="IOConfiguration">
+    <Parameter Name="ConnectionString" Value="" />
+    <Parameter Name="ContainerName" Value="" />
   </Section>
 
   <Section Name="LoggerSection">

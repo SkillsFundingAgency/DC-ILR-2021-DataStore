@@ -10,7 +10,6 @@ using ESFA.DC.FileService;
 using ESFA.DC.FileService.Config;
 using ESFA.DC.FileService.Config.Interface;
 using ESFA.DC.FileService.Interface;
-using ESFA.DC.ILR.DataStore.Dto;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.File;
@@ -62,17 +61,14 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             containerBuilder.RegisterInstance(statelessServiceConfiguration).As<IStatelessServiceConfiguration>();
 
             // register azure blob storage service
-            var azureBlobStorageOptions = serviceFabricConfigurationService.GetConfigSectionAs<AzureStorageOptions>("AzureStorageSection");
-            containerBuilder.Register(c =>
-                    new AzureStorageKeyValuePersistenceConfig(
-                        azureBlobStorageOptions.AzureBlobConnectionString,
-                        azureBlobStorageOptions.AzureBlobContainerName))
+            var ioConfiguration = serviceFabricConfigurationService.GetConfigSectionAs<IOConfiguration>("IOConfiguration");
+            containerBuilder.RegisterInstance(ioConfiguration)
                 .As<IAzureStorageKeyValuePersistenceServiceConfig>().SingleInstance();
 
             containerBuilder.Register(c =>
                 new AzureStorageFileServiceConfiguration()
                 {
-                    ConnectionString = azureBlobStorageOptions.AzureBlobConnectionString
+                    ConnectionString = ioConfiguration.ConnectionString,
                 })
                 .As<IAzureStorageFileServiceConfiguration>().SingleInstance();
 
