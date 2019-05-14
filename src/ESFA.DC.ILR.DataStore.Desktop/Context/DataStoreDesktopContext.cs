@@ -3,7 +3,7 @@ using ESFA.DC.ILR.Constants;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Desktop.Interface;
 
-namespace ESFA.DC.ILR.DataStore.Desktop.Stubs
+namespace ESFA.DC.ILR.DataStore.Desktop.Context
 {
     public class DataStoreDesktopContext : IDataStoreContext
     {
