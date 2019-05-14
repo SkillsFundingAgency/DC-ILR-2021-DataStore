@@ -140,7 +140,6 @@
     <Compile Include="Mappers\IValidationDataMapper.cs" />
     <Compile Include="Mappers\IValidLearnerDataMapper.cs" />
     <Compile Include="IStoreClear.cs" />
-    <Compile Include="ITopicAndTaskSectionOptions.cs" />
     <Compile Include="Mappers\IALBMapper.cs" />
     <Compile Include="Mappers\IFM36HistoryMapper.cs" />
     <Compile Include="Mappers\IFM36Mapper.cs" />

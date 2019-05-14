@@ -47,18 +47,22 @@ using ESFA.DC.Queueing.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
-using ESFA.DC.ServiceFabric.Helpers.Interfaces;
+using ESFA.DC.ServiceFabric.Common.Config.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Stateless
 {
     public class DIComposition
     {
-        public static ContainerBuilder BuildContainer(IConfigurationHelper configHelper)
+        public static ContainerBuilder BuildContainer(IServiceFabricConfigurationService serviceFabricConfigurationService)
         {
             var containerBuilder = new ContainerBuilder();
 
+            var statelessServiceConfiguration = serviceFabricConfigurationService.GetConfigSectionAsStatelessServiceConfiguration();
+
+            containerBuilder.RegisterInstance(statelessServiceConfiguration).As<IStatelessServiceConfiguration>();
+
             // register azure blob storage service
-            var azureBlobStorageOptions = configHelper.GetSectionValues<AzureStorageOptions>("AzureStorageSection");
+            var azureBlobStorageOptions = serviceFabricConfigurationService.GetConfigSectionAs<AzureStorageOptions>("AzureStorageSection");
             containerBuilder.Register(c =>
                     new AzureStorageKeyValuePersistenceConfig(
                         azureBlobStorageOptions.AzureBlobConnectionString,
@@ -84,45 +88,32 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             containerBuilder.RegisterType<XmlSerializationService>()
                 .As<IXmlSerializationService>();
 
-            // get ServiceBus, Azurestorage config values and register container
-            var serviceBusOptions =
-                configHelper.GetSectionValues<ServiceBusOptions>("ServiceBusSettings");
-            containerBuilder.RegisterInstance(serviceBusOptions).As<ServiceBusOptions>().SingleInstance();
-
             // persis data options
             var persistDataConfig =
-                configHelper.GetSectionValues<PersistDataConfiguration>("DataStoreSection");
+                serviceFabricConfigurationService.GetConfigSectionAs<PersistDataConfiguration>("DataStoreSection");
             containerBuilder.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
             // Version info
-            var versionInfo = configHelper.GetSectionValues<VersionInfo>("VersionSection");
+            var versionInfo = serviceFabricConfigurationService.GetConfigSectionAs<VersionInfo>("VersionSection");
             containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>().SingleInstance();
 
             // register logger
-            var loggerOptions =
-                configHelper.GetSectionValues<LoggerOptions>("LoggerSection");
-            containerBuilder.RegisterInstance(loggerOptions).As<LoggerOptions>().SingleInstance();
             containerBuilder.RegisterModule<LoggerModule>();
 
             // auditing
-            var auditPublishConfig = new ServiceBusQueueConfig(
-                serviceBusOptions.ServiceBusConnectionString,
-                serviceBusOptions.AuditQueueName,
+            var auditPublishConfig = new QueueConfiguration(
+                statelessServiceConfiguration.ServiceBusConnectionString,
+                statelessServiceConfiguration.AuditQueueName,
                 Environment.ProcessorCount);
             containerBuilder.Register(c => new QueuePublishService<AuditingDto>(
                     auditPublishConfig,
                     c.Resolve<IJsonSerializationService>()))
                 .As<IQueuePublishService<AuditingDto>>();
 
-            // get job status queue config values and register container
-            var jobStatusQueueOptions =
-                configHelper.GetSectionValues<JobStatusQueueOptions>("JobStatusSection");
-            containerBuilder.RegisterInstance(jobStatusQueueOptions).As<JobStatusQueueOptions>().SingleInstance();
-
             // Job Status Update Service
-            var jobStatusPublishConfig = new JobStatusQueueConfig(
-                jobStatusQueueOptions.JobStatusConnectionString,
-                jobStatusQueueOptions.JobStatusQueueName,
+            var jobStatusPublishConfig = new QueueConfiguration(
+                statelessServiceConfiguration.ServiceBusConnectionString,
+                statelessServiceConfiguration.JobStatusQueueName,
                 Environment.ProcessorCount);
 
             containerBuilder.Register(c => new QueuePublishService<JobStatusDto>(
@@ -132,9 +123,9 @@ namespace ESFA.DC.ILR.DataStore.Stateless
 
             // register Jobcontext services
             var topicConfig = new TopicConfiguration(
-                serviceBusOptions.ServiceBusConnectionString,
-                serviceBusOptions.TopicName,
-                serviceBusOptions.DataStoreSubscriptionName,
+                statelessServiceConfiguration.ServiceBusConnectionString,
+                statelessServiceConfiguration.TopicName,
+                statelessServiceConfiguration.SubscriptionName,
                 1,
                 maximumCallbackTimeSpan: TimeSpan.FromMinutes(30));
 

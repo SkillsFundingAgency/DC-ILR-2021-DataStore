@@ -6,6 +6,7 @@ using ESFA.DC.Logging.Config;
 using ESFA.DC.Logging.Config.Interfaces;
 using ESFA.DC.Logging.Enums;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.ServiceFabric.Common.Config.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Stateless.Modules
 {
@@ -15,7 +16,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Modules
         {
             builder.Register(c =>
             {
-                var loggerOptions = c.Resolve<LoggerOptions>();
+                var statelessServiceConfiguration = c.Resolve<IStatelessServiceConfiguration>();
                 var versionInfo = c.Resolve<VersionInfo>();
                 return new ApplicationLoggerSettings
                 {
@@ -24,7 +25,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Modules
                         new MsSqlServerApplicationLoggerOutputSettings()
                         {
                             MinimumLogLevel = LogLevel.Verbose,
-                            ConnectionString = loggerOptions.LoggerConnectionstring,
+                            ConnectionString = statelessServiceConfiguration.LoggerConnectionString,
                         },
                         new ConsoleApplicationLoggerOutputSettings()
                         {
