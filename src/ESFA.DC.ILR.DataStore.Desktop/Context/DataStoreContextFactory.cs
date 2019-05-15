@@ -1,5 +1,4 @@
-﻿using ESFA.DC.ILR.DataStore.Desktop.Stubs;
-using ESFA.DC.ILR.DataStore.Interface;
+﻿using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Desktop.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.Context
@@ -8,7 +7,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
     {
         public IDataStoreContext Build(IDesktopContext desktopContext)
         {
-            return new DataStoreDesktopContextStub();
+            return new DataStoreDesktopContext(desktopContext);
         }
     }
 }

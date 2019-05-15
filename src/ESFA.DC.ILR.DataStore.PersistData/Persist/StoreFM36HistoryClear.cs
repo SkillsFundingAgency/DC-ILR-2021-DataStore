@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add("@pCollectionYear", SqlDbType.Int).Value = dataStoreContext.CollectionYear;
-                    sqlCommand.Parameters.Add("@pCollectionReturnCode", SqlDbType.VarChar).Value = "R" + dataStoreContext.ReturnCode;
+                    sqlCommand.Parameters.Add("@pCollectionReturnCode", SqlDbType.VarChar).Value = "R" + dataStoreContext.ReturnPeriod;
                     sqlCommand.Parameters.Add("@pukprn", SqlDbType.Int).Value = dataStoreContext.Ukprn;
                     sqlCommand.CommandTimeout = 600;
                     await sqlCommand.ExecuteNonQueryAsync(cancellationToken);

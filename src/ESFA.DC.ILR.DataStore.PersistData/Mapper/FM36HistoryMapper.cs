@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         {
             return new FM36HistoryData()
             {
-                AppsEarningsHistories = MapAppsEarningsHistory(fm36Global, dataStoreContext.ReturnCode, dataStoreContext.CollectionYear).ToList(),
+                AppsEarningsHistories = MapAppsEarningsHistory(fm36Global, dataStoreContext.ReturnPeriod, dataStoreContext.CollectionYear).ToList(),
             };
         }
 

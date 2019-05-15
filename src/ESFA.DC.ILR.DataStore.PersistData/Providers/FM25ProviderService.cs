@@ -21,7 +21,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 
         public Task<FM25Global> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            return ProvideAsync(dataStoreContext.FundingFM25OutputKey, dataStoreContext.Container, cancellationToken);
+            return ProvideAsync(dataStoreContext.FundingFM25Output, dataStoreContext.Container, cancellationToken);
         }
     }
 }

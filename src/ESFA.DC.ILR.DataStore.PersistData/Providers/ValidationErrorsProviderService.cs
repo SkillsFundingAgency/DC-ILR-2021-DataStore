@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 
         public async Task<List<ValidationError>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            var validationErrors = await _keyValuePersistenceService.GetAsync(dataStoreContext.ValidationErrorsKey, cancellationToken);
+            var validationErrors = await _keyValuePersistenceService.GetAsync(dataStoreContext.ValidationErrors, cancellationToken);
 
             return _jsonSerializationService.Deserialize<List<ValidationError>>(validationErrors);
         }

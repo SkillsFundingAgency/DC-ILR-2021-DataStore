@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         string CollectionYear { get; }
 
-        string ReturnCode { get; }
+        string ReturnPeriod { get; }
 
         DateTime? SubmissionDateTimeUtc { get; }
 
@@ -28,23 +28,21 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         int ValidationTotalWarningCount { get; }
 
-        string ValidationErrorsKey { get; }
+        string ValidationErrors { get; }
 
-        string ValidationErrorsLookupsKey { get; }
+        string FundingFM81Output { get; }
 
-        string FundingFM81OutputKey { get; }
+        string FundingFM70Output { get; }
 
-        string FundingFM70OutputKey { get; }
+        string FundingFM36Output { get; }
 
-        string FundingFM36OutputKey { get; }
+        string FundingFM35Output { get; }
 
-        string FundingFM35OutputKey { get; }
+        string FundingFM25Output { get; }
 
-        string FundingFM25OutputKey { get; }
+        string FundingALBOutput { get; }
 
-        string FundingALBOutputKey { get; }
-
-        string ValidLearnRefNumbersKey { get; }
+        string ValidLearnRefNumbers { get; }
 
         string IlrDatabaseConnectionString { get; }
 
