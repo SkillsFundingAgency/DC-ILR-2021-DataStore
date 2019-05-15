@@ -40,7 +40,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public int ValidationTotalErrorCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationTotalErrorCount].ToString());
 
-        public int ValidationTotalWarningCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationTotalErrorCount].ToString());
+        public int ValidationTotalWarningCount => int.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationTotalWarningCount].ToString());
 
         public string ValidationErrors => _jobContextMessage.KeyValuePairs[ILRContextKeys.ValidationErrors].ToString();
 
