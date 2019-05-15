@@ -1,14 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>ESFA.DC.ILR.1920.DataStore.Desktop</PackageId>
     <Version>0.1.0</Version>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <Authors>DC</Authors>
     <Company>ESFA</Company>
     <Product>ESFA.DC.ILR.1920.DataStore.Desktop</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+    </ItemGroup>
+  </Target>
 
   <ItemGroup>
     <None Remove="Resources\ESFA.DC.ILR.DataStore.Database.dacpac" />
@@ -19,13 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="ESFA.DC.ILR.1920.Constants" Version="0.1.2-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Desktop.Interface" Version="0.1.0-beta0001" />
     <PackageReference Include="Microsoft.SqlServer.DacFx.x86" Version="150.4384.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
