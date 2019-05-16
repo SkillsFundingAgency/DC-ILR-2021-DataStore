@@ -467,19 +467,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
-      <Project>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</Project>
+      <Project>{D5D457B2-F12F-4FF8-B597-7161AB57384B}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Model\ESFA.DC.ILR.DataStore.Model.csproj">
-      <Project>{45F608C4-7421-41AA-85CE-D30F4970C8C8}</Project>
-      <Name>ESFA.DC.ILR.DataStore.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Modules\ESFA.DC.ILR.Datastore.Modules.csproj">
       <Project>{0DA244B8-3FAD-415B-9E1D-E843F7DA74E5}</Project>
       <Name>ESFA.DC.ILR.Datastore.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj">
-      <Project>{FE7FA681-EDB2-4FC6-90B9-1BDBC400D8AE}</Project>
+      <Project>{B15C08A2-9629-439F-ABD0-419B937A5E80}</Project>
       <Name>ESFA.DC.ILR.DataStore.PersistData</Name>
     </ProjectReference>
   </ItemGroup>

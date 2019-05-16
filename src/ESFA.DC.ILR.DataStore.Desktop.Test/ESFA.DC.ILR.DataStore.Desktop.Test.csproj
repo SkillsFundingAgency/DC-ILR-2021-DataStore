@@ -96,7 +96,7 @@
       <Name>ESFA.DC.ILR.DataStore.Desktop</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
-      <Project>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</Project>
+      <Project>{D5D457B2-F12F-4FF8-B597-7161AB57384B}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
     </ProjectReference>
   </ItemGroup>
