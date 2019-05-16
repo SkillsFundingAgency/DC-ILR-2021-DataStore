@@ -8,19 +8,9 @@ using ESFA.DC.ILR.DataStore.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Stubs
 {
-    public class StoreServiceStub<T> : IStoreService<T>, IStoreClear, IStoreFM36HistoryClear
+    public class StoreServiceStub<T> : IStoreService<T>
     {
         public Task StoreAsync(T model, SqlConnection sqlConnection, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        Task IStoreClear.ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        Task IStoreFM36HistoryClear.ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

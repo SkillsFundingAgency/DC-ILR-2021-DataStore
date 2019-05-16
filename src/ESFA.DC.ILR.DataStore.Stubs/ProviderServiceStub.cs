@@ -23,7 +23,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
         IProviderService<FM70Global>,
         IProviderService<FM81Global>,
         IProviderService<List<ILR.IO.Model.Validation.ValidationError>>,
-        IProviderService<List<Rule>>
+        IProviderService<List<Rule>>,
+        IProviderService<List<string>>
     {
         Task<ALBGlobal> IProviderService<ALBGlobal>.ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
@@ -63,6 +64,11 @@ namespace ESFA.DC.ILR.DataStore.Stubs
         public Task<List<Rule>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(new List<Rule>());
+        }
+
+        Task<List<string>> IProviderService<List<string>>.ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new List<string>());
         }
     }
 }

@@ -20,7 +20,7 @@ using ValidationError = ESFA.DC.ILR.IO.Model.Validation.ValidationError;
 
 namespace ESFA.DC.ILR.DataStore.Stubs
 {
-    public class MapperStub : IFM81Mapper, IFM70Mapper, IFM25Mapper, IFM36HistoryMapper, IFM35Mapper, IFM36Mapper, IALBMapper, IValidationDataMapper
+    public class MapperStub : IFM81Mapper, IFM70Mapper, IFM25Mapper, IFM36HistoryMapper, IFM35Mapper, IFM36Mapper, IALBMapper, IValidationDataMapper, IProcessingInformationDataMapper
     {
         public FM81Data MapData(FM81Global fm81Global)
         {
@@ -255,6 +255,11 @@ namespace ESFA.DC.ILR.DataStore.Stubs
         public ValidationData MapData(IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<Rule> rules, IMessage message)
         {
             return new ValidationData();
+        }
+
+        public ProcessingInformationData MapData(IDataStoreContext dataStoreContext)
+        {
+            return  new ProcessingInformationData();
         }
     }
 }

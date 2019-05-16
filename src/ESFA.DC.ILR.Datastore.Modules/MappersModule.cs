@@ -13,16 +13,10 @@ namespace ESFA.DC.ILR.Datastore.Modules
         {
             containerBuilder.RegisterType<DataStoreMapper>().As<IDataStoreMapper>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<ValidLearnerDataMapper>().As<IValidLearnerDataMapper>()
-                .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<InvalidLearnerDataMapper>().As<IInvalidLearnerDataMapper>()
-                .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ValidHeaderDataMapper>().As<IValidHeaderDataMapper>()
-                .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<InvalidHeaderDataMapper>().As<IInvalidHeaderDataMapper>()
-                .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ProcessingInformationDataMapper>().As<IProcessingInformationDataMapper>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidLearnerDataMapper>().As<IValidLearnerDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<InvalidLearnerDataMapper>().As<IInvalidLearnerDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidHeaderDataMapper>().As<IValidHeaderDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<InvalidHeaderDataMapper>().As<IInvalidHeaderDataMapper>().InstancePerLifetimeScope();
 
             RegisterStubServices(containerBuilder);
         }
@@ -38,6 +32,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
                 .As<IALBMapper>()
                 .As<IFM36HistoryMapper>()
                 .As<IValidationDataMapper>()
+                .As<IProcessingInformationDataMapper>()
                 .InstancePerLifetimeScope();
         }
 
@@ -53,6 +48,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ValidationDataMapper>().As<IValidationDataMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ProcessingInformationDataMapper>().As<IProcessingInformationDataMapper>().InstancePerLifetimeScope();
         }
     }
 }

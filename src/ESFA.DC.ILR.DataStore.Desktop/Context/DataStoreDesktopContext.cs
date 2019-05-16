@@ -14,71 +14,32 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             _desktopContext = desktopContext;
         }
 
-        public int Ukprn
-        {
-            get => throw new NotImplementedException();
-        }
+        public int Ukprn => 1234;
 
-        public string Filename
-        {
-            get => throw new NotImplementedException();
-        }
+        public string Filename => _desktopContext.KeyValuePairs[ILRContextKeys.Filename].ToString();
 
-        public string OriginalFilename
-        {
-            get => throw new NotImplementedException();
-        }
+        public string OriginalFilename => _desktopContext.KeyValuePairs[ILRContextKeys.OriginalFilename].ToString();
 
-        public string Container
-        {
-            get => throw new NotImplementedException();
-        }
+        public string Container => _desktopContext.KeyValuePairs[ILRContextKeys.Container].ToString();
 
-        public string CollectionYear
-        {
-            get => throw new NotImplementedException();
-        }
+        public string CollectionYear => _desktopContext.KeyValuePairs[ILRContextKeys.CollectionYear].ToString();
 
-        public string ReturnPeriod
-        {
-            get => throw new NotImplementedException();
-        }
+        public string ReturnPeriod => _desktopContext.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 
-        public DateTime? SubmissionDateTimeUtc
-        {
-            get => throw new NotImplementedException();
-        }
+        public DateTime? SubmissionDateTimeUtc => _desktopContext.DateTimeUtc;
 
-        public long FileSizeInBytes
-        {
-            get => throw new NotImplementedException();
-        }
+        public long FileSizeInBytes => long.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.FileSizeInBytes].ToString());
 
-        public int ValidLearnRefNumbersCount
-        {
-            get => throw new NotImplementedException();
-        }
+        public int ValidLearnRefNumbersCount => 1234;
 
-        public int InvalidLearnRefNumbersCount
-        {
-            get => throw new NotImplementedException();
-        }
+        public int InvalidLearnRefNumbersCount => 1234;
 
-        public int ValidationTotalErrorCount
-        {
-            get => throw new NotImplementedException();
-        }
+        public int ValidationTotalErrorCount => 1234;
 
-        public int ValidationTotalWarningCount
-        {
-            get => throw new NotImplementedException();
-        }
+        public int ValidationTotalWarningCount => 1234;
 
-        public string ValidationErrors
-        {
-            get => throw new NotImplementedException();
-        }
-        
+        public string ValidationErrors => _desktopContext.KeyValuePairs[ILRContextKeys.ValidationErrors].ToString();
+
         public string FundingFM81Output
         {
             get => throw new NotImplementedException();
@@ -109,10 +70,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             get => throw new NotImplementedException();
         }
 
-        public string ValidLearnRefNumbers
-        {
-            get => throw new NotImplementedException();
-        }
+        public string ValidLearnRefNumbers => _desktopContext.KeyValuePairs[ILRContextKeys.ValidLearnRefNumbers].ToString();
 
         public string IlrDatabaseConnectionString => _desktopContext.KeyValuePairs[ILRContextKeys.IlrDatabaseConnectionString].ToString();
 

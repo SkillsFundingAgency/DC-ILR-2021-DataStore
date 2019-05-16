@@ -21,7 +21,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<StoreInvalidHeader>().As<IStoreService<InvalidHeaderData>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreValidLearnerData>().As<IStoreService<ValidLearnerData>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreInvalidLearnerData>().As<IStoreService<InvalidLearnerData>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreProcessingInformationData>().As<IStoreService<ProcessingInformationData>>().InstancePerLifetimeScope();
 
             RegisterStubServices(containerBuilder);
         }
@@ -37,6 +36,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<StoreServiceStub<FM36HistoryData>>().As<IStoreService<FM36HistoryData>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreServiceStub<ValidationData>>().As<IStoreService<ValidationData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreServiceStub<ProcessingInformationData>>().As<IStoreService<ProcessingInformationData>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreClearStub>().As<IStoreClear>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreClearStub>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
@@ -53,6 +53,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<StoreFM36History>().As<IStoreService<FM36HistoryData>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreService<ValidationData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreProcessingInformationData>().As<IStoreService<ProcessingInformationData>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM36HistoryClear>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
