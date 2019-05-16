@@ -44,6 +44,5 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Test
                 databaseDeploymentService ?? Mock.Of<IDatabaseDeploymentService>(),
                 dataStoreContextFactory ?? Mock.Of<IDataStoreContextFactory<IDesktopContext>>());
         }
-
     }
 }

@@ -45,7 +45,6 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             // register ValidationError service
             containerBuilder.Register(b => new ValidationErrors(persistDataConfig.IlrValidationErrorsConnectionString))
                 .As<IValidationErrors>().InstancePerDependency();
-            containerBuilder.RegisterType<RulesProviderService>().As<IProviderService<List<Rule>>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
 
