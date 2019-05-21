@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -80,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildDataStoreDesktopTaskTests.cs" />
+    <Compile Include="DataStoreDesktopTaskTests.cs" />
     <Compile Include="ILRDatabaseDeploymentServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,7 +100,7 @@
       <Name>ESFA.DC.ILR.DataStore.Desktop</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
-      <Project>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</Project>
+      <Project>{D5D457B2-F12F-4FF8-B597-7161AB57384B}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
     </ProjectReference>
   </ItemGroup>

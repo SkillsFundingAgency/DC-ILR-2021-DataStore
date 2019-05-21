@@ -1,182 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{81C857D0-FA4A-40CE-8942-2ABEECA94B74}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ILR.DataStore.Interface</RootNamespace>
-    <AssemblyName>ESFA.DC.ILR.DataStore.Interface</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Interface.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.Data.AppsEarningsHistory.Model, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.Data.AppsEarningsHistory.Model.0.1.1-beta0001\lib\net461\ESFA.DC.Data.AppsEarningsHistory.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.Data.ILR.ValidationErrors.Model, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.Data.ILR.1819.ValidationErrors.Model.0.1.2-beta0001\lib\net461\ESFA.DC.Data.ILR.ValidationErrors.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model, Version=0.1.446.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.0.1.446\lib\netstandard2.0\ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM25.Model, Version=0.1.446.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model.0.1.446\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM25.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model, Version=0.1.446.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.0.1.446\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model, Version=0.1.446.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.0.1.446\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model, Version=0.1.446.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.0.1.446\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model, Version=0.1.446.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.0.1.446\lib\netstandard2.0\ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.IO.Model.Validation, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1920.IO.Model.Validation.0.1.1-beta0001\lib\netstandard2.0\ESFA.DC.ILR.IO.Model.Validation.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1920.Model.0.1.0-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1920.Model.Interface.0.1.0-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.2.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.2.5-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
-    </Reference>
-    <Reference Include="ESFA.DC.Logging, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.Logging.0.1.3-beta0001\lib\netstandard2.0\ESFA.DC.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.8.0\lib\net46\Serilog.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Enrichers.Environment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Enrichers.Environment.2.1.3\lib\net45\Serilog.Enrichers.Environment.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Enrichers.Process, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Enrichers.Process.2.0.1\lib\net45\Serilog.Enrichers.Process.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Enrichers.Thread, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Enrichers.Thread.3.1.0\lib\net45\Serilog.Enrichers.Thread.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.Console, Version=3.1.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.Console.3.1.1\lib\net45\Serilog.Sinks.Console.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.MSSqlServer, Version=5.1.2.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.MSSqlServer.5.1.2\lib\net452\Serilog.Sinks.MSSqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.PeriodicBatching, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.2.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
+    <PackageReference Include="ESFA.DC.Data.ILR.1819.ValidationErrors.Model" Version="0.1.2-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.1920.IO.Model.Validation" Version="0.1.2-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.1920.Model" Version="0.1.2-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model" Version="0.1.446" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="IBulkInsert.cs" />
-    <Compile Include="IDataStoreContext.cs" />
-    <Compile Include="IDataStoreContextFactory.cs" />
-    <Compile Include="IDataStoreDataCacheProvider.cs" />
-    <Compile Include="IDataStorePersistenceService.cs" />
-    <Compile Include="IEntryPoint.cs" />
-    <Compile Include="IStoreFM36HistoryClear.cs" />
-    <Compile Include="Mappers\IFM25Mapper.cs" />
-    <Compile Include="Mappers\IInvalidHeaderDataMapper.cs" />
-    <Compile Include="Mappers\IInvalidLearnerDataMapper.cs" />
-    <Compile Include="Mappers\IProcessingInformationDataMapper.cs" />
-    <Compile Include="Mappers\IValidationDataMapper.cs" />
-    <Compile Include="Mappers\IValidLearnerDataMapper.cs" />
-    <Compile Include="IStoreClear.cs" />
-    <Compile Include="Mappers\IALBMapper.cs" />
-    <Compile Include="Mappers\IFM36HistoryMapper.cs" />
-    <Compile Include="Mappers\IFM36Mapper.cs" />
-    <Compile Include="Mappers\IFM81Mapper.cs" />
-    <Compile Include="Mappers\IFM70Mapper.cs" />
-    <Compile Include="Mappers\IValidHeaderDataMapper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IDataStoreDataProvider.cs" />
-    <Compile Include="IDataStoreMapper.cs" />
-    <Compile Include="IProviderService.cs" />
-    <Compile Include="Mappers\IFM35Mapper.cs" />
-    <Compile Include="IStoreService.cs" />
-    <Compile Include="ITransactionController.cs" />
+    <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Model\ESFA.DC.ILR.DataStore.Model.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="ESFA.DC.ILR1819.DataStore.Interface.ruleset" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Model\ESFA.DC.ILR.DataStore.Model.csproj">
-      <Project>{45F608C4-7421-41AA-85CE-D30F4970C8C8}</Project>
-      <Name>ESFA.DC.ILR.DataStore.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj">
-      <Project>{1FC6E30C-8DC6-44DA-975F-527B0D6FC8C7}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.EF</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

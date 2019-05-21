@@ -18,7 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" />
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Stubs\ESFA.DC.ILR.DataStore.Stubs.csproj" />
   </ItemGroup>
 
 </Project>
