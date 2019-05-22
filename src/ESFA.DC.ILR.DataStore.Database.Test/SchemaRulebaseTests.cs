@@ -426,11 +426,6 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateDate("LiabilityDate", 16, true),
                 ExpectedColumn.CreateVarChar("ApplicProgWeightFact", 17, true, 1),
                 ExpectedColumn.CreateDate("ApplicFactDate", 18, true),
-                ExpectedColumn.CreateBit("LearnDelEligCareerLearnPilot", 19, true),
-                ExpectedColumn.CreateVarChar("LearnDelApplicSubsidyPilotAreaCode", 20, true, 50),
-                ExpectedColumn.CreateDecimal("LearnDelApplicLARSCarPilFundSubRate", 21, true, 12, 5),
-                ExpectedColumn.CreateDecimal("LearnDelCarLearnPilotAimValue", 22, true, 12, 5),
-                ExpectedColumn.CreateDecimal("LearnDelCarLearnPilotInstalAmount", 23, true, 12, 5)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Rulebase", "ALB_LearningDelivery", expectedColumns, true);
         }
@@ -447,7 +442,7 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateDecimal("AreaUpliftOnProgPayment", 5, true, 12, 5),
                 ExpectedColumn.CreateDecimal("AreaUpliftBalPayment", 6, true, 12, 5),
                 ExpectedColumn.CreateInt("ALBCode", 7, true),
-                ExpectedColumn.CreateDecimal("ALBSupportPayment", 8, true, 12, 5)
+                ExpectedColumn.CreateDecimal("ALBSupportPayment", 8, true, 12, 5),
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Rulebase", "ALB_LearningDelivery_Period", expectedColumns, true);
         }
