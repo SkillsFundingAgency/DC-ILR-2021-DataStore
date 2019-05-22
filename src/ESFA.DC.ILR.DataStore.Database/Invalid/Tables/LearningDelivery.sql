@@ -29,6 +29,7 @@
     [AchDate]             DATE           NULL,
     [OutGrade]            VARCHAR (1000) NULL,
     [SWSupAimId]          VARCHAR (1000) NULL, 
+	[PHours]			  BIGINT		 NULL,
     CONSTRAINT [PK_LearningDelivery] PRIMARY KEY ([UKPRN] ASC,[LearningDelivery_Id])
 );
 

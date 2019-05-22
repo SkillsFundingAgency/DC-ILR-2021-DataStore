@@ -28,6 +28,5 @@
     [TelNo]              VARCHAR (18)  NULL,
     [Email]              VARCHAR (100) NULL,
     [CampId]             VARCHAR (8)   NULL,
-    [OTJHours]           BIGINT        NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC)
 );

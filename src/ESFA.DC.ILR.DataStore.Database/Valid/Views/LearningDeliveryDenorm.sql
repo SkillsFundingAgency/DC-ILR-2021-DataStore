@@ -31,6 +31,7 @@ SELECT
 	,ld.[AchDate]
 	,ld.[OutGrade]
 	,ld.[SWSupAimId]
+	,ld.[PHours]
 	,HEM.HEM1
 	,HEM.HEM2
 	,HEM.HEM3
