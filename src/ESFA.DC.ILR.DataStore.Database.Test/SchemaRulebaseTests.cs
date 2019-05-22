@@ -1175,7 +1175,7 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateInt("UKPRN", 1, false),
                 ExpectedColumn.CreateVarChar("LearnRefNumber", 2, false, 12),
                 ExpectedColumn.CreateInt("Period", 3, false),
-                ExpectedColumn.CreateDecimal("LnrOnProgPay", 4, true, 10, 5)
+                ExpectedColumn.CreateDecimal("LnrOnProgPay", 4, true, 15, 5)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Rulebase", "FM25_FM35_Learner_Period", expectedColumns, true);
         }
