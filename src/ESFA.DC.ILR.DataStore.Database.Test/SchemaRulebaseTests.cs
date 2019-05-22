@@ -763,8 +763,8 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateInt("AimSeqNumber", 3, false),
                 ExpectedColumn.CreateBit("Achieved", 4, true),
                 ExpectedColumn.CreateBit("AddProgCostElig", 5, true),
-                ExpectedColumn.CreateDecimal("AdjustedAreaCostFactor", 6, true, 9, 5),
-                ExpectedColumn.CreateDecimal("AdjustedPremiumFactor", 7, true, 9, 5),
+                ExpectedColumn.CreateDecimal("AdjustedAreaCostFactor", 6, true, 10, 5),
+                ExpectedColumn.CreateDecimal("AdjustedPremiumFactor", 7, true, 10, 5),
                 ExpectedColumn.CreateDate("AdjustedStartDate", 8, true),
                 ExpectedColumn.CreateVarChar("AimClassification", 9, true, 50),
                 ExpectedColumn.CreateDecimal("AimValue", 10, true, 10, 5),
@@ -794,7 +794,7 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateVarChar("LearnRefNumber", 2, false, 12),
                 ExpectedColumn.CreateInt("AimSeqNumber", 3, false),
                 ExpectedColumn.CreateVarChar("DeliverableCode", 4, false, 5),
-                ExpectedColumn.CreateDecimal("DeliverableUnitCost", 5, true, 10, 5)
+                ExpectedColumn.CreateDecimal("DeliverableUnitCost", 5, true, 15, 5)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Rulebase", "ESF_LearningDeliveryDeliverable", expectedColumns, true);
         }
@@ -809,12 +809,12 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateInt("AimSeqNumber", 3, false),
                 ExpectedColumn.CreateVarChar("DeliverableCode", 4, false, 5),
                 ExpectedColumn.CreateInt("Period", 5, false),
-                ExpectedColumn.CreateDecimal("AchievementEarnings", 6, true, 10, 5),
-                ExpectedColumn.CreateDecimal("AdditionalProgCostEarnings", 7, true, 10, 5),
+                ExpectedColumn.CreateDecimal("AchievementEarnings", 6, true, 15, 5),
+                ExpectedColumn.CreateDecimal("AdditionalProgCostEarnings", 7, true, 15, 5),
                 ExpectedColumn.CreateBigInt("DeliverableVolume", 8, true),
-                ExpectedColumn.CreateDecimal("ProgressionEarnings", 9, true, 10, 5),
+                ExpectedColumn.CreateDecimal("ProgressionEarnings", 9, true, 15, 5),
                 ExpectedColumn.CreateInt("ReportingVolume", 10, true),
-                ExpectedColumn.CreateDecimal("StartEarnings", 11, true, 10, 5)
+                ExpectedColumn.CreateDecimal("StartEarnings", 11, true, 15, 5)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Rulebase", "ESF_LearningDeliveryDeliverable_Period", expectedColumns, true);
         }
