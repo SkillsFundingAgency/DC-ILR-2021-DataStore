@@ -17,11 +17,6 @@
     [LiabilityDate]                       DATE            NULL,
     [ApplicProgWeightFact]                VARCHAR (1)     NULL,
     [ApplicFactDate]                      DATE            NULL,
-    [LearnDelEligCareerLearnPilot]        BIT             NULL,
-    [LearnDelApplicSubsidyPilotAreaCode]  VARCHAR (50)    NULL,
-    [LearnDelApplicLARSCarPilFundSubRate] DECIMAL (12, 5) NULL,
-    [LearnDelCarLearnPilotAimValue]       DECIMAL (12, 5) NULL,
-    [LearnDelCarLearnPilotInstalAmount]   DECIMAL (12, 5) NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC, [AimSeqNumber] ASC)
 );
 GO

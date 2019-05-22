@@ -31,8 +31,7 @@ AS
 		l.[AddLine3],
 		l.[AddLine4],
 		l.[TelNo],
-		l.[Email],
-		l.[OTJHours]
+		l.[Email]
 		,LSR.LSR1
 		,LSR.LSR2
 		,LSR.LSR3
