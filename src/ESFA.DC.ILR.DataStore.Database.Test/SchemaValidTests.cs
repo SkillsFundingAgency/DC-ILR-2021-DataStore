@@ -312,6 +312,7 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateVarChar("OutGrade", 27, true, 6),
                 ExpectedColumn.CreateVarChar("SWSupAimId", 28, true, 36),
                 ExpectedColumn.CreateInt("PHours", 29, true),
+                ExpectedColumn.CreateVarChar("LSDPostcode", 30, true, 8),
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Valid", "LearningDelivery", expectedColumns, true);
         }
