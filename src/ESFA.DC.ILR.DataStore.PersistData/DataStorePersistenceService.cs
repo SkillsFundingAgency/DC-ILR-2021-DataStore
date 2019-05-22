@@ -13,8 +13,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         private readonly IStoreClear _ilrStoreClear;
         private readonly IStoreFM36HistoryClear _fm36HistoryClear;
         private readonly IStoreService<ProcessingInformationData> _processingInformationDataStoreService;
-        private readonly IStoreService<ValidHeaderData> _validHeaderDataStoreService;
-        private readonly IStoreService<InvalidHeaderData> _invalidHeaderDataStoreService;
         private readonly IStoreService<ValidLearnerData> _validLearnerDataStoreService;
         private readonly IStoreService<InvalidLearnerData> _invalidLearnerDataStoreService;
         private readonly IStoreService<ValidationData> _validationDataStoreService;
@@ -30,8 +28,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IStoreClear ilrStoreClear,
             IStoreFM36HistoryClear fm36HistoryClear,
             IStoreService<ProcessingInformationData> processingInformationDataStoreService,
-            IStoreService<ValidHeaderData> validHeaderDataStoreService,
-            IStoreService<InvalidHeaderData> invalidHeaderDataStoreService,
             IStoreService<ValidLearnerData> validLearnerDataStoreService,
             IStoreService<InvalidLearnerData> invalidLearnerDataStoreService,
             IStoreService<ValidationData> validationDataStoreService,
@@ -46,8 +42,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _ilrStoreClear = ilrStoreClear;
             _fm36HistoryClear = fm36HistoryClear;
             _processingInformationDataStoreService = processingInformationDataStoreService;
-            _validHeaderDataStoreService = validHeaderDataStoreService;
-            _invalidHeaderDataStoreService = invalidHeaderDataStoreService;
             _validLearnerDataStoreService = validLearnerDataStoreService;
             _invalidLearnerDataStoreService = invalidLearnerDataStoreService;
             _validationDataStoreService = validationDataStoreService;
@@ -68,12 +62,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public Task StoreProcessingInformationDataAsync(ProcessingInformationData processingInformationData, SqlConnection sqlConnection, CancellationToken cancellationToken)
             => _processingInformationDataStoreService.StoreAsync(processingInformationData, sqlConnection, cancellationToken);
-
-        public Task StoreValidHeaderDataAsync(ValidHeaderData validHeaderData, SqlConnection sqlConnection, CancellationToken cancellationToken)
-            => _validHeaderDataStoreService.StoreAsync(validHeaderData, sqlConnection, cancellationToken);
-
-        public Task StoreInvalidHeaderDataAsync(InvalidHeaderData invalidHeaderData, SqlConnection sqlConnection, CancellationToken cancellationToken)
-            => _invalidHeaderDataStoreService.StoreAsync(invalidHeaderData, sqlConnection, cancellationToken);
 
         public Task StoreValidLearnerDataAsync(ValidLearnerData validLearnerData, SqlConnection sqlConnection, CancellationToken cancellationToken)
             => _validLearnerDataStoreService.StoreAsync(validLearnerData, sqlConnection, cancellationToken);

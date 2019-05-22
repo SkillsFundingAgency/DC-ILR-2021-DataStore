@@ -19,8 +19,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
     public class DataStoreMapper : IDataStoreMapper
     {
         private readonly IProcessingInformationDataMapper _processingInformationDataMapper;
-        private readonly IValidHeaderDataMapper _validHeaderDataMapper;
-        private readonly IInvalidHeaderDataMapper _invalidHeaderDataMapper;
         private readonly IValidLearnerDataMapper _validLearnerDataMapper;
         private readonly IInvalidLearnerDataMapper _invalidLearnerDataMapper;
         private readonly IALBMapper _albMapper;
@@ -34,8 +32,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public DataStoreMapper(
             IProcessingInformationDataMapper processingInformationDataMapper,
-            IValidHeaderDataMapper validHeaderDataMapper,
-            IInvalidHeaderDataMapper invalidHeaderDataMapper,
             IValidLearnerDataMapper validLearnerDataMapper,
             IInvalidLearnerDataMapper invalidLearnerDataMapper,
             IALBMapper albMapper,
@@ -48,8 +44,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IValidationDataMapper validationDataMapper)
         {
             _processingInformationDataMapper = processingInformationDataMapper;
-            _validHeaderDataMapper = validHeaderDataMapper;
-            _invalidHeaderDataMapper = invalidHeaderDataMapper;
             _validLearnerDataMapper = validLearnerDataMapper;
             _invalidLearnerDataMapper = invalidLearnerDataMapper;
             _albMapper = albMapper;
@@ -63,10 +57,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         }
 
         public ProcessingInformationData MapProcessingInformationData(IDataStoreContext dataStoreContext) => _processingInformationDataMapper.MapData(dataStoreContext);
-
-        public ValidHeaderData MapValidHeaderData(IMessage message) => _validHeaderDataMapper.MapData(message);
-
-        public InvalidHeaderData MapInvalidHeaderData(IMessage message) => _invalidHeaderDataMapper.MapData(message);
 
         public ValidLearnerData MapValidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers) => _validLearnerDataMapper.MapLearnerData(message, validLearnRefNumbers);
 

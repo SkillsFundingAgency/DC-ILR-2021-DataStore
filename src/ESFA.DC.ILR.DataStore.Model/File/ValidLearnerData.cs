@@ -5,6 +5,14 @@ namespace ESFA.DC.ILR.DataStore.Model.File
 {
     public class ValidLearnerData
     {
+        public List<CollectionDetail> CollectionDetails { get; set; } = new List<CollectionDetail>();
+
+        public List<LearningProvider> LearningProviders { get; set; } = new List<LearningProvider>();
+
+        public List<Source> Sources { get; set; } = new List<Source>();
+
+        public List<SourceFile> SourceFiles { get; set; } = new List<SourceFile>();
+
         public List<Learner> RecordsValidLearners { get; set; } = new List<Learner>();
 
         public List<AppFinRecord> RecordsValidAppFinRecords { get; set; } = new List<AppFinRecord>();

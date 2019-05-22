@@ -15,8 +15,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
 
             containerBuilder.RegisterType<ValidLearnerDataMapper>().As<IValidLearnerDataMapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<InvalidLearnerDataMapper>().As<IInvalidLearnerDataMapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ValidHeaderDataMapper>().As<IValidHeaderDataMapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<InvalidHeaderDataMapper>().As<IInvalidHeaderDataMapper>().InstancePerLifetimeScope();
 
             RegisterStubServices(containerBuilder);
         }

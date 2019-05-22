@@ -8,10 +8,6 @@ namespace ESFA.DC.ILR.DataStore.Model.Interface
     {
         ProcessingInformationData ProcessingInformation { get; }
 
-        ValidHeaderData ValidHeaderData { get; }
-
-        InvalidHeaderData InvalidHeaderData { get; }
-
         ValidLearnerData ValidLearnerData { get; }
 
         InvalidLearnerData InvalidLearnerData { get; }
