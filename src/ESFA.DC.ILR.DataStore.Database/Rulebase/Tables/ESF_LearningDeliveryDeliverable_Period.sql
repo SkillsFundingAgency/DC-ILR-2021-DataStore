@@ -4,12 +4,12 @@
     [AimSeqNumber]               INT             NOT NULL,
     [DeliverableCode]            VARCHAR (5)     NOT NULL,
     [Period]                     INT             NOT NULL,
-    [AchievementEarnings]        DECIMAL (10, 5) NULL,
-    [AdditionalProgCostEarnings] DECIMAL (10, 5) NULL,
+    [AchievementEarnings]        DECIMAL (15, 5) NULL,
+    [AdditionalProgCostEarnings] DECIMAL (15, 5) NULL,
     [DeliverableVolume]          BIGINT          NULL,
-    [ProgressionEarnings]        DECIMAL (10, 5) NULL,
+    [ProgressionEarnings]        DECIMAL (15, 5) NULL,
     [ReportingVolume]            INT             NULL,
-    [StartEarnings]              DECIMAL (10, 5) NULL,
+    [StartEarnings]              DECIMAL (15, 5) NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC, [AimSeqNumber] ASC, [DeliverableCode] ASC, [Period] ASC)
 );
 GO

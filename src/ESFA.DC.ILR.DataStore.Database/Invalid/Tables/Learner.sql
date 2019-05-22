@@ -29,7 +29,6 @@
     [TelNo]              VARCHAR (1000) NULL,
     [Email]              VARCHAR (1000) NULL,
     [CampId]             VARCHAR (1000) NULL,
-    [OTJHours]           BIGINT         NULL, 
     CONSTRAINT [PK_Learner] PRIMARY KEY ([UKPRN] ASC, [Learner_Id] ASC)
 );
 

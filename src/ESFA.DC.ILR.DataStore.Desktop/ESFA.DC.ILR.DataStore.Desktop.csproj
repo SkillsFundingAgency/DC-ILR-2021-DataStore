@@ -27,13 +27,23 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
+    <PackageReference Include="ESFA.DC.Data.ILR.1819.ValidationErrors.Model" Version="0.1.2-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Constants" Version="0.1.2-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Desktop.Interface" Version="0.1.0-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="FastMember" Version="1.4.1" />
     <PackageReference Include="Microsoft.SqlServer.DacFx.x86" Version="150.4384.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Modules\ESFA.DC.ILR.Datastore.Modules.csproj" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

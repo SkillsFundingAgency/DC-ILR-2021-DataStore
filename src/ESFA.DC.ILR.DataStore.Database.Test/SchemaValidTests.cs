@@ -119,7 +119,6 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateVarChar("TelNo", 27, true, 18),
                 ExpectedColumn.CreateVarChar("Email", 28, true, 100),
                 ExpectedColumn.CreateVarChar("CampId", 29, true, 8),
-                ExpectedColumn.CreateBigInt("OTJHours", 30, true)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Valid", "Learner", expectedColumns, true);
         }
@@ -311,7 +310,8 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateInt("Outcome", 25, true),
                 ExpectedColumn.CreateDate("AchDate", 26, true),
                 ExpectedColumn.CreateVarChar("OutGrade", 27, true, 6),
-                ExpectedColumn.CreateVarChar("SWSupAimId", 28, true, 36)
+                ExpectedColumn.CreateVarChar("SWSupAimId", 28, true, 36),
+                ExpectedColumn.CreateInt("PHours", 29, true),
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Valid", "LearningDelivery", expectedColumns, true);
         }
