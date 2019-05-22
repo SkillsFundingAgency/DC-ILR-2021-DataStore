@@ -17,8 +17,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<TransactionController>().As<ITransactionController>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<StoreValidHeader>().As<IStoreService<ValidHeaderData>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreInvalidHeader>().As<IStoreService<InvalidHeaderData>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreValidLearnerData>().As<IStoreService<ValidLearnerData>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreInvalidLearnerData>().As<IStoreService<InvalidLearnerData>>().InstancePerLifetimeScope();
 
