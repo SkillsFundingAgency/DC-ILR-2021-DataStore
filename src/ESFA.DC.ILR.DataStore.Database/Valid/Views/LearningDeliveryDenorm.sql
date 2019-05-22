@@ -32,6 +32,7 @@ SELECT
 	,ld.[OutGrade]
 	,ld.[SWSupAimId]
 	,ld.[PHours]
+	,ld.[LSDPostcode]
 	,HEM.HEM1
 	,HEM.HEM2
 	,HEM.HEM3

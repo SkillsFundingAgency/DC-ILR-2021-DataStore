@@ -30,6 +30,7 @@
     [OutGrade]            VARCHAR (1000) NULL,
     [SWSupAimId]          VARCHAR (1000) NULL, 
 	[PHours]			  BIGINT		 NULL,
+	[LSDPostcode]		  VARCHAR (1000) NULL,
     CONSTRAINT [PK_LearningDelivery] PRIMARY KEY ([UKPRN] ASC,[LearningDelivery_Id])
 );
 
