@@ -137,7 +137,6 @@
     <Compile Include="IEntryPoint.cs" />
     <Compile Include="IStoreFM36HistoryClear.cs" />
     <Compile Include="Mappers\IFM25Mapper.cs" />
-    <Compile Include="Mappers\IInvalidHeaderDataMapper.cs" />
     <Compile Include="Mappers\IInvalidLearnerDataMapper.cs" />
     <Compile Include="Mappers\IProcessingInformationDataMapper.cs" />
     <Compile Include="Mappers\IValidationDataMapper.cs" />
@@ -148,7 +147,6 @@
     <Compile Include="Mappers\IFM36Mapper.cs" />
     <Compile Include="Mappers\IFM81Mapper.cs" />
     <Compile Include="Mappers\IFM70Mapper.cs" />
-    <Compile Include="Mappers\IValidHeaderDataMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDataStoreDataProvider.cs" />
     <Compile Include="IDataStoreMapper.cs" />

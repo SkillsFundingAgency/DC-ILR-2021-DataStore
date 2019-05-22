@@ -6,6 +6,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Invalid;
 using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR1819.DataStore.EF.Invalid;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -15,17 +16,19 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         {
             var ukprn = ilr.LearningProviderEntity.UKPRN;
 
+            var header = ilr.HeaderEntity;
+            var sourceFileCollection = ilr.SourceFilesCollection;
             var learners = ilr.Learners?.Where(l => !learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
-
             var learnerDestinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => !learnersValid.Contains(ldp.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
 
-            return PopulateInvalidLearners(ukprn, learners, learnerDestinationAndProgressions);
+            return PopulateInvalidLearners(ukprn, header, sourceFileCollection, learners, learnerDestinationAndProgressions);
         }
 
-        private InvalidLearnerData PopulateInvalidLearners(int ukprn, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
+        private InvalidLearnerData PopulateInvalidLearners(int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
         {
             var invalidLearnerData = new InvalidLearnerData();
 
+            int sourceFileId = 1;
             int learnerId = 1;
             int learnerDeliveryId = 1;
             int learnerEmploymentStatusId = 1;
@@ -43,6 +46,69 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             int lLDDandHealthProblemID = 1;
             int learnerDestinationandProgressionId = 1;
             int dPOutcomeId = 1;
+
+            invalidLearnerData.CollectionDetails = new List<CollectionDetail>()
+            {
+                new CollectionDetail
+                {
+                    UKPRN = ukprn,
+                    Collection = header.CollectionDetailsEntity.CollectionString,
+                    FilePreparationDate = header.CollectionDetailsEntity.FilePreparationDate,
+                    Year = header.CollectionDetailsEntity.YearString,
+                },
+            };
+
+            invalidLearnerData.LearningProviders = new List<LearningProvider>()
+            {
+                new LearningProvider
+                {
+                    UKPRN = ukprn,
+                },
+            };
+
+            var source = header.SourceEntity;
+
+            invalidLearnerData.Sources = new List<Source>()
+            {
+                new Source
+                {
+                    UKPRN = ukprn,
+                    ComponentSetVersion = source.ComponentSetVersion,
+                    DateTime = source.DateTime,
+                    ProtectiveMarking = source.ProtectiveMarkingString,
+                    ReferenceData = source.ReferenceData,
+                    Release = source.Release,
+                    SerialNo = source.SerialNo,
+                    SoftwarePackage = source.SoftwarePackage,
+                    SoftwareSupplier = source.SoftwareSupplier,
+                },
+            };
+
+            if (sourceFileCollection == null)
+            {
+                invalidLearnerData.SourceFiles = new List<SourceFile>();
+            }
+            else
+            {
+                sourceFileCollection.NullSafeForEach(sourceFile =>
+                {
+                    invalidLearnerData.SourceFiles.Add(
+                        new SourceFile
+                        {
+                            SourceFile_Id = sourceFileId,
+                            UKPRN = ukprn,
+                            DateTime = sourceFile.DateTimeNullable,
+                            FilePreparationDate = sourceFile.FilePreparationDate,
+                            Release = sourceFile.Release,
+                            SerialNo = sourceFile.SerialNo,
+                            SoftwarePackage = sourceFile.SoftwarePackage,
+                            SoftwareSupplier = sourceFile.SoftwareSupplier,
+                            SourceFileName = sourceFile.SourceFileName,
+                        });
+
+                    sourceFileId++;
+                });
+            }
 
             learners.NullSafeForEach(learner =>
             {

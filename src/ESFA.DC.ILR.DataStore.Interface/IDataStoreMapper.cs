@@ -18,10 +18,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
     {
         ProcessingInformationData MapProcessingInformationData(IDataStoreContext dataStoreContext);
 
-        ValidHeaderData MapValidHeaderData(IMessage message);
-
-        InvalidHeaderData MapInvalidHeaderData(IMessage message);
-
         ValidLearnerData MapValidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers);
 
         InvalidLearnerData MapInvalidLearnerData(IMessage message, IEnumerable<string> invalidLearnRefNumbers);

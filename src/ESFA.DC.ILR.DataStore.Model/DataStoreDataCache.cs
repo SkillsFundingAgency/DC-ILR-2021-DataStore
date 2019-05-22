@@ -9,10 +9,6 @@ namespace ESFA.DC.ILR.DataStore.Model
     {
         public ProcessingInformationData ProcessingInformation { get; set; }
 
-        public ValidHeaderData ValidHeaderData { get; set; }
-
-        public InvalidHeaderData InvalidHeaderData { get; set; }
-
         public ValidLearnerData ValidLearnerData { get; set; }
 
         public InvalidLearnerData InvalidLearnerData { get; set; }
@@ -30,6 +26,7 @@ namespace ESFA.DC.ILR.DataStore.Model
         public FM70Data FM70Data { get; set; }
 
         public FM81Data FM81Data { get; set; }
+
         public FM36HistoryData FM36HistoryData { get; set; }
     }
 }

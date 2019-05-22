@@ -184,7 +184,6 @@
     <Compile Include="Builders\Invalid\LearnerHEBuilder.cs" />
     <Compile Include="Builders\Invalid\LearnerHEFinancialSupportBuilder.cs" />
     <Compile Include="DataStoreMapper.cs" />
-    <Compile Include="Mapper\InvalidHeaderDataMapper.cs" />
     <Compile Include="Mapper\InvalidLearnerDataMapper.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Invalid\LearningDeliveryFAMBuilder.cs" />
@@ -203,7 +202,6 @@
     <Compile Include="Builders\Valid\LearnerHEFinancialSupportBuilder.cs" />
     <Compile Include="Mapper\ProcessingInformationDataMapper.cs" />
     <Compile Include="Mapper\ValidationDataMapper.cs" />
-    <Compile Include="Mapper\ValidHeaderDataMapper.cs" />
     <Compile Include="Mapper\ValidLearnerDataMapper.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryBuilder.cs" />
     <Compile Include="Builders\Valid\LearningDeliveryFAMBuilder.cs" />
@@ -240,8 +238,6 @@
     <Compile Include="DataStorePersistenceService.cs" />
     <Compile Include="Persist\StoreFM36HistoryClear.cs" />
     <Compile Include="Persist\StoreFM36History.cs" />
-    <Compile Include="Persist\StoreInvalidHeader.cs" />
-    <Compile Include="Persist\StoreValidHeader.cs" />
     <Compile Include="Persist\StoreInvalidLearnerData.cs" />
     <Compile Include="Persist\StoreValidLearnerData.cs" />
     <Compile Include="DataStoreDataProvider.cs" />

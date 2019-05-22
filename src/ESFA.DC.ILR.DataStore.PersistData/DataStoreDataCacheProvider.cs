@@ -57,8 +57,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             var dataStoreDataCache = new DataStoreDataCache
             {
                 ProcessingInformation = _dataStoreMapper.MapProcessingInformationData(dataStoreContext),
-                ValidHeaderData = _dataStoreMapper.MapValidHeaderData(messageTask.Result),
-                InvalidHeaderData = _dataStoreMapper.MapInvalidHeaderData(messageTask.Result),
                 ValidLearnerData = _dataStoreMapper.MapValidLearnerData(messageTask.Result, validLearnerTask.Result),
                 InvalidLearnerData = _dataStoreMapper.MapInvalidLearnerData(messageTask.Result, validLearnerTask.Result),
                 ALBData = _dataStoreMapper.MapALBData(albTask.Result),

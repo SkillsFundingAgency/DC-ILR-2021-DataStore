@@ -6,6 +6,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Valid;
 using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR1819.DataStore.EF.Valid;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -15,15 +16,68 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         {
             var ukprn = ilr.LearningProviderEntity.UKPRN;
 
+            var header = ilr.HeaderEntity;
+            var sourceFileCollection = ilr.SourceFilesCollection;
             var learners = ilr.Learners?.Where(l => learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
             var destinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => learnersValid.Contains(ldp.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
 
-            return PopulateValidLearners(ukprn, learners, destinationAndProgressions);
+            return PopulateValidLearners(ukprn, header, sourceFileCollection, learners, destinationAndProgressions);
         }
 
-        private ValidLearnerData PopulateValidLearners(int ukprn, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> destinationAndProgressions)
+        private ValidLearnerData PopulateValidLearners(int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> destinationAndProgressions)
         {
             var validLearnerData = new ValidLearnerData();
+
+            validLearnerData.CollectionDetails = new List<CollectionDetail>
+            {
+                new CollectionDetail
+                {
+                    UKPRN = ukprn,
+                    Collection = header.CollectionDetailsEntity.CollectionString,
+                    FilePreparationDate = header.CollectionDetailsEntity.FilePreparationDate,
+                    Year = header.CollectionDetailsEntity.YearString,
+                },
+            };
+
+            validLearnerData.LearningProviders = new List<LearningProvider>
+            {
+                new LearningProvider
+                {
+                    UKPRN = ukprn,
+                },
+            };
+
+            var source = header.SourceEntity;
+
+            validLearnerData.Sources = new List<Source>
+            {
+                new Source
+                {
+                    UKPRN = ukprn,
+                    ComponentSetVersion = source.ComponentSetVersion,
+                    DateTime = source.DateTime,
+                    ProtectiveMarking = source.ProtectiveMarkingString,
+                    ReferenceData = source.ReferenceData,
+                    Release = source.Release,
+                    SerialNo = source.SerialNo,
+                    SoftwarePackage = source.SoftwarePackage,
+                    SoftwareSupplier = source.SoftwareSupplier,
+                },
+            };
+
+            validLearnerData.SourceFiles = sourceFileCollection?
+                                              .Select(sf => new SourceFile
+                                              {
+                                                  UKPRN = ukprn,
+                                                  DateTime = sf.DateTimeNullable,
+                                                  FilePreparationDate = sf.FilePreparationDate,
+                                                  Release = sf.Release,
+                                                  SerialNo = sf.SerialNo,
+                                                  SoftwarePackage = sf.SoftwarePackage,
+                                                  SoftwareSupplier = sf.SoftwareSupplier,
+                                                  SourceFileName = sf.SourceFileName,
+                                              }).ToList()
+                                           ?? new List<SourceFile>();
 
             int lLDDandHealthProblemID = 1;
             int learningDeliveryFamId = 1;

@@ -42,16 +42,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                     _logger.LogDebug("WriteToDEDS - ILR File Details Stored");
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    await _dataStorePersistenceService.StoreInvalidHeaderDataAsync(dataStoreDataCache.InvalidHeaderData, ilrConnection, cancellationToken);
-                    _logger.LogDebug("WriteToDEDS - ILR Invalid Header Data Stored");
-                    cancellationToken.ThrowIfCancellationRequested();
-
                     await _dataStorePersistenceService.StoreInvalidLearnerDataAsync(dataStoreDataCache.InvalidLearnerData, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR Invalid Learner Data Stored");
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    await _dataStorePersistenceService.StoreValidHeaderDataAsync(dataStoreDataCache.ValidHeaderData, ilrConnection, cancellationToken);
-                    _logger.LogDebug("WriteToDEDS - ILR Valid Header Data Stored");
                     cancellationToken.ThrowIfCancellationRequested();
 
                     await _dataStorePersistenceService.StoreValidLearnerDataAsync(dataStoreDataCache.ValidLearnerData, ilrConnection, cancellationToken);

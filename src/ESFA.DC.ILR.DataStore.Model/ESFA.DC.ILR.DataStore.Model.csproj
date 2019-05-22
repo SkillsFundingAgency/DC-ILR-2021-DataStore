@@ -73,8 +73,6 @@
     <Compile Include="File\ValidationData.cs" />
     <Compile Include="Funding\ALBData.cs" />
     <Compile Include="DataStoreDataCache.cs" />
-    <Compile Include="File\InvalidHeaderData.cs" />
-    <Compile Include="File\ValidHeaderData.cs" />
     <Compile Include="Funding\FM25Data.cs" />
     <Compile Include="Funding\FM35Data.cs" />
     <Compile Include="Funding\FM36Data.cs" />

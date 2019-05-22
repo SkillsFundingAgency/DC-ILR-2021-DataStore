@@ -16,6 +16,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         public async Task StoreAsync(InvalidLearnerData model, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
+            await _bulkInsert.Insert("Invalid.CollectionDetails", model.CollectionDetails, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert("Invalid.LearningProvider", model.LearningProviders, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert("Invalid.Source", model.Sources, sqlConnection, cancellationToken);
+            await _bulkInsert.Insert("Invalid.SourceFile", model.SourceFiles, sqlConnection, cancellationToken);
             await _bulkInsert.Insert("Invalid.AppFinRecord", model.RecordsInvalidAppFinRecords, sqlConnection, cancellationToken);
             await _bulkInsert.Insert("Invalid.ContactPreference", model.RecordsInvalidContactPreferences, sqlConnection, cancellationToken);
             await _bulkInsert.Insert("Invalid.EmploymentStatusMonitoring", model.RecordsInvalidEmploymentStatusMonitorings, sqlConnection, cancellationToken);

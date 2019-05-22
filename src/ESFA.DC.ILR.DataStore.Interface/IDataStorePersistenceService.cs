@@ -15,10 +15,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         Task StoreProcessingInformationDataAsync(ProcessingInformationData processingInformationData, SqlConnection sqlConnection, CancellationToken cancellationToken);
 
-        Task StoreValidHeaderDataAsync(ValidHeaderData validHeaderData, SqlConnection sqlConnection, CancellationToken cancellationToken);
-
-        Task StoreInvalidHeaderDataAsync(InvalidHeaderData invalidHeaderData, SqlConnection sqlConnection, CancellationToken cancellationToken);
-
         Task StoreValidLearnerDataAsync(ValidLearnerData validLearnerData, SqlConnection sqlConnection, CancellationToken cancellationToken);
 
         Task StoreInvalidLearnerDataAsync(InvalidLearnerData invalidLearnerData, SqlConnection sqlConnection, CancellationToken cancellationToken);

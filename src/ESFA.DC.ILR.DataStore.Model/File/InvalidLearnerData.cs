@@ -5,6 +5,13 @@ namespace ESFA.DC.ILR.DataStore.Model.File
 {
     public class InvalidLearnerData
     {
+        public List<CollectionDetail> CollectionDetails { get; set; } = new List<CollectionDetail>();
+
+        public List<LearningProvider> LearningProviders { get; set; } = new List<LearningProvider>();
+
+        public List<Source> Sources { get; set; } = new List<Source>();
+
+        public List<SourceFile> SourceFiles { get; set; } = new List<SourceFile>();
 
         public List<Learner> RecordsInvalidLearners { get; set; } = new List<Learner>();
 
