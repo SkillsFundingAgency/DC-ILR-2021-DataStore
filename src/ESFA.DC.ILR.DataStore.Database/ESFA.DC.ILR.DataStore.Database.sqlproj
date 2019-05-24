@@ -215,6 +215,11 @@
     <Build Include="Rulebase\Tables\FM70_Learner.sql" />
     <Build Include="Rulebase\Tables\TBL_Learner.sql" />
     <Build Include="Valid\Stored Procedures\GetLearnerDetails.sql" />
+    <Build Include="Rulebase\Tables\FM35_global.sql" />
+    <Build Include="Rulebase\Tables\FM35_Learner.sql" />
+    <Build Include="Rulebase\Tables\FM35_LearningDelivery.sql" />
+    <Build Include="Rulebase\Tables\FM35_LearningDelivery_Period.sql" />
+    <Build Include="Rulebase\Tables\FM35_LearningDelivery_PeriodisedValues.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
