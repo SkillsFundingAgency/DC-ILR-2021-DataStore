@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using Autofac;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
-using ESFA.DC.Data.ILR.ValidationErrors.Model.Interfaces;
+﻿using Autofac;
 using ESFA.DC.FileService.Config;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Datastore.Modules;
-using ESFA.DC.ILR.DataStore.PersistData.Providers;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR.DataStore.Stateless.Context;
 using ESFA.DC.ILR.DataStore.Stateless.Handlers;
@@ -41,10 +37,6 @@ namespace ESFA.DC.ILR.DataStore.Stateless
 
             containerBuilder.RegisterModule(new StatelessServiceModule(statelessServiceConfiguration));
             containerBuilder.RegisterModule<SerializationModule>();
-
-            // register ValidationError service
-            containerBuilder.Register(b => new ValidationErrors(persistDataConfig.IlrValidationErrorsConnectionString))
-                .As<IValidationErrors>().InstancePerDependency();
 
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
 
