@@ -1,25 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
-using ESFA.DC.Data.ILR.ValidationErrors.Model.Interfaces;
+using ESFA.DC.FileService.Interface;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
+using ESFA.DC.ILR.DataStore.PersistData.Abstract;
+using ESFA.DC.ILR.ReferenceDataService.Model;
+using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 {
-    public class RulesProviderService : IProviderService<List<Rule>>
+    public class RulesProviderService : AbstractProviderService<ReferenceDataRoot>, IProviderService<List<ValidationRule>>
     {
-        private readonly IValidationErrors _validationErrors;
-
-        public RulesProviderService(IValidationErrors validationErrors)
+        public RulesProviderService(
+            IFileService fileService,
+            IJsonSerializationService jsonSerializationService,
+            ILogger logger)
+            : base(fileService, jsonSerializationService, logger)
         {
-            _validationErrors = validationErrors;
         }
 
-        public async Task<List<Rule>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        public async Task<List<ValidationRule>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            return await _validationErrors.Rules.ToListAsync(cancellationToken);
-    }
+            var referenceData = await ProvideAsync(dataStoreContext.IlrReferenceData, dataStoreContext.Container, cancellationToken);
+
+            return referenceData.MetaDatas.ValidationErrors.Select(item => new ValidationRule
+            {
+                RuleName = item.RuleName,
+                Message = item.Message
+            }).ToList();
+        }
     }
 }

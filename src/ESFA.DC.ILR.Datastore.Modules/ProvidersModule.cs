@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autofac;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.DataStore.PersistData;
 using ESFA.DC.ILR.DataStore.PersistData.Providers;
 using ESFA.DC.ILR.DataStore.Stubs;
@@ -38,7 +38,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
                     .As<IProviderService<FM70Global>>()
                     .As<IProviderService<FM81Global>>()
                     .As<IProviderService<List<ILR.IO.Model.Validation.ValidationError>>>()
-                    .As<IProviderService<List<Rule>>>()
+                    .As<IProviderService<List<ValidationRule>>>()
                     .As<IProviderService<List<string>>>()
                     .InstancePerLifetimeScope();
         }
@@ -55,7 +55,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
 
             containerBuilder.RegisterType<ValidLearnerProviderService>().As<IProviderService<List<string>>>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<RulesProviderService>().As<IProviderService<List<Rule>>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<RulesProviderService>().As<IProviderService<List<ValidationRule>>>().InstancePerLifetimeScope();
         }
     }
 }

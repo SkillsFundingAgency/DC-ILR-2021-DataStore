@@ -56,6 +56,8 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string FundingALBOutput => _jobContextMessage.KeyValuePairs[ILRContextKeys.FundingAlbOutput].ToString();
 
+        public string IlrReferenceData => _jobContextMessage.KeyValuePairs[ILRContextKeys.IlrReferenceData].ToString();
+
         public string ValidLearnRefNumbers => _jobContextMessage.KeyValuePairs[ILRContextKeys.ValidLearnRefNumbers].ToString();
 
         public string IlrDatabaseConnectionString => _persistDataConfiguration.ILRDataStoreConnectionString;
