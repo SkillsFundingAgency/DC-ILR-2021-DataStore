@@ -11,6 +11,7 @@ using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
+using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model;
 
 namespace ESFA.DC.ILR.Datastore.Modules
@@ -27,6 +28,8 @@ namespace ESFA.DC.ILR.Datastore.Modules
 
             containerBuilder.RegisterType<ValidLearnerProviderService>().As<IProviderService<List<string>>>().InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<ValidationErrorsProviderService>().As<IProviderService<List<ValidationError>>>();
+
             RegisterStubServices(containerBuilder);
         }
 
@@ -39,7 +42,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
                     .As<IProviderService<FM36Global>>()
                     .As<IProviderService<FM70Global>>()
                     .As<IProviderService<FM81Global>>()
-                    .As<IProviderService<List<ILR.IO.Model.Validation.ValidationError>>>()
                     .As<IProviderService<List<ValidationRule>>>()
                     .InstancePerLifetimeScope();
         }
