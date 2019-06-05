@@ -30,13 +30,13 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
 
         public long FileSizeInBytes => long.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.FileSizeInBytes].ToString());
 
-        public int ValidLearnRefNumbersCount => 1234;
+        public int ValidLearnRefNumbersCount => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.ValidLearnRefNumbersCount].ToString());
 
-        public int InvalidLearnRefNumbersCount => 1234;
+        public int InvalidLearnRefNumbersCount => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.InvalidLearnRefNumbersCount].ToString());
 
-        public int ValidationTotalErrorCount => 1234;
+        public int ValidationTotalErrorCount => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.ValidationTotalErrorCount].ToString());
 
-        public int ValidationTotalWarningCount => 1234;
+        public int ValidationTotalWarningCount => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.ValidationTotalWarningCount].ToString());
 
         public string ValidationErrors => _desktopContext.KeyValuePairs[ILRContextKeys.ValidationErrors].ToString();
 

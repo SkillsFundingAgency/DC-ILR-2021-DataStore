@@ -19,6 +19,8 @@ namespace ESFA.DC.ILR.Datastore.Modules
 
             containerBuilder.RegisterType<StoreValidLearnerData>().As<IStoreService<ValidLearnerData>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreInvalidLearnerData>().As<IStoreService<InvalidLearnerData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreValidationOutput>().As<IStoreService<ValidationData>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreProcessingInformationData>().As<IStoreService<ProcessingInformationData>>().InstancePerLifetimeScope();
 
             RegisterStubServices(containerBuilder);
         }
@@ -32,9 +34,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<StoreServiceStub<FM70Data>>().As<IStoreService<FM70Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreServiceStub<FM81Data>>().As<IStoreService<FM81Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreServiceStub<FM36HistoryData>>().As<IStoreService<FM36HistoryData>>().InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<StoreServiceStub<ValidationData>>().As<IStoreService<ValidationData>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreServiceStub<ProcessingInformationData>>().As<IStoreService<ProcessingInformationData>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<StoreClearStub>().As<IStoreClear>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreClearStub>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
