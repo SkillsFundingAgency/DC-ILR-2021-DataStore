@@ -42,6 +42,8 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         string FundingALBOutput { get; }
 
+        string IlrReferenceData { get; }
+
         string ValidLearnRefNumbers { get; }
 
         string IlrDatabaseConnectionString { get; }

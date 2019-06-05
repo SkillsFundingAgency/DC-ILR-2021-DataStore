@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.Model.Funding;
 using ESFA.DC.ILR.DataStore.Model.History;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -76,7 +76,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public FM36HistoryData MapFM36HistoryData(FM36Global fm36Global, IDataStoreContext dataStoreContext) => _fm36HistoryMapper.MapData(fm36Global, dataStoreContext);
 
-        public ValidationData MapValidationData(IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<Rule> rules)
+        public ValidationData MapValidationData(IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules)
             => _validationDataMapper.MapData(dataStoreContext, validationErrors, rules, message);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -139,9 +139,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
         [Fact]
         public void ProvideRulesAsync()
         {
-            var mock = new Mock<IProviderService<List<Rule>>>();
+            var mock = new Mock<IProviderService<List<ValidationRule>>>();
             var dataStoreContextMock = new Mock<IDataStoreContext>().Object;
-            var task = Task.FromResult(new Mock<List<Rule>>().Object);
+            var task = Task.FromResult(new Mock<List<ValidationRule>>().Object);
             var cancellationToken = CancellationToken.None;
 
             mock.Setup(p => p.ProvideAsync(dataStoreContextMock, cancellationToken)).Returns(task);
@@ -159,7 +159,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
             IProviderService<FM81Global> fm81ProviderService = null,
             IProviderService<List<string>> validLearnerProviderService = null,
             IProviderService<List<ValidationError>> validationErrorsProviderService = null,
-            IProviderService<List<Rule>> rulesProviderService = null)
+            IProviderService<List<ValidationRule>> rulesProviderService = null)
         {
             return new DataStoreDataProvider(
                 ilrProviderService,

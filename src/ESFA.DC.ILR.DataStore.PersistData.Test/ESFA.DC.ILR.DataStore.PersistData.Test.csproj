@@ -67,9 +67,6 @@
     <Reference Include="ESFA.DC.Data.AppsEarningsHistory.Model, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.Data.AppsEarningsHistory.Model.0.1.1-beta0001\lib\net461\ESFA.DC.Data.AppsEarningsHistory.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.Data.ILR.ValidationErrors.Model, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.Data.ILR.1819.ValidationErrors.Model.0.1.2-beta0001\lib\net461\ESFA.DC.Data.ILR.ValidationErrors.Model.dll</HintPath>
-    </Reference>
     <Reference Include="ESFA.DC.DateTimeProvider.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.DateTimeProvider.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.DateTimeProvider.Interface.dll</HintPath>
     </Reference>
@@ -307,6 +304,10 @@
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
       <Project>{D5D457B2-F12F-4FF8-B597-7161AB57384B}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Model\ESFA.DC.ILR.DataStore.Model.csproj">
+      <Project>{9b34b257-581d-4f02-86d9-28a83f2f08b7}</Project>
+      <Name>ESFA.DC.ILR.DataStore.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj">
       <Project>{B15C08A2-9629-439F-ABD0-419B937A5E80}</Project>

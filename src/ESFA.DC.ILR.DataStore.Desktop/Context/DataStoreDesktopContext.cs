@@ -70,6 +70,8 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             get => throw new NotImplementedException();
         }
 
+        public string IlrReferenceData => _desktopContext.KeyValuePairs[ILRContextKeys.IlrReferenceData].ToString();
+
         public string ValidLearnRefNumbers => _desktopContext.KeyValuePairs[ILRContextKeys.ValidLearnRefNumbers].ToString();
 
         public string IlrDatabaseConnectionString => _desktopContext.KeyValuePairs[ILRContextKeys.IlrDatabaseConnectionString].ToString();

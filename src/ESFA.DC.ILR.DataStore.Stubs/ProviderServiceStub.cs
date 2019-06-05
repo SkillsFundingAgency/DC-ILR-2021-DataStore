@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR.DataStore.Stubs
         IProviderService<FM70Global>,
         IProviderService<FM81Global>,
         IProviderService<List<ILR.IO.Model.Validation.ValidationError>>,
-        IProviderService<List<Rule>>,
+        IProviderService<List<ValidationRule>>,
         IProviderService<List<string>>
     {
         Task<ALBGlobal> IProviderService<ALBGlobal>.ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
@@ -61,9 +61,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return Task.FromResult(new List<ValidationError>());
         }
 
-        public Task<List<Rule>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        public Task<List<ValidationRule>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new List<Rule>());
+            return Task.FromResult(new List<ValidationRule>());
         }
 
         Task<List<string>> IProviderService<List<string>>.ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)

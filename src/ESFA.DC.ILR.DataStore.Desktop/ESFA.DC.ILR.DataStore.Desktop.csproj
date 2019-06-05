@@ -28,8 +28,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
-    <PackageReference Include="ESFA.DC.Data.ILR.1819.ValidationErrors.Model" Version="0.1.2-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.Constants" Version="0.1.2-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.1920.Constants" Version="0.1.5-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Desktop.Interface" Version="0.1.0-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model" Version="0.1.446" />
     <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.446" />

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
@@ -25,7 +25,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         private readonly IProviderService<FM81Global> _fm81ProviderService;
         private readonly IProviderService<List<string>> _validLearnerProviderService;
         private readonly IProviderService<List<ValidationError>> _validationErrorsProviderService;
-        private readonly IProviderService<List<Rule>> _rulesProviderService;
+        private readonly IProviderService<List<ValidationRule>> _rulesProviderService;
 
         public DataStoreDataProvider(
             IProviderService<Message> ilrProviderService,
@@ -37,7 +37,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IProviderService<FM81Global> fm81ProviderService,
             IProviderService<List<string>> validLearnerProviderService,
             IProviderService<List<ValidationError>> validationErrorsProviderService,
-            IProviderService<List<Rule>> rulesProviderService)
+            IProviderService<List<ValidationRule>> rulesProviderService)
         {
             _ilrProviderService = ilrProviderService;
             _albProviderService = albProviderService;
@@ -96,7 +96,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             return _validationErrorsProviderService.ProvideAsync(dataStoreContext, cancellationToken);
         }
 
-        public Task<List<Rule>> ProvideRulesAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        public Task<List<ValidationRule>> ProvideRulesAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             return _rulesProviderService.ProvideAsync(dataStoreContext, cancellationToken);
         }

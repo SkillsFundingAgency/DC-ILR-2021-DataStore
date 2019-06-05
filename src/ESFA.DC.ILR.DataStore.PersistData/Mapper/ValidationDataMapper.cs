@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ESFA.DC.Data.ILR.ValidationErrors.Model;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.File;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model.Interface;
 
@@ -12,7 +12,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidationDataMapper : IValidationDataMapper
     {
-        public ValidationData MapData(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<Rule> rules, IMessage message)
+        public ValidationData MapData(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
         {
             var validationData = new ValidationData
             {
@@ -20,7 +20,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                     .Select(ve =>
                     {
                         var fieldValues = GetFieldValuesString(ve.ValidationErrorParameters);
-                        var errorMessage = rules.FirstOrDefault(r => string.Equals(r.Rulename, ve.RuleName, StringComparison.OrdinalIgnoreCase))?.Message;
+                        var errorMessage = rules.FirstOrDefault(r => string.Equals(r.RuleName, ve.RuleName, StringComparison.OrdinalIgnoreCase))?.Message;
 
                         var learningDelivery =
                             message?
