@@ -27,7 +27,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Builders.Valid
                 LLDDHealthProb = ilrLearner.LLDDHealthProb,
                 MathGrade = ilrLearner.MathGrade,
                 NINumber = ilrLearner.NINumber,
-                OTJHours = ilrLearner.OTJHoursNullable,
                 PlanEEPHours = ilrLearner.PlanEEPHoursNullable,
                 PlanLearnHours = ilrLearner.PlanLearnHoursNullable,
                 PMUKPRN = ilrLearner.PMUKPRNNullable,
