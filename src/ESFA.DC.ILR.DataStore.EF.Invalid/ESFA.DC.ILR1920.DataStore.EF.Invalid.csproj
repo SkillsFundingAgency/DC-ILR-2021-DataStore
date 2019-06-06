@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>ESFA.DC.ILR1920.DataStore.EF.Invalid</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR1920.DataStore.EF.Invalid</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
