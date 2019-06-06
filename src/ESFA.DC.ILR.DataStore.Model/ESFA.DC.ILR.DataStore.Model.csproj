@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF.Invalid\ESFA.DC.ILR1819.DataStore.EF.Invalid.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF.Valid\ESFA.DC.ILR1819.DataStore.EF.Valid.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1819.DataStore.EF.Invalid.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1819.DataStore.EF.Valid.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj" />
   </ItemGroup>
 
 </Project>
