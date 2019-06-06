@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Valid.Interface
+namespace ESFA.DC.ILR1920.DataStore.EF.Valid.Interface
 {
     public interface IILR1819_DataStoreEntitiesValid : IDisposable
     {

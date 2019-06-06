@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using ESFA.DC.ILR1920.DataStore.EF.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.EF
+namespace ESFA.DC.ILR1920.DataStore.EF
 {
     public partial class ILR1819_DataStoreEntities : IIlr1819RulebaseContext
     {

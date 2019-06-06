@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESFA.DC.ILR1819.DataStore.EF
+﻿namespace ESFA.DC.ILR1920.DataStore.EF
 {
     public partial class ALB_LearningDelivery_PeriodisedValue
     {

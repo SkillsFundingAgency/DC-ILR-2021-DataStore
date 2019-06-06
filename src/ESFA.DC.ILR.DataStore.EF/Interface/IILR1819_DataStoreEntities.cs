@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Interface
+namespace ESFA.DC.ILR1920.DataStore.EF.Interface
 {
     public interface IILR1819_DataStoreEntities : IDisposable
     {

@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Valid
+namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 {
     public partial class ILR1819_DataStoreEntitiesValid : DbContext
     {

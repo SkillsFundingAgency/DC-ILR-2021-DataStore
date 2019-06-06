@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ESFA.DC.ILR1819.DataStore.EF.Valid.Interface;
+﻿using System.Linq;
+using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Valid
+namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 {
     public partial class ILR1819_DataStoreEntitiesValid : IIlr1819ValidContext
     {

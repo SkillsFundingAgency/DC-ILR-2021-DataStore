@@ -301,9 +301,9 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj">
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
       <Project>{ef950d08-778d-46cc-8400-86ac4b9a0a3e}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.EF</Name>
+      <Name>ESFA.DC.ILR1920.DataStore.EF</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
       <Project>{D5D457B2-F12F-4FF8-B597-7161AB57384B}</Project>

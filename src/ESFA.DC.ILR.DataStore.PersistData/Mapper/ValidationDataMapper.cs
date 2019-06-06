@@ -31,7 +31,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
                         var severity = ve.Severity != null && ve.Severity.Length >= 1 ? ve.Severity?.Substring(0, 1) : null;
 
-                        return new ILR1819.DataStore.EF.ValidationError
+                        return new ILR1920.DataStore.EF.ValidationError
                         {
                             UKPRN = dataStoreContext.Ukprn,
                             SWSupAimID = learningDelivery?.SWSupAimId,
@@ -45,7 +45,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                             Severity = severity,
                             Source = dataStoreContext.OriginalFilename
                         };
-                }).ToList() ?? new List<ILR1819.DataStore.EF.ValidationError>()
+                }).ToList() ?? new List<ILR1920.DataStore.EF.ValidationError>()
             };
 
             return validationData;

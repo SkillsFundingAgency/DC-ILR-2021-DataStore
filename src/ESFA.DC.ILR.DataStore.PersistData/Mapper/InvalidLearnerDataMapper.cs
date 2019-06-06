@@ -6,7 +6,7 @@ using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Invalid;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR1819.DataStore.EF.Invalid;
+using ESFA.DC.ILR1920.DataStore.EF.Invalid;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -173,7 +173,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
             learnerDestinationAndProgressions.NullSafeForEach(learnerDestinationAndProgression =>
             {
-                invalidLearnerData.RecordsInvalidLearnerDestinationandProgressions.Add(new ILR1819.DataStore.EF.Invalid.LearnerDestinationandProgression
+                invalidLearnerData.RecordsInvalidLearnerDestinationandProgressions.Add(new LearnerDestinationandProgression
                 {
                     LearnerDestinationandProgression_Id = learnerDestinationandProgressionId,
                     UKPRN = ukprn,
@@ -183,7 +183,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
                 learnerDestinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome =>
                 {
-                    invalidLearnerData.RecordsInvalidDpOutcomes.Add(new ILR1819.DataStore.EF.Invalid.DPOutcome
+                    invalidLearnerData.RecordsInvalidDpOutcomes.Add(new DPOutcome
                     {
                         DPOutcome_Id = dPOutcomeId,
                         LearnerDestinationandProgression_Id = learnerDestinationandProgressionId,

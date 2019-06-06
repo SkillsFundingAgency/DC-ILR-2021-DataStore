@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using ESFA.DC.ILR1819.DataStore.EF.Invalid.Interface;
+using ESFA.DC.ILR1920.DataStore.EF.Invalid.Interface;
 
-namespace ESFA.DC.ILR1819.DataStore.EF.Invalid
+namespace ESFA.DC.ILR1920.DataStore.EF.Invalid
 {
     public partial class ILR1819_DataStoreEntitiesInvalid : IIlr1819InvalidContext
     {
