@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Valid.Interface
 {
-    public interface IILR1819_DataStoreEntitiesValid : IDisposable
+    public interface IILR1920_DataStoreEntitiesValid : IDisposable
     {
         IQueryable<AppFinRecord> AppFinRecords { get; }
         IQueryable<CollectionDetail> CollectionDetails { get; }

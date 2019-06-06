@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Invalid.Interface
 {
-    public interface IILR1819_DataStoreEntitiesInvalid : IDisposable
+    public interface IILR1920_DataStoreEntitiesInvalid : IDisposable
     {
         IQueryable<AppFinRecord> AppFinRecords { get; }
         IQueryable<CollectionDetail> CollectionDetails { get; }
