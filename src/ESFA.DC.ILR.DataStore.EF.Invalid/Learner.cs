@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Invalid
 {
@@ -34,6 +35,5 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Invalid
         public string TelNo { get; set; }
         public string Email { get; set; }
         public string CampId { get; set; }
-        public long? OTJHours { get; set; }
     }
 }

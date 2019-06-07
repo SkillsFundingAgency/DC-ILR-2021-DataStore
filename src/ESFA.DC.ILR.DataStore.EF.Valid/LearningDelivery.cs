@@ -41,6 +41,8 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid
         public DateTime? AchDate { get; set; }
         public string OutGrade { get; set; }
         public string SWSupAimId { get; set; }
+        public int? PHours { get; set; }
+        public string LSDPostcode { get; set; }
 
         public virtual Learner Learner { get; set; }
         public virtual LearningDeliveryHE LearningDeliveryHE { get; set; }

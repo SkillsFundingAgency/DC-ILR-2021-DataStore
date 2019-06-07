@@ -29,11 +29,6 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public DateTime? LiabilityDate { get; set; }
         public string ApplicProgWeightFact { get; set; }
         public DateTime? ApplicFactDate { get; set; }
-        public bool? LearnDelEligCareerLearnPilot { get; set; }
-        public string LearnDelApplicSubsidyPilotAreaCode { get; set; }
-        public decimal? LearnDelApplicLARSCarPilFundSubRate { get; set; }
-        public decimal? LearnDelCarLearnPilotAimValue { get; set; }
-        public decimal? LearnDelCarLearnPilotInstalAmount { get; set; }
 
         public virtual ALB_Learner ALB_Learner { get; set; }
         public virtual ICollection<ALB_LearningDelivery_PeriodisedValue> ALB_LearningDelivery_PeriodisedValues { get; set; }
