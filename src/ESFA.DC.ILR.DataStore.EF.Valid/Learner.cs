@@ -44,7 +44,6 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid
         public string TelNo { get; set; }
         public string Email { get; set; }
         public string CampId { get; set; }
-        public long? OTJHours { get; set; }
 
         public virtual LearnerHE LearnerHE { get; set; }
         public virtual ICollection<ContactPreference> ContactPreferences { get; set; }

@@ -3,7 +3,7 @@ using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 {
-    public partial class ILR1819_DataStoreEntitiesValid : IIlr1920ValidContext
+    public partial class ILR1920_DataStoreEntitiesValid : IIlr1920ValidContext
     {
         IQueryable<AppFinRecord> IILR1920_DataStoreEntitiesValid.AppFinRecords => AppFinRecords;
         IQueryable<CollectionDetail> IILR1920_DataStoreEntitiesValid.CollectionDetails => CollectionDetails;

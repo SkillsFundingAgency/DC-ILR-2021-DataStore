@@ -1,4 +1,7 @@
-﻿namespace ESFA.DC.ILR1920.DataStore.EF.Valid
+﻿using System;
+using System.Collections.Generic;
+
+namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 {
     public partial class ProviderSpecLearnerMonitoring
     {

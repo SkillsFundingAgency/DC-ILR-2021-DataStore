@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Invalid
 {
@@ -34,5 +35,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Invalid
         public DateTime? AchDate { get; set; }
         public string OutGrade { get; set; }
         public string SWSupAimId { get; set; }
+        public long? PHours { get; set; }
+        public string LSDPostcode { get; set; }
     }
 }
