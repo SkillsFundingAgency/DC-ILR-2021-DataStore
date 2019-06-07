@@ -3,18 +3,18 @@ using ESFA.DC.ILR1920.DataStore.EF.Interface;
 
 namespace ESFA.DC.ILR1920.DataStore.EF
 {
-    public partial class ILR1819_DataStoreEntities : IIlr1920RulebaseContext
+    public partial class ILR1920_DataStoreEntities : IIlr1920RulebaseContext
     {
-        IQueryable<AEC_ApprenticeshipPriceEpisode> IILR1920_DataStoreEntities.AEC_ApprenticeshipPriceEpisodes => AEC_ApprenticeshipPriceEpisodes;
-        IQueryable<AEC_ApprenticeshipPriceEpisode_Period> IILR1920_DataStoreEntities.AEC_ApprenticeshipPriceEpisode_Periods => AEC_ApprenticeshipPriceEpisode_Periods;
-        IQueryable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> IILR1920_DataStoreEntities.AEC_ApprenticeshipPriceEpisode_PeriodisedValues => AEC_ApprenticeshipPriceEpisode_PeriodisedValues;
-        IQueryable<AEC_HistoricEarningOutput> IILR1920_DataStoreEntities.AEC_HistoricEarningOutputs => AEC_HistoricEarningOutputs;
-        IQueryable<AEC_Learner> IILR1920_DataStoreEntities.AEC_Learners => AEC_Learners;
-        IQueryable<AEC_LearningDelivery> IILR1920_DataStoreEntities.AEC_LearningDeliveries => AEC_LearningDeliveries;
-        IQueryable<AEC_LearningDelivery_Period> IILR1920_DataStoreEntities.AEC_LearningDelivery_Periods => AEC_LearningDelivery_Periods;
-        IQueryable<AEC_LearningDelivery_PeriodisedTextValue> IILR1920_DataStoreEntities.AEC_LearningDelivery_PeriodisedTextValues => AEC_LearningDelivery_PeriodisedTextValues;
-        IQueryable<AEC_LearningDelivery_PeriodisedValue> IILR1920_DataStoreEntities.AEC_LearningDelivery_PeriodisedValues => AEC_LearningDelivery_PeriodisedValues;
-        IQueryable<AEC_global> IILR1920_DataStoreEntities.AEC_globals => AEC_globals;
+        //IQueryable<AEC_ApprenticeshipPriceEpisode> IILR1920_DataStoreEntities.AEC_ApprenticeshipPriceEpisodes => AEC_ApprenticeshipPriceEpisodes;
+        //IQueryable<AEC_ApprenticeshipPriceEpisode_Period> IILR1920_DataStoreEntities.AEC_ApprenticeshipPriceEpisode_Periods => AEC_ApprenticeshipPriceEpisode_Periods;
+        //IQueryable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> IILR1920_DataStoreEntities.AEC_ApprenticeshipPriceEpisode_PeriodisedValues => AEC_ApprenticeshipPriceEpisode_PeriodisedValues;
+        //IQueryable<AEC_HistoricEarningOutput> IILR1920_DataStoreEntities.AEC_HistoricEarningOutputs => AEC_HistoricEarningOutputs;
+        //IQueryable<AEC_Learner> IILR1920_DataStoreEntities.AEC_Learners => AEC_Learners;
+        //IQueryable<AEC_LearningDelivery> IILR1920_DataStoreEntities.AEC_LearningDeliveries => AEC_LearningDeliveries;
+        //IQueryable<AEC_LearningDelivery_Period> IILR1920_DataStoreEntities.AEC_LearningDelivery_Periods => AEC_LearningDelivery_Periods;
+        //IQueryable<AEC_LearningDelivery_PeriodisedTextValue> IILR1920_DataStoreEntities.AEC_LearningDelivery_PeriodisedTextValues => AEC_LearningDelivery_PeriodisedTextValues;
+        //IQueryable<AEC_LearningDelivery_PeriodisedValue> IILR1920_DataStoreEntities.AEC_LearningDelivery_PeriodisedValues => AEC_LearningDelivery_PeriodisedValues;
+        //IQueryable<AEC_global> IILR1920_DataStoreEntities.AEC_globals => AEC_globals;
         IQueryable<ALB_Learner> IILR1920_DataStoreEntities.ALB_Learners => ALB_Learners;
         IQueryable<ALB_Learner_Period> IILR1920_DataStoreEntities.ALB_Learner_Periods => ALB_Learner_Periods;
         IQueryable<ALB_Learner_PeriodisedValue> IILR1920_DataStoreEntities.ALB_Learner_PeriodisedValues => ALB_Learner_PeriodisedValues;

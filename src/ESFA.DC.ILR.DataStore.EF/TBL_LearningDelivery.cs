@@ -21,6 +21,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public decimal? LearnSuppFundCash { get; set; }
         public DateTime? AdjProgStartDate { get; set; }
         public bool? LearnSuppFund { get; set; }
+        public DateTime? AdjStartDate { get; set; }
         public decimal? MathEngOnProgPayment { get; set; }
         public int? InstPerPeriod { get; set; }
         public decimal? SmallBusPayment { get; set; }
@@ -30,6 +31,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public bool? SmallBusEligible { get; set; }
         public int? MathEngOnProgPct { get; set; }
         public int? AgeStandardStart { get; set; }
+        public DateTime? SmallBusThresholdDate { get; set; }
         public DateTime? YoungAppSecondThresholdDate { get; set; }
         public int? EmpIdFirstDayStandard { get; set; }
         public int? EmpIdFirstYoungAppDate { get; set; }

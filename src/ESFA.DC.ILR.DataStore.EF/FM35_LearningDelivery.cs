@@ -59,6 +59,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public int? LargeEmployerID { get; set; }
         public decimal? LargeEmployerFM35Fctr { get; set; }
         public DateTime? LargeEmployerStatusDate { get; set; }
+        public string LearnDelFundOrgCode { get; set; }
         public decimal? LTRCUpliftFctr { get; set; }
         public decimal? NonGovCont { get; set; }
         public bool? OLASSCustody { get; set; }
