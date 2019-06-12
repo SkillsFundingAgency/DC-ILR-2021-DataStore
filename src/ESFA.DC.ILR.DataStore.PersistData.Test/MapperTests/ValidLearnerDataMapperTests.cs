@@ -24,7 +24,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             header.Setup(h => h.CollectionDetailsEntity.FilePreparationDate).Returns(new DateTime(2000, 01, 01));
             header.Setup(h => h.CollectionDetailsEntity.YearString).Returns("1920");
 
-            var collectionDetails = Mapper().GetCollectionDetails(_ukprn, header.Object);
+            var collectionDetails = Mapper().BuildCollectionDetails(_ukprn, header.Object);
 
             collectionDetails.Should().NotBeNull();
             collectionDetails.Single().UKPRN.Should().Be(_ukprn);
@@ -36,7 +36,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void GetLearningProviders_Test()
         {
-            var collectionDetails = Mapper().GetLearningProviders(_ukprn);
+            var collectionDetails = Mapper().BuildLearningProviders(_ukprn);
 
             collectionDetails.Should().NotBeNull();
             collectionDetails.Single().UKPRN.Should().Be(_ukprn);
@@ -55,7 +55,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             sourceMock.Setup(s => s.SoftwarePackage).Returns("SoftwarePackage");
             sourceMock.Setup(s => s.SoftwareSupplier).Returns("SoftwareSupplier");
 
-            var source = Mapper().GetSources(_ukprn, sourceMock.Object);
+            var source = Mapper().BuildSources(_ukprn, sourceMock.Object);
 
             source.Should().NotBeNull();
             source.Single().UKPRN.Should().Be(_ukprn);
@@ -83,7 +83,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             sourceFileMock.Setup(sf => sf.SourceFileName).Returns("SourceFileName");
 
             var sourceFilesMock = new List<ISourceFile> { sourceFileMock.Object };
-            var sourceFiles = Mapper().GetSourceFiles(_ukprn, sourceFilesMock);
+            var sourceFiles = Mapper().BuildSourceFiles(_ukprn, sourceFilesMock);
 
             sourceFiles.Should().NotBeNull();
             sourceFiles.Single().UKPRN.Should().Be(_ukprn);
@@ -130,7 +130,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerMock.Setup(l => l.TelNo).Returns("TelNo");
             learnerMock.Setup(l => l.ULN).Returns(10);
 
-            var learner = Mapper().GetValidLearner(_ukprn, learnerMock.Object);
+            var learner = Mapper().BuildValidLearner(_ukprn, learnerMock.Object);
 
             learner.Should().NotBeNull();
             learner.UKPRN.Should().Be(_ukprn);
@@ -174,7 +174,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             contactPreferenceMock.Setup(cp => cp.ContPrefCode).Returns(1);
             contactPreferenceMock.Setup(cp => cp.ContPrefType).Returns("ContPrefType");
 
-            var contactPreference = Mapper().GetContactPreference(_ukprn, learnerMock.Object, contactPreferenceMock.Object);
+            var contactPreference = Mapper().BuildContactPreference(_ukprn, learnerMock.Object, contactPreferenceMock.Object);
 
             contactPreference.Should().NotBeNull();
             contactPreference.UKPRN.Should().Be(_ukprn);
@@ -219,7 +219,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDeliveryMock.Setup(ld => ld.SWSupAimId).Returns("SWSupAimId");
             learningDeliveryMock.Setup(ld => ld.WithdrawReasonNullable).Returns(16);
 
-            var learningDelivery = Mapper().GetLearningDelivery(_ukprn, learnerMock.Object, learningDeliveryMock.Object);
+            var learningDelivery = Mapper().BuildLearningDelivery(_ukprn, learnerMock.Object, learningDeliveryMock.Object);
 
             learningDelivery.Should().NotBeNull();
             learningDelivery.UKPRN.Should().Be(_ukprn);
@@ -286,7 +286,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDeliveryMock.Setup(ld => ld.LearningDeliveryHEEntity.UCASAPPID).Returns("UCASAPPID");
             learningDeliveryMock.Setup(ld => ld.LearningDeliveryHEEntity.YEARSTU).Returns(17);
 
-            var learningDeliveryHE = Mapper().GetLearningDeliveryHERecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object);
+            var learningDeliveryHE = Mapper().BuildLearningDeliveryHERecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object);
 
             learningDeliveryHE.Should().NotBeNull();
             learningDeliveryHE.UKPRN.Should().Be(_ukprn);
@@ -332,7 +332,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             appFinRecordMock.Setup(afr => afr.AFinDate).Returns(new DateTime(2000, 01, 01));
             appFinRecordMock.Setup(afr => afr.AFinType).Returns("AFinType");
 
-            var appFinRecord = Mapper().GetLearningDeliveryAppFinRecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object, appFinRecordMock.Object);
+            var appFinRecord = Mapper().BuildLearningDeliveryAppFinRecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object, appFinRecordMock.Object);
 
             appFinRecord.Should().NotBeNull();
             appFinRecord.UKPRN.Should().Be(_ukprn);
@@ -358,7 +358,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDeliveryFamMock.Setup(ldf => ldf.LearnDelFAMDateToNullable).Returns(new DateTime(2000, 01, 01));
             learningDeliveryFamMock.Setup(ldf => ldf.LearnDelFAMType).Returns("LearnDelFAMType");
 
-            var learningDeliveryFam = Mapper().GetLearningDeliveryFAMRecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object, learningDeliveryFamMock.Object, 0);
+            var learningDeliveryFam = Mapper().BuildLearningDeliveryFAMRecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object, learningDeliveryFamMock.Object, 0);
 
             learningDeliveryFam.Should().NotBeNull();
             learningDeliveryFam.UKPRN.Should().Be(_ukprn);
@@ -387,7 +387,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDeliveryWorkPlacementMock.Setup(ldwp => ldwp.WorkPlaceMode).Returns(3);
             learningDeliveryWorkPlacementMock.Setup(ldwp => ldwp.WorkPlaceStartDate).Returns(new DateTime(2000, 01, 01));
 
-            var learningDeliveryWorkPlacement = Mapper().GetLearningDeliveryWorkPlacement(_ukprn, learnerMock.Object, learningDeliveryMock.Object, learningDeliveryWorkPlacementMock.Object);
+            var learningDeliveryWorkPlacement = Mapper().BuildLearningDeliveryWorkPlacement(_ukprn, learnerMock.Object, learningDeliveryMock.Object, learningDeliveryWorkPlacementMock.Object);
 
             learningDeliveryWorkPlacement.Should().NotBeNull();
             learningDeliveryWorkPlacement.UKPRN.Should().Be(_ukprn);
@@ -413,7 +413,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             providerSpecDeliveryMonitoringMock.Setup(psdm => psdm.ProvSpecDelMon).Returns("ProvSpecDelMon");
             providerSpecDeliveryMonitoringMock.Setup(psdm => psdm.ProvSpecDelMonOccur).Returns("ProvSpecDelMonOccur");
 
-            var providerSpecDeliveryMonitoring = Mapper().GetProviderSpecDeliveryMonitoring(_ukprn, learnerMock.Object, learningDeliveryMock.Object, providerSpecDeliveryMonitoringMock.Object);
+            var providerSpecDeliveryMonitoring = Mapper().BuildProviderSpecDeliveryMonitoring(_ukprn, learnerMock.Object, learningDeliveryMock.Object, providerSpecDeliveryMonitoringMock.Object);
 
             providerSpecDeliveryMonitoring.Should().NotBeNull();
             providerSpecDeliveryMonitoring.UKPRN.Should().Be(_ukprn);
@@ -435,7 +435,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerEmploymentStatusMock.Setup(les => les.EmpIdNullable).Returns(1);
             learnerEmploymentStatusMock.Setup(les => les.EmpStat).Returns(2);
 
-            var learnerEmploymentStatus = Mapper().GetLearnerEmploymentStatus(_ukprn, learnerMock.Object, learnerEmploymentStatusMock.Object);
+            var learnerEmploymentStatus = Mapper().BuildLearnerEmploymentStatus(_ukprn, learnerMock.Object, learnerEmploymentStatusMock.Object);
 
             learnerEmploymentStatus.Should().NotBeNull();
             learnerEmploymentStatus.UKPRN.Should().Be(_ukprn);
@@ -459,7 +459,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             employmentStatusMonitoringMock.Setup(esm => esm.ESMCode).Returns(1);
             employmentStatusMonitoringMock.Setup(esm => esm.ESMType).Returns("ESMType");
 
-            var employmentStatusMonitoring = Mapper().GetEmploymentStatusMonitoring(_ukprn, learnerMock.Object, learnerEmploymentStatusMock.Object, employmentStatusMonitoringMock.Object);
+            var employmentStatusMonitoring = Mapper().BuildEmploymentStatusMonitoring(_ukprn, learnerMock.Object, learnerEmploymentStatusMock.Object, employmentStatusMonitoringMock.Object);
 
             employmentStatusMonitoring.Should().NotBeNull();
             employmentStatusMonitoring.UKPRN.Should().Be(_ukprn);
@@ -479,7 +479,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerFamMock.Setup(lfm => lfm.LearnFAMCode).Returns(1);
             learnerFamMock.Setup(lfm => lfm.LearnFAMType).Returns("LearnFAMType");
 
-            var learnerFam = Mapper().GetLearnerFAM(_ukprn, learnerMock.Object, learnerFamMock.Object);
+            var learnerFam = Mapper().BuildLearnerFAM(_ukprn, learnerMock.Object, learnerFamMock.Object);
 
             learnerFam.Should().NotBeNull();
             learnerFam.UKPRN.Should().Be(_ukprn);
@@ -496,7 +496,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerMock.Setup(l => l.LearnerHEEntity.TTACCOMNullable).Returns(1);
             learnerMock.Setup(l => l.LearnerHEEntity.UCASPERID).Returns("UCASPERID");
 
-            var learnerHE = Mapper().GetLearnerHE(_ukprn, learnerMock.Object);
+            var learnerHE = Mapper().BuildLearnerHE(_ukprn, learnerMock.Object);
 
             learnerHE.Should().NotBeNull();
             learnerHE.UKPRN.Should().Be(_ukprn);
@@ -515,7 +515,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerHEFinancialSupportMock.Setup(lh => lh.FINAMOUNT).Returns(1);
             learnerHEFinancialSupportMock.Setup(lh => lh.FINTYPE).Returns(2);
 
-            var learnerHEFinancialSupport = Mapper().GetLearnerHEFinancialSupport(_ukprn, learnerMock.Object, learnerHEFinancialSupportMock.Object);
+            var learnerHEFinancialSupport = Mapper().BuildLearnerHEFinancialSupport(_ukprn, learnerMock.Object, learnerHEFinancialSupportMock.Object);
 
             learnerHEFinancialSupport.Should().NotBeNull();
             learnerHEFinancialSupport.UKPRN.Should().Be(_ukprn);
@@ -534,7 +534,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             llddAndHealthProblemMock.Setup(lhp => lhp.LLDDCat).Returns(1);
             llddAndHealthProblemMock.Setup(lhp => lhp.PrimaryLLDDNullable).Returns(2);
 
-            var llddAndHealthProblem = Mapper().GetLLDDAndHealthProblem(_ukprn, learnerMock.Object, llddAndHealthProblemMock.Object, 0);
+            var llddAndHealthProblem = Mapper().BuildLLDDAndHealthProblem(_ukprn, learnerMock.Object, llddAndHealthProblemMock.Object, 0);
 
             llddAndHealthProblem.Should().NotBeNull();
             llddAndHealthProblem.UKPRN.Should().Be(_ukprn);
@@ -554,7 +554,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             providerSpecLearnerMonitoringMock.Setup(pslm => pslm.ProvSpecLearnMon).Returns("ProvSpecLearnMon");
             providerSpecLearnerMonitoringMock.Setup(pslm => pslm.ProvSpecLearnMonOccur).Returns("ProvSpecLearnMonOccur");
 
-            var providerSpecLearnerMonitoring = Mapper().GetProviderSpecLearnerMonitoring(_ukprn, learnerMock.Object, providerSpecLearnerMonitoringMock.Object);
+            var providerSpecLearnerMonitoring = Mapper().BuildProviderSpecLearnerMonitoring(_ukprn, learnerMock.Object, providerSpecLearnerMonitoringMock.Object);
 
             providerSpecLearnerMonitoring.Should().NotBeNull();
             providerSpecLearnerMonitoring.UKPRN.Should().Be(_ukprn);
@@ -570,7 +570,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerDestinationAndProgressionMock.Setup(ldp => ldp.LearnRefNumber).Returns("12345");
             learnerDestinationAndProgressionMock.Setup(ldp => ldp.ULN).Returns(1);
 
-            var learnerDestinationAndProgression = Mapper().GetLearnerDestinationAndProgression(_ukprn, learnerDestinationAndProgressionMock.Object);
+            var learnerDestinationAndProgression = Mapper().BuildLearnerDestinationAndProgression(_ukprn, learnerDestinationAndProgressionMock.Object);
 
             learnerDestinationAndProgression.Should().NotBeNull();
             learnerDestinationAndProgression.UKPRN.Should().Be(_ukprn);
@@ -591,7 +591,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             dpOutcomeMock.Setup(dpo => dpo.OutStartDate).Returns(new DateTime(2000, 01, 01));
             dpOutcomeMock.Setup(dpo => dpo.OutType).Returns("OutType");
 
-            var dpOutcome = Mapper().GetDPOutcome(_ukprn, learnerDestinationAndProgressionMock.Object, dpOutcomeMock.Object);
+            var dpOutcome = Mapper().BuildDPOutcome(_ukprn, learnerDestinationAndProgressionMock.Object, dpOutcomeMock.Object);
 
             dpOutcome.Should().NotBeNull();
             dpOutcome.UKPRN.Should().Be(_ukprn);
