@@ -244,6 +244,8 @@
     <Compile Include="MapperTests\FM36MapperTests.cs" />
     <Compile Include="MapperTests\FM81MapperTests.cs" />
     <Compile Include="MapperTests\FM35MapperTests.cs" />
+    <Compile Include="MapperTests\InvalidLearnerDataMapperTests.cs" />
+    <Compile Include="MapperTests\ValidLearnerDataMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +303,14 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
+      <Project>{2110e8a2-3e66-4380-8486-e9cd11ce2f08}</Project>
+      <Name>ESFA.DC.ILR1920.DataStore.EF.Invalid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
+      <Project>{347ccc6e-c787-43be-97f0-1a86495f0e48}</Project>
+      <Name>ESFA.DC.ILR1920.DataStore.EF.Valid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
       <Project>{ef950d08-778d-46cc-8400-86ac4b9a0a3e}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF</Name>
