@@ -18,13 +18,14 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
         {
             List<ExpectedColumn> expectedColumns = new List<ExpectedColumn>
             {
-                ExpectedColumn.CreateInt("UKPRN", -1, false),
-                ExpectedColumn.CreateVarChar("LearnRefNumber", 2, false, 12),
-                ExpectedColumn.CreateInt("AimSeqNumber", 3, false),
-                ExpectedColumn.CreateVarChar("AFinType", 4, false),
-                ExpectedColumn.CreateInt("AFinCode", 5, false),
-                ExpectedColumn.CreateDate("AFinDate", 6, false),
-                ExpectedColumn.CreateInt("AFinAmount", 7, false)
+                ExpectedColumn.CreateInt("AppFinRecord_Id", 1, false),
+                ExpectedColumn.CreateInt("UKPRN", 2, false),
+                ExpectedColumn.CreateVarChar("LearnRefNumber", 3, false, 12),
+                ExpectedColumn.CreateInt("AimSeqNumber", 4, false),
+                ExpectedColumn.CreateVarChar("AFinType", 5, false),
+                ExpectedColumn.CreateInt("AFinCode", 6, false),
+                ExpectedColumn.CreateDate("AFinDate", 7, false),
+                ExpectedColumn.CreateInt("AFinAmount", 8, false)
             };
             _fixture.SchemaTests.AssertTableColumnsExist("Valid", "AppFinRecord", expectedColumns, true);
         }

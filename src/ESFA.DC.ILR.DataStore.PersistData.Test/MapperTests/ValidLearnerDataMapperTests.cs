@@ -332,9 +332,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             appFinRecordMock.Setup(afr => afr.AFinDate).Returns(new DateTime(2000, 01, 01));
             appFinRecordMock.Setup(afr => afr.AFinType).Returns("AFinType");
 
-            var appFinRecord = Mapper().BuildLearningDeliveryAppFinRecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object, appFinRecordMock.Object);
+            var appFinRecord = Mapper().BuildLearningDeliveryAppFinRecord(_ukprn, learnerMock.Object, learningDeliveryMock.Object, appFinRecordMock.Object, 0);
 
             appFinRecord.Should().NotBeNull();
+            appFinRecord.AppFinRecord_Id.Should().Be(0);
             appFinRecord.UKPRN.Should().Be(_ukprn);
             appFinRecord.AimSeqNumber.Should().Be(1);
             appFinRecord.AFinAmount.Should().Be(2);
