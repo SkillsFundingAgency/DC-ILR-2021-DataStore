@@ -56,6 +56,13 @@ SELECT
 	,LDM.LDM2
 	,LDM.LDM3
 	,LDM.LDM4
+	,LDM.LDM5
+	,LDM.LDM6
+	,DAM.DAM1
+	,DAM.DAM2
+	,DAM.DAM3
+	,DAM.DAM4
+
 
 FROM
 	Valid.LearningDelivery as ld
@@ -213,7 +220,9 @@ FROM
 			max([LDM1]) as [LDM1],
 			max([LDM2]) as [LDM2],
 			max([LDM3]) as [LDM3],
-			max([LDM4]) as [LDM4]
+			max([LDM4]) as [LDM4],
+			max([LDM4]) as [LDM5],
+			max([LDM4]) as [LDM6]
 		from
 		(
 			select
@@ -223,7 +232,9 @@ FROM
 				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 1 then LearnDelFAMCode else null end  as [LDM1],
 				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 2 then LearnDelFAMCode else null end  as [LDM2],
 				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 3 then LearnDelFAMCode else null end  as [LDM3],
-				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 4 then LearnDelFAMCode else null end  as [LDM4]
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 4 then LearnDelFAMCode else null end  as [LDM4],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 5 then LearnDelFAMCode else null end  as [LDM5],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 6 then LearnDelFAMCode else null end  as [LDM6]
 			from
 				[Valid].[LearningDeliveryFAM]
 			where
@@ -237,3 +248,36 @@ FROM
 	on [LDM].[LearnRefNumber]=ld.[LearnRefNumber]
 	and LDM.AimSeqNumber = ld.AimSeqNumber
 	AND LDM.UKPRN = LD.UKPRN
+	left join
+	(
+		select
+			[LearnRefNumber],
+			[AimSeqNumber],
+			[UKPRN],
+			max([DAM1]) as [DAM1],
+			max([DAM2]) as [DAM2],
+			max([DAM3]) as [DAM3],
+			max([DAM4]) as [DAM4]
+		from
+		(
+			select
+				[LearnRefNumber],
+				[AimSeqNumber],
+				UKPRN,
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 1 then LearnDelFAMCode else null end  as [DAM1],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 2 then LearnDelFAMCode else null end  as [DAM2],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 3 then LearnDelFAMCode else null end  as [DAM3],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 4 then LearnDelFAMCode else null end  as [DAM4]
+			from
+				[Valid].[LearningDeliveryFAM]
+			where
+				[LearnDelFAMType]='DAM'
+		) as [DAMs]
+		group by
+			[LearnRefNumber],
+			[AimSeqNumber],
+			[UKPRN]
+	) as [DAM]
+	on [DAM].[LearnRefNumber]=ld.[LearnRefNumber]
+	and DAM.AimSeqNumber = ld.AimSeqNumber
+	AND DAM.UKPRN = LD.UKPRN
