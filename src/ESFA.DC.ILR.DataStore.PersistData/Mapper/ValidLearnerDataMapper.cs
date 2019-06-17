@@ -29,6 +29,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             var source = header.SourceEntity;
             int lLDDandHealthProblemID = 1;
             int learningDeliveryFamId = 1;
+            int appFinRecordId = 1;
 
             validLearnerData.CollectionDetails.AddRange(BuildCollectionDetails(ukprn, header));
             validLearnerData.LearningProviders.AddRange(BuildLearningProviders(ukprn));
@@ -49,7 +50,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                         validLearnerData.RecordsValidLearningDeliveryHes.Add(BuildLearningDeliveryHERecord(ukprn, learner, learningDelivery));
                     }
 
-                    learningDelivery.AppFinRecords.NullSafeForEach(appFinRecord => validLearnerData.RecordsValidAppFinRecords.Add(BuildLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord)));
+                    learningDelivery.AppFinRecords.NullSafeForEach(appFinRecord => validLearnerData.RecordsValidAppFinRecords.Add(BuildLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, appFinRecordId++)));
                     learningDelivery.LearningDeliveryFAMs.NullSafeForEach(famRecord => validLearnerData.RecordsValidLearnerDeliveryFams.Add(BuildLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learningDeliveryFamId++)));
                     learningDelivery.LearningDeliveryWorkPlacements.NullSafeForEach(workPlacement => validLearnerData.RecordsValidLearningDeliveryWorkPlacements.Add(BuildLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement)));
                     learningDelivery.ProviderSpecDeliveryMonitorings.NullSafeForEach(monitoring => validLearnerData.RecordsValidProviderSpecDeliveryMonitorings.Add(BuildProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring)));
@@ -261,10 +262,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             };
         }
 
-        public AppFinRecord BuildLearningDeliveryAppFinRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IAppFinRecord appFinRecord)
+        public AppFinRecord BuildLearningDeliveryAppFinRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IAppFinRecord appFinRecord, int id)
         {
             return new AppFinRecord
             {
+                AppFinRecord_Id = id,
                 LearnRefNumber = learner.LearnRefNumber,
                 UKPRN = ukprn,
                 AFinAmount = appFinRecord.AFinAmount,

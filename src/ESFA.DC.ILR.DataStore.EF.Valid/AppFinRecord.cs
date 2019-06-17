@@ -5,6 +5,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 {
     public partial class AppFinRecord
     {
+        public int AppFinRecord_Id { get; set; }
         public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
