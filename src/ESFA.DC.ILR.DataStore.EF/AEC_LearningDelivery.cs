@@ -26,13 +26,6 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public bool? Completed { get; set; }
         public DateTime? FirstIncentiveThresholdDate { get; set; }
         public bool? FundStart { get; set; }
-        public decimal? LDApplic1618FrameworkUpliftBalancingValue { get; set; }
-        public decimal? LDApplic1618FrameworkUpliftCompElement { get; set; }
-        public decimal? LDApplic1618FRameworkUpliftCompletionValue { get; set; }
-        public decimal? LDApplic1618FrameworkUpliftMonthInstalVal { get; set; }
-        public decimal? LDApplic1618FrameworkUpliftPrevEarnings { get; set; }
-        public decimal? LDApplic1618FrameworkUpliftPrevEarningsStage1 { get; set; }
-        public decimal? LDApplic1618FrameworkUpliftRemainingAmount { get; set; }
         public decimal? LDApplic1618FrameworkUpliftTotalActEarnings { get; set; }
         public string LearnAimRef { get; set; }
         public bool? LearnDel1618AtStart { get; set; }
