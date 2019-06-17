@@ -4,9 +4,8 @@ using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
-using ESFA.DC.ILR.DataStore.PersistData.Builders.Invalid;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR1819.DataStore.EF.Invalid;
+using ESFA.DC.ILR1920.DataStore.EF.Invalid;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -27,6 +26,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         private InvalidLearnerData PopulateInvalidLearners(int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
         {
             var invalidLearnerData = new InvalidLearnerData();
+            var source = header.SourceEntity;
 
             int sourceFileId = 1;
             int learnerId = 1;
@@ -47,7 +47,93 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             int learnerDestinationandProgressionId = 1;
             int dPOutcomeId = 1;
 
-            invalidLearnerData.CollectionDetails = new List<CollectionDetail>()
+            invalidLearnerData.CollectionDetails.AddRange(BuildCollectionDetails(ukprn, header));
+            invalidLearnerData.LearningProviders.AddRange(BuildLearningProviders(ukprn));
+            invalidLearnerData.Sources.AddRange(BuildSources(ukprn, source));
+
+            if (sourceFileCollection == null)
+            {
+                invalidLearnerData.SourceFiles = new List<SourceFile>();
+            }
+            else
+            {
+                sourceFileCollection.NullSafeForEach(sourceFile => invalidLearnerData.SourceFiles.Add(BuildSourceFiles(ukprn, sourceFile, sourceFileId++)));
+            }
+
+            learners.NullSafeForEach(learner =>
+            {
+                invalidLearnerData.RecordsInvalidLearners.Add(BuildInvalidLearner(ukprn, learner, learnerId));
+
+                learner.ContactPreferences.NullSafeForEach(
+                    contactPreference =>
+                        invalidLearnerData.RecordsInvalidContactPreferences.Add(BuildContactPreference(ukprn, learner, contactPreference, learnerId, contactPreferenceId++)));
+
+                learner.LearningDeliveries.NullSafeForEach(learningDelivery =>
+                {
+                    invalidLearnerData.RecordsInvalidLearningDeliverys.Add(BuildLearningDelivery(ukprn, learner, learningDelivery, learnerId, learnerDeliveryId));
+
+                    if (learningDelivery.LearningDeliveryHEEntity != null)
+                    {
+                        invalidLearnerData.RecordsInvalidLearningDeliveryHes.Add(BuildLearningDeliveryHERecord(ukprn, learner, learningDelivery, learningDeliveryHEId++));
+                    }
+
+                    learningDelivery.AppFinRecords.NullSafeForEach(
+                        appFinRecord =>
+                            invalidLearnerData.RecordsInvalidAppFinRecords.Add(BuildLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++)));
+
+                    learningDelivery.LearningDeliveryFAMs.NullSafeForEach(
+                        famRecord =>
+                            invalidLearnerData.RecordsInvalidLearnerDeliveryFams.Add(BuildLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++)));
+
+                    learningDelivery.LearningDeliveryWorkPlacements.NullSafeForEach(workPlacement =>
+                        invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements.Add(BuildLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++)));
+
+                    learningDelivery.ProviderSpecDeliveryMonitorings.NullSafeForEach(monitoring =>
+                        invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings.Add(BuildProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++)));
+
+                    learnerDeliveryId++;
+                });
+
+                learner.LearnerEmploymentStatuses.NullSafeForEach(employmentStatus =>
+                    {
+                        invalidLearnerData.RecordsInvalidLearnerEmploymentStatus.Add(BuildLearnerEmploymentStatus(ukprn, learner, employmentStatus, learnerId, learnerEmploymentStatusId));
+                        employmentStatus.EmploymentStatusMonitorings.NullSafeForEach(monitoring => 
+                            invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings.Add(BuildEmploymentStatusMonitoring(ukprn, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++)));
+
+                        learnerEmploymentStatusId++;
+                    });
+
+                learner.LearnerFAMs.NullSafeForEach(fam => invalidLearnerData.RecordsInvalidLearnerFams.Add(BuildLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId++)));
+
+                if (learner.LearnerHEEntity != null)
+                {
+                    invalidLearnerData.RecordsInvalidLearnerHes.Add(BuildLearnerHE(ukprn, learner, learnerId, learnerHEId++));
+
+                    learner.LearnerHEEntity.LearnerHEFinancialSupports.NullSafeForEach(support => invalidLearnerData.RecordsInvalidLearnerHefinancialSupports.Add(BuildLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId++)));
+                }
+
+                learner.LLDDAndHealthProblems.NullSafeForEach(problem => invalidLearnerData.RecordsInvalidLlddandHealthProblems.Add(BuildLLDDAndHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemID++)));
+
+                learner.ProviderSpecLearnerMonitorings.NullSafeForEach(monitoring => invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings.Add(BuildProviderSpecLearnerMonitorings(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++)));
+
+                learnerId++;
+            });
+
+            learnerDestinationAndProgressions.NullSafeForEach(learnerDestinationAndProgression =>
+            {
+                invalidLearnerData.RecordsInvalidLearnerDestinationandProgressions.Add(BuildLearnerDestinationandProgression(ukprn, learnerDestinationAndProgression, learnerDestinationandProgressionId));
+
+                learnerDestinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome => invalidLearnerData.RecordsInvalidDpOutcomes.Add(BuildDpOutcome(ukprn, learnerDestinationAndProgression, dpOutcome, dPOutcomeId++, learnerDestinationandProgressionId)));
+
+                learnerDestinationandProgressionId++;
+            });
+
+            return invalidLearnerData;
+        }
+
+        public List<CollectionDetail> BuildCollectionDetails(int ukprn, IHeader header)
+        {
+            return new List<CollectionDetail>
             {
                 new CollectionDetail
                 {
@@ -57,18 +143,22 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                     Year = header.CollectionDetailsEntity.YearString,
                 },
             };
+        }
 
-            invalidLearnerData.LearningProviders = new List<LearningProvider>()
+        public List<LearningProvider> BuildLearningProviders(int ukprn)
+        {
+            return new List<LearningProvider>
             {
                 new LearningProvider
                 {
                     UKPRN = ukprn,
                 },
             };
+        }
 
-            var source = header.SourceEntity;
-
-            invalidLearnerData.Sources = new List<Source>()
+        public List<Source> BuildSources(int ukprn, ISource source)
+        {
+            return new List<Source>
             {
                 new Source
                 {
@@ -83,196 +173,328 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                     SoftwareSupplier = source.SoftwareSupplier,
                 },
             };
+        }
 
-            if (sourceFileCollection == null)
+        public SourceFile BuildSourceFiles(int ukprn, ISourceFile sourceFile, int sourceFileId)
+        {
+            return new SourceFile
             {
-                invalidLearnerData.SourceFiles = new List<SourceFile>();
-            }
-            else
+                SourceFile_Id = sourceFileId,
+                UKPRN = ukprn,
+                DateTime = sourceFile.DateTimeNullable,
+                FilePreparationDate = sourceFile.FilePreparationDate,
+                Release = sourceFile.Release,
+                SerialNo = sourceFile.SerialNo,
+                SoftwarePackage = sourceFile.SoftwarePackage,
+                SoftwareSupplier = sourceFile.SoftwareSupplier,
+                SourceFileName = sourceFile.SourceFileName,
+            };
+        }
+
+        public Learner BuildInvalidLearner(int ukprn, ILearner ilrLearner, int id)
+        {
+            return new Learner
             {
-                sourceFileCollection.NullSafeForEach(sourceFile =>
-                {
-                    invalidLearnerData.SourceFiles.Add(
-                        new SourceFile
-                        {
-                            SourceFile_Id = sourceFileId,
-                            UKPRN = ukprn,
-                            DateTime = sourceFile.DateTimeNullable,
-                            FilePreparationDate = sourceFile.FilePreparationDate,
-                            Release = sourceFile.Release,
-                            SerialNo = sourceFile.SerialNo,
-                            SoftwarePackage = sourceFile.SoftwarePackage,
-                            SoftwareSupplier = sourceFile.SoftwareSupplier,
-                            SourceFileName = sourceFile.SourceFileName,
-                        });
+                Learner_Id = id,
+                LearnRefNumber = ilrLearner.LearnRefNumber,
+                UKPRN = ukprn,
+                Accom = ilrLearner.AccomNullable,
+                AddLine1 = ilrLearner.AddLine1,
+                AddLine2 = ilrLearner.AddLine2,
+                AddLine3 = ilrLearner.AddLine3,
+                AddLine4 = ilrLearner.AddLine4,
+                ALSCost = ilrLearner.ALSCostNullable,
+                CampId = ilrLearner.CampId,
+                DateOfBirth = ilrLearner.DateOfBirthNullable,
+                Email = ilrLearner.Email,
+                EngGrade = ilrLearner.EngGrade,
+                Ethnicity = ilrLearner.Ethnicity,
+                FamilyName = ilrLearner.FamilyName,
+                GivenNames = ilrLearner.GivenNames,
+                LLDDHealthProb = ilrLearner.LLDDHealthProb,
+                MathGrade = ilrLearner.MathGrade,
+                NINumber = ilrLearner.NINumber,
+                PlanEEPHours = ilrLearner.PlanEEPHoursNullable,
+                PlanLearnHours = ilrLearner.PlanLearnHoursNullable,
+                PMUKPRN = ilrLearner.PMUKPRNNullable,
+                Postcode = ilrLearner.Postcode,
+                PostcodePrior = ilrLearner.PostcodePrior,
+                PrevLearnRefNumber = ilrLearner.PrevLearnRefNumber,
+                PrevUKPRN = ilrLearner.PrevUKPRNNullable,
+                PriorAttain = ilrLearner.PriorAttainNullable,
+                Sex = ilrLearner.Sex,
+                TelNo = ilrLearner.TelNo,
+                ULN = ilrLearner.ULN
+            };
+        }
 
-                    sourceFileId++;
-                });
-            }
-
-            learners.NullSafeForEach(learner =>
+        public ContactPreference BuildContactPreference(int ukprn, ILearner learner, IContactPreference contactPreference, int learnerId, int contactPreferenceId)
+        {
+            return new ContactPreference
             {
-                invalidLearnerData.RecordsInvalidLearners.Add(LearnerBuilder.BuildInvalidLearner(ukprn, learner, learnerId));
+                ContactPreference_Id = contactPreferenceId,
+                Learner_Id = learnerId,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                ContPrefCode = contactPreference.ContPrefCode,
+                ContPrefType = contactPreference.ContPrefType
+            };
+        }
 
-                learner.ContactPreferences.NullSafeForEach(
-                    contactPreference =>
-                        PopulateContactPreferences(ukprn, learner, contactPreference, learnerId, contactPreferenceId++, invalidLearnerData));
-
-                learner.LearningDeliveries.NullSafeForEach(learningDelivery =>
-                {
-                    PopulateLearningDelivery(ukprn, learner, learningDelivery, learnerId, learnerDeliveryId, invalidLearnerData);
-
-                    if (learningDelivery.LearningDeliveryHEEntity != null)
-                    {
-                        PopulateLearningDeliveryHERecord(ukprn, learner, learningDelivery, learningDelivery.LearningDeliveryHEEntity, learningDeliveryHEId++, invalidLearnerData);
-                    }
-
-                    learningDelivery.AppFinRecords.NullSafeForEach(
-                        appFinRecord =>
-                            PopulateLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++, invalidLearnerData));
-
-                    learningDelivery.LearningDeliveryFAMs.NullSafeForEach(
-                        famRecord =>
-                            PopulateLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++, invalidLearnerData));
-
-                    learningDelivery.LearningDeliveryWorkPlacements.NullSafeForEach(workPlacement =>
-                            PopulateLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++, invalidLearnerData));
-
-                    learningDelivery.ProviderSpecDeliveryMonitorings.NullSafeForEach(monitoring =>
-                            PopulateProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++, invalidLearnerData));
-
-                    learnerDeliveryId++;
-                });
-
-                learner.LearnerEmploymentStatuses.NullSafeForEach(employmentStatus =>
-                    {
-                        PopulateLearnerEmploymentStatus(ukprn, learner, employmentStatus, learnerId, learnerEmploymentStatusId, invalidLearnerData);
-
-                        employmentStatus.EmploymentStatusMonitorings?.ToList()
-                            .ForEach(monitoring =>
-                                PopulateEmploymentStatusMonitoring(ukprn, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++, invalidLearnerData));
-
-                        learnerEmploymentStatusId++;
-                    });
-
-                learner.LearnerFAMs.NullSafeForEach(fam => PopulateLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId++, invalidLearnerData));
-
-                if (learner.LearnerHEEntity != null)
-                {
-                    PopulateLearnerHE(ukprn, learner, learnerId, learnerHEId++, invalidLearnerData);
-
-                    learner.LearnerHEEntity.LearnerHEFinancialSupports.NullSafeForEach(support => PopulateLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId++, invalidLearnerData));
-                }
-
-                learner.LLDDAndHealthProblems.NullSafeForEach(problem => PopulateLLDDAndHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemID++, invalidLearnerData));
-
-                learner.ProviderSpecLearnerMonitorings.NullSafeForEach(monitoring => PopulateProviderSpecLearnerMonitorings(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++, invalidLearnerData));
-
-                learnerId++;
-            });
-
-            learnerDestinationAndProgressions.NullSafeForEach(learnerDestinationAndProgression =>
+        public LearningDelivery BuildLearningDelivery(int ukprn, ILearner learner, ILearningDelivery learningDelivery, int learnerId, int deliveryId)
+        {
+            return new LearningDelivery
             {
-                invalidLearnerData.RecordsInvalidLearnerDestinationandProgressions.Add(new ILR1819.DataStore.EF.Invalid.LearnerDestinationandProgression
-                {
-                    LearnerDestinationandProgression_Id = learnerDestinationandProgressionId,
-                    UKPRN = ukprn,
-                    LearnRefNumber = learnerDestinationAndProgression.LearnRefNumber,
-                    ULN = learnerDestinationAndProgression.ULN
-                });
-
-                learnerDestinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome =>
-                {
-                    invalidLearnerData.RecordsInvalidDpOutcomes.Add(new ILR1819.DataStore.EF.Invalid.DPOutcome
-                    {
-                        DPOutcome_Id = dPOutcomeId,
-                        LearnerDestinationandProgression_Id = learnerDestinationandProgressionId,
-                        LearnRefNumber = learnerDestinationAndProgression.LearnRefNumber,
-                        OutCode = dpOutcome.OutCode,
-                        UKPRN = ukprn,
-                        OutCollDate = dpOutcome.OutCollDate,
-                        OutEndDate = dpOutcome.OutEndDateNullable,
-                        OutStartDate = dpOutcome.OutStartDate,
-                        OutType = dpOutcome.OutType
-                    });
-
-                    dPOutcomeId++;
-                });
-
-                learnerDestinationandProgressionId++;
-            });
-
-            return invalidLearnerData;
+                Learner_Id = learnerId,
+                LearningDelivery_Id = deliveryId,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                LearnAimRef = learningDelivery.LearnAimRef,
+                AimSeqNumber = learningDelivery.AimSeqNumber,
+                AchDate = learningDelivery.AchDateNullable,
+                AddHours = learningDelivery.AddHoursNullable,
+                AimType = learningDelivery.AimType,
+                CompStatus = learningDelivery.CompStatus,
+                ConRefNumber = learningDelivery.ConRefNumber,
+                DelLocPostCode = learningDelivery.DelLocPostCode,
+                EmpOutcome = learningDelivery.EmpOutcomeNullable,
+                EPAOrgID = learningDelivery.EPAOrgID,
+                FundModel = learningDelivery.FundModel,
+                FworkCode = learningDelivery.FworkCodeNullable,
+                LearnActEndDate = learningDelivery.LearnActEndDateNullable,
+                LearnPlanEndDate = learningDelivery.LearnPlanEndDate,
+                LearnStartDate = learningDelivery.LearnStartDate,
+                LSDPostcode = learningDelivery.LSDPostcode,
+                OrigLearnStartDate = learningDelivery.OrigLearnStartDateNullable,
+                OtherFundAdj = learningDelivery.OtherFundAdjNullable,
+                OutGrade = learningDelivery.OutGrade,
+                Outcome = learningDelivery.OutcomeNullable,
+                PartnerUKPRN = learningDelivery.PartnerUKPRNNullable,
+                PHours = learningDelivery.PHoursNullable,
+                PriorLearnFundAdj = learningDelivery.PriorLearnFundAdjNullable,
+                ProgType = learningDelivery.ProgTypeNullable,
+                PwayCode = learningDelivery.PwayCodeNullable,
+                StdCode = learningDelivery.StdCodeNullable,
+                SWSupAimId = learningDelivery.SWSupAimId,
+                WithdrawReason = learningDelivery.WithdrawReasonNullable
+            };
         }
 
-        private void PopulateContactPreferences(int ukprn, ILearner learner, IContactPreference contactPreference, int learnerId, int contactPreferenceId, InvalidLearnerData invalidLearnerData)
+        public AppFinRecord BuildLearningDeliveryAppFinRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IAppFinRecord appFinRecord, int learnerDeliveryId, int appFinRecordId)
         {
-           invalidLearnerData.RecordsInvalidContactPreferences.Add(ContactPreferenceBuilder.BuildInvalidContactPreference(ukprn, learner, contactPreference, learnerId, contactPreferenceId));
+            return new AppFinRecord
+            {
+                AppFinRecord_Id = appFinRecordId,
+                LearningDelivery_Id = learnerDeliveryId,
+                LearnRefNumber = learner.LearnRefNumber,
+                UKPRN = ukprn,
+                AFinAmount = appFinRecord.AFinAmount,
+                AFinCode = appFinRecord.AFinCode,
+                AFinDate = appFinRecord.AFinDate,
+                AFinType = appFinRecord.AFinType,
+                AimSeqNumber = learningDelivery.AimSeqNumber
+            };
         }
 
-        private void PopulateLearningDelivery(int ukprn, ILearner learner, ILearningDelivery learningDelivery, int learnerId, int deliveryId, InvalidLearnerData invalidLearnerData)
+        public LearningDeliveryFAM BuildLearningDeliveryFAMRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryFAM learningDeliveryFam, int learnerDeliveryId, int learnerDeliveryFamId)
         {
-            invalidLearnerData.RecordsInvalidLearningDeliverys.Add(LearningDeliveryBuilder.BuildInvalidLearningDelivery(ukprn, learner, learningDelivery, learnerId, deliveryId));
+            return new LearningDeliveryFAM
+            {
+                LearningDeliveryFAM_Id = learnerDeliveryFamId,
+                LearningDelivery_Id = learnerDeliveryId,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                AimSeqNumber = learningDelivery.AimSeqNumber,
+                LearnDelFAMCode = learningDeliveryFam.LearnDelFAMCode,
+                LearnDelFAMDateFrom = learningDeliveryFam.LearnDelFAMDateFromNullable,
+                LearnDelFAMDateTo = learningDeliveryFam.LearnDelFAMDateToNullable,
+                LearnDelFAMType = learningDeliveryFam.LearnDelFAMType
+            };
         }
 
-        private void PopulateLearningDeliveryAppFinRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IAppFinRecord appFinRecord, int learnerDeliveryId, int appFinRecordId, InvalidLearnerData invalidLearnerData)
+        public LearningDeliveryHE BuildLearningDeliveryHERecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, int learningDeliveryHEId)
         {
-            invalidLearnerData.RecordsInvalidAppFinRecords.Add(AppFinRecordBuilder.BuildInvalidAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId));
+            return new LearningDeliveryHE
+            {
+                LearningDeliveryHE_Id = learningDeliveryHEId,
+                AimSeqNumber = learningDelivery.AimSeqNumber,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                DOMICILE = learningDelivery.LearningDeliveryHEEntity.DOMICILE,
+                ELQ = learningDelivery.LearningDeliveryHEEntity.ELQNullable,
+                FUNDCOMP = learningDelivery.LearningDeliveryHEEntity.FUNDCOMP,
+                FUNDLEV = learningDelivery.LearningDeliveryHEEntity.FUNDLEV,
+                GROSSFEE = learningDelivery.LearningDeliveryHEEntity.GROSSFEENullable,
+                HEPostCode = learningDelivery.LearningDeliveryHEEntity.HEPostCode,
+                MODESTUD = learningDelivery.LearningDeliveryHEEntity.MODESTUD,
+                MSTUFEE = learningDelivery.LearningDeliveryHEEntity.MSTUFEE,
+                NETFEE = learningDelivery.LearningDeliveryHEEntity.NETFEENullable,
+                NUMHUS = learningDelivery.LearningDeliveryHEEntity.NUMHUS,
+                PCFLDCS = (double?)learningDelivery.LearningDeliveryHEEntity.PCFLDCSNullable,
+                PCOLAB = (double?)learningDelivery.LearningDeliveryHEEntity.PCOLABNullable,
+                PCSLDCS = (double?)learningDelivery.LearningDeliveryHEEntity.PCSLDCSNullable,
+                PCTLDCS = (double?)learningDelivery.LearningDeliveryHEEntity.PCTLDCSNullable,
+                QUALENT3 = learningDelivery.LearningDeliveryHEEntity.QUALENT3,
+                SEC = learningDelivery.LearningDeliveryHEEntity.SECNullable,
+                SOC2000 = learningDelivery.LearningDeliveryHEEntity.SOC2000Nullable,
+                SPECFEE = learningDelivery.LearningDeliveryHEEntity.SPECFEE,
+                SSN = learningDelivery.LearningDeliveryHEEntity.SSN,
+                STULOAD = (double?)learningDelivery.LearningDeliveryHEEntity.STULOADNullable,
+                TYPEYR = learningDelivery.LearningDeliveryHEEntity.TYPEYR,
+                UCASAPPID = learningDelivery.LearningDeliveryHEEntity.UCASAPPID,
+                YEARSTU = learningDelivery.LearningDeliveryHEEntity.YEARSTU
+            };
         }
 
-        private void PopulateLearningDeliveryFAMRecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryFAM famRecord, int learnerDeliveryId, int famId, InvalidLearnerData invalidLearnerData)
+        public LearningDeliveryWorkPlacement BuildLearningDeliveryWorkPlacement(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryWorkPlacement learningDeliveryWorkPlacement, int learnerDeliveryId, int learningDeliveryWorkPlacementId)
         {
-            invalidLearnerData.RecordsInvalidLearnerDeliveryFams.Add(LearningDeliveryFAMBuilder.BuildInvalidFamRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, famId));
+            return new LearningDeliveryWorkPlacement
+            {
+                LearningDeliveryWorkPlacement_Id = learningDeliveryWorkPlacementId,
+                LearningDelivery_Id = learnerDeliveryId,
+                AimSeqNumber = learningDelivery.AimSeqNumber,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                WorkPlaceEmpId = learningDeliveryWorkPlacement.WorkPlaceEmpIdNullable.GetValueOrDefault(-1),
+                WorkPlaceEndDate = learningDeliveryWorkPlacement.WorkPlaceEndDateNullable,
+                WorkPlaceHours = learningDeliveryWorkPlacement.WorkPlaceHours,
+                WorkPlaceMode = learningDeliveryWorkPlacement.WorkPlaceMode,
+                WorkPlaceStartDate = learningDeliveryWorkPlacement.WorkPlaceStartDate
+            };
         }
 
-        private void PopulateLearningDeliveryHERecord(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryHE heRecord, int id, InvalidLearnerData invalidLearnerData)
+        public ProviderSpecDeliveryMonitoring BuildProviderSpecDeliveryMonitoring(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IProviderSpecDeliveryMonitoring monitoring, int learnerDeliveryId, int providerSpecDeliveryMonitoringId)
         {
-            invalidLearnerData.RecordsInvalidLearningDeliveryHes.Add(LearningDeliveryHEBuilder.BuildInvalidHERecord(ukprn, learner, learningDelivery, heRecord, id));
+            return new ProviderSpecDeliveryMonitoring
+            {
+                ProviderSpecDeliveryMonitoring_Id = providerSpecDeliveryMonitoringId,
+                LearningDelivery_Id = learnerDeliveryId,
+                AimSeqNumber = learningDelivery.AimSeqNumber,
+                LearnRefNumber = learner.LearnRefNumber,
+                ProvSpecDelMon = monitoring.ProvSpecDelMon,
+                ProvSpecDelMonOccur = monitoring.ProvSpecDelMonOccur,
+                UKPRN = ukprn
+            };
         }
 
-        private void PopulateLearningDeliveryWorkPlacement(int ukprn, ILearner learner, ILearningDelivery learningDelivery, ILearningDeliveryWorkPlacement workPlacement, int learnerDeliveryId, int learningDeliveryWorkPlacementId, InvalidLearnerData invalidLearnerData)
+        public LearnerEmploymentStatus BuildLearnerEmploymentStatus(int ukprn, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus, int learnerId, int learnerEmploymentStatusId)
         {
-            invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements.Add(LearningDeliveryWorkPlacementBuilder.BuildInvalidWorkPlacementRecord(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId));
+            return new LearnerEmploymentStatus
+            {
+                Learner_Id = learnerId,
+                LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
+                UKPRN = ukprn,
+                AgreeId = learnerEmploymentStatus.AgreeId,
+                LearnRefNumber = learner.LearnRefNumber,
+                DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
+                EmpId = learnerEmploymentStatus.EmpIdNullable,
+                EmpStat = learnerEmploymentStatus.EmpStat
+            };
         }
 
-        private void PopulateProviderSpecDeliveryMonitoring(int ukprn, ILearner learner, ILearningDelivery learningDelivery, IProviderSpecDeliveryMonitoring monitoring, int learnerDeliveryId, int providerSpecDeliveryMonitoringId, InvalidLearnerData invalidLearnerData)
+        public EmploymentStatusMonitoring BuildEmploymentStatusMonitoring(int ukprn, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus, IEmploymentStatusMonitoring employmentStatusMonitoring, int learnerEmploymentStatusId, int learnerEmploymentStatusMonitoringId)
         {
-            invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings.Add(ProviderSpecDeliveryMonitoringBuilder.BuildInvalidProviderSpecDeliveryMonitoringRecord(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId));
+            return new EmploymentStatusMonitoring
+            {
+                EmploymentStatusMonitoring_Id = learnerEmploymentStatusMonitoringId,
+                LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                DateEmpStatApp = learnerEmploymentStatus.DateEmpStatApp,
+                ESMCode = employmentStatusMonitoring.ESMCode,
+                ESMType = employmentStatusMonitoring.ESMType
+            };
         }
 
-        private void PopulateLearnerEmploymentStatus(int ukprn, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus, int learnerId, int learnerEmploymentStatusId, InvalidLearnerData invalidLearnerData)
+        public LearnerFAM BuildLearnerFAM(int ukprn, ILearner learner, ILearnerFAM fam, int learnerId, int learnerFAMId)
         {
-            invalidLearnerData.RecordsInvalidLearnerEmploymentStatus.Add(LearnerEmploymentStatusBuilder.BuildInvalidLearnerEmploymentStatus(ukprn, learner, learnerEmploymentStatus, learnerId, learnerEmploymentStatusId));
+            return new LearnerFAM
+            {
+                LearnerFAM_Id = learnerFAMId,
+                Learner_Id = learnerId,
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                LearnFAMCode = fam.LearnFAMCode,
+                LearnFAMType = fam.LearnFAMType
+            };
         }
 
-        private void PopulateEmploymentStatusMonitoring(int ukprn, ILearner learner, ILearnerEmploymentStatus learnerEmploymentStatus, IEmploymentStatusMonitoring employmentStatusMonitoring, int learnerEmploymentStatusId, int learnerEmploymentStatusMonitoringId, InvalidLearnerData invalidLearnerData)
+        public LearnerHE BuildLearnerHE(int ukprn, ILearner learner, int learnerId, int learnerHEId)
         {
-            invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings.Add(EmploymentStatusMonitoringBuilder.BuildInvalidEmploymentStatusMonitoring(ukprn, learner, learnerEmploymentStatus, employmentStatusMonitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId));
+            return new LearnerHE
+            {
+                LearnerHE_Id = learnerHEId,
+                Learner_Id = learnerId,
+                LearnRefNumber = learner.LearnRefNumber,
+                TTACCOM = learner.LearnerHEEntity.TTACCOMNullable,
+                UKPRN = ukprn,
+                UCASPERID = learner.LearnerHEEntity.UCASPERID
+            };
         }
 
-        private void PopulateLearnerFAM(int ukprn, ILearner learner, ILearnerFAM fam, int learnerId, int learnerFAMId, InvalidLearnerData invalidLearnerData)
+        public LearnerHEFinancialSupport BuildLearnerHEFinancialSupport(int ukprn, ILearner learner, ILearnerHEFinancialSupport support, int learnerHEFinancialSupportId)
         {
-            invalidLearnerData.RecordsInvalidLearnerFams.Add(LearnerFAMBuilder.BuildInvalidLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId));
+            return new LearnerHEFinancialSupport
+            {
+                LearnerHEFinancialSupport_Id = learnerHEFinancialSupportId,
+                FINAMOUNT = support.FINAMOUNT,
+                FINTYPE = support.FINTYPE,
+                LearnRefNumber = learner.LearnRefNumber,
+                UKPRN = ukprn
+            };
         }
 
-        private void PopulateLearnerHE(int ukprn, ILearner learner, int learnerId, int learnerHEId, InvalidLearnerData invalidLearnerData)
+        public LLDDandHealthProblem BuildLLDDAndHealthProblem(int ukprn, ILearner learner, ILLDDAndHealthProblem problem, int learnerId, int lLDDandHealthProblemId)
         {
-            invalidLearnerData.RecordsInvalidLearnerHes.Add(LearnerHEBuilder.BuildInvalidLearnerHE(ukprn, learner, learnerId, learnerHEId));
+            return new LLDDandHealthProblem
+            {
+                LLDDandHealthProblem_Id = lLDDandHealthProblemId,
+                Learner_Id = learnerId,
+                LearnRefNumber = learner.LearnRefNumber,
+                LLDDCat = problem.LLDDCat,
+                PrimaryLLDD = problem.PrimaryLLDDNullable,
+                UKPRN = ukprn
+            };
         }
 
-        private void PopulateLearnerHEFinancialSupport(int ukprn, ILearner learner, ILearnerHEFinancialSupport support, int learnerHEFinancialSupportId, InvalidLearnerData invalidLearnerData)
+        public ProviderSpecLearnerMonitoring BuildProviderSpecLearnerMonitorings(int ukprn, ILearner learner, IProviderSpecLearnerMonitoring monitoring, int learnerId, int providerSpecLearnerMonitoringId)
         {
-            invalidLearnerData.RecordsInvalidLearnerHefinancialSupports.Add(LearnerHEFinancialSupportBuilder.BuildInvalidLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId));
+            return new ProviderSpecLearnerMonitoring
+            {
+                ProviderSpecLearnerMonitoring_Id = providerSpecLearnerMonitoringId,
+                Learner_Id = learnerId,
+                LearnRefNumber = learner.LearnRefNumber,
+                UKPRN = ukprn,
+                ProvSpecLearnMon = monitoring.ProvSpecLearnMon,
+                ProvSpecLearnMonOccur = monitoring.ProvSpecLearnMonOccur
+            };
         }
 
-        private void PopulateLLDDAndHealthProblem(int ukprn, ILearner learner, ILLDDAndHealthProblem problem, int learnerId, int lLDDandHealthProblemId, InvalidLearnerData invalidLearnerData)
+        public LearnerDestinationandProgression BuildLearnerDestinationandProgression(int ukprn, ILearnerDestinationAndProgression learnerDestinationAndProgression, int learnerDestinationAndProgressionId)
         {
-            invalidLearnerData.RecordsInvalidLlddandHealthProblems.Add(LLDDAndHealthProblemBuilder.BuildInvalidLLDDandHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemId));
+            return new LearnerDestinationandProgression
+            {
+                LearnerDestinationandProgression_Id = learnerDestinationAndProgressionId,
+                UKPRN = ukprn,
+                LearnRefNumber = learnerDestinationAndProgression.LearnRefNumber,
+                ULN = learnerDestinationAndProgression.ULN
+            };
         }
 
-        private void PopulateProviderSpecLearnerMonitorings(int ukprn, ILearner learner, IProviderSpecLearnerMonitoring monitoring, int learnerId, int providerSpecLearnerMonitoringId, InvalidLearnerData invalidLearnerData)
+        public DPOutcome BuildDpOutcome(int ukprn, ILearnerDestinationAndProgression learnerDestinationAndProgression, IDPOutcome dpOutcome, int dPOutcomeId, int learnerDestinationandProgressionId)
         {
-            invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings.Add(ProviderSpecLearnerMonitoringBuilder.BuildInvalidProviderSpecLearnerMonitoring(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId));
+            return new DPOutcome
+            {
+                DPOutcome_Id = dPOutcomeId,
+                LearnerDestinationandProgression_Id = learnerDestinationandProgressionId,
+                LearnRefNumber = learnerDestinationAndProgression.LearnRefNumber,
+                OutCode = dpOutcome.OutCode,
+                UKPRN = ukprn,
+                OutCollDate = dpOutcome.OutCollDate,
+                OutEndDate = dpOutcome.OutEndDateNullable,
+                OutStartDate = dpOutcome.OutStartDate,
+                OutType = dpOutcome.OutType
+            };
         }
     }
 }

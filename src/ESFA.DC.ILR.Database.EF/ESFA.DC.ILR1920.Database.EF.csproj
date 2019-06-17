@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>0.1.0</Version>
+    <Authors>DC</Authors>
+    <Company>ESFA</Company>
+    <Product>ESFA.DC.ILR1920.Database.EF</Product>
+    <Description>Entity framework classes for ILR Data Store</Description>
+    <Copyright>Copyright 2018</Copyright>
+    <PackageLicenseUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-Database/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-Database</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SkillsFundingAgency/DC-ILR-1819-Database</RepositoryUrl>
+    <PackageTags>EF Entity Framework Data Store ILR 19 20</PackageTags>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    <AssemblyName>ESFA.DC.ILR1920.Database.EF</AssemblyName>
+    <RootNamespace>ESFA.DC.ILR1920.Database.EF</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+    </ItemGroup>
+
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+    </ItemGroup>
+  </Target>
+
+</Project>

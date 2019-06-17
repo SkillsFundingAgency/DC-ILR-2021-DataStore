@@ -91,11 +91,11 @@
     <Reference Include="ESFA.DC.ILR.IO.Model.Validation, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR.1920.IO.Model.Validation.0.1.2-beta0001\lib\netstandard2.0\ESFA.DC.ILR.IO.Model.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1920.Model.0.1.2-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.Model, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.1920.Model.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR.1920.Model.Interface.0.1.0-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR.Model.Interface, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR.1920.Model.Interface.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILR.Model.Interface.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.18.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.18-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
@@ -244,6 +244,8 @@
     <Compile Include="MapperTests\FM36MapperTests.cs" />
     <Compile Include="MapperTests\FM81MapperTests.cs" />
     <Compile Include="MapperTests\FM35MapperTests.cs" />
+    <Compile Include="MapperTests\InvalidLearnerDataMapperTests.cs" />
+    <Compile Include="MapperTests\ValidLearnerDataMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +303,18 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
+      <Project>{2110e8a2-3e66-4380-8486-e9cd11ce2f08}</Project>
+      <Name>ESFA.DC.ILR1920.DataStore.EF.Invalid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
+      <Project>{347ccc6e-c787-43be-97f0-1a86495f0e48}</Project>
+      <Name>ESFA.DC.ILR1920.DataStore.EF.Valid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
+      <Project>{ef950d08-778d-46cc-8400-86ac4b9a0a3e}</Project>
+      <Name>ESFA.DC.ILR1920.DataStore.EF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">
       <Project>{D5D457B2-F12F-4FF8-B597-7161AB57384B}</Project>
       <Name>ESFA.DC.ILR.DataStore.Interface</Name>
@@ -312,10 +326,6 @@
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj">
       <Project>{B15C08A2-9629-439F-ABD0-419B937A5E80}</Project>
       <Name>ESFA.DC.ILR.DataStore.PersistData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR1819.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj">
-      <Project>{1FC6E30C-8DC6-44DA-975F-527B0D6FC8C7}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.EF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
