@@ -38,7 +38,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             {
                 new AEC_global
                 {
-                    Year = fm36Global.Year,
                     LARSVersion = fm36Global.LARSVersion,
                     UKPRN = fm36Global.UKPRN,
                     RulebaseVersion = fm36Global.RulebaseVersion,
@@ -82,13 +81,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                     Completed = ld.LearningDeliveryValues.Completed,
                     FirstIncentiveThresholdDate = ld.LearningDeliveryValues.FirstIncentiveThresholdDate,
                     FundStart = ld.LearningDeliveryValues.FundStart,
-                    LDApplic1618FrameworkUpliftBalancingValue = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftBalancingValue,
-                    LDApplic1618FrameworkUpliftCompElement = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftCompElement,
-                    LDApplic1618FRameworkUpliftCompletionValue = ld.LearningDeliveryValues.LDApplic1618FRameworkUpliftCompletionValue,
-                    LDApplic1618FrameworkUpliftMonthInstalVal = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftMonthInstalVal,
-                    LDApplic1618FrameworkUpliftPrevEarnings = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftPrevEarnings,
-                    LDApplic1618FrameworkUpliftPrevEarningsStage1 = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftPrevEarningsStage1,
-                    LDApplic1618FrameworkUpliftRemainingAmount = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftRemainingAmount,
                     LDApplic1618FrameworkUpliftTotalActEarnings = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftTotalActEarnings,
                     LearnAimRef = ld.LearningDeliveryValues.LearnAimRef,
                     LearnDel1618AtStart = ld.LearningDeliveryValues.LearnDel1618AtStart,
@@ -259,42 +251,23 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                      PriceEpisodeUpperLimitAdjustment = pe.PriceEpisodeValues.PriceEpisodeUpperLimitAdjustment,
                      PriceEpisodePlannedInstalments = pe.PriceEpisodeValues.PriceEpisodePlannedInstalments,
                      PriceEpisodeActualInstalments = pe.PriceEpisodeValues.PriceEpisodeActualInstalments,
-                     PriceEpisodeInstalmentsThisPeriod = pe.PriceEpisodeValues.PriceEpisodeInstalmentsThisPeriod,
                      PriceEpisodeCompletionElement = pe.PriceEpisodeValues.PriceEpisodeCompletionElement,
                      PriceEpisodePreviousEarnings = pe.PriceEpisodeValues.PriceEpisodePreviousEarnings,
                      PriceEpisodeInstalmentValue = pe.PriceEpisodeValues.PriceEpisodeInstalmentValue,
-                     PriceEpisodeOnProgPayment = pe.PriceEpisodeValues.PriceEpisodeOnProgPayment,
                      PriceEpisodeTotalEarnings = pe.PriceEpisodeValues.PriceEpisodeTotalEarnings,
-                     PriceEpisodeBalanceValue = pe.PriceEpisodeValues.PriceEpisodeBalanceValue,
-                     PriceEpisodeBalancePayment = pe.PriceEpisodeValues.PriceEpisodeBalancePayment,
                      PriceEpisodeCompleted = pe.PriceEpisodeValues.PriceEpisodeCompleted,
-                     PriceEpisodeCompletionPayment = pe.PriceEpisodeValues.PriceEpisodeCompletionPayment,
                      PriceEpisodeRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeRemainingTNPAmount,
                      PriceEpisodeRemainingAmountWithinUpperLimit = pe.PriceEpisodeValues.PriceEpisodeRemainingAmountWithinUpperLimit,
                      PriceEpisodeCappedRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeCappedRemainingTNPAmount,
                      PriceEpisodeExpectedTotalMonthlyValue = pe.PriceEpisodeValues.PriceEpisodeExpectedTotalMonthlyValue,
-                     PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber,
-                     PriceEpisodeFirstDisadvantagePayment = pe.PriceEpisodeValues.PriceEpisodeFirstDisadvantagePayment,
-                     PriceEpisodeSecondDisadvantagePayment = pe.PriceEpisodeValues.PriceEpisodeSecondDisadvantagePayment,
-                     PriceEpisodeApplic1618FrameworkUpliftBalancing = pe.PriceEpisodeValues.PriceEpisodeApplic1618FrameworkUpliftBalancing,
+                     // PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber, - waiting for FS output, changed from long to int
                      PriceEpisodeApplic1618FrameworkUpliftCompletionPayment = pe.PriceEpisodeValues.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment,
-                     PriceEpisodeApplic1618FrameworkUpliftOnProgPayment = pe.PriceEpisodeValues.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment,
-                     PriceEpisodeSecondProv1618Pay = pe.PriceEpisodeValues.PriceEpisodeSecondProv1618Pay,
-                     PriceEpisodeFirstEmp1618Pay = pe.PriceEpisodeValues.PriceEpisodeFirstEmp1618Pay,
-                     PriceEpisodeSecondEmp1618Pay = pe.PriceEpisodeValues.PriceEpisodeSecondEmp1618Pay,
-                     PriceEpisodeFirstProv1618Pay = pe.PriceEpisodeValues.PriceEpisodeFirstProv1618Pay,
-                     PriceEpisodeLSFCash = pe.PriceEpisodeValues.PriceEpisodeLSFCash,
                      PriceEpisodeFundLineType = pe.PriceEpisodeValues.PriceEpisodeFundLineType,
-                     PriceEpisodeSFAContribPct = pe.PriceEpisodeValues.PriceEpisodeSFAContribPct,
-                     PriceEpisodeLevyNonPayInd = pe.PriceEpisodeValues.PriceEpisodeLevyNonPayInd,
                      EpisodeEffectiveTNPStartDate = pe.PriceEpisodeValues.EpisodeEffectiveTNPStartDate,
                      PriceEpisodeFirstAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeFirstAdditionalPaymentThresholdDate,
                      PriceEpisodeSecondAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeSecondAdditionalPaymentThresholdDate,
                      PriceEpisodeContractType = pe.PriceEpisodeValues.PriceEpisodeContractType,
                      PriceEpisodePreviousEarningsSameProvider = pe.PriceEpisodeValues.PriceEpisodePreviousEarningsSameProvider,
-                     PriceEpisodeTotProgFunding = pe.PriceEpisodeValues.PriceEpisodeTotProgFunding,
-                     PriceEpisodeProgFundIndMinCoInvest = pe.PriceEpisodeValues.PriceEpisodeProgFundIndMinCoInvest,
-                     PriceEpisodeProgFundIndMaxEmpCont = pe.PriceEpisodeValues.PriceEpisodeProgFundIndMaxEmpCont,
                      PriceEpisodeTotalPMRs = pe.PriceEpisodeValues.PriceEpisodeTotalPMRs,
                      PriceEpisodeCumulativePMRs = pe.PriceEpisodeValues.PriceEpisodeCumulativePMRs,
                      PriceEpisodeCompExemCode = pe.PriceEpisodeValues.PriceEpisodeCompExemCode,
@@ -302,6 +275,15 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                      PriceEpisodeAgreeId = pe.PriceEpisodeValues.PriceEpisodeAgreeId,
                      PriceEpisodeRedStartDate = pe.PriceEpisodeValues.PriceEpisodeRedStartDate,
                      PriceEpisodeRedStatusCode = pe.PriceEpisodeValues.PriceEpisodeRedStatusCode,
+
+                     // ToDo: populate below when FM36 output from FS is ready
+                     // PriceEpisodeActualEndDateIncEPA =
+                     // PriceEpisode1618FUBalValue =
+                     // PriceEpisodeApplic1618FrameworkUpliftCompElement =
+                     // PriceEpisode1618FrameworkUpliftTotPrevEarnings =
+                     // PriceEpisode1618FrameworkUpliftRemainingAmount =
+                     // PriceEpisode1618FUMonthInstValue =
+                     // PriceEpisode1618FUTotEarnings =
                  }));
         }
 

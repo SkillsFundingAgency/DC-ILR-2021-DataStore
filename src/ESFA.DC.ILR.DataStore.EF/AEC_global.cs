@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.ILR1920.DataStore.EF
 {
@@ -12,7 +13,6 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public int UKPRN { get; set; }
         public string LARSVersion { get; set; }
         public string RulebaseVersion { get; set; }
-        public string Year { get; set; }
 
         public virtual ICollection<AEC_Learner> AEC_Learners { get; set; }
     }
