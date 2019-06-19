@@ -261,7 +261,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                      PriceEpisodeCappedRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeCappedRemainingTNPAmount,
                      PriceEpisodeExpectedTotalMonthlyValue = pe.PriceEpisodeValues.PriceEpisodeExpectedTotalMonthlyValue,
                      // PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber, - waiting for FS output, changed from long to int
-                     PriceEpisodeApplic1618FrameworkUpliftCompletionPayment = pe.PriceEpisodeValues.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment,
                      PriceEpisodeFundLineType = pe.PriceEpisodeValues.PriceEpisodeFundLineType,
                      EpisodeEffectiveTNPStartDate = pe.PriceEpisodeValues.EpisodeEffectiveTNPStartDate,
                      PriceEpisodeFirstAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeFirstAdditionalPaymentThresholdDate,
