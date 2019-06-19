@@ -31,7 +31,6 @@
     [PriceEpisodeExpectedTotalMonthlyValue]                  DECIMAL (12, 5) NULL,
     [PriceEpisodeAimSeqNumber]                               INT             NULL,
     [PriceEpisodeApplic1618FrameworkUpliftCompElement]		 DECIMAL (12, 5) NULL,
-    [PriceEpisodeApplic1618FrameworkUpliftCompletionPayment] DECIMAL (12, 5) NULL,
     [PriceEpisodeFundLineType]                               VARCHAR (100)   NULL,
     [EpisodeEffectiveTNPStartDate]                           DATE            NULL,
     [PriceEpisodeFirstAdditionalPaymentThresholdDate]        DATE            NULL,

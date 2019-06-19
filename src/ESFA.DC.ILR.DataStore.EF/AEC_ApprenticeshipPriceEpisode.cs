@@ -43,7 +43,6 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public decimal? PriceEpisodeExpectedTotalMonthlyValue { get; set; }
         public int? PriceEpisodeAimSeqNumber { get; set; }
         public decimal? PriceEpisodeApplic1618FrameworkUpliftCompElement { get; set; }
-        public decimal? PriceEpisodeApplic1618FrameworkUpliftCompletionPayment { get; set; }
         public string PriceEpisodeFundLineType { get; set; }
         public DateTime? EpisodeEffectiveTNPStartDate { get; set; }
         public DateTime? PriceEpisodeFirstAdditionalPaymentThresholdDate { get; set; }
