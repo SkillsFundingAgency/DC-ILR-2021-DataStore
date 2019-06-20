@@ -220,7 +220,7 @@
     <Build Include="Rulebase\Tables\FM35_LearningDelivery.sql" />
     <Build Include="Rulebase\Tables\FM35_LearningDelivery_Period.sql" />
     <Build Include="Rulebase\Tables\FM35_LearningDelivery_PeriodisedValues.sql" />
-    <Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode.sql" />
+    <!--<Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode.sql" />
     <Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_Period.sql" />
     <Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_PeriodisedValues.sql" />
     <Build Include="Rulebase\Tables\AEC_global.sql" />
@@ -229,7 +229,7 @@
     <Build Include="Rulebase\Tables\AEC_LearningDelivery.sql" />
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_Period.sql" />
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedTextValues.sql" />
-    <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql" />
+    <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql" />-->
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">

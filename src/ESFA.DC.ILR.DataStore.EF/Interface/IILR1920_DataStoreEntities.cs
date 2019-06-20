@@ -5,16 +5,16 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Interface
 {
     public interface IILR1920_DataStoreEntities : IDisposable
     {
-        IQueryable<AEC_ApprenticeshipPriceEpisode> AEC_ApprenticeshipPriceEpisodes { get; }
-        IQueryable<AEC_ApprenticeshipPriceEpisode_Period> AEC_ApprenticeshipPriceEpisode_Periods { get; }
-        IQueryable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> AEC_ApprenticeshipPriceEpisode_PeriodisedValues { get; }
-        IQueryable<AEC_HistoricEarningOutput> AEC_HistoricEarningOutputs { get; }
-        IQueryable<AEC_Learner> AEC_Learners { get; }
-        IQueryable<AEC_LearningDelivery> AEC_LearningDeliveries { get; }
-        IQueryable<AEC_LearningDelivery_Period> AEC_LearningDelivery_Periods { get; }
-        IQueryable<AEC_LearningDelivery_PeriodisedTextValue> AEC_LearningDelivery_PeriodisedTextValues { get; }
-        IQueryable<AEC_LearningDelivery_PeriodisedValue> AEC_LearningDelivery_PeriodisedValues { get; }
-        IQueryable<AEC_global> AEC_globals { get; }
+        //IQueryable<AEC_ApprenticeshipPriceEpisode> AEC_ApprenticeshipPriceEpisodes { get; }
+        //IQueryable<AEC_ApprenticeshipPriceEpisode_Period> AEC_ApprenticeshipPriceEpisode_Periods { get; }
+        //IQueryable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> AEC_ApprenticeshipPriceEpisode_PeriodisedValues { get; }
+        //IQueryable<AEC_HistoricEarningOutput> AEC_HistoricEarningOutputs { get; }
+        //IQueryable<AEC_Learner> AEC_Learners { get; }
+        //IQueryable<AEC_LearningDelivery> AEC_LearningDeliveries { get; }
+        //IQueryable<AEC_LearningDelivery_Period> AEC_LearningDelivery_Periods { get; }
+        //IQueryable<AEC_LearningDelivery_PeriodisedTextValue> AEC_LearningDelivery_PeriodisedTextValues { get; }
+        //IQueryable<AEC_LearningDelivery_PeriodisedValue> AEC_LearningDelivery_PeriodisedValues { get; }
+        //IQueryable<AEC_global> AEC_globals { get; }
         IQueryable<ALB_Learner> ALB_Learners { get; }
         IQueryable<ALB_Learner_Period> ALB_Learner_Periods { get; }
         IQueryable<ALB_Learner_PeriodisedValue> ALB_Learner_PeriodisedValues { get; }
