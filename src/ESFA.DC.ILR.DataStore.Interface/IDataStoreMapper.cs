@@ -2,6 +2,7 @@
 using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.Model.Funding;
 using ESFA.DC.ILR.DataStore.Model.History;
+using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
@@ -36,6 +37,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         FM36HistoryData MapFM36HistoryData(FM36Global fm36Global, IDataStoreContext dataStoreContext);
 
-        ValidationData MapValidationData(IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules);
+        IDataStoreCache MapValidationData(IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules);
     }
 }

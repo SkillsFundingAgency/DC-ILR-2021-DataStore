@@ -12,13 +12,16 @@ namespace ESFA.DC.ILR.DataStore.PersistData
     public class TransactionController : ITransactionController
     {
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
+        private readonly IPersistenceService _persistenceService;
         private readonly ILogger _logger;
 
         public TransactionController(
             IDataStorePersistenceService dataStorePersistenceService,
+            IPersistenceService persistenceService,
             ILogger logger)
         {
             _dataStorePersistenceService = dataStorePersistenceService;
+            _persistenceService = persistenceService;
             _logger = logger;
         }
 
@@ -63,7 +66,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                     await _dataStorePersistenceService.StoreFM81DataAsync(dataStoreDataCache.FM81Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM81 Data Stored");
 
-                    await _dataStorePersistenceService.StoreValidationDataAsync(dataStoreDataCache.ValidationData, ilrConnection, cancellationToken);
+                    await  _persistenceService.PersistValidationDataAsync(dataStoreDataCache.ValidationData, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR Validation Output Data Stored");
 
                     cancellationToken.ThrowIfCancellationRequested();

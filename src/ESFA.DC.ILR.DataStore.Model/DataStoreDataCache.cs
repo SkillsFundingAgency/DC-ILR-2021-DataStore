@@ -12,8 +12,8 @@ namespace ESFA.DC.ILR.DataStore.Model
         public ValidLearnerData ValidLearnerData { get; set; }
 
         public InvalidLearnerData InvalidLearnerData { get; set; }
-
-        public ValidationData ValidationData { get; set; }
+        
+        public IDataStoreCache ValidationData { get; set; }
 
         public ALBData ALBData { get; set; }
 
