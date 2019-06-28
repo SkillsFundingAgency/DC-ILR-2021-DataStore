@@ -24,8 +24,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
         {
             containerBuilder.RegisterType<DataStoreDataCacheProvider>().As<IDataStoreDataCacheProvider>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<DataStoreCache>().As<IDataStoreCache>().InstancePerLifetimeScope();
-
             containerBuilder.RegisterType<DataStoreDataProvider>().As<IDataStoreDataProvider>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ILRProviderService>().As<IProviderService<Message>>().InstancePerLifetimeScope();
