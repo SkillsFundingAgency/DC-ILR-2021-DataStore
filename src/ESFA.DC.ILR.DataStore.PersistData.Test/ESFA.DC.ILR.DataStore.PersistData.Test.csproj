@@ -235,6 +235,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStoreCacheTests.cs" />
     <Compile Include="DataStoreDataProviderTests.cs" />
     <Compile Include="HelperTests\PeriodisedValueHelperTests.cs" />
     <Compile Include="MapperTests\ALBMapperTests.cs" />

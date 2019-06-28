@@ -12,7 +12,7 @@ namespace ESFA.DC.ILR.DataStore.Model.Interface
 
         InvalidLearnerData InvalidLearnerData { get; }
 
-        ValidationData ValidationData { get; }
+        IDataStoreCache ValidationData { get; }
 
         ALBData ALBData { get; }
 

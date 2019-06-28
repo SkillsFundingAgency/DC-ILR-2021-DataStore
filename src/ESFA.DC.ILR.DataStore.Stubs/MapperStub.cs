@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using ESFA.DC.Data.AppsEarningsHistory.Model;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.File;
 using ESFA.DC.ILR.DataStore.Model.Funding;
 using ESFA.DC.ILR.DataStore.Model.History;
+using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
@@ -250,9 +252,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<ALB_LearningDelivery_PeriodisedValue>();
         }
 
-        public ValidationData MapData(IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
+        public IDataStoreCache MapData(IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
         {
-            return new ValidationData();
+            return new DataStoreCache();
         }
 
         public ProcessingInformationData MapData(IDataStoreContext dataStoreContext)

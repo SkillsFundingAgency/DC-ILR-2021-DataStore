@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Model;
+using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.DataStore.PersistData;
 using ESFA.DC.ILR.DataStore.PersistData.Providers;
@@ -21,6 +23,8 @@ namespace ESFA.DC.ILR.Datastore.Modules
         protected override void Load(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<DataStoreDataCacheProvider>().As<IDataStoreDataCacheProvider>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<DataStoreDataCache>().As<IDataStoreDataCache>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<DataStoreDataProvider>().As<IDataStoreDataProvider>().InstancePerLifetimeScope();
 
