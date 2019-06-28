@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         {
             var dataStoreCache = new DataStoreCache();
 
-            dataStoreCache.Add(BuildValidationErrors(dataStoreContext, validationErrors, rules, message));
+            dataStoreCache.AddRange(BuildValidationErrors(dataStoreContext, validationErrors, rules, message));
 
             return dataStoreCache;
         }
