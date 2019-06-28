@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
+using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Funding;
+using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1920.DataStore.EF;
 
@@ -23,6 +25,30 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             }
 
             return data;
+        }
+
+        private IDataStoreCache PopulateDataStoreCache(FM25Global fm25Global, int ukprn)
+        {
+            var dataCache = new DataStoreCache();
+
+            dataCache.Add(BuildFM25Global(fm25Global, ukprn));
+
+            return dataCache;
+        }
+
+        public IEnumerable<FM25_global> BuildFM25Global(FM25Global fm25Global, int ukprn)
+        {
+            return new List<FM25_global>()
+            {
+                new FM25_global
+                {
+                    UKPRN = ukprn,
+                    LARSVersion = fm25Global.LARSVersion,
+                    OrgVersion = fm25Global.OrgVersion,
+                    PostcodeDisadvantageVersion = fm25Global.PostcodeDisadvantageVersion,
+                    RulebaseVersion = fm25Global.RulebaseVersion
+                }
+            };
         }
 
         public IEnumerable<FM25_global> MapFM25Global(FM25Global fm25Global)
