@@ -30,5 +30,16 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
             await _bulkInsert.Insert(FM25Constants.FM25_FM35_Learner_Period, dataStoreCache.Get<FM25_FM35_Learner_Period>(), sqlConnection, cancellationToken);
             await _bulkInsert.Insert(FM25Constants.FM25_FM35_Learner_PeriodisedValues, dataStoreCache.Get<FM25_FM35_Learner_PeriodisedValue>(), sqlConnection, cancellationToken);
         }
+
+        public async Task PersistALBDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, CancellationToken cancellationToken)
+        {
+            await _bulkInsert.Insert(ALBConstants.ALB_global, dataStoreCache.Get<ALB_global>(), sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_Learner, dataStoreCache.Get<ALB_Learner>(), sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_Learner_Period, dataStoreCache.Get<ALB_Learner_Period>(), sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_Learner_PeriodisedValues, dataStoreCache.Get<ALB_Learner_PeriodisedValue>(), sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery, dataStoreCache.Get<ALB_LearningDelivery>(), sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery_Period, dataStoreCache.Get<ALB_LearningDelivery_Period>(), sqlConnection, cancellationToken);
+            await _bulkInsert.Insert(ALBConstants.ALB_LearningDelivery_PeriodisedValues, dataStoreCache.Get<ALB_LearningDelivery_PeriodisedValue>(), sqlConnection, cancellationToken);
+        }
     }
 }

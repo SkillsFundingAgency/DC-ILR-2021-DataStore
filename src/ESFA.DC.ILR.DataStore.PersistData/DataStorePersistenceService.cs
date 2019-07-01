@@ -15,7 +15,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         private readonly IStoreService<ProcessingInformationData> _processingInformationDataStoreService;
         private readonly IStoreService<ValidLearnerData> _validLearnerDataStoreService;
         private readonly IStoreService<InvalidLearnerData> _invalidLearnerDataStoreService;
-        private readonly IStoreService<ALBData> _albDataStoreService;
         private readonly IStoreService<FM35Data> _fm35DataStoreService;
         private readonly IStoreService<FM36Data> _fm36DataStoreService;
         private readonly IStoreService<FM70Data> _fm70DataStoreService;
@@ -28,7 +27,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IStoreService<ProcessingInformationData> processingInformationDataStoreService,
             IStoreService<ValidLearnerData> validLearnerDataStoreService,
             IStoreService<InvalidLearnerData> invalidLearnerDataStoreService,
-            IStoreService<ALBData> albDataStoreService,
             IStoreService<FM35Data> fm35DataStoreService,
             IStoreService<FM36Data> fm36DataStoreService,
             IStoreService<FM70Data> fm70DataStoreService,
@@ -40,7 +38,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _processingInformationDataStoreService = processingInformationDataStoreService;
             _validLearnerDataStoreService = validLearnerDataStoreService;
             _invalidLearnerDataStoreService = invalidLearnerDataStoreService;
-            _albDataStoreService = albDataStoreService;
             _fm35DataStoreService = fm35DataStoreService;
             _fm36DataStoreService = fm36DataStoreService;
             _fm70DataStoreService = fm70DataStoreService;
@@ -62,9 +59,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public Task StoreInvalidLearnerDataAsync(InvalidLearnerData invalidLearnerData, SqlConnection sqlConnection, CancellationToken cancellationToken)
             => _invalidLearnerDataStoreService.StoreAsync(invalidLearnerData, sqlConnection, cancellationToken);
-
-        public Task StoreALBDataAsync(ALBData albData, SqlConnection sqlConnection, CancellationToken cancellationToken)
-            => _albDataStoreService.StoreAsync(albData, sqlConnection, cancellationToken);
 
         public Task StoreFM35DataAsync(FM35Data fm35Data, SqlConnection sqlConnection, CancellationToken cancellationToken)
             => _fm35DataStoreService.StoreAsync(fm35Data, sqlConnection, cancellationToken);

@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.DataStore.Model
         
         public IDataStoreCache ValidationData { get; set; }
 
-        public ALBData ALBData { get; set; }
+        public IDataStoreCache ALBData { get; set; }
 
         public IDataStoreCache FM25Data { get; set; }
 

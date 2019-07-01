@@ -63,7 +63,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public InvalidLearnerData MapInvalidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers) => _invalidLearnerDataMapper.MapInvalidLearnerData(message, validLearnRefNumbers);
 
-        public ALBData MapALBData(ALBGlobal albGlobal) => _albMapper.MapALBData(albGlobal);
+        public IDataStoreCache MapALBData(ALBGlobal albGlobal) => _albMapper.MapALBData(albGlobal);
 
         public IDataStoreCache MapFM25Data(FM25Global fm25Global) => _fm25Mapper.MapData(fm25Global);
 

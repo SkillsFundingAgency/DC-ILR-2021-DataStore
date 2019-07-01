@@ -10,5 +10,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
         Task PersistValidationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, CancellationToken cancellationToken);
 
         Task PersistFM25DataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, CancellationToken cancellationToken);
+
+        Task PersistALBDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, CancellationToken cancellationToken);
     }
 }

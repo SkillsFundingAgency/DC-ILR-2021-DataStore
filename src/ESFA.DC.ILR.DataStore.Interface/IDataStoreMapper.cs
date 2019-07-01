@@ -23,7 +23,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         InvalidLearnerData MapInvalidLearnerData(IMessage message, IEnumerable<string> invalidLearnRefNumbers);
 
-        ALBData MapALBData(ALBGlobal albGlobal);
+        IDataStoreCache MapALBData(ALBGlobal albGlobal);
 
         IDataStoreCache MapFM25Data(FM25Global fm25Global);
 

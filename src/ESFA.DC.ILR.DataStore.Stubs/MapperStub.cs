@@ -212,9 +212,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>();
         }
 
-        public ALBData MapALBData(ALBGlobal albGlobal)
+        public IDataStoreCache MapALBData(ALBGlobal albGlobal)
         {
-            return new ALBData();
+            return new DataStoreCache();
         }
 
         public IEnumerable<ALB_global> MapGlobals(ALBGlobal albGlobal)

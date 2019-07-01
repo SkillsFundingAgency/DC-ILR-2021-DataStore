@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Model.Interface
 
         IDataStoreCache ValidationData { get; }
 
-        ALBData ALBData { get; }
+        IDataStoreCache ALBData { get; }
 
         IDataStoreCache FM25Data { get; }
 
