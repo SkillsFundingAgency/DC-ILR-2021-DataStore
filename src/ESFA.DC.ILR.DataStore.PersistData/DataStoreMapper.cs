@@ -65,7 +65,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public ALBData MapALBData(ALBGlobal albGlobal) => _albMapper.MapALBData(albGlobal);
 
-        public FM25Data MapFM25Data(FM25Global fm25Global) => _fm25Mapper.MapData(fm25Global);
+        public IDataStoreCache MapFM25Data(FM25Global fm25Global) => _fm25Mapper.MapData(fm25Global);
 
         public FM35Data MapFM35Data(FM35Global fm35Global) => _fm35Mapper.MapData(fm35Global);
 

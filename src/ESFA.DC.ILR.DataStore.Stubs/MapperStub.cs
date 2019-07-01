@@ -92,9 +92,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<ESF_LearningDeliveryDeliverable_PeriodisedValue>();
         }
 
-        public FM25Data MapData(FM25Global fm25Global)
+        public IDataStoreCache MapData(FM25Global fm25Global)
         {
-            return new FM25Data();
+            return new DataStoreCache();
         }
 
         public IEnumerable<FM25_global> MapFM25Global(FM25Global fm25Global)

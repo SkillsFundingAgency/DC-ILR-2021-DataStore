@@ -55,7 +55,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
                     await _dataStorePersistenceService.StoreALBDataAsync(dataStoreDataCache.ALBData, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR ALB Data Stored");
-                    await _dataStorePersistenceService.StoreFM25DataAsync(dataStoreDataCache.FM25Data, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistFM25DataAsync(dataStoreDataCache.FM25Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM25 Data Stored");
                     await _dataStorePersistenceService.StoreFM35DataAsync(dataStoreDataCache.FM35Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM35 Data Stored");

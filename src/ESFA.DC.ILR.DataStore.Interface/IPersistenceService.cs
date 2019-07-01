@@ -8,5 +8,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
     public interface IPersistenceService
     {
         Task PersistValidationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, CancellationToken cancellationToken);
+
+        Task PersistFM25DataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, CancellationToken cancellationToken);
     }
 }

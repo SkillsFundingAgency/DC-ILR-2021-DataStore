@@ -21,8 +21,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         Task StoreALBDataAsync(ALBData albData, SqlConnection sqlConnection, CancellationToken cancellationToken);
 
-        Task StoreFM25DataAsync(FM25Data fm25Data, SqlConnection sqlConnection, CancellationToken cancellationToken);
-
         Task StoreFM35DataAsync(FM35Data fm35Data, SqlConnection sqlConnection, CancellationToken cancellationToken);
 
         Task StoreFM36DataAsync(FM36Data fm36Data, SqlConnection sqlConnection, CancellationToken cancellationToken);

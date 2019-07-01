@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR.DataStore.Model.Interface
 
         ALBData ALBData { get; }
 
-        FM25Data FM25Data { get; }
+        IDataStoreCache FM25Data { get; }
 
         FM35Data FM35Data { get; }
 

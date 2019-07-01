@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR.DataStore.Model
 
         public ALBData ALBData { get; set; }
 
-        public FM25Data FM25Data { get; set; }
+        public IDataStoreCache FM25Data { get; set; }
 
         public FM35Data FM35Data { get; set; }
 

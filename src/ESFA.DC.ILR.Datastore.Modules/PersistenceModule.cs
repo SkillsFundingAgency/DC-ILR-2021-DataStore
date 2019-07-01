@@ -28,7 +28,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
         private void RegisterStubServices(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<StoreServiceStub<ALBData>>().As<IStoreService<ALBData>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreServiceStub<FM25Data>>().As<IStoreService<FM25Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreServiceStub<FM35Data>>().As<IStoreService<FM35Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreServiceStub<FM36Data>>().As<IStoreService<FM36Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreServiceStub<FM70Data>>().As<IStoreService<FM70Data>>().InstancePerLifetimeScope();
@@ -42,7 +41,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
         private void RegisterServices(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<StoreALB>().As<IStoreService<ALBData>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreFM25>().As<IStoreService<FM25Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM35>().As<IStoreService<FM35Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM36>().As<IStoreService<FM36Data>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM70>().As<IStoreService<FM70Data>>().InstancePerLifetimeScope();

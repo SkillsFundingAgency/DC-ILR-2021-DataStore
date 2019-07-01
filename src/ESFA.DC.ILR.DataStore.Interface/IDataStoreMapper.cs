@@ -25,7 +25,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         ALBData MapALBData(ALBGlobal albGlobal);
 
-        FM25Data MapFM25Data(FM25Global fm25Global);
+        IDataStoreCache MapFM25Data(FM25Global fm25Global);
 
         FM35Data MapFM35Data(FM35Global fm35Global);
 
