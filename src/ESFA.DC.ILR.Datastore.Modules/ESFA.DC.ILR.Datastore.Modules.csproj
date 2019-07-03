@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="ESFA.DC.DateTimeProvider" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.1819.IO.Model.Validation" Version="0.1.5-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.1819.Model" Version="0.1.5-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model" Version="0.1.446" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Stubs\ESFA.DC.ILR.DataStore.Stubs.csproj" />
+  </ItemGroup>
+
+</Project>
