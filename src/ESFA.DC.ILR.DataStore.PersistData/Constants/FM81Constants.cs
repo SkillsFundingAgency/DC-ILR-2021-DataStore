@@ -2,16 +2,6 @@
 {
     public static class FM81Constants
     {
-        public const string FM81_global = "Rulebase.TBL_global";
-
-        public const string FM81_Learner = "Rulebase.TBL_Learner";
-
-        public const string FM81_LearningDelivery = "Rulebase.TBL_LearningDelivery";
-
-        public const string FM81_LearningDelivery_Period = "Rulebase.TBL_LearningDelivery_Period";
-
-        public const string FM81_LearningDelivery_PeriodisedValues = "Rulebase.TBL_LearningDelivery_PeriodisedValues";
-
         public const string AchPayment = "AchPayment";
         public const string CoreGovContPayment = "CoreGovContPayment";
         public const string CoreGovContUncapped = "CoreGovContUncapped";

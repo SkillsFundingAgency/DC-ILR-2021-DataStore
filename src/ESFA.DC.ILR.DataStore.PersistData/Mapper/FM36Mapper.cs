@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model.Funding;
+using ESFA.DC.ILR.DataStore.Model.Interface;
+using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
@@ -12,118 +13,132 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM36Mapper : IFM36Mapper
     {
-        public FM36Data MapData(FM36Global fm36Global)
+        public void MapData(IDataStoreCache cache, FM36Global fm36Global)
         {
-            var data = new FM36Data();
+            var learners = fm36Global.Learners;
 
-            if (fm36Global.Learners != null)
+            if (learners == null)
             {
-                data.Globals = MapGlobals(fm36Global).ToList();
-                data.Learners = MapLearners(fm36Global).ToList();
-                data.LearningDeliveries = MapLearningDeliveries(fm36Global).ToList();
-                data.LearningDeliveryPeriods = MapLearningDeliveryPeriods(fm36Global).ToList();
-                data.LearningDeliveryPeriodisedValues = MapLearningDeliveryPeriodisedValues(fm36Global).ToList();
-                data.LearningDeliveryPeriodisedTextValues = MapLearningDeliveryPeriodisedTextValues(fm36Global).ToList();
-                data.ApprenticeshipPriceEpisodes = MapPriceEpisodes(fm36Global).ToList();
-                data.ApprenticeshipPriceEpisodePeriods = MapPriceEpisodePeriods(fm36Global).ToList();
-                data.ApprenticeshipPriceEpisodePeriodisedValues = MapPriceEpisodePeriodisedValues(fm36Global).ToList();
+                return;
             }
 
-            return data;
+            var ukprn = fm36Global.UKPRN;
+
+            PopulateDataStoreCache(cache, learners, fm36Global, ukprn);
         }
 
-        public IEnumerable<AEC_global> MapGlobals(FM36Global fm36Global)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM36Learner> learners, FM36Global fm36Global, int ukprn)
+        {
+            cache.AddRange(BuildGlobals(fm36Global, ukprn));
+
+            learners.NullSafeForEach(learner =>
+            {
+                var learnRefNumber = learner.LearnRefNumber;
+
+                cache.Add(BuildLearner(learner, ukprn, learnRefNumber));
+                learner.LearningDeliveries.NullSafeForEach(learningDelivery => cache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber)));
+                learner.PriceEpisodes.NullSafeForEach(priceEpisode => cache.Add(BuildPriceEpisode(priceEpisode, ukprn, learnRefNumber)));
+            });
+
+            var learningDeliveryPeriodisedValues = learners.SelectMany(l => l.LearningDeliveries.Select(ld =>
+                    new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
+
+            cache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues));
+
+            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv =>
+            {
+                ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber)));
+                ldpv.LearningDeliveryPeriodisedTextValue.NullSafeForEach(learningDeliveryPeriodisedTextValue => cache.Add(BuildLearningDeliveryPeriodisedTextValues(learningDeliveryPeriodisedTextValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber)));
+            });
+
+            var priceEpisodePeriodisedValues = learners.SelectMany(l => l.PriceEpisodes.Select(pe =>
+                    new FundModelPriceEpisodePeriodisedValue<List<PriceEpisodePeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, pe.PriceEpisodeIdentifier, pe.PriceEpisodePeriodisedValues)));
+
+            cache.AddRange(BuildPriceEpisodePeriods(priceEpisodePeriodisedValues));
+
+            priceEpisodePeriodisedValues.NullSafeForEach(pepv => pepv.PriceEpisodePeriodisedValue.NullSafeForEach(priceEpisodePeriodisedValue => cache.Add(BuildPriceEpisodePeriodisedValue(priceEpisodePeriodisedValue, ukprn, pepv.LearnRefNumber, pepv.PriceEpisodeIdentifier))));
+        }
+
+        public List<AEC_global> BuildGlobals(FM36Global fm36Global, int ukprn)
         {
             return new List<AEC_global>()
             {
                 new AEC_global
                 {
                     LARSVersion = fm36Global.LARSVersion,
-                    UKPRN = fm36Global.UKPRN,
+                    UKPRN = ukprn,
                     RulebaseVersion = fm36Global.RulebaseVersion,
                 }
             };
         }
 
-        public IEnumerable<AEC_Learner> MapLearners(FM36Global fm36Global)
+        public AEC_Learner BuildLearner(FM36Learner fm36Learner, int ukprn, string learnRefNumber)
         {
-            return fm36Global
-                .Learners
-                .Select(l => new AEC_Learner
+            return new AEC_Learner
             {
-                UKPRN = fm36Global.UKPRN,
-                LearnRefNumber = l.LearnRefNumber,
-                ULN = l.ULN
-            });
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                ULN = fm36Learner.ULN
+            };
         }
 
-        public IEnumerable<AEC_LearningDelivery> MapLearningDeliveries(FM36Global fm36Global)
+        public AEC_LearningDelivery BuildLearningDelivery(LearningDelivery learningDelivery, int ukprn, string learnRefNumber)
         {
-            return fm36Global
-                .Learners
-                .SelectMany(
-                    l => l
-                        .LearningDeliveries
-                        .Select(ld =>
-                new AEC_LearningDelivery
-                {
-                    UKPRN = fm36Global.UKPRN,
-                    LearnRefNumber = l.LearnRefNumber,
-                    AimSeqNumber = ld.AimSeqNumber,
-                    ActualDaysIL = ld.LearningDeliveryValues.ActualDaysIL,
-                    ActualNumInstalm = ld.LearningDeliveryValues.ActualNumInstalm,
-                    AdjStartDate = ld.LearningDeliveryValues.AdjStartDate,
-                    AgeAtProgStart = ld.LearningDeliveryValues.AgeAtProgStart,
-                    AppAdjLearnStartDate = ld.LearningDeliveryValues.AppAdjLearnStartDate,
-                    AppAdjLearnStartDateMatchPathway = ld.LearningDeliveryValues.AppAdjLearnStartDateMatchPathway,
-                    ApplicCompDate = ld.LearningDeliveryValues.ApplicCompDate,
-                    CombinedAdjProp = ld.LearningDeliveryValues.CombinedAdjProp,
-                    Completed = ld.LearningDeliveryValues.Completed,
-                    FirstIncentiveThresholdDate = ld.LearningDeliveryValues.FirstIncentiveThresholdDate,
-                    FundStart = ld.LearningDeliveryValues.FundStart,
-                    LDApplic1618FrameworkUpliftTotalActEarnings = ld.LearningDeliveryValues.LDApplic1618FrameworkUpliftTotalActEarnings,
-                    LearnAimRef = ld.LearningDeliveryValues.LearnAimRef,
-                    LearnDel1618AtStart = ld.LearningDeliveryValues.LearnDel1618AtStart,
-                    LearnDelAccDaysILCareLeavers = ld.LearningDeliveryValues.LearnDelAccDaysILCareLeavers,
-                    LearnDelAppAccDaysIL = ld.LearningDeliveryValues.LearnDelAppAccDaysIL,
-                    LearnDelApplicCareLeaverIncentive = ld.LearningDeliveryValues.LearnDelApplicCareLeaverIncentive,
-                    LearnDelApplicDisadvAmount = ld.LearningDeliveryValues.LearnDelApplicDisadvAmount,
-                    LearnDelApplicEmp1618Incentive = ld.LearningDeliveryValues.LearnDelApplicEmp1618Incentive,
-                    LearnDelApplicEmpDate = ld.LearningDeliveryValues.LearnDelApplicEmpDate,
-                    LearnDelApplicProv1618FrameworkUplift = ld.LearningDeliveryValues.LearnDelApplicProv1618FrameworkUplift,
-                    LearnDelApplicProv1618Incentive = ld.LearningDeliveryValues.LearnDelApplicProv1618Incentive,
-                    LearnDelAppPrevAccDaysIL = ld.LearningDeliveryValues.LearnDelAppPrevAccDaysIL,
-                    LearnDelDaysIL = ld.LearningDeliveryValues.LearnDelDaysIL,
-                    LearnDelDisadAmount = ld.LearningDeliveryValues.LearnDelDisadAmount,
-                    LearnDelEligDisadvPayment = ld.LearningDeliveryValues.LearnDelEligDisadvPayment,
-                    LearnDelEmpIdFirstAdditionalPaymentThreshold = ld.LearningDeliveryValues.LearnDelEmpIdFirstAdditionalPaymentThreshold,
-                    LearnDelEmpIdSecondAdditionalPaymentThreshold = ld.LearningDeliveryValues.LearnDelEmpIdSecondAdditionalPaymentThreshold,
-                    LearnDelHistDaysCareLeavers = ld.LearningDeliveryValues.LearnDelHistDaysCareLeavers,
-                    LearnDelHistDaysThisApp = ld.LearningDeliveryValues.LearnDelHistDaysThisApp,
-                    LearnDelHistProgEarnings = ld.LearningDeliveryValues.LearnDelHistProgEarnings,
-                    LearnDelInitialFundLineType = ld.LearningDeliveryValues.LearnDelInitialFundLineType,
-                    LearnDelLearnerAddPayThresholdDate = ld.LearningDeliveryValues.LearnDelLearnerAddPayThresholdDate,
-                    LearnDelMathEng = ld.LearningDeliveryValues.LearnDelMathEng,
-                    LearnDelNonLevyProcured = ld.LearningDeliveryValues.LearnDelNonLevyProcured,
-                    LearnDelPrevAccDaysILCareLeavers = ld.LearningDeliveryValues.LearnDelPrevAccDaysILCareLeavers,
-                    LearnDelProgEarliestACT2Date = ld.LearningDeliveryValues.LearnDelProgEarliestACT2Date,
-                    LearnDelRedCode = ld.LearningDeliveryValues.LearnDelRedCode,
-                    LearnDelRedStartDate = ld.LearningDeliveryValues.LearnDelRedStartDate,
-                    MathEngAimValue = ld.LearningDeliveryValues.MathEngAimValue,
-                    OutstandNumOnProgInstalm = ld.LearningDeliveryValues.OutstandNumOnProgInstalm,
-                    PlannedNumOnProgInstalm = ld.LearningDeliveryValues.PlannedNumOnProgInstalm,
-                    PlannedTotalDaysIL = ld.LearningDeliveryValues.PlannedTotalDaysIL,
-                    SecondIncentiveThresholdDate = ld.LearningDeliveryValues.SecondIncentiveThresholdDate,
-                    ThresholdDays = ld.LearningDeliveryValues.ThresholdDays,
-                }));
+            return new AEC_LearningDelivery
+            {
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                AimSeqNumber = learningDelivery.AimSeqNumber,
+                ActualDaysIL = learningDelivery.LearningDeliveryValues.ActualDaysIL,
+                ActualNumInstalm = learningDelivery.LearningDeliveryValues.ActualNumInstalm,
+                AdjStartDate = learningDelivery.LearningDeliveryValues.AdjStartDate,
+                AgeAtProgStart = learningDelivery.LearningDeliveryValues.AgeAtProgStart,
+                AppAdjLearnStartDate = learningDelivery.LearningDeliveryValues.AppAdjLearnStartDate,
+                AppAdjLearnStartDateMatchPathway = learningDelivery.LearningDeliveryValues.AppAdjLearnStartDateMatchPathway,
+                ApplicCompDate = learningDelivery.LearningDeliveryValues.ApplicCompDate,
+                CombinedAdjProp = learningDelivery.LearningDeliveryValues.CombinedAdjProp,
+                Completed = learningDelivery.LearningDeliveryValues.Completed,
+                FirstIncentiveThresholdDate = learningDelivery.LearningDeliveryValues.FirstIncentiveThresholdDate,
+                FundStart = learningDelivery.LearningDeliveryValues.FundStart,
+                LDApplic1618FrameworkUpliftTotalActEarnings = learningDelivery.LearningDeliveryValues.LDApplic1618FrameworkUpliftTotalActEarnings,
+                LearnAimRef = learningDelivery.LearningDeliveryValues.LearnAimRef,
+                LearnDel1618AtStart = learningDelivery.LearningDeliveryValues.LearnDel1618AtStart,
+                LearnDelAccDaysILCareLeavers = learningDelivery.LearningDeliveryValues.LearnDelAccDaysILCareLeavers,
+                LearnDelAppAccDaysIL = learningDelivery.LearningDeliveryValues.LearnDelAppAccDaysIL,
+                LearnDelApplicCareLeaverIncentive = learningDelivery.LearningDeliveryValues.LearnDelApplicCareLeaverIncentive,
+                LearnDelApplicDisadvAmount = learningDelivery.LearningDeliveryValues.LearnDelApplicDisadvAmount,
+                LearnDelApplicEmp1618Incentive = learningDelivery.LearningDeliveryValues.LearnDelApplicEmp1618Incentive,
+                LearnDelApplicEmpDate = learningDelivery.LearningDeliveryValues.LearnDelApplicEmpDate,
+                LearnDelApplicProv1618FrameworkUplift = learningDelivery.LearningDeliveryValues.LearnDelApplicProv1618FrameworkUplift,
+                LearnDelApplicProv1618Incentive = learningDelivery.LearningDeliveryValues.LearnDelApplicProv1618Incentive,
+                LearnDelAppPrevAccDaysIL = learningDelivery.LearningDeliveryValues.LearnDelAppPrevAccDaysIL,
+                LearnDelDaysIL = learningDelivery.LearningDeliveryValues.LearnDelDaysIL,
+                LearnDelDisadAmount = learningDelivery.LearningDeliveryValues.LearnDelDisadAmount,
+                LearnDelEligDisadvPayment = learningDelivery.LearningDeliveryValues.LearnDelEligDisadvPayment,
+                LearnDelEmpIdFirstAdditionalPaymentThreshold = learningDelivery.LearningDeliveryValues.LearnDelEmpIdFirstAdditionalPaymentThreshold,
+                LearnDelEmpIdSecondAdditionalPaymentThreshold = learningDelivery.LearningDeliveryValues.LearnDelEmpIdSecondAdditionalPaymentThreshold,
+                LearnDelHistDaysCareLeavers = learningDelivery.LearningDeliveryValues.LearnDelHistDaysCareLeavers,
+                LearnDelHistDaysThisApp = learningDelivery.LearningDeliveryValues.LearnDelHistDaysThisApp,
+                LearnDelHistProgEarnings = learningDelivery.LearningDeliveryValues.LearnDelHistProgEarnings,
+                LearnDelInitialFundLineType = learningDelivery.LearningDeliveryValues.LearnDelInitialFundLineType,
+                LearnDelLearnerAddPayThresholdDate = learningDelivery.LearningDeliveryValues.LearnDelLearnerAddPayThresholdDate,
+                LearnDelMathEng = learningDelivery.LearningDeliveryValues.LearnDelMathEng,
+                LearnDelNonLevyProcured = learningDelivery.LearningDeliveryValues.LearnDelNonLevyProcured,
+                LearnDelPrevAccDaysILCareLeavers = learningDelivery.LearningDeliveryValues.LearnDelPrevAccDaysILCareLeavers,
+                LearnDelProgEarliestACT2Date = learningDelivery.LearningDeliveryValues.LearnDelProgEarliestACT2Date,
+                LearnDelRedCode = learningDelivery.LearningDeliveryValues.LearnDelRedCode,
+                LearnDelRedStartDate = learningDelivery.LearningDeliveryValues.LearnDelRedStartDate,
+                MathEngAimValue = learningDelivery.LearningDeliveryValues.MathEngAimValue,
+                OutstandNumOnProgInstalm = learningDelivery.LearningDeliveryValues.OutstandNumOnProgInstalm,
+                PlannedNumOnProgInstalm = learningDelivery.LearningDeliveryValues.PlannedNumOnProgInstalm,
+                PlannedTotalDaysIL = learningDelivery.LearningDeliveryValues.PlannedTotalDaysIL,
+                SecondIncentiveThresholdDate = learningDelivery.LearningDeliveryValues.SecondIncentiveThresholdDate,
+                ThresholdDays = learningDelivery.LearningDeliveryValues.ThresholdDays,
+            };
         }
 
-        public IEnumerable<AEC_LearningDelivery_Period> MapLearningDeliveryPeriods(FM36Global fm36Global)
+        public IEnumerable<AEC_LearningDelivery_Period> BuildLearningDeliveryPeriods(IEnumerable<FundModel36LearningDeliveryPeriodisedValue> periodisedValues)
         {
-            var periodisedValues = fm36Global.Learners
-               .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
-
             var learningDeliveryPeriods = new List<AEC_LearningDelivery_Period>();
 
             for (var i = 1; i < 13; i++)
@@ -170,128 +185,108 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<AEC_LearningDelivery_PeriodisedValue> MapLearningDeliveryPeriodisedValues(FM36Global fm36Global)
+        public AEC_LearningDelivery_PeriodisedValue BuildLearningDeliveryPeriodisedValues(LearningDeliveryPeriodisedValues learningDeliveryPeriodisedValue, int ukprn, int aimSeqNumber, string learnAimRef)
         {
-            var periodisedValues = fm36Global.Learners
-               .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
-
-            return
-                   periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
-                   .Select(p =>
-                   new AEC_LearningDelivery_PeriodisedValue
-                   {
-                       UKPRN = pv.Ukprn,
-                       AimSeqNumber = pv.AimSeqNumber,
-                       LearnRefNumber = pv.LearnRefNumber,
-                       AttributeName = p.AttributeName,
-                       Period_1 = p.Period1,
-                       Period_2 = p.Period2,
-                       Period_3 = p.Period3,
-                       Period_4 = p.Period4,
-                       Period_5 = p.Period5,
-                       Period_6 = p.Period6,
-                       Period_7 = p.Period7,
-                       Period_8 = p.Period8,
-                       Period_9 = p.Period9,
-                       Period_10 = p.Period10,
-                       Period_11 = p.Period11,
-                       Period_12 = p.Period12
-                   }));
+            return new AEC_LearningDelivery_PeriodisedValue
+            {
+                UKPRN = ukprn,
+                AimSeqNumber = aimSeqNumber,
+                LearnRefNumber = learnAimRef,
+                AttributeName = learningDeliveryPeriodisedValue.AttributeName,
+                Period_1 = learningDeliveryPeriodisedValue.Period1,
+                Period_2 = learningDeliveryPeriodisedValue.Period2,
+                Period_3 = learningDeliveryPeriodisedValue.Period3,
+                Period_4 = learningDeliveryPeriodisedValue.Period4,
+                Period_5 = learningDeliveryPeriodisedValue.Period5,
+                Period_6 = learningDeliveryPeriodisedValue.Period6,
+                Period_7 = learningDeliveryPeriodisedValue.Period7,
+                Period_8 = learningDeliveryPeriodisedValue.Period8,
+                Period_9 = learningDeliveryPeriodisedValue.Period9,
+                Period_10 = learningDeliveryPeriodisedValue.Period10,
+                Period_11 = learningDeliveryPeriodisedValue.Period11,
+                Period_12 = learningDeliveryPeriodisedValue.Period12
+            };
         }
 
-        public IEnumerable<AEC_LearningDelivery_PeriodisedTextValue> MapLearningDeliveryPeriodisedTextValues(FM36Global fm36Global)
+        public AEC_LearningDelivery_PeriodisedTextValue BuildLearningDeliveryPeriodisedTextValues(LearningDeliveryPeriodisedTextValues learningDeliveryPeriodisedTextValue, int ukprn, int aimSeqNumber, string learnAimRef)
         {
-            var periodisedValues = fm36Global.Learners
-              .SelectMany(l => l.LearningDeliveries.Select(ld =>
-              new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
-
-            return
-                   periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedTextValue
-                   .Select(p =>
-                   new AEC_LearningDelivery_PeriodisedTextValue
-                   {
-                       UKPRN = pv.Ukprn,
-                       AimSeqNumber = pv.AimSeqNumber,
-                       LearnRefNumber = pv.LearnRefNumber,
-                       AttributeName = p.AttributeName,
-                       Period_1 = p.Period1,
-                       Period_2 = p.Period2,
-                       Period_3 = p.Period3,
-                       Period_4 = p.Period4,
-                       Period_5 = p.Period5,
-                       Period_6 = p.Period6,
-                       Period_7 = p.Period7,
-                       Period_8 = p.Period8,
-                       Period_9 = p.Period9,
-                       Period_10 = p.Period10,
-                       Period_11 = p.Period11,
-                       Period_12 = p.Period12
-                   }));
+            return new AEC_LearningDelivery_PeriodisedTextValue
+            {
+                UKPRN = ukprn,
+                AimSeqNumber = aimSeqNumber,
+                LearnRefNumber = learnAimRef,
+                AttributeName = learningDeliveryPeriodisedTextValue.AttributeName,
+                Period_1 = learningDeliveryPeriodisedTextValue.Period1,
+                Period_2 = learningDeliveryPeriodisedTextValue.Period2,
+                Period_3 = learningDeliveryPeriodisedTextValue.Period3,
+                Period_4 = learningDeliveryPeriodisedTextValue.Period4,
+                Period_5 = learningDeliveryPeriodisedTextValue.Period5,
+                Period_6 = learningDeliveryPeriodisedTextValue.Period6,
+                Period_7 = learningDeliveryPeriodisedTextValue.Period7,
+                Period_8 = learningDeliveryPeriodisedTextValue.Period8,
+                Period_9 = learningDeliveryPeriodisedTextValue.Period9,
+                Period_10 = learningDeliveryPeriodisedTextValue.Period10,
+                Period_11 = learningDeliveryPeriodisedTextValue.Period11,
+                Period_12 = learningDeliveryPeriodisedTextValue.Period12
+            };
         }
 
-        public IEnumerable<AEC_ApprenticeshipPriceEpisode> MapPriceEpisodes(FM36Global fm36Global)
+        public AEC_ApprenticeshipPriceEpisode BuildPriceEpisode(PriceEpisode pe, int ukprn, string learnRefNumber)
         {
-            return fm36Global.Learners
-                .SelectMany(l => l.PriceEpisodes.Select(pe =>
-                 new AEC_ApprenticeshipPriceEpisode
-                 {
-                     UKPRN = fm36Global.UKPRN,
-                     LearnRefNumber = l.LearnRefNumber,
-                     PriceEpisodeIdentifier = pe.PriceEpisodeIdentifier,
-                     TNP4 = pe.PriceEpisodeValues.TNP4,
-                     TNP1 = pe.PriceEpisodeValues.TNP1,
-                     EpisodeStartDate = pe.PriceEpisodeValues.EpisodeStartDate,
-                     TNP2 = pe.PriceEpisodeValues.TNP2,
-                     TNP3 = pe.PriceEpisodeValues.TNP3,
-                     PriceEpisodeUpperBandLimit = pe.PriceEpisodeValues.PriceEpisodeUpperBandLimit,
-                     PriceEpisodePlannedEndDate = pe.PriceEpisodeValues.PriceEpisodePlannedEndDate,
-                     PriceEpisodeActualEndDate = pe.PriceEpisodeValues.PriceEpisodeActualEndDate,
-                     PriceEpisodeTotalTNPPrice = pe.PriceEpisodeValues.PriceEpisodeTotalTNPPrice,
-                     PriceEpisodeUpperLimitAdjustment = pe.PriceEpisodeValues.PriceEpisodeUpperLimitAdjustment,
-                     PriceEpisodePlannedInstalments = pe.PriceEpisodeValues.PriceEpisodePlannedInstalments,
-                     PriceEpisodeActualInstalments = pe.PriceEpisodeValues.PriceEpisodeActualInstalments,
-                     PriceEpisodeCompletionElement = pe.PriceEpisodeValues.PriceEpisodeCompletionElement,
-                     PriceEpisodePreviousEarnings = pe.PriceEpisodeValues.PriceEpisodePreviousEarnings,
-                     PriceEpisodeInstalmentValue = pe.PriceEpisodeValues.PriceEpisodeInstalmentValue,
-                     PriceEpisodeTotalEarnings = pe.PriceEpisodeValues.PriceEpisodeTotalEarnings,
-                     PriceEpisodeCompleted = pe.PriceEpisodeValues.PriceEpisodeCompleted,
-                     PriceEpisodeRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeRemainingTNPAmount,
-                     PriceEpisodeRemainingAmountWithinUpperLimit = pe.PriceEpisodeValues.PriceEpisodeRemainingAmountWithinUpperLimit,
-                     PriceEpisodeCappedRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeCappedRemainingTNPAmount,
-                     PriceEpisodeExpectedTotalMonthlyValue = pe.PriceEpisodeValues.PriceEpisodeExpectedTotalMonthlyValue,
-                     // PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber, - waiting for FS output, changed from long to int
-                     PriceEpisodeFundLineType = pe.PriceEpisodeValues.PriceEpisodeFundLineType,
-                     EpisodeEffectiveTNPStartDate = pe.PriceEpisodeValues.EpisodeEffectiveTNPStartDate,
-                     PriceEpisodeFirstAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeFirstAdditionalPaymentThresholdDate,
-                     PriceEpisodeSecondAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeSecondAdditionalPaymentThresholdDate,
-                     PriceEpisodeContractType = pe.PriceEpisodeValues.PriceEpisodeContractType,
-                     PriceEpisodePreviousEarningsSameProvider = pe.PriceEpisodeValues.PriceEpisodePreviousEarningsSameProvider,
-                     PriceEpisodeTotalPMRs = pe.PriceEpisodeValues.PriceEpisodeTotalPMRs,
-                     PriceEpisodeCumulativePMRs = pe.PriceEpisodeValues.PriceEpisodeCumulativePMRs,
-                     PriceEpisodeCompExemCode = pe.PriceEpisodeValues.PriceEpisodeCompExemCode,
-                     PriceEpisodeLearnerAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeLearnerAdditionalPaymentThresholdDate,
-                     PriceEpisodeAgreeId = pe.PriceEpisodeValues.PriceEpisodeAgreeId,
-                     PriceEpisodeRedStartDate = pe.PriceEpisodeValues.PriceEpisodeRedStartDate,
-                     PriceEpisodeRedStatusCode = pe.PriceEpisodeValues.PriceEpisodeRedStatusCode,
+            return new AEC_ApprenticeshipPriceEpisode
+            {
+                 UKPRN = ukprn,
+                 LearnRefNumber = learnRefNumber,
+                 PriceEpisodeIdentifier = pe.PriceEpisodeIdentifier,
+                 TNP4 = pe.PriceEpisodeValues.TNP4,
+                 TNP1 = pe.PriceEpisodeValues.TNP1,
+                 EpisodeStartDate = pe.PriceEpisodeValues.EpisodeStartDate,
+                 TNP2 = pe.PriceEpisodeValues.TNP2,
+                 TNP3 = pe.PriceEpisodeValues.TNP3,
+                 PriceEpisodeUpperBandLimit = pe.PriceEpisodeValues.PriceEpisodeUpperBandLimit,
+                 PriceEpisodePlannedEndDate = pe.PriceEpisodeValues.PriceEpisodePlannedEndDate,
+                 PriceEpisodeActualEndDate = pe.PriceEpisodeValues.PriceEpisodeActualEndDate,
+                 PriceEpisodeTotalTNPPrice = pe.PriceEpisodeValues.PriceEpisodeTotalTNPPrice,
+                 PriceEpisodeUpperLimitAdjustment = pe.PriceEpisodeValues.PriceEpisodeUpperLimitAdjustment,
+                 PriceEpisodePlannedInstalments = pe.PriceEpisodeValues.PriceEpisodePlannedInstalments,
+                 PriceEpisodeActualInstalments = pe.PriceEpisodeValues.PriceEpisodeActualInstalments,
+                 PriceEpisodeCompletionElement = pe.PriceEpisodeValues.PriceEpisodeCompletionElement,
+                 PriceEpisodePreviousEarnings = pe.PriceEpisodeValues.PriceEpisodePreviousEarnings,
+                 PriceEpisodeInstalmentValue = pe.PriceEpisodeValues.PriceEpisodeInstalmentValue,
+                 PriceEpisodeTotalEarnings = pe.PriceEpisodeValues.PriceEpisodeTotalEarnings,
+                 PriceEpisodeCompleted = pe.PriceEpisodeValues.PriceEpisodeCompleted,
+                 PriceEpisodeRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeRemainingTNPAmount,
+                 PriceEpisodeRemainingAmountWithinUpperLimit = pe.PriceEpisodeValues.PriceEpisodeRemainingAmountWithinUpperLimit,
+                 PriceEpisodeCappedRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeCappedRemainingTNPAmount,
+                 PriceEpisodeExpectedTotalMonthlyValue = pe.PriceEpisodeValues.PriceEpisodeExpectedTotalMonthlyValue,
+                 // PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber, - waiting for FS output, changed from long to int
+                 PriceEpisodeFundLineType = pe.PriceEpisodeValues.PriceEpisodeFundLineType,
+                 EpisodeEffectiveTNPStartDate = pe.PriceEpisodeValues.EpisodeEffectiveTNPStartDate,
+                 PriceEpisodeFirstAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeFirstAdditionalPaymentThresholdDate,
+                 PriceEpisodeSecondAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeSecondAdditionalPaymentThresholdDate,
+                 PriceEpisodeContractType = pe.PriceEpisodeValues.PriceEpisodeContractType,
+                 PriceEpisodePreviousEarningsSameProvider = pe.PriceEpisodeValues.PriceEpisodePreviousEarningsSameProvider,
+                 PriceEpisodeTotalPMRs = pe.PriceEpisodeValues.PriceEpisodeTotalPMRs,
+                 PriceEpisodeCumulativePMRs = pe.PriceEpisodeValues.PriceEpisodeCumulativePMRs,
+                 PriceEpisodeCompExemCode = pe.PriceEpisodeValues.PriceEpisodeCompExemCode,
+                 PriceEpisodeLearnerAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeLearnerAdditionalPaymentThresholdDate,
+                 PriceEpisodeAgreeId = pe.PriceEpisodeValues.PriceEpisodeAgreeId,
+                 PriceEpisodeRedStartDate = pe.PriceEpisodeValues.PriceEpisodeRedStartDate,
+                 PriceEpisodeRedStatusCode = pe.PriceEpisodeValues.PriceEpisodeRedStatusCode,
 
-                     // ToDo: populate below when FM36 output from FS is ready
-                     // PriceEpisodeActualEndDateIncEPA =
-                     // PriceEpisode1618FUBalValue =
-                     // PriceEpisodeApplic1618FrameworkUpliftCompElement =
-                     // PriceEpisode1618FrameworkUpliftTotPrevEarnings =
-                     // PriceEpisode1618FrameworkUpliftRemainingAmount =
-                     // PriceEpisode1618FUMonthInstValue =
-                     // PriceEpisode1618FUTotEarnings =
-                 }));
+                 // ToDo: populate below when FM36 output from FS is ready
+                 // PriceEpisodeActualEndDateIncEPA =
+                 // PriceEpisode1618FUBalValue =
+                 // PriceEpisodeApplic1618FrameworkUpliftCompElement =
+                 // PriceEpisode1618FrameworkUpliftTotPrevEarnings =
+                 // PriceEpisode1618FrameworkUpliftRemainingAmount =
+                 // PriceEpisode1618FUMonthInstValue =
+                 // PriceEpisode1618FUTotEarnings =
+            };
         }
 
-        public IEnumerable<AEC_ApprenticeshipPriceEpisode_Period> MapPriceEpisodePeriods(FM36Global fm36Global)
+        public IEnumerable<AEC_ApprenticeshipPriceEpisode_Period> BuildPriceEpisodePeriods(IEnumerable<FundModelPriceEpisodePeriodisedValue<List<PriceEpisodePeriodisedValues>>> periodisedValues)
         {
-            var periodisedValues = fm36Global.Learners
-               .SelectMany(l => l.PriceEpisodes.Select(pe =>
-               new FundModelPriceEpisodePeriodisedValue<List<PriceEpisodePeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, pe.PriceEpisodeIdentifier, pe.PriceEpisodePeriodisedValues)));
-
             var learningDeliveryPeriods = new List<AEC_ApprenticeshipPriceEpisode_Period>();
 
             for (var i = 1; i < 13; i++)
@@ -331,34 +326,27 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> MapPriceEpisodePeriodisedValues(FM36Global fm36Global)
+        public AEC_ApprenticeshipPriceEpisode_PeriodisedValue BuildPriceEpisodePeriodisedValue(PriceEpisodePeriodisedValues priceEpisodePeriodisedValue, int ukprn, string learnRefNumber, string priceEpisodeId)
         {
-            var periodisedValues = fm36Global.Learners
-               .SelectMany(l => l.PriceEpisodes.Select(pe =>
-               new FundModelPriceEpisodePeriodisedValue<List<PriceEpisodePeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, pe.PriceEpisodeIdentifier, pe.PriceEpisodePeriodisedValues)));
-
-            return
-                   periodisedValues.SelectMany(pv => pv.PriceEpisodePeriodisedValue
-                   .Select(p =>
-                   new AEC_ApprenticeshipPriceEpisode_PeriodisedValue
-                   {
-                       UKPRN = pv.Ukprn,
-                       LearnRefNumber = pv.LearnRefNumber,
-                       PriceEpisodeIdentifier = pv.PriceEpisodeIdentifier,
-                       AttributeName = p.AttributeName,
-                       Period_1 = p.Period1,
-                       Period_2 = p.Period2,
-                       Period_3 = p.Period3,
-                       Period_4 = p.Period4,
-                       Period_5 = p.Period5,
-                       Period_6 = p.Period6,
-                       Period_7 = p.Period7,
-                       Period_8 = p.Period8,
-                       Period_9 = p.Period9,
-                       Period_10 = p.Period10,
-                       Period_11 = p.Period11,
-                       Period_12 = p.Period12
-                   }));
+            return new AEC_ApprenticeshipPriceEpisode_PeriodisedValue
+            {
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                PriceEpisodeIdentifier = priceEpisodeId,
+                AttributeName = priceEpisodePeriodisedValue.AttributeName,
+                Period_1 = priceEpisodePeriodisedValue.Period1,
+                Period_2 = priceEpisodePeriodisedValue.Period2,
+                Period_3 = priceEpisodePeriodisedValue.Period3,
+                Period_4 = priceEpisodePeriodisedValue.Period4,
+                Period_5 = priceEpisodePeriodisedValue.Period5,
+                Period_6 = priceEpisodePeriodisedValue.Period6,
+                Period_7 = priceEpisodePeriodisedValue.Period7,
+                Period_8 = priceEpisodePeriodisedValue.Period8,
+                Period_9 = priceEpisodePeriodisedValue.Period9,
+                Period_10 = priceEpisodePeriodisedValue.Period10,
+                Period_11 = priceEpisodePeriodisedValue.Period11,
+                Period_12 = priceEpisodePeriodisedValue.Period12
+            };
         }
     }
 }

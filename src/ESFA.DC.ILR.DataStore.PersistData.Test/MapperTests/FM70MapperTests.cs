@@ -2,7 +2,9 @@
 using System.IO;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.PersistData.Mapper;
+using ESFA.DC.ILR.DataStore.PersistData.Model;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
+using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.Serialization.Json;
 using FluentAssertions;
 using Xunit;
@@ -18,7 +20,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70Global()
         {
-            var global = Mapper().MapGlobals(_fundingOutputs);
+            var global = Mapper().BuildGlobals(_fundingOutputs, ukprn);
 
             global.Should().NotBeEmpty();
             global.First().UKPRN.Should().Be(ukprn);
@@ -27,7 +29,12 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70Learner()
         {
-            var learners = Mapper().MapLearners(_fundingOutputs);
+            var learners = new List<ESF_Learner>();
+
+            foreach (var learner in _fundingOutputs.Learners)
+            {
+                learners.Add(Mapper().BuildLearner(ukprn, learner.LearnRefNumber));
+            }
 
             learners.Should().NotBeNull();
             learners.Count().Should().Be(5);
@@ -38,7 +45,15 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70LearningDelieries()
         {
-            var learningDeliveries = Mapper().MapLearningDeliveries(_fundingOutputs);
+            var learningDeliveries = new List<ESF_LearningDelivery>();
+
+            foreach (var learner in _fundingOutputs.Learners)
+            {
+                foreach (var learningDelivery in learner.LearningDeliveries)
+                {
+                    learningDeliveries.Add(Mapper().BuildLearningDelivery(learningDelivery, ukprn, learner.LearnRefNumber));
+                }
+            }
 
             learningDeliveries.Should().NotBeNull();
             learningDeliveries.Count().Should().Be(10);
@@ -49,7 +64,18 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70LearningDelieryDeiliverables()
         {
-            var learningDeliveryDeliverables = Mapper().MapLearningDeliveryDeliverables(_fundingOutputs);
+            var learningDeliveryDeliverables = new List<ESF_LearningDeliveryDeliverable>();
+
+            foreach (var learner in _fundingOutputs.Learners)
+            {
+                foreach (var learningDelivery in learner.LearningDeliveries)
+                {
+                    foreach (var learningDeliveryDeliverable in learningDelivery.LearningDeliveryDeliverableValues)
+                    {
+                        learningDeliveryDeliverables.Add(Mapper().BuildLearningDeliveryDeliverable(learningDeliveryDeliverable, ukprn, learner.LearnRefNumber, learningDelivery.AimSeqNumber.Value));
+                    }
+                }
+            }
 
             learningDeliveryDeliverables.Should().NotBeNull();
             learningDeliveryDeliverables.Count().Should().Be(2);
@@ -60,7 +86,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70LearningDelieryPeriods()
         {
-            var lddPeriods = Mapper().MapLearningDeliveryDeliverablePeriods(_fundingOutputs);
+            var learningDeliveryPeriodisedValues = _fundingOutputs.Learners.SelectMany(l => l.LearningDeliveries.SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
+                new FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>(ukprn, l.LearnRefNumber, ld.AimSeqNumber.Value, ldd.DeliverableCode, ldd.LearningDeliveryDeliverablePeriodisedValues))));
+
+            var lddPeriods = Mapper().BuildLearningDeliveryDeliverablePeriods(learningDeliveryPeriodisedValues);
 
             lddPeriods.Should().NotBeNull();
             lddPeriods.Count().Should().Be(24);
@@ -72,7 +101,18 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70LearningDelieryPeriodisedValues()
         {
-            var lddPeriodised = Mapper().MapLearningDeliveryDeliverablePeriodisedValues(_fundingOutputs);
+            var lddPeriodised = new List<ESF_LearningDeliveryDeliverable_PeriodisedValue>();
+
+            var learningDeliveryPeriodisedValues = _fundingOutputs.Learners.SelectMany(l => l.LearningDeliveries.SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
+                new FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>(ukprn, l.LearnRefNumber, ld.AimSeqNumber.Value, ldd.DeliverableCode, ldd.LearningDeliveryDeliverablePeriodisedValues))));
+
+            foreach (var periodisedValue in learningDeliveryPeriodisedValues)
+            {
+                foreach (var learnerPeriodisedValue in periodisedValue.LearningDeliveryPeriodisedValue)
+                {
+                    lddPeriodised.Add(Mapper().BuildLearningDeliveryDeliverablePeriodisedValue(learnerPeriodisedValue, ukprn, periodisedValue.AimSeqNumber, periodisedValue.LearnRefNumber, periodisedValue.EsfDeliverableCode));
+                }
+            }
 
             lddPeriodised.Should().NotBeNull();
             lddPeriodised.Count().Should().Be(12);
@@ -83,7 +123,15 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void FM70DPOutcomes()
         {
-            var dpOutcomes = Mapper().MapDPOutcomes(_fundingOutputs);
+            var dpOutcomes = new List<ESF_DPOutcome>();
+
+            foreach (var learner in _fundingOutputs.Learners)
+            {
+                foreach (var dpOutcome in learner.LearnerDPOutcomes)
+                {
+                    dpOutcomes.Add(Mapper().BuildDPOutcome(dpOutcome, ukprn, learner.LearnRefNumber));
+                }
+            }
 
             dpOutcomes.Should().NotBeNull();
             dpOutcomes.Count().Should().Be(6);

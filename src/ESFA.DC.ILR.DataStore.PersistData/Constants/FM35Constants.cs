@@ -2,16 +2,6 @@
 {
     public static class FM35Constants
     {
-        public const string FM35_global = "Rulebase.FM35_global";
-
-        public const string FM35_Learner = "Rulebase.FM35_Learner";
-
-        public const string FM35_LearningDelivery = "Rulebase.FM35_LearningDelivery";
-
-        public const string FM35_LearningDelivery_Period = "Rulebase.FM35_LearningDelivery_Period";
-
-        public const string FM35_LearningDelivery_PeriodisedValues = "Rulebase.FM35_LearningDelivery_PeriodisedValues";
-
         public const string AchievePayPct = "AchievePayPct";
 
         public const string AchievePayPctTrans = "AchievePayPctTrans";
