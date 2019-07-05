@@ -3,7 +3,6 @@ using System.Linq;
 using ESFA.DC.Data.AppsEarningsHistory.Model;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 
@@ -11,13 +10,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM36HistoryMapper : IFM36HistoryMapper
     {
-        public IDataStoreCache MapData(FM36Global fm36Global, IDataStoreContext dataStoreContext)
+        public void MapData(IDataStoreCache cache, FM36Global fm36Global, IDataStoreContext dataStoreContext)
         {
-            var dataStoreCache = new DataStoreCache();
-
-            dataStoreCache.AddRange(BuildAppsEarningsHistory(fm36Global, dataStoreContext.ReturnPeriod, dataStoreContext.CollectionYear));
-
-            return dataStoreCache;
+            cache.AddRange(BuildAppsEarningsHistory(fm36Global, dataStoreContext.ReturnPeriod, dataStoreContext.CollectionYear));
         }
 
         public List<AppsEarningsHistory> BuildAppsEarningsHistory(FM36Global fm36Global, string returnCode, string year)

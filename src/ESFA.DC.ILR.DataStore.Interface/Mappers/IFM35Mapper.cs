@@ -5,6 +5,6 @@ namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IFM35Mapper
     {
-        IDataStoreCache MapData(FM35Global fm35Global);
+        void MapData(IDataStoreCache cache, FM35Global fm35Global);
     }
 }

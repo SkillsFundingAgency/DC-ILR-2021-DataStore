@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IInvalidLearnerDataMapper
     {
-        IDataStoreCache MapInvalidLearnerData(IMessage ilr, IEnumerable<string> validLearners);
+        void MapInvalidLearnerData(IDataStoreCache cache, IMessage ilr, IEnumerable<string> learnersValid);
     }
 }

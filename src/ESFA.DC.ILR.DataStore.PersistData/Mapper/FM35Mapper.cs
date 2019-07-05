@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
@@ -14,42 +13,39 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM35Mapper : IFM35Mapper
     {
-        public IDataStoreCache MapData(FM35Global fm35Global)
+        public void MapData(IDataStoreCache cache, FM35Global fm35Global)
         {
-            var cache = new DataStoreCache();
             var learners = fm35Global.Learners;
 
             if (learners == null)
             {
-                return cache;
+                return;
             }
 
             var ukprn = fm35Global.UKPRN;
 
-            return PopulateDataStoreCache(cache, learners, fm35Global, ukprn);
+            PopulateDataStoreCache(cache, learners, fm35Global, ukprn);
         }
 
-        private IDataStoreCache PopulateDataStoreCache(DataStoreCache dataCache, IEnumerable<FM35Learner> learners, FM35Global fm35Global, int ukprn)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM35Learner> learners, FM35Global fm35Global, int ukprn)
         {
-            dataCache.AddRange(BuildGlobals(fm35Global, ukprn));
+            cache.AddRange(BuildGlobals(fm35Global, ukprn));
 
             learners.NullSafeForEach(learner =>
             {
                 var learnRefNumber = learner.LearnRefNumber;
 
-                dataCache.Add(BuildLearner(ukprn, learnRefNumber));
+                cache.Add(BuildLearner(ukprn, learnRefNumber));
 
-                learner.LearningDeliveries.NullSafeForEach(learningDelivery => dataCache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber)));
+                learner.LearningDeliveries.NullSafeForEach(learningDelivery => cache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber)));
             });
 
             var learningDeliveryPeriodisedValues = learners.SelectMany(l => l.LearningDeliveries.Select(ld =>
                     new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(ukprn, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
 
-            dataCache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues));
+            cache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues));
 
-            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => dataCache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ldpv.AimSeqNumber, ukprn, ldpv.LearnRefNumber))));
-
-            return dataCache;
+            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ldpv.AimSeqNumber, ukprn, ldpv.LearnRefNumber))));
         }
 
         public List<FM35_global> BuildGlobals(FM35Global fm35Global, int ukprn)

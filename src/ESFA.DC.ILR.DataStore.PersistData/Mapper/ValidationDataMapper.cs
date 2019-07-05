@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.IO.Model.Validation;
@@ -13,13 +12,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidationDataMapper : IValidationDataMapper
     {
-        public IDataStoreCache MapData(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
+        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
         {
-            var dataStoreCache = new DataStoreCache();
-
-            dataStoreCache.AddRange(BuildValidationErrors(dataStoreContext, validationErrors, rules, message));
-
-            return dataStoreCache;
+            cache.AddRange(BuildValidationErrors(dataStoreContext, validationErrors, rules, message));
         }
 
         public List<ILR1920.DataStore.EF.ValidationError> BuildValidationErrors(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)

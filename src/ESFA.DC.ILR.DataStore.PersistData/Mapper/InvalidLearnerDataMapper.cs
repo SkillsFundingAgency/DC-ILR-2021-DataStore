@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.Model.Interface;
@@ -12,10 +11,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class InvalidLearnerDataMapper : IInvalidLearnerDataMapper
     {
-        public IDataStoreCache MapInvalidLearnerData(IMessage ilr, IEnumerable<string> learnersValid)
+        public void MapInvalidLearnerData(IDataStoreCache cache, IMessage ilr, IEnumerable<string> learnersValid)
         {
-            var cache = new DataStoreCache();
-
             var ukprn = ilr.LearningProviderEntity.UKPRN;
 
             var header = ilr.HeaderEntity;
@@ -23,10 +20,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             var learners = ilr.Learners?.Where(l => !learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
             var learnerDestinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => !learnersValid.Contains(ldp.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
 
-            return PopulateInvalidLearners(cache, ukprn, header, sourceFileCollection, learners, learnerDestinationAndProgressions);
+            PopulateInvalidLearners(cache, ukprn, header, sourceFileCollection, learners, learnerDestinationAndProgressions);
         }
 
-        private IDataStoreCache PopulateInvalidLearners(IDataStoreCache cache, int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
+        private void PopulateInvalidLearners(IDataStoreCache cache, int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
         {
             var source = header.SourceEntity;
 
@@ -129,8 +126,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
                 learnerDestinationandProgressionId++;
             });
-
-            return cache;
         }
 
         public List<CollectionDetail> BuildCollectionDetails(int ukprn, IHeader header)

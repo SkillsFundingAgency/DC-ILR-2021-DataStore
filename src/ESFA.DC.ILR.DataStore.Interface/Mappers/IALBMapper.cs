@@ -5,6 +5,6 @@ namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IALBMapper
     {
-        IDataStoreCache MapALBData(ALBGlobal albGlobal);
+        void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal);
     }
 }

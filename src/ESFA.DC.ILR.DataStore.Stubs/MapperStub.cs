@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using ESFA.DC.Data.AppsEarningsHistory.Model;
 using ESFA.DC.ILR.DataStore.Interface;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
@@ -19,9 +18,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
 {
     public class MapperStub : IFM81Mapper, IFM70Mapper, IFM25Mapper, IFM36HistoryMapper, IFM35Mapper, IFM36Mapper, IALBMapper, IValidationDataMapper, IProcessingInformationDataMapper
     {
-        public IDataStoreCache MapData(FM81Global fm81Global)
+        public void MapData(IDataStoreCache cache, FM81Global fm81Global)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<TBL_global> MapGlobals(FM81Global fm81Global)
@@ -49,9 +47,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<TBL_LearningDelivery_PeriodisedValue>();
         }
 
-        public IDataStoreCache MapData(FM70Global fm70Global)
+        public void MapData(IDataStoreCache cache, FM70Global fm70Global)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<ESF_global> MapGlobals(FM70Global fm70Global)
@@ -89,9 +86,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<ESF_LearningDeliveryDeliverable_PeriodisedValue>();
         }
 
-        public IDataStoreCache MapData(FM25Global fm25Global)
+        public void MapData(IDataStoreCache cache, FM25Global fm25Global)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<FM25_global> MapFM25Global(FM25Global fm25Global)
@@ -119,9 +115,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<FM25_FM35_Learner_PeriodisedValue>();
         }
 
-        public IDataStoreCache MapData(FM36Global fm36Global, IDataStoreContext dataStoreContext)
+        public void MapData(IDataStoreCache cache, FM36Global fm36Global, IDataStoreContext dataStoreContext)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<AppsEarningsHistory> MapAppsEarningsHistory(FM36Global fm36Global, string returnCode, string year)
@@ -129,9 +124,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<AppsEarningsHistory>();
         }
 
-        public IDataStoreCache MapData(FM35Global fm35Global)
+        public void MapData(IDataStoreCache cache, FM35Global fm35Global)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<FM35_global> MapGlobals(FM35Global fm35Global)
@@ -159,9 +153,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<FM35_LearningDelivery_PeriodisedValue>();
         }
 
-        public IDataStoreCache MapData(FM36Global fm36Global)
+        public void MapData(IDataStoreCache cache, FM36Global fm36Global)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<AEC_global> MapGlobals(FM36Global fm36Global)
@@ -209,9 +202,8 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>();
         }
 
-        public IDataStoreCache MapALBData(ALBGlobal albGlobal)
+        public void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal)
         {
-            return new DataStoreCache();
         }
 
         public IEnumerable<ALB_global> MapGlobals(ALBGlobal albGlobal)
@@ -249,14 +241,12 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<ALB_LearningDelivery_PeriodisedValue>();
         }
 
-        public IDataStoreCache MapData(IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
+        public void MapData(IDataStoreCache cache, IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
         {
-            return new DataStoreCache();
         }
 
-        public IDataStoreCache MapData(IDataStoreContext dataStoreContext)
+        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext)
         {
-            return new DataStoreCache();
         }
     }
 }

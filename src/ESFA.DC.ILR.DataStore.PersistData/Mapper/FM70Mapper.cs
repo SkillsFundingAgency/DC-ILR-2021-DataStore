@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
@@ -14,48 +13,45 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM70Mapper : IFM70Mapper
     {
-        public IDataStoreCache MapData(FM70Global fm70Global)
+        public void MapData(IDataStoreCache cache, FM70Global fm70Global)
         {
-            var cache = new DataStoreCache();
             var learners = fm70Global.Learners;
 
             if (learners == null)
             {
-                return cache;
+                return;
             }
 
             var ukprn = fm70Global.UKPRN;
 
-            return PopulateDataStoreCache(cache, learners, fm70Global, ukprn);
+            PopulateDataStoreCache(cache, learners, fm70Global, ukprn);
         }
 
-        private IDataStoreCache PopulateDataStoreCache(DataStoreCache dataCache, IEnumerable<FM70Learner> learners, FM70Global fm70Global, int ukprn)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM70Learner> learners, FM70Global fm70Global, int ukprn)
         {
-            dataCache.AddRange(BuildGlobals(fm70Global, ukprn));
+            cache.AddRange(BuildGlobals(fm70Global, ukprn));
 
             learners.NullSafeForEach(learner =>
             {
                 var learnRefNumber = learner.LearnRefNumber;
 
-                dataCache.Add(BuildLearner(ukprn, learnRefNumber));
-                learner.LearnerDPOutcomes.NullSafeForEach(learnerDp => dataCache.Add(BuildDPOutcome(learnerDp, ukprn, learnRefNumber)));
+                cache.Add(BuildLearner(ukprn, learnRefNumber));
+                learner.LearnerDPOutcomes.NullSafeForEach(learnerDp => cache.Add(BuildDPOutcome(learnerDp, ukprn, learnRefNumber)));
                 learner.LearningDeliveries.NullSafeForEach(learningDelivery =>
                 {
                     var aimSeqNumber = learningDelivery.AimSeqNumber.Value;
 
-                    dataCache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber));
-                    learningDelivery.LearningDeliveryDeliverableValues.NullSafeForEach(ldd => dataCache.Add(BuildLearningDeliveryDeliverable(ldd, ukprn, learnRefNumber, aimSeqNumber)));
+                    cache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber));
+                    learningDelivery.LearningDeliveryDeliverableValues.NullSafeForEach(ldd => cache.Add(BuildLearningDeliveryDeliverable(ldd, ukprn, learnRefNumber, aimSeqNumber)));
                 });
             });
 
             var learningDeliveryPeriodisedValues = learners.SelectMany(l => l.LearningDeliveries.SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
                     new FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>(ukprn, l.LearnRefNumber, ld.AimSeqNumber.Value, ldd.DeliverableCode, ldd.LearningDeliveryDeliverablePeriodisedValues))));
 
-            dataCache.AddRange(BuildLearningDeliveryDeliverablePeriods(learningDeliveryPeriodisedValues));
+            cache.AddRange(BuildLearningDeliveryDeliverablePeriods(learningDeliveryPeriodisedValues));
 
-            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => dataCache.Add(BuildLearningDeliveryDeliverablePeriodisedValue(learningDeliveryPeriodisedValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode))));
-
-            return dataCache;
+            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildLearningDeliveryDeliverablePeriodisedValue(learningDeliveryPeriodisedValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode))));
         }
 
         public List<ESF_global> BuildGlobals(FM70Global fm70Global, int ukprn)

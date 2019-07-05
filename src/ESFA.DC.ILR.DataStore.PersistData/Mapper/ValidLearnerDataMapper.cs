@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.Model.Interface;
@@ -12,10 +11,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidLearnerDataMapper : IValidLearnerDataMapper
     {
-        public IDataStoreCache MapLearnerData(IMessage ilr, IEnumerable<string> learnersValid)
+        public void MapLearnerData(IDataStoreCache cache, IMessage ilr, IEnumerable<string> learnersValid)
         {
-            var cache = new DataStoreCache();
-
             var ukprn = ilr.LearningProviderEntity.UKPRN;
 
             var header = ilr.HeaderEntity;
@@ -23,10 +20,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             var learners = ilr.Learners?.Where(l => learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
             var destinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => learnersValid.Contains(ldp.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
 
-            return PopulateValidLearners(cache, ukprn, header, sourceFileCollection, learners, destinationAndProgressions);
+            PopulateValidLearners(cache, ukprn, header, sourceFileCollection, learners, destinationAndProgressions);
         }
 
-        private IDataStoreCache PopulateValidLearners(IDataStoreCache cache, int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> destinationAndProgressions)
+        private void PopulateValidLearners(IDataStoreCache cache, int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> destinationAndProgressions)
         {
             var source = header.SourceEntity;
             int lLDDandHealthProblemID = 1;
@@ -82,8 +79,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 cache.Add(BuildLearnerDestinationAndProgression(ukprn, destinationAndProgression));
                 destinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome => cache.Add(BuildDPOutcome(ukprn, destinationAndProgression, dpOutcome)));
             });
-
-            return cache;
         }
 
         public List<CollectionDetail> BuildCollectionDetails(int ukprn, IHeader header)

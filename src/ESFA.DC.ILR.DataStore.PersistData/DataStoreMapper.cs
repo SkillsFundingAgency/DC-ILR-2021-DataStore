@@ -54,27 +54,27 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _validationDataMapper = validationDataMapper;
         }
 
-        public IDataStoreCache MapProcessingInformationData(IDataStoreContext dataStoreContext) => _processingInformationDataMapper.MapData(dataStoreContext);
+        public void MapProcessingInformationData(IDataStoreCache cache, IDataStoreContext dataStoreContext) => _processingInformationDataMapper.MapData(cache, dataStoreContext);
 
-        public IDataStoreCache MapValidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers) => _validLearnerDataMapper.MapLearnerData(message, validLearnRefNumbers);
+        public void MapValidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers) => _validLearnerDataMapper.MapLearnerData(cache, message, validLearnRefNumbers);
 
-        public IDataStoreCache MapInvalidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers) => _invalidLearnerDataMapper.MapInvalidLearnerData(message, validLearnRefNumbers);
+        public void MapInvalidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers) => _invalidLearnerDataMapper.MapInvalidLearnerData(cache, message, validLearnRefNumbers);
 
-        public IDataStoreCache MapALBData(ALBGlobal albGlobal) => _albMapper.MapALBData(albGlobal);
+        public void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal) => _albMapper.MapALBData(cache, albGlobal);
 
-        public IDataStoreCache MapFM25Data(FM25Global fm25Global) => _fm25Mapper.MapData(fm25Global);
+        public void MapFM25Data(IDataStoreCache cache, FM25Global fm25Global) => _fm25Mapper.MapData(cache, fm25Global);
 
-        public IDataStoreCache MapFM35Data(FM35Global fm35Global) => _fm35Mapper.MapData(fm35Global);
+        public void MapFM35Data(IDataStoreCache cache, FM35Global fm35Global) => _fm35Mapper.MapData(cache, fm35Global);
 
-        public IDataStoreCache MapFM36Data(FM36Global fm36Global) => _fm36Mapper.MapData(fm36Global);
+        public void MapFM36Data(IDataStoreCache cache, FM36Global fm36Global) => _fm36Mapper.MapData(cache, fm36Global);
 
-        public IDataStoreCache MapFM70Data(FM70Global fm70Global) => _fm70Mapper.MapData(fm70Global);
+        public void MapFM70Data(IDataStoreCache cache, FM70Global fm70Global) => _fm70Mapper.MapData(cache, fm70Global);
 
-        public IDataStoreCache MapFM81Data(FM81Global fm81Global) => _fm81Mapper.MapData(fm81Global);
+        public void MapFM81Data(IDataStoreCache cache, FM81Global fm81Global) => _fm81Mapper.MapData(cache, fm81Global);
 
-        public IDataStoreCache MapFM36HistoryData(FM36Global fm36Global, IDataStoreContext dataStoreContext) => _fm36HistoryMapper.MapData(fm36Global, dataStoreContext);
+        public void MapFM36HistoryData(IDataStoreCache cache, FM36Global fm36Global, IDataStoreContext dataStoreContext) => _fm36HistoryMapper.MapData(cache, fm36Global, dataStoreContext);
 
-        public IDataStoreCache MapValidationData(IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules)
-            => _validationDataMapper.MapData(dataStoreContext, validationErrors, rules, message);
+        public void MapValidationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules)
+            => _validationDataMapper.MapData(cache, dataStoreContext, validationErrors, rules, message);
     }
 }

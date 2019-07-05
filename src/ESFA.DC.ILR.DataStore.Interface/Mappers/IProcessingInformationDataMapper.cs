@@ -4,6 +4,6 @@ namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IProcessingInformationDataMapper
     {
-        IDataStoreCache MapData(IDataStoreContext dataStoreContext);
+        void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext);
     }
 }

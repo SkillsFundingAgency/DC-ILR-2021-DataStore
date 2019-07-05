@@ -8,6 +8,6 @@ namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IValidationDataMapper
     {
-        IDataStoreCache MapData(IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message);
+        void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message);
     }
 }

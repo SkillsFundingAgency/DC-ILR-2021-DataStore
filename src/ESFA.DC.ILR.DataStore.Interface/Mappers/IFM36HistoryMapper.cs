@@ -5,6 +5,6 @@ namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IFM36HistoryMapper
     {
-        IDataStoreCache MapData(FM36Global fm36Global, IDataStoreContext dataStoreContext);
+        void MapData(IDataStoreCache cache, FM36Global fm36Global, IDataStoreContext dataStoreContext);
     }
 }

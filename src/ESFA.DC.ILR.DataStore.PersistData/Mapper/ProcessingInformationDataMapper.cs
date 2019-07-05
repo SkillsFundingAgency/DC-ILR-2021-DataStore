@@ -1,7 +1,6 @@
 ﻿using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR1920.DataStore.EF;
 
@@ -16,17 +15,15 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public IDataStoreCache MapData(IDataStoreContext dataStoreContext)
+        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext)
         {
-            var cache = new DataStoreCache();
-            return PopulateDataStoreCache(cache, dataStoreContext);
+            PopulateDataStoreCache(cache, dataStoreContext);
         }
 
-        private IDataStoreCache PopulateDataStoreCache(DataStoreCache cache, IDataStoreContext dataStoreContext)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IDataStoreContext dataStoreContext)
         {
             cache.Add(BuildFileDetail(dataStoreContext));
             cache.Add(BuildProcessingData(dataStoreContext));
-            return cache;
         }
 
         private FileDetail BuildFileDetail(IDataStoreContext dataStoreContext)

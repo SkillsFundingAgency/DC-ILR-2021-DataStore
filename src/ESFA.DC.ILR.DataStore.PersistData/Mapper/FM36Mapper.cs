@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
@@ -14,53 +13,50 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM36Mapper : IFM36Mapper
     {
-        public IDataStoreCache MapData(FM36Global fm36Global)
+        public void MapData(IDataStoreCache cache, FM36Global fm36Global)
         {
-            var cache = new DataStoreCache();
             var learners = fm36Global.Learners;
 
             if (learners == null)
             {
-                return cache;
+                return;
             }
 
             var ukprn = fm36Global.UKPRN;
 
-            return PopulateDataStoreCache(cache, learners, fm36Global, ukprn);
+            PopulateDataStoreCache(cache, learners, fm36Global, ukprn);
         }
 
-        private IDataStoreCache PopulateDataStoreCache(DataStoreCache dataCache, IEnumerable<FM36Learner> learners, FM36Global fm36Global, int ukprn)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM36Learner> learners, FM36Global fm36Global, int ukprn)
         {
-            dataCache.AddRange(BuildGlobals(fm36Global, ukprn));
+            cache.AddRange(BuildGlobals(fm36Global, ukprn));
 
             learners.NullSafeForEach(learner =>
             {
                 var learnRefNumber = learner.LearnRefNumber;
 
-                dataCache.Add(BuildLearner(learner, ukprn, learnRefNumber));
-                learner.LearningDeliveries.NullSafeForEach(learningDelivery => dataCache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber)));
-                learner.PriceEpisodes.NullSafeForEach(priceEpisode => dataCache.Add(BuildPriceEpisode(priceEpisode, ukprn, learnRefNumber)));
+                cache.Add(BuildLearner(learner, ukprn, learnRefNumber));
+                learner.LearningDeliveries.NullSafeForEach(learningDelivery => cache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber)));
+                learner.PriceEpisodes.NullSafeForEach(priceEpisode => cache.Add(BuildPriceEpisode(priceEpisode, ukprn, learnRefNumber)));
             });
 
             var learningDeliveryPeriodisedValues = learners.SelectMany(l => l.LearningDeliveries.Select(ld =>
                     new FundModel36LearningDeliveryPeriodisedValue(fm36Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber, ld.LearningDeliveryPeriodisedValues, ld.LearningDeliveryPeriodisedTextValues)));
 
-            dataCache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues));
+            cache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues));
 
             learningDeliveryPeriodisedValues.NullSafeForEach(ldpv =>
             {
-                ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => dataCache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber)));
-                ldpv.LearningDeliveryPeriodisedTextValue.NullSafeForEach(learningDeliveryPeriodisedTextValue => dataCache.Add(BuildLearningDeliveryPeriodisedTextValues(learningDeliveryPeriodisedTextValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber)));
+                ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber)));
+                ldpv.LearningDeliveryPeriodisedTextValue.NullSafeForEach(learningDeliveryPeriodisedTextValue => cache.Add(BuildLearningDeliveryPeriodisedTextValues(learningDeliveryPeriodisedTextValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber)));
             });
 
             var priceEpisodePeriodisedValues = learners.SelectMany(l => l.PriceEpisodes.Select(pe =>
                     new FundModelPriceEpisodePeriodisedValue<List<PriceEpisodePeriodisedValues>>(fm36Global.UKPRN, l.LearnRefNumber, pe.PriceEpisodeIdentifier, pe.PriceEpisodePeriodisedValues)));
 
-            dataCache.AddRange(BuildPriceEpisodePeriods(priceEpisodePeriodisedValues));
+            cache.AddRange(BuildPriceEpisodePeriods(priceEpisodePeriodisedValues));
 
-            priceEpisodePeriodisedValues.NullSafeForEach(pepv => pepv.PriceEpisodePeriodisedValue.NullSafeForEach(priceEpisodePeriodisedValue => dataCache.Add(BuildPriceEpisodePeriodisedValue(priceEpisodePeriodisedValue, ukprn, pepv.LearnRefNumber, pepv.PriceEpisodeIdentifier))));
-
-            return dataCache;
+            priceEpisodePeriodisedValues.NullSafeForEach(pepv => pepv.PriceEpisodePeriodisedValue.NullSafeForEach(priceEpisodePeriodisedValue => cache.Add(BuildPriceEpisodePeriodisedValue(priceEpisodePeriodisedValue, ukprn, pepv.LearnRefNumber, pepv.PriceEpisodeIdentifier))));
         }
 
         public List<AEC_global> BuildGlobals(FM36Global fm36Global, int ukprn)

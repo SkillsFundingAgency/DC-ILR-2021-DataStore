@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
@@ -10,36 +9,33 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM25Mapper : IFM25Mapper
     {
-        public IDataStoreCache MapData(FM25Global fm25Global)
+        public void MapData(IDataStoreCache cache, FM25Global fm25Global)
         {
-            var cache = new DataStoreCache();
             var learners = fm25Global.Learners;
 
             if (learners == null)
             {
-                return cache;
+                return;
             }
 
             var ukprn = fm25Global.UKPRN.Value;
 
-            return PopulateDataStoreCache(cache, learners, fm25Global, ukprn);
+            PopulateDataStoreCache(cache, learners, fm25Global, ukprn);
         }
 
-        private IDataStoreCache PopulateDataStoreCache(DataStoreCache dataCache, IEnumerable<FM25Learner> learners, FM25Global fm25Global, int ukprn)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM25Learner> learners, FM25Global fm25Global, int ukprn)
         {
-            dataCache.AddRange(BuildFM25Global(fm25Global, ukprn));
-            dataCache.AddRange(BuildFM25_35_Global(fm25Global, ukprn));
+            cache.AddRange(BuildFM25Global(fm25Global, ukprn));
+            cache.AddRange(BuildFM25_35_Global(fm25Global, ukprn));
 
             learners.NullSafeForEach(learner =>
             {
                 var learnRefNumber = learner.LearnRefNumber;
 
-                dataCache.Add(BuildFM25Learner(ukprn, learner));
-                learner.LearnerPeriods.NullSafeForEach(learnerPeriod => dataCache.Add(BuildFM25_35_LearnerPeriod(learnerPeriod, ukprn, learnRefNumber)));
-                learner.LearnerPeriodisedValues.NullSafeForEach(learnerPV => dataCache.Add(BuildFM25_35_LearnerPeriodisedValues(learnerPV, ukprn, learnRefNumber)));
+                cache.Add(BuildFM25Learner(ukprn, learner));
+                learner.LearnerPeriods.NullSafeForEach(learnerPeriod => cache.Add(BuildFM25_35_LearnerPeriod(learnerPeriod, ukprn, learnRefNumber)));
+                learner.LearnerPeriodisedValues.NullSafeForEach(learnerPV => cache.Add(BuildFM25_35_LearnerPeriodisedValues(learnerPV, ukprn, learnRefNumber)));
             });
-
-            return dataCache;
         }
 
         public List<FM25_global> BuildFM25Global(FM25Global fm25Global, int ukprn)
