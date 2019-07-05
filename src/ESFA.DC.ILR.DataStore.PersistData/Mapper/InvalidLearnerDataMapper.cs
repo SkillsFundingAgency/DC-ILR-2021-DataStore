@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model.File;
+using ESFA.DC.ILR.DataStore.Model;
+using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.Model.Interface;
 using ESFA.DC.ILR1920.DataStore.EF.Invalid;
@@ -11,8 +12,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class InvalidLearnerDataMapper : IInvalidLearnerDataMapper
     {
-        public InvalidLearnerData MapInvalidLearnerData(IMessage ilr, IEnumerable<string> learnersValid)
+        public IDataStoreCache MapInvalidLearnerData(IMessage ilr, IEnumerable<string> learnersValid)
         {
+            var cache = new DataStoreCache();
+
             var ukprn = ilr.LearningProviderEntity.UKPRN;
 
             var header = ilr.HeaderEntity;
@@ -20,12 +23,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             var learners = ilr.Learners?.Where(l => !learnersValid.Contains(l.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
             var learnerDestinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => !learnersValid.Contains(ldp.LearnRefNumber, StringComparer.OrdinalIgnoreCase));
 
-            return PopulateInvalidLearners(ukprn, header, sourceFileCollection, learners, learnerDestinationAndProgressions);
+            return PopulateInvalidLearners(cache, ukprn, header, sourceFileCollection, learners, learnerDestinationAndProgressions);
         }
 
-        private InvalidLearnerData PopulateInvalidLearners(int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
+        private IDataStoreCache PopulateInvalidLearners(IDataStoreCache cache, int ukprn, IHeader header, IReadOnlyCollection<ISourceFile> sourceFileCollection, IEnumerable<ILearner> learners, IEnumerable<ILearnerDestinationAndProgression> learnerDestinationAndProgressions)
         {
-            var invalidLearnerData = new InvalidLearnerData();
             var source = header.SourceEntity;
 
             int sourceFileId = 1;
@@ -47,88 +49,88 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             int learnerDestinationandProgressionId = 1;
             int dPOutcomeId = 1;
 
-            invalidLearnerData.CollectionDetails.AddRange(BuildCollectionDetails(ukprn, header));
-            invalidLearnerData.LearningProviders.AddRange(BuildLearningProviders(ukprn));
-            invalidLearnerData.Sources.AddRange(BuildSources(ukprn, source));
+            cache.AddRange(BuildCollectionDetails(ukprn, header));
+            cache.AddRange(BuildLearningProviders(ukprn));
+            cache.AddRange(BuildSources(ukprn, source));
 
             if (sourceFileCollection == null)
             {
-                invalidLearnerData.SourceFiles = new List<SourceFile>();
+                cache.Add(new List<SourceFile>());
             }
             else
             {
-                sourceFileCollection.NullSafeForEach(sourceFile => invalidLearnerData.SourceFiles.Add(BuildSourceFiles(ukprn, sourceFile, sourceFileId++)));
+                sourceFileCollection.NullSafeForEach(sourceFile => cache.Add(BuildSourceFiles(ukprn, sourceFile, sourceFileId++)));
             }
 
             learners.NullSafeForEach(learner =>
             {
-                invalidLearnerData.RecordsInvalidLearners.Add(BuildInvalidLearner(ukprn, learner, learnerId));
+                cache.Add(BuildInvalidLearner(ukprn, learner, learnerId));
 
                 learner.ContactPreferences.NullSafeForEach(
                     contactPreference =>
-                        invalidLearnerData.RecordsInvalidContactPreferences.Add(BuildContactPreference(ukprn, learner, contactPreference, learnerId, contactPreferenceId++)));
+                        cache.Add(BuildContactPreference(ukprn, learner, contactPreference, learnerId, contactPreferenceId++)));
 
                 learner.LearningDeliveries.NullSafeForEach(learningDelivery =>
                 {
-                    invalidLearnerData.RecordsInvalidLearningDeliverys.Add(BuildLearningDelivery(ukprn, learner, learningDelivery, learnerId, learnerDeliveryId));
+                    cache.Add(BuildLearningDelivery(ukprn, learner, learningDelivery, learnerId, learnerDeliveryId));
 
                     if (learningDelivery.LearningDeliveryHEEntity != null)
                     {
-                        invalidLearnerData.RecordsInvalidLearningDeliveryHes.Add(BuildLearningDeliveryHERecord(ukprn, learner, learningDelivery, learningDeliveryHEId++));
+                        cache.Add(BuildLearningDeliveryHERecord(ukprn, learner, learningDelivery, learningDeliveryHEId++));
                     }
 
                     learningDelivery.AppFinRecords.NullSafeForEach(
                         appFinRecord =>
-                            invalidLearnerData.RecordsInvalidAppFinRecords.Add(BuildLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++)));
+                            cache.Add(BuildLearningDeliveryAppFinRecord(ukprn, learner, learningDelivery, appFinRecord, learnerDeliveryId, appFinRecordId++)));
 
                     learningDelivery.LearningDeliveryFAMs.NullSafeForEach(
                         famRecord =>
-                            invalidLearnerData.RecordsInvalidLearnerDeliveryFams.Add(BuildLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++)));
+                            cache.Add(BuildLearningDeliveryFAMRecord(ukprn, learner, learningDelivery, famRecord, learnerDeliveryId, learnerDeliveryFamId++)));
 
                     learningDelivery.LearningDeliveryWorkPlacements.NullSafeForEach(workPlacement =>
-                        invalidLearnerData.RecordsInvalidLearningDeliveryWorkPlacements.Add(BuildLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++)));
+                        cache.Add(BuildLearningDeliveryWorkPlacement(ukprn, learner, learningDelivery, workPlacement, learnerDeliveryId, learningDeliveryWorkPlacementId++)));
 
                     learningDelivery.ProviderSpecDeliveryMonitorings.NullSafeForEach(monitoring =>
-                        invalidLearnerData.RecordsInvalidProviderSpecDeliveryMonitorings.Add(BuildProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++)));
+                        cache.Add(BuildProviderSpecDeliveryMonitoring(ukprn, learner, learningDelivery, monitoring, learnerDeliveryId, providerSpecDeliveryMonitoringId++)));
 
                     learnerDeliveryId++;
                 });
 
                 learner.LearnerEmploymentStatuses.NullSafeForEach(employmentStatus =>
                     {
-                        invalidLearnerData.RecordsInvalidLearnerEmploymentStatus.Add(BuildLearnerEmploymentStatus(ukprn, learner, employmentStatus, learnerId, learnerEmploymentStatusId));
+                        cache.Add(BuildLearnerEmploymentStatus(ukprn, learner, employmentStatus, learnerId, learnerEmploymentStatusId));
                         employmentStatus.EmploymentStatusMonitorings.NullSafeForEach(monitoring => 
-                            invalidLearnerData.RecordsInvalidEmploymentStatusMonitorings.Add(BuildEmploymentStatusMonitoring(ukprn, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++)));
+                            cache.Add(BuildEmploymentStatusMonitoring(ukprn, learner, employmentStatus, monitoring, learnerEmploymentStatusId, learnerEmploymentStatusMonitoringId++)));
 
                         learnerEmploymentStatusId++;
                     });
 
-                learner.LearnerFAMs.NullSafeForEach(fam => invalidLearnerData.RecordsInvalidLearnerFams.Add(BuildLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId++)));
+                learner.LearnerFAMs.NullSafeForEach(fam => cache.Add(BuildLearnerFAM(ukprn, learner, fam, learnerId, learnerFAMId++)));
 
                 if (learner.LearnerHEEntity != null)
                 {
-                    invalidLearnerData.RecordsInvalidLearnerHes.Add(BuildLearnerHE(ukprn, learner, learnerId, learnerHEId++));
+                    cache.Add(BuildLearnerHE(ukprn, learner, learnerId, learnerHEId++));
 
-                    learner.LearnerHEEntity.LearnerHEFinancialSupports.NullSafeForEach(support => invalidLearnerData.RecordsInvalidLearnerHefinancialSupports.Add(BuildLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId++)));
+                    learner.LearnerHEEntity.LearnerHEFinancialSupports.NullSafeForEach(support => cache.Add(BuildLearnerHEFinancialSupport(ukprn, learner, support, learnerHEFinancialSupportId++)));
                 }
 
-                learner.LLDDAndHealthProblems.NullSafeForEach(problem => invalidLearnerData.RecordsInvalidLlddandHealthProblems.Add(BuildLLDDAndHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemID++)));
+                learner.LLDDAndHealthProblems.NullSafeForEach(problem => cache.Add(BuildLLDDAndHealthProblem(ukprn, learner, problem, learnerId, lLDDandHealthProblemID++)));
 
-                learner.ProviderSpecLearnerMonitorings.NullSafeForEach(monitoring => invalidLearnerData.RecordsInvalidProviderSpecLearnerMonitorings.Add(BuildProviderSpecLearnerMonitorings(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++)));
+                learner.ProviderSpecLearnerMonitorings.NullSafeForEach(monitoring => cache.Add(BuildProviderSpecLearnerMonitorings(ukprn, learner, monitoring, learnerId, providerSpecLearnerMonitoringId++)));
 
                 learnerId++;
             });
 
             learnerDestinationAndProgressions.NullSafeForEach(learnerDestinationAndProgression =>
             {
-                invalidLearnerData.RecordsInvalidLearnerDestinationandProgressions.Add(BuildLearnerDestinationandProgression(ukprn, learnerDestinationAndProgression, learnerDestinationandProgressionId));
+                cache.Add(BuildLearnerDestinationandProgression(ukprn, learnerDestinationAndProgression, learnerDestinationandProgressionId));
 
-                learnerDestinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome => invalidLearnerData.RecordsInvalidDpOutcomes.Add(BuildDpOutcome(ukprn, learnerDestinationAndProgression, dpOutcome, dPOutcomeId++, learnerDestinationandProgressionId)));
+                learnerDestinationAndProgression.DPOutcomes.NullSafeForEach(dpOutcome => cache.Add(BuildDpOutcome(ukprn, learnerDestinationAndProgression, dpOutcome, dPOutcomeId++, learnerDestinationandProgressionId)));
 
                 learnerDestinationandProgressionId++;
             });
 
-            return invalidLearnerData;
+            return cache;
         }
 
         public List<CollectionDetail> BuildCollectionDetails(int ukprn, IHeader header)

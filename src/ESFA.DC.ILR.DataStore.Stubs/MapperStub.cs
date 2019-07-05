@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using ESFA.DC.Data.AppsEarningsHistory.Model;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model;
-using ESFA.DC.ILR.DataStore.Model.File;
-using ESFA.DC.ILR.DataStore.Model.Funding;
-using ESFA.DC.ILR.DataStore.Model.History;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
@@ -22,9 +19,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
 {
     public class MapperStub : IFM81Mapper, IFM70Mapper, IFM25Mapper, IFM36HistoryMapper, IFM35Mapper, IFM36Mapper, IALBMapper, IValidationDataMapper, IProcessingInformationDataMapper
     {
-        public FM81Data MapData(FM81Global fm81Global)
+        public IDataStoreCache MapData(FM81Global fm81Global)
         {
-            return new FM81Data();
+            return new DataStoreCache();
         }
 
         public IEnumerable<TBL_global> MapGlobals(FM81Global fm81Global)
@@ -52,9 +49,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<TBL_LearningDelivery_PeriodisedValue>();
         }
 
-        public FM70Data MapData(FM70Global fm70Global)
+        public IDataStoreCache MapData(FM70Global fm70Global)
         {
-            return new FM70Data();
+            return new DataStoreCache();
         }
 
         public IEnumerable<ESF_global> MapGlobals(FM70Global fm70Global)
@@ -122,9 +119,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<FM25_FM35_Learner_PeriodisedValue>();
         }
 
-        public FM36HistoryData MapData(FM36Global fm36Global, IDataStoreContext dataStoreContext)
+        public IDataStoreCache MapData(FM36Global fm36Global, IDataStoreContext dataStoreContext)
         {
-            return new FM36HistoryData();
+            return new DataStoreCache();
         }
 
         public IEnumerable<AppsEarningsHistory> MapAppsEarningsHistory(FM36Global fm36Global, string returnCode, string year)
@@ -132,9 +129,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<AppsEarningsHistory>();
         }
 
-        public FM35Data MapData(FM35Global fm35Global)
+        public IDataStoreCache MapData(FM35Global fm35Global)
         {
-            return new FM35Data();
+            return new DataStoreCache();
         }
 
         public IEnumerable<FM35_global> MapGlobals(FM35Global fm35Global)
@@ -162,9 +159,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<FM35_LearningDelivery_PeriodisedValue>();
         }
 
-        public FM36Data MapData(FM36Global fm36Global)
+        public IDataStoreCache MapData(FM36Global fm36Global)
         {
-            return new FM36Data();
+            return new DataStoreCache();
         }
 
         public IEnumerable<AEC_global> MapGlobals(FM36Global fm36Global)
@@ -257,9 +254,9 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new DataStoreCache();
         }
 
-        public ProcessingInformationData MapData(IDataStoreContext dataStoreContext)
+        public IDataStoreCache MapData(IDataStoreContext dataStoreContext)
         {
-            return  new ProcessingInformationData();
+            return new DataStoreCache();
         }
     }
 }

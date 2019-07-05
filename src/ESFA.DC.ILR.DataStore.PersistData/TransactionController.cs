@@ -41,15 +41,15 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                     _logger.LogDebug("WriteToDEDS - ILR Data cleared");
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    await _dataStorePersistenceService.StoreProcessingInformationDataAsync(dataStoreDataCache.ProcessingInformation, ilrConnection, cancellationToken);
+                    await  _persistenceService.PersistProcessingInformationDataAsync(dataStoreDataCache.ProcessingInformation, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR File Details Stored");
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    await _dataStorePersistenceService.StoreInvalidLearnerDataAsync(dataStoreDataCache.InvalidLearnerData, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistInvalidLearnerDataAsync(dataStoreDataCache.InvalidLearnerData, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR Invalid Learner Data Stored");
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    await _dataStorePersistenceService.StoreValidLearnerDataAsync(dataStoreDataCache.ValidLearnerData, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistValidLearnerDataAsync(dataStoreDataCache.ValidLearnerData, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR Valid Learner Data Stored");
                     cancellationToken.ThrowIfCancellationRequested();
 
@@ -57,13 +57,13 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                     _logger.LogDebug("WriteToDEDS - ILR ALB Data Stored");
                     await _persistenceService.PersistFM25DataAsync(dataStoreDataCache.FM25Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM25 Data Stored");
-                    await _dataStorePersistenceService.StoreFM35DataAsync(dataStoreDataCache.FM35Data, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistFM35DataAsync(dataStoreDataCache.FM35Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM35 Data Stored");
-                    await _dataStorePersistenceService.StoreFM36DataAsync(dataStoreDataCache.FM36Data, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistFM36DataAsync(dataStoreDataCache.FM36Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM36 Data Stored");
-                    await _dataStorePersistenceService.StoreFM70DataAsync(dataStoreDataCache.FM70Data, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistFM70DataAsync(dataStoreDataCache.FM70Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM70 Data Stored");
-                    await _dataStorePersistenceService.StoreFM81DataAsync(dataStoreDataCache.FM81Data, ilrConnection, cancellationToken);
+                    await _persistenceService.PersistFM81DataAsync(dataStoreDataCache.FM81Data, ilrConnection, cancellationToken);
                     _logger.LogDebug("WriteToDEDS - ILR FM81 Data Stored");
 
                     await  _persistenceService.PersistValidationDataAsync(dataStoreDataCache.ValidationData, ilrConnection, cancellationToken);
@@ -71,7 +71,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    // Nest the FM36History store so that the ILR data has to be successful
+                    //Nest the FM36History store so that the ILR data has to be successful
                     //using (SqlConnection fm36HistoryConnection = new SqlConnection(dataStoreContext.AppEarnHistoryDatabaseConnectionString))
                     //{
                     //    await fm36HistoryConnection.OpenAsync(cancellationToken);
@@ -82,11 +82,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                     //    await _dataStorePersistenceService.ClearFm36HistoryDataAsync(dataStoreContext, fm36HistoryConnection, cancellationToken);
                     //    _logger.LogDebug("FM36 History Clean Up successful");
 
-                    //    await _dataStorePersistenceService.StoreFM36HistoryDataAsync(dataStoreDataCache.FM36HistoryData, fm36HistoryConnection, cancellationToken);
+                    //    await _persistenceService.PersistFM36HistoryDataAsync(dataStoreDataCache.FM36HistoryData, fm36HistoryConnection, cancellationToken);
                     //    _logger.LogDebug("FM36 History persistence complete");
                     //}
 
-                   // _logger.LogDebug("FM36 History Transaction complete");
+                    _logger.LogDebug("FM36 History Transaction complete");
                 }
 
                 // The Complete method commits the transaction. If an exception has been thrown,

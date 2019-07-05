@@ -39,23 +39,14 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
                 dataCache.Add(BuildLearner(learnRefNumber, ukprn));
 
-                learner.LearningDeliveries.NullSafeForEach(ld =>
-                {
-                    dataCache.Add(BuildLearningDelivery(ld, ukprn, learnRefNumber));
-                });
+                learner.LearningDeliveries.NullSafeForEach(ld => dataCache.Add(BuildLearningDelivery(ld, ukprn, learnRefNumber)));
             });
 
-            var periodisedValues = albGlobal.Learners.Select(l => new FundModelLearnerPeriodisedValue<List<LearnerPeriodisedValue>>(ukprn, l.LearnRefNumber, l.LearnerPeriodisedValues));
+            var periodisedValues = learners.Select(l => new FundModelLearnerPeriodisedValue<List<LearnerPeriodisedValue>>(ukprn, l.LearnRefNumber, l.LearnerPeriodisedValues));
 
             dataCache.AddRange(BuildLearnerPeriods(periodisedValues, ukprn));
 
-            periodisedValues.NullSafeForEach(pv =>
-            {
-                pv.LearnerPeriodisedValue.NullSafeForEach(lpv =>
-                {
-                    dataCache.Add(BuildLearnerPeriodisedValue(lpv, ukprn, pv.LearnRefNumber));
-                });
-            });
+            periodisedValues.NullSafeForEach(pv => pv.LearnerPeriodisedValue.NullSafeForEach(lpv => dataCache.Add(BuildLearnerPeriodisedValue(lpv, ukprn, pv.LearnRefNumber))));
 
             var learningDeliveryPeriodisedValues = learners
                 .SelectMany(l => l.LearningDeliveries.Select(ld =>
@@ -63,15 +54,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
             dataCache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues, ukprn));
 
-            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv =>
-            {
-                var aimSeqNumber = ldpv.AimSeqNumber;
-
-                ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue =>
-                {
-                    dataCache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, aimSeqNumber, ukprn, ldpv.LearnRefNumber));
-                });
-            });
+            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => dataCache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ldpv.AimSeqNumber, ukprn, ldpv.LearnRefNumber))));
 
             return dataCache;
         }

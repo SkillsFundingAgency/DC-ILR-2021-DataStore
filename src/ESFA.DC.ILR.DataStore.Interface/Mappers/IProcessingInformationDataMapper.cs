@@ -1,9 +1,9 @@
-﻿using ESFA.DC.ILR.DataStore.Model.File;
+﻿using ESFA.DC.ILR.DataStore.Model.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
     public interface IProcessingInformationDataMapper
     {
-        ProcessingInformationData MapData(IDataStoreContext dataStoreContext);
+        IDataStoreCache MapData(IDataStoreContext dataStoreContext);
     }
 }

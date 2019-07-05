@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.ILR.DataStore.Model.File;
-using ESFA.DC.ILR.DataStore.Model.Funding;
-using ESFA.DC.ILR.DataStore.Model.History;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
@@ -17,25 +14,25 @@ namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IDataStoreMapper
     {
-        ProcessingInformationData MapProcessingInformationData(IDataStoreContext dataStoreContext);
+        IDataStoreCache MapProcessingInformationData(IDataStoreContext dataStoreContext);
 
-        ValidLearnerData MapValidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers);
+        IDataStoreCache MapValidLearnerData(IMessage message, IEnumerable<string> validLearnRefNumbers);
 
-        InvalidLearnerData MapInvalidLearnerData(IMessage message, IEnumerable<string> invalidLearnRefNumbers);
+        IDataStoreCache MapInvalidLearnerData(IMessage message, IEnumerable<string> invalidLearnRefNumbers);
 
         IDataStoreCache MapALBData(ALBGlobal albGlobal);
 
         IDataStoreCache MapFM25Data(FM25Global fm25Global);
 
-        FM35Data MapFM35Data(FM35Global fm35Global);
+        IDataStoreCache MapFM35Data(FM35Global fm35Global);
 
-        FM36Data MapFM36Data(FM36Global fm36Global);
+        IDataStoreCache MapFM36Data(FM36Global fm36Global);
 
-        FM70Data MapFM70Data(FM70Global fm70Global);
+        IDataStoreCache MapFM70Data(FM70Global fm70Global);
 
-        FM81Data MapFM81Data(FM81Global fm81Global);
+        IDataStoreCache MapFM81Data(FM81Global fm81Global);
 
-        FM36HistoryData MapFM36HistoryData(FM36Global fm36Global, IDataStoreContext dataStoreContext);
+        IDataStoreCache MapFM36HistoryData(FM36Global fm36Global, IDataStoreContext dataStoreContext);
 
         IDataStoreCache MapValidationData(IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules);
     }
