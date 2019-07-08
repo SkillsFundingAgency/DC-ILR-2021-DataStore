@@ -259,7 +259,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                  PriceEpisodeRemainingAmountWithinUpperLimit = pe.PriceEpisodeValues.PriceEpisodeRemainingAmountWithinUpperLimit,
                  PriceEpisodeCappedRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeCappedRemainingTNPAmount,
                  PriceEpisodeExpectedTotalMonthlyValue = pe.PriceEpisodeValues.PriceEpisodeExpectedTotalMonthlyValue,
-                 // PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber, - waiting for FS output, changed from long to int
+                 PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber,
                  PriceEpisodeFundLineType = pe.PriceEpisodeValues.PriceEpisodeFundLineType,
                  EpisodeEffectiveTNPStartDate = pe.PriceEpisodeValues.EpisodeEffectiveTNPStartDate,
                  PriceEpisodeFirstAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeFirstAdditionalPaymentThresholdDate,
@@ -273,15 +273,13 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                  PriceEpisodeAgreeId = pe.PriceEpisodeValues.PriceEpisodeAgreeId,
                  PriceEpisodeRedStartDate = pe.PriceEpisodeValues.PriceEpisodeRedStartDate,
                  PriceEpisodeRedStatusCode = pe.PriceEpisodeValues.PriceEpisodeRedStatusCode,
-
-                 // ToDo: populate below when FM36 output from FS is ready
-                 // PriceEpisodeActualEndDateIncEPA =
-                 // PriceEpisode1618FUBalValue =
-                 // PriceEpisodeApplic1618FrameworkUpliftCompElement =
-                 // PriceEpisode1618FrameworkUpliftTotPrevEarnings =
-                 // PriceEpisode1618FrameworkUpliftRemainingAmount =
-                 // PriceEpisode1618FUMonthInstValue =
-                 // PriceEpisode1618FUTotEarnings =
+                 PriceEpisodeActualEndDateIncEPA = pe.PriceEpisodeValues.PriceEpisodeActualEndDateIncEPA,
+                 PriceEpisode1618FUBalValue = pe.PriceEpisodeValues.PriceEpisode1618FUBalValue,
+                 PriceEpisodeApplic1618FrameworkUpliftCompElement = pe.PriceEpisodeValues.PriceEpisodeApplic1618FrameworkUpliftCompElement,
+                 PriceEpisode1618FrameworkUpliftTotPrevEarnings = pe.PriceEpisodeValues.PriceEpisode1618FrameworkUpliftTotPrevEarnings,
+                 PriceEpisode1618FrameworkUpliftRemainingAmount = pe.PriceEpisodeValues.PriceEpisode1618FrameworkUpliftRemainingAmount,
+                 PriceEpisode1618FUMonthInstValue = pe.PriceEpisodeValues.PriceEpisode1618FUMonthInstValue,
+                 PriceEpisode1618FUTotEarnings = pe.PriceEpisodeValues.PriceEpisode1618FUTotEarnings
             };
         }
 
