@@ -68,6 +68,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                     LARSVersion = fm36Global.LARSVersion,
                     UKPRN = ukprn,
                     RulebaseVersion = fm36Global.RulebaseVersion,
+                    Year = fm36Global.Year
                 }
             };
         }
