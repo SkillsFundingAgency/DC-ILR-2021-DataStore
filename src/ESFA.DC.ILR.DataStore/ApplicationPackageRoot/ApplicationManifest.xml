@@ -19,7 +19,6 @@
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
-    <Parameter Name="IlrValidationErrorsConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -44,7 +43,6 @@
           <Section Name="DataStoreSection">
             <Parameter Name="ILRDataStoreConnectionString" Value="[ILRDataStoreConnectionString]" />
             <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="[AppEarnHistoryDataStoreConnectionString]" />
-            <Parameter Name="IlrValidationErrorsConnectionString" Value="[IlrValidationErrorsConnectionString]" />
           </Section>
           <Section Name="IOConfiguration">
             <Parameter Name="ConnectionString" Value="[AzureBlobConnectionString]" />
