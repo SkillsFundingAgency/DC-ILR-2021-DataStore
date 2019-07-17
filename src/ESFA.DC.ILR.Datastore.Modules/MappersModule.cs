@@ -19,18 +19,20 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<ValidationDataMapper>().As<IValidationDataMapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ProcessingInformationDataMapper>().As<IProcessingInformationDataMapper>().InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<FM36Mapper>().As<IFM36Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
+
             RegisterStubServices(containerBuilder);
         }
 
         private void RegisterStubServices(ContainerBuilder containerBuilder)
         {
+
             containerBuilder.RegisterType<MapperStub>()
                 .As<IFM81Mapper>()
                 .As<IFM70Mapper>()
-                .As<IFM36Mapper>()
-                .As<IFM35Mapper>()
                 .As<IFM25Mapper>()
-                .As<IALBMapper>()
                 .As<IFM36HistoryMapper>()
                 .InstancePerLifetimeScope();
         }
@@ -38,11 +40,9 @@ namespace ESFA.DC.ILR.Datastore.Modules
         private void RegisterServices(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<FM81Mapper>().As<IFM81Mapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM70Mapper>().As<IFM70Mapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM36Mapper>().As<IFM36Mapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM70Mapper>().As<IFM70Mapper>().InstancePerLifetimeScope();           
             containerBuilder.RegisterType<FM25Mapper>().As<IFM25Mapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
+           
 
             containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
 

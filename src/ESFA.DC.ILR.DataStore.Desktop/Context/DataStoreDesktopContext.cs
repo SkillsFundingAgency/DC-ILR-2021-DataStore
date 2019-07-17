@@ -50,25 +50,16 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             get => throw new NotImplementedException();
         }
 
-        public string FundingFM36Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM36Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm36Output].ToString();
 
-        public string FundingFM35Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM35Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm35Output].ToString();
 
         public string FundingFM25Output
         {
             get => throw new NotImplementedException();
         }
 
-        public string FundingALBOutput
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingALBOutput => _desktopContext.KeyValuePairs[ILRContextKeys.FundingAlbOutput].ToString();
 
         public string IlrReferenceData => _desktopContext.KeyValuePairs[ILRContextKeys.IlrReferenceData].ToString();
 
