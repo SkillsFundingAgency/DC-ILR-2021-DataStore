@@ -125,6 +125,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 LargeEmployerID = learningDelivery.LearningDeliveryValue.LargeEmployerID,
                 LargeEmployerFM35Fctr = learningDelivery.LearningDeliveryValue.LargeEmployerFM35Fctr,
                 LargeEmployerStatusDate = learningDelivery.LearningDeliveryValue.LargeEmployerStatusDate,
+                LearnDelFundOrgCode = learningDelivery.LearningDeliveryValue.LearnDelFundOrgCode,
                 LTRCUpliftFctr = learningDelivery.LearningDeliveryValue.LTRCUpliftFctr,
                 NonGovCont = learningDelivery.LearningDeliveryValue.NonGovCont,
                 OLASSCustody = learningDelivery.LearningDeliveryValue.OLASSCustody,
