@@ -40,10 +40,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
 
         public string ValidationErrors => _desktopContext.KeyValuePairs[ILRContextKeys.ValidationErrors].ToString();
 
-        public string FundingFM81Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM81Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm81Output].ToString();
 
         public string FundingFM70Output
         {
