@@ -35,6 +35,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<ALBProviderService>().As<IProviderService<ALBGlobal>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM35ProviderService>().As<IProviderService<FM35Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM36ProviderService>().As<IProviderService<FM36Global>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM70ProviderService>().As<IProviderService<FM70Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM81ProviderService>().As<IProviderService<FM81Global>>().InstancePerLifetimeScope();
 
             RegisterStubServices(containerBuilder);
@@ -44,7 +45,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
         {
             containerBuilder.RegisterType<ProviderServiceStub>()
                     .As<IProviderService<FM25Global>>()
-                    .As<IProviderService<FM70Global>>()
                     .As<IProviderService<List<ValidationRule>>>()
                     .InstancePerLifetimeScope();
         }
@@ -53,7 +53,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
         {
 
             containerBuilder.RegisterType<FM25ProviderService>().As<IProviderService<FM25Global>>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<FM70ProviderService>().As<IProviderService<FM70Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ValidationErrorsProviderService>().As<IProviderService<List<ILR.IO.Model.Validation.ValidationError>>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ValidLearnerProviderService>().As<IProviderService<List<string>>>().InstancePerLifetimeScope();
