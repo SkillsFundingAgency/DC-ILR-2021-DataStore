@@ -51,10 +51,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
 
         public string FundingFM35Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm35Output].ToString();
 
-        public string FundingFM25Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM25Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm25Output].ToString();
 
         public string FundingALBOutput => _desktopContext.KeyValuePairs[ILRContextKeys.FundingAlbOutput].ToString();
 

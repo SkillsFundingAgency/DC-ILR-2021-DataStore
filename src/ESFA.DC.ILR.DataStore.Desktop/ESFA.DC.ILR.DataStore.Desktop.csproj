@@ -30,12 +30,12 @@
     <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Constants" Version="0.1.5-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Desktop.Interface" Version="0.1.0-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.ALB.FundingOutput.Model" Version="0.0.171" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM35.FundingOutput.Model" Version="0.0.171" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM36.FundingOutput.Model" Version="0.0.171" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM70.FundingOutput.Model" Version="0.0.171" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM81.FundingOutput.Model" Version="0.0.171" />
-    <PackageReference Include="ESFA.DC.ILR.FundingService.FM25.FundingOutput.Model" Version="0.1.446" />
+    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.ALB.FundingOutput.Model" Version="0.0.180" />
+    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM25.FundingOutput.Model" Version="0.0.180" />
+    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM35.FundingOutput.Model" Version="0.0.180" />
+    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM36.FundingOutput.Model" Version="0.0.180" />
+    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM70.FundingOutput.Model" Version="0.0.180" />
+    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM81.FundingOutput.Model" Version="0.0.180" />
     <PackageReference Include="FastMember" Version="1.4.1" />
     <PackageReference Include="Microsoft.SqlServer.DacFx.x86" Version="150.4384.2" />
   </ItemGroup>
