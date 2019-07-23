@@ -65,12 +65,10 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Invalid
                 entity.Property(e => e.AFinDate).HasColumnType("date");
 
                 entity.Property(e => e.AFinType)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.LearnRefNumber)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });

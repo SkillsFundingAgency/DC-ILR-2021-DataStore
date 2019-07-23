@@ -26,6 +26,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _logger.LogInfo("Starting External Data Provision Tasks");
 
             var messageTask = _externalDataProvider.ProvideMessageAsync(dataStoreContext, cancellationToken);
+            var looseMessageTask = _externalDataProvider.ProvideLooseMessageAsync(dataStoreContext, cancellationToken);
             var validLearnerTask = _externalDataProvider.ProvideValidLearnersAsync(dataStoreContext, cancellationToken);
             var albTask = _externalDataProvider.ProvideALBAsync(dataStoreContext, cancellationToken);
             var fm25Task = _externalDataProvider.ProvideFM25Async(dataStoreContext, cancellationToken);
@@ -39,6 +40,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             var tasks = new List<Task>()
             {
                 messageTask,
+                looseMessageTask,
                 validLearnerTask,
                 albTask,
                 fm25Task,
@@ -58,7 +60,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
             _dataStoreMapper.MapProcessingInformationData(cache, dataStoreContext);
             _dataStoreMapper.MapValidLearnerData(cache, messageTask.Result, validLearnerTask.Result);
-            _dataStoreMapper.MapInvalidLearnerData(cache, messageTask.Result, validLearnerTask.Result);
+            _dataStoreMapper.MapInvalidLearnerData(cache, looseMessageTask.Result, validLearnerTask.Result);
             _dataStoreMapper.MapALBData(cache, albTask.Result);
             _dataStoreMapper.MapFM25Data(cache, fm25Task.Result);
             _dataStoreMapper.MapFM35Data(cache, fm35Task.Result);
