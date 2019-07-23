@@ -151,6 +151,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
 
         private DataStoreDataProvider NewProvider(
             IProviderService<Message> ilrProviderService = null,
+            IProviderService<ILR.Model.Loose.Message> looseIlrProviderService = null,
             IProviderService<ALBGlobal> albProviderService = null,
             IProviderService<FM25Global> fm25ProviderService = null,
             IProviderService<FM35Global> fm35ProviderService = null,
@@ -163,6 +164,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
         {
             return new DataStoreDataProvider(
                 ilrProviderService,
+                looseIlrProviderService,
                 albProviderService,
                 fm25ProviderService,
                 fm35ProviderService,

@@ -9,6 +9,7 @@ using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR.Model.Loose.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Interface
 {
@@ -18,7 +19,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         void MapValidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers);
 
-        void MapInvalidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> invalidLearnRefNumbers);
+        void MapInvalidLearnerData(IDataStoreCache cache, ILooseMessage message, IEnumerable<string> invalidLearnRefNumbers);
 
         void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal);
 

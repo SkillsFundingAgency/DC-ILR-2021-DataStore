@@ -11,6 +11,7 @@ using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
 using ESFA.DC.ILR.IO.Model.Validation;
 using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR.Model.Loose.Interface;
 
 namespace ESFA.DC.ILR.DataStore.PersistData
 {
@@ -58,7 +59,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public void MapValidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers) => _validLearnerDataMapper.MapLearnerData(cache, message, validLearnRefNumbers);
 
-        public void MapInvalidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers) => _invalidLearnerDataMapper.MapInvalidLearnerData(cache, message, validLearnRefNumbers);
+        public void MapInvalidLearnerData(IDataStoreCache cache, ILooseMessage message, IEnumerable<string> validLearnRefNumbers) => _invalidLearnerDataMapper.MapInvalidLearnerData(cache, message, validLearnRefNumbers);
 
         public void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal) => _albMapper.MapALBData(cache, albGlobal);
 

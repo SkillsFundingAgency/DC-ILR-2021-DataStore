@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using ESFA.DC.ILR.DataStore.Interface;
-using ESFA.DC.ILR.DataStore.Model;
-using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.DataStore.PersistData;
 using ESFA.DC.ILR.DataStore.PersistData.Providers;
@@ -27,6 +25,8 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<DataStoreDataProvider>().As<IDataStoreDataProvider>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ILRProviderService>().As<IProviderService<Message>>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<LooseILRProviderService>().As<IProviderService<Model.Loose.Message>>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<ValidLearnerProviderService>().As<IProviderService<List<string>>>().InstancePerLifetimeScope();
 
