@@ -17,6 +17,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
     public class DataStoreDataProvider : IDataStoreDataProvider
     {
         private readonly IProviderService<Message> _ilrProviderService;
+        private readonly IProviderService<ILR.Model.Loose.Message> _looseIlrProviderService;
         private readonly IProviderService<ALBGlobal> _albProviderService;
         private readonly IProviderService<FM25Global> _fm25ProviderService;
         private readonly IProviderService<FM35Global> _fm35ProviderService;
@@ -29,6 +30,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public DataStoreDataProvider(
             IProviderService<Message> ilrProviderService,
+            IProviderService<ILR.Model.Loose.Message> looseIlrProviderService,
             IProviderService<ALBGlobal> albProviderService,
             IProviderService<FM25Global> fm25ProviderService,
             IProviderService<FM35Global> fm35ProviderService,
@@ -40,6 +42,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IProviderService<List<ValidationRule>> rulesProviderService)
         {
             _ilrProviderService = ilrProviderService;
+            _looseIlrProviderService = looseIlrProviderService;
             _albProviderService = albProviderService;
             _fm25ProviderService = fm25ProviderService;
             _fm35ProviderService = fm35ProviderService;
@@ -54,6 +57,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         public Task<Message> ProvideMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             return _ilrProviderService.ProvideAsync(dataStoreContext, cancellationToken);
+        }
+
+        public Task<ILR.Model.Loose.Message> ProvideLooseMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        {
+            return _looseIlrProviderService.ProvideAsync(dataStoreContext, cancellationToken);
         }
 
         public Task<List<string>> ProvideValidLearnersAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)

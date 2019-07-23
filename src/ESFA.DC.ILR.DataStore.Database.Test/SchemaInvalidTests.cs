@@ -21,9 +21,9 @@ namespace ESFA.DC.ILR.DataStore.Database.Test
                 ExpectedColumn.CreateInt("AppFinRecord_Id", 1, false),
                 ExpectedColumn.CreateInt("UKPRN", 2, false),
                 ExpectedColumn.CreateInt("LearningDelivery_Id", 3, true),
-                ExpectedColumn.CreateVarChar("LearnRefNumber", 4, false, 100),
-                ExpectedColumn.CreateBigInt("AimSeqNumber", 5, false),
-                ExpectedColumn.CreateVarChar("AFinType", 6, false, 100),
+                ExpectedColumn.CreateVarChar("LearnRefNumber", 4, true, 100),
+                ExpectedColumn.CreateBigInt("AimSeqNumber", 5, true),
+                ExpectedColumn.CreateVarChar("AFinType", 6, true, 100),
                 ExpectedColumn.CreateBigInt("AFinCode", 7, true),
                 ExpectedColumn.CreateDate("AFinDate", 8, true),
                 ExpectedColumn.CreateBigInt("AFinAmount", 9, true)
