@@ -42,10 +42,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
 
         public string FundingFM81Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm81Output].ToString();
 
-        public string FundingFM70Output
-        {
-            get => throw new NotSupportedException();
-        }
+        public string FundingFM70Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm70Output].ToString();
 
         public string FundingFM36Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm36Output].ToString();
 
