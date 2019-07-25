@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<PersistenceService>().As<IPersistenceService>().InstancePerLifetimeScope();
 
-            RegisterStubServices(containerBuilder);
+            RegisterServices(containerBuilder);
         }
 
         private void RegisterStubServices(ContainerBuilder containerBuilder)
