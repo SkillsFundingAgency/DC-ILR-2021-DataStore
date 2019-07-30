@@ -230,6 +230,7 @@
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_Period.sql" />
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedTextValues.sql" />
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql" />
+    <Build Include="dbo\Stored Procedures\GetPeriodEndMetrics.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
