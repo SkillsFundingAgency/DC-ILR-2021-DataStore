@@ -114,6 +114,7 @@ AS (
     FROM [RawEarnings]
 )
 select
+	0 AS Id,
     [TransactionType],
     sum([Amount]) [EarningsYTD],
     sum(case when [ACT] = 1 then [Amount] end) [EarningsACT1],
