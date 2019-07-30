@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using ESFA.DC.ILR.Datastore.Modules;
+using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Stubs;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.Modules
 {
@@ -11,6 +13,8 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
             containerBuilder.RegisterModule<MappersModule>();
             containerBuilder.RegisterModule<ProvidersModule>();
             containerBuilder.RegisterModule<PersistenceModule>();
+
+            containerBuilder.RegisterType<TransactionStub>().As<IFM36HistoryTransactionController>().InstancePerLifetimeScope();
         }
     }
 }

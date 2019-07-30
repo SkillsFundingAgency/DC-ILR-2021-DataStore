@@ -13,15 +13,18 @@ namespace ESFA.DC.ILR.DataStore.PersistData
     {
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly IPersistenceService _persistenceService;
+        private readonly IFM36HistoryTransactionController _fm36HistoryTransactionController;
         private readonly ILogger _logger;
 
         public TransactionController(
             IDataStorePersistenceService dataStorePersistenceService,
             IPersistenceService persistenceService,
+            IFM36HistoryTransactionController fm36HistoryTransactionController,
             ILogger logger)
         {
             _dataStorePersistenceService = dataStorePersistenceService;
             _persistenceService = persistenceService;
+            _fm36HistoryTransactionController = fm36HistoryTransactionController;
             _logger = logger;
         }
 
@@ -71,22 +74,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    //Nest the FM36History store so that the ILR data has to be successful
-                    //using (SqlConnection fm36HistoryConnection = new SqlConnection(dataStoreContext.AppEarnHistoryDatabaseConnectionString))
-                    //{
-                    //    await fm36HistoryConnection.OpenAsync(cancellationToken);
-
-                    //    cancellationToken.ThrowIfCancellationRequested();
-                    //    _logger.LogDebug("WriteToDEDS FM36 History Started");
-
-                    //    await _dataStorePersistenceService.ClearFm36HistoryDataAsync(dataStoreContext, fm36HistoryConnection, cancellationToken);
-                    //    _logger.LogDebug("FM36 History Clean Up successful");
-
-                    //    await _persistenceService.PersistFM36HistoryDataAsync(dataStoreDataCache.FM36HistoryData, fm36HistoryConnection, cancellationToken);
-                    //    _logger.LogDebug("FM36 History persistence complete");
-                    //}
-
-                    //_logger.LogDebug("FM36 History Transaction complete");
+                    await _fm36HistoryTransactionController.WriteFM36HistoryAsync(dataStoreContext, cache, cancellationToken);
                 }
 
                 // The Complete method commits the transaction. If an exception has been thrown,

@@ -25,16 +25,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<FM35Mapper>().As<IFM35Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM25Mapper>().As<IFM25Mapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ALBMapper>().As<IALBMapper>().InstancePerLifetimeScope();
-
-            RegisterStubServices(containerBuilder);
-        }
-
-        private void RegisterStubServices(ContainerBuilder containerBuilder)
-        {
-
-            containerBuilder.RegisterType<MapperStub>()
-                .As<IFM36HistoryMapper>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
         }
     }
 }
