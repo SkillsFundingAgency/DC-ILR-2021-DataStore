@@ -1,7 +1,10 @@
 ﻿using Autofac;
 using ESFA.DC.FileService.Config;
 using ESFA.DC.ILR.DataStore.Interface;
+using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.Datastore.Modules;
+using ESFA.DC.ILR.DataStore.PersistData;
+using ESFA.DC.ILR.DataStore.PersistData.Mapper;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.ILR.DataStore.Stateless.Context;
 using ESFA.DC.ILR.DataStore.Stateless.Handlers;
@@ -39,6 +42,9 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             containerBuilder.RegisterModule<SerializationModule>();
 
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<FM36HistoryTransactionController>().As<IFM36HistoryTransactionController>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterModule<DataStoreServicesModule>();
             containerBuilder.RegisterModule<MappersModule>();

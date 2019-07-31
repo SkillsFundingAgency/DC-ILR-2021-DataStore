@@ -18,12 +18,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
             RegisterServices(containerBuilder);
         }
 
-        private void RegisterStubServices(ContainerBuilder containerBuilder)
-        {
-            containerBuilder.RegisterType<StoreClearStub>().As<IStoreClear>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<StoreClearStub>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
-        }
-
         private void RegisterServices(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
