@@ -7,18 +7,18 @@ Post-Deployment Script
 	:r .\z.ExtendedProperties.sql
 GO
 
-REVOKE REFERENCES ON SCHEMA::[dbo] FROM [DataProcessor];
-REVOKE REFERENCES ON SCHEMA::[Invalid] FROM [DataProcessor];
-REVOKE REFERENCES ON SCHEMA::[Valid] FROM [DataProcessor];
-REVOKE REFERENCES ON SCHEMA::[Rulebase] FROM [DataProcessor];
-REVOKE REFERENCES ON SCHEMA::[DataLock] FROM [DataProcessor];
+REVOKE REFERENCES ON SCHEMA::[dbo] FROM [DataProcessing];
+REVOKE REFERENCES ON SCHEMA::[Invalid] FROM [DataProcessing];
+REVOKE REFERENCES ON SCHEMA::[Valid] FROM [DataProcessing];
+REVOKE REFERENCES ON SCHEMA::[Rulebase] FROM [DataProcessing];
+REVOKE REFERENCES ON SCHEMA::[DataLock] FROM [DataProcessing];
 GO
 
-REVOKE REFERENCES ON SCHEMA::[dbo] FROM [DataViewer];
-REVOKE REFERENCES ON SCHEMA::[Invalid] FROM [DataViewer];
-REVOKE REFERENCES ON SCHEMA::[Valid] FROM [DataViewer];
-REVOKE REFERENCES ON SCHEMA::[Rulebase] FROM [DataViewer];
-REVOKE REFERENCES ON SCHEMA::[DataLock] FROM [DataViewer];
+REVOKE REFERENCES ON SCHEMA::[dbo] FROM [DataViewing];
+REVOKE REFERENCES ON SCHEMA::[Invalid] FROM [DataViewing];
+REVOKE REFERENCES ON SCHEMA::[Valid] FROM [DataViewing];
+REVOKE REFERENCES ON SCHEMA::[Rulebase] FROM [DataViewing];
+REVOKE REFERENCES ON SCHEMA::[DataLock] FROM [DataViewing];
 GO
 
 RAISERROR('		   Update User Account Passwords',10,1) WITH NOWAIT;
