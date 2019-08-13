@@ -11,9 +11,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 {
     public sealed class BulkInsert : IBulkInsert
     {
-        public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, CancellationToken cancellationToken)
+        public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection))
+            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection, sqlTransaction))
             {
                 try
                 {
@@ -51,9 +51,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             }
         }
 
-        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection)
+        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection, SqlTransaction sqlTransaction)
         {
-            return new SqlBulkCopy(sqlConnection)
+            return new SqlBulkCopy(sqlConnection, SqlBulkCopyOptions.Default, sqlTransaction)
             {
                 BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
                 BulkCopyTimeout = 600

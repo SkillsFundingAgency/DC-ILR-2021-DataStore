@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
@@ -30,16 +31,36 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                 await fm36HistoryConnection.OpenAsync(cancellationToken);
 
                 cancellationToken.ThrowIfCancellationRequested();
-                _logger.LogDebug("WriteToDEDS FM36 History Started");
 
-                await _dataStorePersistenceService.ClearFm36HistoryDataAsync(dataStoreContext, fm36HistoryConnection, cancellationToken);
-                _logger.LogDebug("FM36 History Clean Up successful");
+                using (SqlTransaction fm36HistoryTransaction = fm36HistoryConnection.BeginTransaction())
+                {
+                    try
+                    {
+                        await fm36HistoryConnection.OpenAsync(cancellationToken);
 
-                await _persistenceService.PersistFM36HistoryDataAsync(cache, fm36HistoryConnection, cancellationToken);
-                _logger.LogDebug("FM36 History persistence complete");
+                        cancellationToken.ThrowIfCancellationRequested();
+                        _logger.LogDebug("WriteToDEDS FM36 History Started");
+
+                        await _dataStorePersistenceService.ClearFm36HistoryDataAsync(dataStoreContext, fm36HistoryConnection, fm36HistoryTransaction, cancellationToken);
+                        _logger.LogDebug("FM36 History Clean Up successful");
+
+                        await _persistenceService.PersistFM36HistoryDataAsync(cache, fm36HistoryConnection, fm36HistoryTransaction, cancellationToken);
+                        _logger.LogDebug("FM36 History persistence complete");
+
+                        fm36HistoryTransaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogDebug($"FM36 Transaction failed attempting to rollback - {ex.Message}");
+
+                        fm36HistoryTransaction.Rollback();
+
+                        _logger.LogDebug("FM36 Transaction successfully rolled back");
+                    }
+                }
+
+                _logger.LogDebug("FM36 History Transaction complete");
             }
-
-            _logger.LogDebug("FM36 History Transaction complete");
         }
     }
 }
