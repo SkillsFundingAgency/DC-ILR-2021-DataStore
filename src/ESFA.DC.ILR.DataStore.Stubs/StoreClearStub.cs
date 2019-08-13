@@ -10,7 +10,7 @@ namespace ESFA.DC.ILR.DataStore.Stubs
 {
     public class StoreClearStub : IStoreClear, IStoreFM36HistoryClear
     {
-        Task IStoreClear.ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
+        Task IStoreClear.ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

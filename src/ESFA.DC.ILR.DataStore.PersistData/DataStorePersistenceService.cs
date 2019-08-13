@@ -18,10 +18,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _fm36HistoryClear = fm36HistoryClear;
         }
 
-        public Task ClearIlrDataAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
-            => _ilrStoreClear.ClearAsync(dataStoreContext, sqlConnection, cancellationToken);
+        public Task ClearIlrDataAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+            => _ilrStoreClear.ClearAsync(dataStoreContext, sqlConnection, sqlTransaction, cancellationToken);
 
-        public Task ClearFm36HistoryDataAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
+        public Task ClearFm36HistoryDataAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
             => _fm36HistoryClear.ClearAsync(dataStoreContext, sqlConnection, cancellationToken);
     }
 }
