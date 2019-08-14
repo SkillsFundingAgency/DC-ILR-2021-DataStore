@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Valid.Interface
 {
@@ -26,5 +27,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid.Interface
         IQueryable<ProviderSpecLearnerMonitoring> ProviderSpecLearnerMonitorings { get; }
         IQueryable<Source> Sources { get; }
         IQueryable<SourceFile> SourceFiles { get; }
+
+        DbSet<PeriodEndMetricsEntity> PeriodEndMetrics { get; set; }
     }
 }
