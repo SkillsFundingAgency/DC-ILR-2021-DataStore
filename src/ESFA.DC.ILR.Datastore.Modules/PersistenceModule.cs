@@ -2,7 +2,7 @@
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.PersistData;
 using ESFA.DC.ILR.DataStore.PersistData.Persist;
-using ESFA.DC.ILR.DataStore.Stubs;
+using ESFA.DC.ILR.DataStore.PersistData.Transactions;
 
 namespace ESFA.DC.ILR.Datastore.Modules
 {
@@ -12,6 +12,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
         {
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>().InstancePerDependency();
             containerBuilder.RegisterType<TransactionController>().As<ITransactionController>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ILRTransaction>().As<IILRTransaction>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<PersistenceService>().As<IPersistenceService>().InstancePerLifetimeScope();
 

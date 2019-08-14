@@ -5,7 +5,7 @@ using ESFA.DC.ILR.DataStore.Model.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.PersistData
 {
-    public class DesktopFM36HistoryTransactionController : IFM36HistoryTransactionController
+    public class DesktopFM36HistoryTransaction : IFM36HistoryTransaction
     {
         public Task WriteFM36HistoryAsync(IDataStoreContext dataStoreContext, IDataStoreCache cache, CancellationToken cancellationToken)
         {
