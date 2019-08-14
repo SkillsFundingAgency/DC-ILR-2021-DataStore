@@ -6,15 +6,15 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ILR.DataStore.PersistData
+namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
 {
-    public class FM36HistoryTransactionController : IFM36HistoryTransactionController
+    public class FM36HistoryTransaction : IFM36HistoryTransaction
     {
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly IPersistenceService _persistenceService;
         private readonly ILogger _logger;
 
-        public FM36HistoryTransactionController(
+        public FM36HistoryTransaction(
             IDataStorePersistenceService dataStorePersistenceService,
             IPersistenceService persistenceService,
             ILogger logger)
@@ -31,6 +31,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                 await fm36HistoryConnection.OpenAsync(cancellationToken);
 
                 cancellationToken.ThrowIfCancellationRequested();
+
+                _logger.LogDebug("Starting FM36 History Transaction");
 
                 using (SqlTransaction fm36HistoryTransaction = fm36HistoryConnection.BeginTransaction())
                 {
@@ -58,8 +60,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                         _logger.LogDebug("FM36 Transaction successfully rolled back");
                     }
                 }
-
-                _logger.LogDebug("FM36 History Transaction complete");
             }
         }
     }

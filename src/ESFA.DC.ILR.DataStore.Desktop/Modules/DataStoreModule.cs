@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
             containerBuilder.RegisterModule<PersistenceModule>();
 
             containerBuilder.RegisterType<DesktopFM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<DesktopFM36HistoryTransactionController>().As<IFM36HistoryTransactionController>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DesktopFM36HistoryTransaction>().As<IFM36HistoryTransaction>().InstancePerLifetimeScope();
         }
     }
 }
