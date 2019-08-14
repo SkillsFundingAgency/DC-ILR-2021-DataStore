@@ -127,3 +127,5 @@ group by
 END
 GO
 
+GRANT EXECUTE ON GetPeriodEndMetrics TO [DataViewing]
+GO
