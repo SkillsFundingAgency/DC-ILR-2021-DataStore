@@ -53,7 +53,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                         fm36HistoryTransaction.Rollback();
 
                         _logger.LogDebug("FM36 Transaction successfully rolled back");
+
+                        throw;
                     }
+
+                    _logger.LogDebug("FM36 Transaction complete");
                 }
             }
         }
