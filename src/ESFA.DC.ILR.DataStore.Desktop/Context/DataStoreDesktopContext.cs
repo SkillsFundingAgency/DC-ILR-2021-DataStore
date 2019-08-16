@@ -62,5 +62,10 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
         {
             get => throw new NotImplementedException();
         }
+
+        public string SummarisationDatabaseConnectionString
+        {
+            get => throw new NotImplementedException();
+        }
     }
 }

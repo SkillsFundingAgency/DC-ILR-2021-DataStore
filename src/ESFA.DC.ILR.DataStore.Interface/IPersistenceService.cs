@@ -28,5 +28,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
         Task PersistInvalidLearnerDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
 
         Task PersistProcessingInformationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+
+        Task PersistESFSummarisationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }
 }

@@ -49,5 +49,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
         string IlrDatabaseConnectionString { get; }
 
         string AppEarnHistoryDatabaseConnectionString { get; }
+
+        string SummarisationDatabaseConnectionString { get; }
     }
 }

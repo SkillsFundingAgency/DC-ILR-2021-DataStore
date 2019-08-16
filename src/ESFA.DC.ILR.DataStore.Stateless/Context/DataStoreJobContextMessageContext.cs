@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string Container => _jobContextMessage.KeyValuePairs[ILRContextKeys.Container].ToString();
 
-        public string CollectionYear => _jobContextMessage.KeyValuePairs[ILRContextKeys.CollectionYear].ToString();
+        public string CollectionYear => "1920";
 
         public string ReturnPeriod => _jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 
@@ -63,5 +63,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
         public string IlrDatabaseConnectionString => _persistDataConfiguration.ILRDataStoreConnectionString;
 
         public string AppEarnHistoryDatabaseConnectionString => _persistDataConfiguration.AppEarnHistoryDataStoreConnectionString;
+
+        public string SummarisationDatabaseConnectionString => _persistDataConfiguration.SummarisationDatabaseConnectionString;
     }
 }

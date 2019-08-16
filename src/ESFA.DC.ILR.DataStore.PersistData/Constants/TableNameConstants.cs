@@ -175,5 +175,9 @@
         public const string InvalidDPOutcome = "Invalid.DPOutcome";
 
         public const string InvalidLearnerDestinationandProgression = "Invalid.LearnerDestinationandProgression";
+
+        // Summarisation
+
+        public const string ESF_FundingData = "ESF_FundingData";
     }
 }
