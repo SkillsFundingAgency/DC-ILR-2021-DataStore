@@ -46,6 +46,9 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             containerBuilder.RegisterType<FM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM36HistoryTransaction>().As<IFM36HistoryTransaction>().InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<ESFSummarisationMapper>().As<IESFSummarisationMapper>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ESFSummarisationTransaction>().As<IESFSummarisationTransaction>().InstancePerLifetimeScope();
+
             containerBuilder.RegisterModule<DataStoreServicesModule>();
             containerBuilder.RegisterModule<MappersModule>();
             containerBuilder.RegisterModule<ProvidersModule>();

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ESFA.DC.ILR.DataStore.Interface
 {
-    public interface IStoreFM36HistoryClear
+    public interface IStoreESFSummarisationClear
     {
         Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }

@@ -38,11 +38,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                 {
                     try
                     {
-                        await fm36HistoryConnection.OpenAsync(cancellationToken);
-
-                        cancellationToken.ThrowIfCancellationRequested();
-                        _logger.LogDebug("WriteToDEDS FM36 History Started");
-
                         await _dataStorePersistenceService.ClearFm36HistoryDataAsync(dataStoreContext, fm36HistoryConnection, fm36HistoryTransaction, cancellationToken);
                         _logger.LogDebug("FM36 History Clean Up successful");
 

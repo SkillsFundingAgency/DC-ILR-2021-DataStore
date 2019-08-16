@@ -28,6 +28,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         private readonly IFM81Mapper _fm81Mapper;
         private readonly IFM36HistoryMapper _fm36HistoryMapper;
         private readonly IValidationDataMapper _validationDataMapper;
+        private readonly IESFSummarisationMapper _esfSummarisationMapper;
 
         public DataStoreMapper(
             IProcessingInformationDataMapper processingInformationDataMapper,
@@ -40,7 +41,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IFM70Mapper fm70Mapper,
             IFM81Mapper fm81Mapper,
             IFM36HistoryMapper fm36HistoryMapper,
-            IValidationDataMapper validationDataMapper)
+            IValidationDataMapper validationDataMapper,
+            IESFSummarisationMapper esfSummarisationMapper)
         {
             _processingInformationDataMapper = processingInformationDataMapper;
             _validLearnerDataMapper = validLearnerDataMapper;
@@ -53,6 +55,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _fm81Mapper = fm81Mapper;
             _fm36HistoryMapper = fm36HistoryMapper;
             _validationDataMapper = validationDataMapper;
+            _esfSummarisationMapper = esfSummarisationMapper;
         }
 
         public void MapProcessingInformationData(IDataStoreCache cache, IDataStoreContext dataStoreContext) => _processingInformationDataMapper.MapData(cache, dataStoreContext);
@@ -77,5 +80,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public void MapValidationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules)
             => _validationDataMapper.MapData(cache, dataStoreContext, validationErrors, rules, message);
+
+        public void MapESFSummarisationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global fm70Global) => _esfSummarisationMapper.MapData(cache, dataStoreContext, message, fm70Global);
     }
 }

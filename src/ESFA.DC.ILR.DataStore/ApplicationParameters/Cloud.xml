@@ -3,6 +3,7 @@
   <Parameters>
     <Parameter Name="ILRDataStoreConnectionString" Value="__ILR1920DataStoreConnectionStringRW__" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="__AppEarnHistoryDataStoreConnectionString__" />
+    <Parameter Name="SummarisationDatabaseConnectionString" Value="__SummarisationDatabaseConnectionString__" />
     <Parameter Name="AuditQueueName" Value="__AuditQueueName__" />
     <Parameter Name="TopicName" Value="__TopicName__" />
     <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />

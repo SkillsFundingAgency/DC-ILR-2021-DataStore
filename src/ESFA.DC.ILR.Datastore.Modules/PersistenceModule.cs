@@ -23,6 +23,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
         {
             containerBuilder.RegisterType<StoreClear>().As<IStoreClear>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<StoreFM36HistoryClear>().As<IStoreFM36HistoryClear>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<StoreESFSummarisationClear>().As<IStoreESFSummarisationClear>().InstancePerLifetimeScope();
         }
     }
 }

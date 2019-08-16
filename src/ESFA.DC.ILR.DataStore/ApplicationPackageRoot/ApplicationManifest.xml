@@ -12,6 +12,7 @@
     <Parameter Name="AuditMaxConcurrentCalls" DefaultValue="1" />
     <Parameter Name="ILRDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=ILR1819_DataStore;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=AppEarnHistory;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
+    <Parameter Name="SummarisationDatabaseConnectionString" DefaultValue="data source=(local);initial catalog=Summarisation;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
     <Parameter Name="LoggerConnectionstring" DefaultValue="Server=localhost;Database=logs;User Id=loguser;Password=password1;" />
     <Parameter Name="MaxMessageSize" DefaultValue="1073741824" />
     <Parameter Name="AzureBlobConnectionString" DefaultValue="UseDevelopmentStorage=true" />
@@ -43,6 +44,7 @@
           <Section Name="DataStoreSection">
             <Parameter Name="ILRDataStoreConnectionString" Value="[ILRDataStoreConnectionString]" />
             <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="[AppEarnHistoryDataStoreConnectionString]" />
+            <Parameter Name="SummarisationDatabaseConnectionString" Value="[SummarisationDatabaseConnectionString]" />
           </Section>
           <Section Name="IOConfiguration">
             <Parameter Name="ConnectionString" Value="[AzureBlobConnectionString]" />

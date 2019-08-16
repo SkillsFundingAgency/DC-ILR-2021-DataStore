@@ -315,6 +315,7 @@
     <Compile Include="DataStoreDataProviderTests.cs" />
     <Compile Include="HelperTests\PeriodisedValueHelperTests.cs" />
     <Compile Include="MapperTests\ALBMapperTests.cs" />
+    <Compile Include="MapperTests\ESFSummarisationMapperTests.cs" />
     <Compile Include="MapperTests\FM36HistoryMapperTests.cs" />
     <Compile Include="MapperTests\FM70MapperTests.cs" />
     <Compile Include="MapperTests\FM25MapperTests.cs" />
