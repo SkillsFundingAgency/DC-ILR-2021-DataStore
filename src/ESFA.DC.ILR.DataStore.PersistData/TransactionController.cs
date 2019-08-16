@@ -31,13 +31,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             try
             {
                 await _ilrTransaction.WriteILRDataAsync(dataStoreContext, cache, cancellationToken);
-                _logger.LogDebug("ILR Transaction complete");
-
                 await _fm36HistoryTransaction.WriteFM36HistoryAsync(dataStoreContext, cache, cancellationToken);
-                _logger.LogDebug("FM36 Transaction complete");
-
-                await  _esfSummarisationTransaction.WriteESFSummarisationAsync(dataStoreContext, cache, cancellationToken);
-                _logger.LogDebug("ESF Summarisation Transaction complete");
+                await _esfSummarisationTransaction.WriteESFSummarisationAsync(dataStoreContext, cache, cancellationToken);
             }
             catch (Exception ex)
             {

@@ -53,7 +53,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                         esfSummarisationTransaction.Rollback();
 
                         _logger.LogDebug("ESF Summarisation Transaction successfully rolled back");
+
+                        throw;
                     }
+
+                    _logger.LogDebug("ESF Summarisation Transaction complete");
                 }
             }
         }

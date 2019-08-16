@@ -81,7 +81,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                         ilrTransaction.Rollback();
 
                         _logger.LogDebug("ILR Transaction successfully rolled back");
+
+                        throw;
                     }
+
+                    _logger.LogDebug("ILR Transaction complete");
                 }
             }
         }
