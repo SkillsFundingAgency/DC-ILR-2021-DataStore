@@ -69,7 +69,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _dataStoreMapper.MapFM81Data(cache, fm81Task.Result);
             _dataStoreMapper.MapFM36HistoryData(cache, fm36Task.Result, dataStoreContext);
             _dataStoreMapper.MapValidationData(cache, dataStoreContext, messageTask.Result, validationErrorsTask.Result, rulesTask.Result);
-            _dataStoreMapper.MapESFSummarisationData(cache, dataStoreContext, messageTask.Result, fm70Task.Result);
+            _dataStoreMapper.MapESFFundingData(cache, dataStoreContext, messageTask.Result, fm70Task.Result);
 
             _logger.LogInfo("Cache Mapping Complete");
 

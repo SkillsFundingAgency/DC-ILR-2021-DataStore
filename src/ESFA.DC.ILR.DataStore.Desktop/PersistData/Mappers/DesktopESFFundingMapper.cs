@@ -6,7 +6,7 @@ using ESFA.DC.ILR.Model.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.PersistData.Mappers
 {
-    public class DesktopESFSummarisationMapper : IESFSummarisationMapper
+    public class DesktopESFFundingMapper : IESFFundingMapper
     {
         public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global albGlobal)
         {

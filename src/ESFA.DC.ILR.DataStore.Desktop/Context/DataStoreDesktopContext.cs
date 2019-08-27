@@ -63,7 +63,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             get => throw new NotImplementedException();
         }
 
-        public string SummarisationDatabaseConnectionString
+        public string EsfFundingDatabaseConnectionString
         {
             get => throw new NotImplementedException();
         }

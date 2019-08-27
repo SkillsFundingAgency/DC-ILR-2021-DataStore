@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
@@ -8,11 +9,10 @@ using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
-    public class ESFSummarisationMapper : IESFSummarisationMapper
+    public class ESFFundingMapper : IESFFundingMapper
     {
         public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global fm70Global)
         {
@@ -31,6 +31,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
         private void PopulateDataStoreCache(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<FM70Learner> learners, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn)
         {
+            var academicYear = $"20{dataStoreContext.CollectionYear.Substring(0, 2)}/{dataStoreContext.CollectionYear.Substring(2, 2)}";
+            var collectionReturnCode = $"R{dataStoreContext.ReturnPeriod}";
+            var collectionType = $"ILR{dataStoreContext.CollectionYear}";
+
             var learningDeliveryPeriodisedValues = 
                 learners
                     .SelectMany(l => l.LearningDeliveries
@@ -39,16 +43,18 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
             learningDeliveryPeriodisedValues
                 .NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue
-                    .NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildFundingData( dataStoreContext, learningDeliveryPeriodisedValue, conRefNumberDictionary, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode))));
+                    .NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildFundingData( dataStoreContext, learningDeliveryPeriodisedValue, conRefNumberDictionary, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode, academicYear, collectionReturnCode, collectionType))));
         }
 
-        public ESF_FundingData BuildFundingData(IDataStoreContext dataStoreContext, LearningDeliveryDeliverablePeriodisedValue lddpv, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn, int aimSeqNumber, string learnRefNumber, string deliverableCode)
+        public ESFFundingData BuildFundingData(IDataStoreContext dataStoreContext, LearningDeliveryDeliverablePeriodisedValue lddpv, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn, int aimSeqNumber, string learnRefNumber, string deliverableCode, string academicYear, string collectionReturnCode, string collectionType)
         {
             var conRefNumber = GetConRefNumber(conRefNumberDictionary, aimSeqNumber, learnRefNumber);
 
-            return new ESF_FundingData()
+            return new ESFFundingData()
             {
                 UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                AimSeqNumber = aimSeqNumber,
                 ConRefNumber = conRefNumber,
                 DeliverableCode = deliverableCode,
                 AttributeName = lddpv.AttributeName,                
@@ -64,8 +70,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 Period_10 = lddpv.Period10,
                 Period_11 = lddpv.Period11,
                 Period_12 = lddpv.Period12,
-                CollectionYear = Convert.ToInt32(dataStoreContext.CollectionYear),
-                CollectionPeriod = Convert.ToInt32(dataStoreContext.ReturnPeriod)
+                AcademicYear = academicYear,
+                CollectionReturnCode = collectionReturnCode,
+                CollectionType = collectionType
             };
         }
 

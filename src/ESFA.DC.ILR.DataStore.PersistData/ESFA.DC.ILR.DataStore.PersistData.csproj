@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ESFA.DC.DateTimeProvider.Interface" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ESF.FundingData.Database.EF" Version="0.2.443" />
     <PackageReference Include="ESFA.DC.FileService.Interface" Version="0.1.18-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Model" Version="0.1.5-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.1920.Model.Loose" Version="0.1.8-beta0001" />
@@ -13,7 +14,6 @@
     <PackageReference Include="ESFA.DC.IO.Interfaces" Version="0.1.18-beta0001" />
     <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.4-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
-    <PackageReference Include="ESFA.DC.Summarisation.Model" Version="0.0.471" />
     <PackageReference Include="FastMember" Version="1.4.1" />
   </ItemGroup>
 

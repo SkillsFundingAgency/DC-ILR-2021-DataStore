@@ -4,7 +4,7 @@ using ESFA.DC.ILR.Model.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Interface.Mappers
 {
-    public interface IESFSummarisationMapper
+    public interface IESFFundingMapper
     {
         void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global albGlobal);
     }

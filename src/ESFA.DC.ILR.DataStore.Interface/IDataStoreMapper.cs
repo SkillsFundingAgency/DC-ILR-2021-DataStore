@@ -37,6 +37,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         void MapValidationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules);
 
-        void MapESFSummarisationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global fm70Global);
+        void MapESFFundingData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global fm70Global);
     }
 }
