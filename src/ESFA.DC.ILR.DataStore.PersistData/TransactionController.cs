@@ -32,8 +32,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             {
                 await _ilrTransaction.WriteILRDataAsync(dataStoreContext, cache, cancellationToken);
                 await _fm36HistoryTransaction.WriteFM36HistoryAsync(dataStoreContext, cache, cancellationToken);
-                // ToDo : ESFTransaction to write to a new db - to be created.
-                //await _esfFundingTransaction.WriteESFFundingAsync(dataStoreContext, cache, cancellationToken);
+                await _esfFundingTransaction.WriteESFFundingAsync(dataStoreContext, cache, cancellationToken);
             }
             catch (Exception ex)
             {
