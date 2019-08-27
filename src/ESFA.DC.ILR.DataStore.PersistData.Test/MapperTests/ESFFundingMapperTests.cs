@@ -8,14 +8,14 @@ using Xunit;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
 {
-    public class ESFSummarisationMapperTests
+    public class ESFFundingMapperTests
     {
         [Fact]
         public void BuildFundingData()
         {
             var dataStoreContextMock = new Mock<IDataStoreContext>();
             dataStoreContextMock.Setup(ds => ds.CollectionYear).Returns("1920");
-            dataStoreContextMock.Setup(ds => ds.ReturnPeriod).Returns("1");
+            dataStoreContextMock.Setup(ds => ds.ReturnPeriod).Returns("01");
 
             var learningDeliveryDeliverablePeriodisedValue = new LearningDeliveryDeliverablePeriodisedValue()
             {
@@ -39,6 +39,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             var learnRefNumber = "LearnRefNumber";
             var deliverableCode = "DeliverableCode";
             var conRefNumber = "ConRefNumber";
+            var academicYear = "2019/20";
+            var collectionReturnCode = "R01";
+            var collectionType = "ILR1920";
 
             var conRefNumberDictionary = new Dictionary<string, Dictionary<int, string>>();
 
@@ -51,9 +54,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
 
             conRefNumberDictionary.Add(learnRefNumber, conRefNumberInnerDictionary);
 
-            var esfFundingData = Mapper().BuildFundingData(dataStoreContextMock.Object, learningDeliveryDeliverablePeriodisedValue, conRefNumberDictionary, ukprn, aimSeqNumber, learnRefNumber, deliverableCode);
+            var esfFundingData = Mapper().BuildFundingData(dataStoreContextMock.Object, learningDeliveryDeliverablePeriodisedValue, conRefNumberDictionary, ukprn, aimSeqNumber, learnRefNumber, deliverableCode, academicYear, collectionReturnCode, collectionType);
 
             esfFundingData.UKPRN.Should().Be(ukprn);
+            esfFundingData.LearnRefNumber.Should().Be(learnRefNumber);
+            esfFundingData.AimSeqNumber.Should().Be(aimSeqNumber);
             esfFundingData.ConRefNumber.Should().Be(conRefNumber);
             esfFundingData.DeliverableCode.Should().Be(deliverableCode);
             esfFundingData.AttributeName.Should().Be("AttributeName");
@@ -69,10 +74,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             esfFundingData.Period_10.Should().Be(10);
             esfFundingData.Period_11.Should().Be(11);
             esfFundingData.Period_12.Should().Be(12);
-            esfFundingData.CollectionYear.Should().Be(1920);
-            esfFundingData.CollectionPeriod.Should().Be(1);
+            esfFundingData.AcademicYear.Should().Be("2019/20");
+            esfFundingData.CollectionReturnCode.Should().Be("R01");
+            esfFundingData.CollectionType.Should().Be("ILR1920");
         }
 
-        private ESFSummarisationMapper Mapper() => new ESFSummarisationMapper();
+        private ESFFundingMapper Mapper() => new ESFFundingMapper();
     }
 }

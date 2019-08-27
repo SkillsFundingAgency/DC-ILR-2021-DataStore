@@ -5,9 +5,9 @@ using ESFA.DC.ILR.DataStore.Model.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.PersistData
 {
-    public class DesktopESFSummarisationTransaction : IESFSummarisationTransaction
+    public class DesktopESFFundingTransaction : IESFFundingTransaction
     {
-        public Task WriteESFSummarisationAsync(IDataStoreContext dataStoreContext, IDataStoreCache cache, CancellationToken cancellationToken)
+        public Task WriteESFFundingAsync(IDataStoreContext dataStoreContext, IDataStoreCache cache, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

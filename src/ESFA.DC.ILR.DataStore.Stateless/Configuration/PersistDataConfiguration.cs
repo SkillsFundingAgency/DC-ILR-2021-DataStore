@@ -6,6 +6,6 @@
 
         public string AppEarnHistoryDataStoreConnectionString { get; set; }
 
-        public string SummarisationDatabaseConnectionString { get; set; }
+        public string EsfFundingDatabaseConnectionString { get; set; }
     }
 }

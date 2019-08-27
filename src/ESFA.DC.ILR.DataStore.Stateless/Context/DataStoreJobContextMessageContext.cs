@@ -64,6 +64,6 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string AppEarnHistoryDatabaseConnectionString => _persistDataConfiguration.AppEarnHistoryDataStoreConnectionString;
 
-        public string SummarisationDatabaseConnectionString => _persistDataConfiguration.SummarisationDatabaseConnectionString;
+        public string EsfFundingDatabaseConnectionString => _persistDataConfiguration.EsfFundingDatabaseConnectionString;
     }
 }

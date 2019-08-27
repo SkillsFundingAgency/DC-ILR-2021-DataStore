@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Data.AppsEarningsHistory.Model;
+using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
-using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
@@ -160,7 +160,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         public async Task PersistESFSummarisationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            await _bulkInsert.Insert(TableNameConstants.ESF_FundingData, dataStoreCache.Get<ESF_FundingData>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.ESF_FundingData, dataStoreCache.Get<ESFFundingData>(), sqlConnection, sqlTransaction, cancellationToken);
         }
 
         private string BuildInsertFileDetailsSql(FileDetail fileDetail)

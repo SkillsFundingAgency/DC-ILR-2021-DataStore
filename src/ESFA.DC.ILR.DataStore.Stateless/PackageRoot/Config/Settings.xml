@@ -16,7 +16,7 @@
   <Section Name="DataStoreSection">
     <Parameter Name="ILRDataStoreConnectionString" Value="" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="" />
-    <Parameter Name="SummarisationDatabaseConnectionString" Value="" />
+    <Parameter Name="EsfFundingDatabaseConnectionString" Value="" />
   </Section>
 
   <Section  Name="IOConfiguration">
