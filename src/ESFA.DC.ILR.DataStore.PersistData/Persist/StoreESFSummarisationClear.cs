@@ -17,7 +17,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         private string BuildDeleteESFFundingDataSql(IDataStoreContext dataStoreContext)
         {
-            return $"DELETE FROM [Current].[ESFFundingData] WHERE UKPRN = {dataStoreContext.Ukprn} AND CollectionYear = {dataStoreContext.CollectionYear} AND CollectionPeriod = {dataStoreContext.ReturnPeriod}";
+            var academicYear = $"20{dataStoreContext.CollectionYear.Substring(0, 2)}/{dataStoreContext.CollectionYear.Substring(2, 2)}";
+
+            return $"DELETE FROM [Current].[ESFFundingData] WHERE UKPRN = {dataStoreContext.Ukprn} AND AcademicYear = {academicYear}";
         }
     }
 }
