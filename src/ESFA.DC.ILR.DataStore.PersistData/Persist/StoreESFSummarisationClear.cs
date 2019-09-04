@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
-using ESFA.DC.ILR.DataStore.PersistData.Constants;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
@@ -18,7 +17,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         private string BuildDeleteESFFundingDataSql(IDataStoreContext dataStoreContext)
         {
-            return $"DELETE FROM {TableNameConstants.ESF_FundingData} WHERE UKPRN = {dataStoreContext.Ukprn} AND CollectionYear = {dataStoreContext.CollectionYear} AND CollectionPeriod = {dataStoreContext.ReturnPeriod}";
+            return $"DELETE FROM [Current].[ESFFundingData] WHERE UKPRN = {dataStoreContext.Ukprn} AND CollectionYear = {dataStoreContext.CollectionYear} AND CollectionPeriod = {dataStoreContext.ReturnPeriod}";
         }
     }
 }
