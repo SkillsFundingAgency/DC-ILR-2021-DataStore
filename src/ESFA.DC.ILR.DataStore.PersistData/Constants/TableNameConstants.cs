@@ -178,6 +178,6 @@
 
         // Summarisation
 
-        public const string ESF_FundingData = "Current.ESFFundingData";
+        public const string ESF_FundingData = "[Current].[ESFFundingData]";
     }
 }
