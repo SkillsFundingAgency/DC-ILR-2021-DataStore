@@ -12,20 +12,18 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapData(IDataStoreCache cache, FM36Global fm36Global, IDataStoreContext dataStoreContext)
         {
-            cache.AddRange(BuildAppsEarningsHistory(fm36Global, dataStoreContext.ReturnPeriod, dataStoreContext.CollectionYear));
+            cache.AddRange(BuildAppsEarningsHistory(fm36Global, dataStoreContext.CollectionPeriod, dataStoreContext.CollectionYear));
         }
 
         public List<AppsEarningsHistory> BuildAppsEarningsHistory(FM36Global fm36Global, string returnCode, string year)
         {
-            var fullreturnCode = "R" + returnCode;
-
             return fm36Global?
                 .Learners?
                 .SelectMany(l => l.HistoricEarningOutputValues.Select(ho =>
                 new AppsEarningsHistory
                 {
                     UKPRN = fm36Global.UKPRN,
-                    CollectionReturnCode = fullreturnCode,
+                    CollectionReturnCode = returnCode,
                     CollectionYear = year,
                     LatestInYear = true,
                     LearnRefNumber = l.LearnRefNumber,

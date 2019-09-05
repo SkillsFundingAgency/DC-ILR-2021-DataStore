@@ -18,7 +18,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void MapAppsEarningsHistory()
         {
-            var returnCode = "01";
+            var returnCode = "R01";
             var year = "1819";
 
             var mapAppsEarningsHistory = Mapper().BuildAppsEarningsHistory(_fundingOutputs, returnCode, year);

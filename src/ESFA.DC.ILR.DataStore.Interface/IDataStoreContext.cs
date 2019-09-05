@@ -16,6 +16,8 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         string ReturnPeriod { get; }
 
+        string CollectionPeriod { get; }
+
         DateTime? SubmissionDateTimeUtc { get; }
 
         long FileSizeInBytes { get; }

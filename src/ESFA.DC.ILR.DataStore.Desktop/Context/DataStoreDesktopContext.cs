@@ -26,6 +26,8 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
 
         public string ReturnPeriod => _desktopContext.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 
+        public string CollectionPeriod => $"R{_desktopContext.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString().PadLeft(2, '0')}";
+
         public DateTime? SubmissionDateTimeUtc => _desktopContext.DateTimeUtc;
 
         public long FileSizeInBytes => long.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.FileSizeInBytes].ToString());

@@ -32,7 +32,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         private void PopulateDataStoreCache(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<FM70Learner> learners, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn)
         {
             var academicYear = $"20{dataStoreContext.CollectionYear.Substring(0, 2)}/{dataStoreContext.CollectionYear.Substring(2, 2)}";
-            var collectionReturnCode = $"R{dataStoreContext.ReturnPeriod}";
+            var collectionReturnCode = dataStoreContext.CollectionPeriod;
             var collectionType = $"ILR{dataStoreContext.CollectionYear}";
 
             var learningDeliveryPeriodisedValues = 
