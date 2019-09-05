@@ -30,7 +30,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string ReturnPeriod => _jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 
-        public string CollectionPeriod => $"R{_jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString().PadLeft(2, '0')}";
+        public string CollectionPeriod => $"R{_jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod]:D2}";
 
         public DateTime? SubmissionDateTimeUtc => _jobContextMessage.SubmissionDateTimeUtc;
 
