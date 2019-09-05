@@ -19,7 +19,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
         {
             var academicYear = $"20{dataStoreContext.CollectionYear.Substring(0, 2)}/{dataStoreContext.CollectionYear.Substring(2, 2)}";
 
-            return $"DELETE FROM [Current].[ESFFundingData] WHERE UKPRN = {dataStoreContext.Ukprn} AND AcademicYear = {academicYear}";
+            return $"DELETE FROM [Current].[ESFFundingData] WHERE UKPRN = {dataStoreContext.Ukprn} AND AcademicYear = '{academicYear}' AND CollectionReturnCode = '{dataStoreContext.CollectionPeriod}'";
         }
     }
 }

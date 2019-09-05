@@ -30,6 +30,8 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string ReturnPeriod => _jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 
+        public string CollectionPeriod => $"R{_jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod]:D2}";
+
         public DateTime? SubmissionDateTimeUtc => _jobContextMessage.SubmissionDateTimeUtc;
 
         public long FileSizeInBytes => long.Parse(_jobContextMessage.KeyValuePairs[ILRContextKeys.FileSizeInBytes].ToString());

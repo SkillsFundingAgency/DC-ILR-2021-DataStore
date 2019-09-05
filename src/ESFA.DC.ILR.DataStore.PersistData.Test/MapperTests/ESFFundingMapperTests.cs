@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         {
             var dataStoreContextMock = new Mock<IDataStoreContext>();
             dataStoreContextMock.Setup(ds => ds.CollectionYear).Returns("1920");
-            dataStoreContextMock.Setup(ds => ds.ReturnPeriod).Returns("01");
+            dataStoreContextMock.Setup(ds => ds.CollectionPeriod).Returns("R01");
 
             var learningDeliveryDeliverablePeriodisedValue = new LearningDeliveryDeliverablePeriodisedValue()
             {
