@@ -29,5 +29,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid.Interface
         IQueryable<SourceFile> SourceFiles { get; }
 
         DbSet<PeriodEndMetricsEntity> PeriodEndMetrics { get; set; }
+
+        DbSet<LearnerLearningDeliveryEntity> LearnerLearningDeliveries { get; set; }
     }
 }
