@@ -234,6 +234,7 @@
     <Build Include="dbo\Stored Procedures\GetPeriodEndMetrics.sql" />
     <Build Include="Security\MatchClaim_RO_User.sql" />
     <None Include="z.ExtendedProperties.sql" />
+    <Build Include="Valid\Stored Procedures\GetLearnerAndDeliveryDetails.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
