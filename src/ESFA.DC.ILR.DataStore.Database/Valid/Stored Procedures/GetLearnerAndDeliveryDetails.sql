@@ -1,27 +1,36 @@
 ﻿Create PROCEDURE Valid.GetLearnerAndDeliveryDetails 
-	@LastUpdatedDateTime datetime,
+	@LastId bigint,
 	@Ukprn INT = null,
 	@AimTypeIsOne bit = null,
 	@StdCodeIsNotNull bit = null,
 	@PageNumber INT = 1,
-	@PageSize   INT = 1000
+	@PageSize   INT = 1000,
+	@MaxId bigint = null output
 
 WITH RECOMPILE
 AS
 BEGIN
   SET NOCOUNT ON;
 	
-	IF OBJECT_ID('tempdb..##dasapiukprns') IS NOT NULL
-		DROP TABLE ##dasapiukprns;
+	IF OBJECT_ID('tempdb..#dasapiukprns') IS NOT NULL
+		DROP TABLE #dasapiukprns;
+
+	IF @MaxId IS NULL
+	BEGIN
+		SELECT 
+			@MaxId = MAX(fd.ID)
+		FROM
+			FileDetails fd
+	END
 
 	SELECT 
 		DISTINCT UKPRN
 	INTO 
-		##dasapiukprns
+		#dasapiukprns
 	FROM 
 		FileDetails fd
 	WHERE
-		fd.SubmittedTime >= @LastUpdatedDateTime
+		fd.ID > @LastId AND fd.ID <= @MaxId
 
 	SELECT 
 		NEWID() as Id
@@ -54,7 +63,7 @@ BEGIN
 	AND
 		l.LearnRefNumber = ld.LearnRefNumber
 	WHERE
-		@Ukprn is null OR (l.UKPRN in (SELECT UKPRN FROM ##dasapiukprns) AND l.UKPRN = @Ukprn)
+		@Ukprn is null OR (l.UKPRN in (SELECT UKPRN FROM #dasapiukprns) AND l.UKPRN = @Ukprn)
 	AND
 		(@AimTypeIsOne is null OR @AimTypeIsOne = 0 OR (ld.AimType = 1))
 	AND
@@ -63,7 +72,10 @@ BEGIN
 			l.UKPRN, l.LearnRefNumber
 		OFFSET @PageSize * (@PageNumber -1) ROWS
 		FETCH NEXT @PageSize ROWS ONLY
+
+select @MaxId
 END
 GO
+
 
 GRANT EXECUTE ON Valid.GetLearnerAndDeliveryDetails TO DataViewing;
