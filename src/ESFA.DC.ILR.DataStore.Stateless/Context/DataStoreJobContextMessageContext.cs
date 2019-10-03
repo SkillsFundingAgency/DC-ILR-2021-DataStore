@@ -67,5 +67,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
         public string AppEarnHistoryDatabaseConnectionString => _persistDataConfiguration.AppEarnHistoryDataStoreConnectionString;
 
         public string EsfFundingDatabaseConnectionString => _persistDataConfiguration.EsfFundingDatabaseConnectionString;
+
+        public string MdbConnectionString => throw new NotImplementedException();
     }
 }

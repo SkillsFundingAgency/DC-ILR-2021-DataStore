@@ -69,5 +69,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
         {
             get => throw new NotImplementedException();
         }
+
+        public string MdbConnectionString => throw new NotImplementedException();
     }
 }

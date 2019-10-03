@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Access\ESFA.DC.ILR.DataStore.Access.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Modules\ESFA.DC.ILR.Datastore.Modules.csproj" PrivateAssets="all" />
   </ItemGroup>
