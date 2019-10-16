@@ -221,8 +221,8 @@ FROM
 			max([LDM2]) as [LDM2],
 			max([LDM3]) as [LDM3],
 			max([LDM4]) as [LDM4],
-			max([LDM4]) as [LDM5],
-			max([LDM4]) as [LDM6]
+			max([LDM5]) as [LDM5],
+			max([LDM6]) as [LDM6]
 		from
 		(
 			select
