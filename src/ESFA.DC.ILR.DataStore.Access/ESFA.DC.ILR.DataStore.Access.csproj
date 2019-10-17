@@ -48,9 +48,9 @@
     <Compile Include="Interface\IGenerateSchema.cs" />
     <Compile Include="InvalidGenerateSchema.cs" />
     <Compile Include="InvalidMdbContext.cs" />
-    <Compile Include="Migrations\Invalid\20191002144144_InitialCreate.cs" />
-    <Compile Include="Migrations\Invalid\20191002144144_InitialCreate.designer.cs">
-      <DependentUpon>20191002144144_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Invalid\20191017090456_InitialCreate.cs" />
+    <Compile Include="Migrations\Invalid\20191017090456_InitialCreate.designer.cs">
+      <DependentUpon>20191017090456_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Invalid\InvalidMdbContextModelSnapshot.cs" />
     <Compile Include="Migrations\Rulebase\20191002144649_InitialCreate.cs" />

@@ -184,7 +184,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.Property<long?>("LLDDCat");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -392,7 +391,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .IsUnicode(false);
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -416,7 +414,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.Property<int>("LearnerHE_Id");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -451,7 +448,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.Property<long?>("FINTYPE");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -523,7 +519,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .HasColumnType("date");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -598,7 +593,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .IsUnicode(false);
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -642,7 +636,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .IsUnicode(false);
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -714,7 +707,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.Property<long?>("AimSeqNumber");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -766,7 +758,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.Property<long?>("AimSeqNumber");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
@@ -799,7 +790,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.Property<int>("ProviderSpecLearnerMonitoring_Id");
 
                     b.Property<string>("LearnRefNumber")
-                        .HasColumnType("memo")
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
