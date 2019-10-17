@@ -63,7 +63,6 @@ namespace ESFA.DC.ILR.DataStore.Access
                 entity =>
                 {
                     entity.ToTable("Invalid_LearnerFAM");
-                    entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                     entity.Property(e => e.LearnFAMType).HasColumnType("memo");
                 });
 
@@ -71,20 +70,14 @@ namespace ESFA.DC.ILR.DataStore.Access
                 entity =>
                 {
                     entity.ToTable("Invalid_LearnerHE");
-                    entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                     entity.Property(e => e.UCASPERID).HasColumnType("memo");
                 });
 
-            modelBuilder.Entity<LearnerHEFinancialSupport>(entity =>
-            {
-                entity.ToTable("Invalid_LearnerHEFinancialSupport");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
-            });
+            modelBuilder.Entity<LearnerHEFinancialSupport>().ToTable("Invalid_LearnerHEFinancialSupport");
 
             modelBuilder.Entity<LearningDelivery>(entity =>
             {
                 entity.ToTable("Invalid_LearningDelivery");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                 entity.Property(e => e.LearnAimRef).HasColumnType("memo");
                 entity.Property(e => e.DelLocPostCode).HasColumnType("memo");
                 entity.Property(e => e.ConRefNumber).HasColumnType("memo");
@@ -97,14 +90,12 @@ namespace ESFA.DC.ILR.DataStore.Access
             modelBuilder.Entity<LearningDeliveryFAM>(entity =>
             {
                 entity.ToTable("Invalid_LearningDeliveryFAM");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                 entity.Property(e => e.LearnDelFAMCode).HasColumnType("memo");
             });
 
             modelBuilder.Entity<LearningDeliveryHE>(entity =>
             {
                 entity.ToTable("Invalid_LearningDeliveryHE");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                 entity.Property(e => e.NUMHUS).HasColumnType("memo");
                 entity.Property(e => e.SSN).HasColumnType("memo");
                 entity.Property(e => e.QUALENT3).HasColumnType("memo");
@@ -113,31 +104,21 @@ namespace ESFA.DC.ILR.DataStore.Access
                 entity.Property(e => e.HEPostCode).HasColumnType("memo");
             });
 
-            modelBuilder.Entity<LearningDeliveryWorkPlacement>(entity =>
-            {
-                entity.ToTable("Invalid_LearningDeliveryWorkPlacement");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
-            });
+            modelBuilder.Entity<LearningDeliveryWorkPlacement>().ToTable("Invalid_LearningDeliveryWorkPlacement");
 
             modelBuilder.Entity<LearningProvider>().ToTable("Invalid_LearningProvider");
 
-            modelBuilder.Entity<LLDDandHealthProblem>(entity =>
-            {
-                entity.ToTable("Invalid_LLDDandHealtProblem");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
-            });
+            modelBuilder.Entity<LLDDandHealthProblem>().ToTable("Invalid_LLDDandHealtProblem");
 
             modelBuilder.Entity<ProviderSpecDeliveryMonitoring>(entity =>
             {
                 entity.ToTable("Invalid_ProviderSpecDeliveryMonitoring");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                 entity.Property(e => e.ProvSpecDelMon).HasColumnType("memo");
             });
 
             modelBuilder.Entity<ProviderSpecLearnerMonitoring>(entity =>
             {
                 entity.ToTable("Invalid_ProviderSpecLearnerMonitoring");
-                entity.Property(e => e.LearnRefNumber).HasColumnType("memo");
                 entity.Property(e => e.ProvSpecLearnMon).HasColumnType("memo");
             });
 
