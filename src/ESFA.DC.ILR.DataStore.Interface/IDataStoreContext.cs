@@ -54,6 +54,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         string EsfFundingDatabaseConnectionString { get; }
 
-        string MdbConnectionString { get; }
+        string ExportOutputLocation { get; }
     }
 }

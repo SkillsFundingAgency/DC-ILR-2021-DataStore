@@ -343,7 +343,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 {
                     UKPRN = table.Column<int>(nullable: false),
                     LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    ULN = table.Column<long>(nullable: false)
+                    ULN = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1290,7 +1290,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValue",
+                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues",
                 schema: "Rulebase",
                 columns: table => new
                 {
@@ -1754,7 +1754,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValue",
+                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues",
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(

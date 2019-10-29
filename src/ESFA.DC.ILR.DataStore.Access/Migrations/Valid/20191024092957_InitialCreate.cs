@@ -10,9 +10,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
             migrationBuilder.EnsureSchema(
                 name: "Valid");
 
-            migrationBuilder.AlterDatabase()
-                .Annotation("Jet:MemoryOptimized", true);
-
             migrationBuilder.CreateTable(
                 name: "Valid_CollectionDetails",
                 schema: "Valid",
@@ -54,7 +51,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     PrevLearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: true),
                     PrevUKPRN = table.Column<int>(nullable: true),
                     PMUKPRN = table.Column<int>(nullable: true),
-                    ULN = table.Column<long>(nullable: false),
+                    ULN = table.Column<double>(type: "double", nullable: false),
                     FamilyName = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
                     GivenNames = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: true),
@@ -81,10 +78,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Learner__2770A7272800E247", x => new { x.UKPRN, x.LearnRefNumber })
-                        .Annotation("Jet:Clustered", false);
-                })
-                .Annotation("Jet:MemoryOptimized", true);
+                    table.PrimaryKey("PK__Learner__2770A7272800E247", x => new { x.UKPRN, x.LearnRefNumber });
+                });
 
             migrationBuilder.CreateTable(
                 name: "Valid_LearnerDestinationAndProgression",
@@ -290,7 +285,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 });
 
             migrationBuilder.CreateTable(
-                name: "Valid_LLDDandHealtProblem",
+                name: "Valid_LLDDandHealthProblem",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -620,7 +615,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "Valid_LLDDandHealtProblem",
+                name: "Valid_LLDDandHealthProblem",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
@@ -653,11 +648,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
 
             migrationBuilder.DropTable(
                 name: "Valid_Learner",
-                schema: "Valid")
-                .Annotation("Jet:MemoryOptimized", true);
-
-            migrationBuilder.AlterDatabase()
-                .OldAnnotation("Jet:MemoryOptimized", true);
+                schema: "Valid");
         }
     }
 }

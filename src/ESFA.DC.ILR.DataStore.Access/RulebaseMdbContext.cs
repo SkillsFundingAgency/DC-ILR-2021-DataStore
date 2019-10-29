@@ -36,9 +36,14 @@ namespace ESFA.DC.ILR.DataStore.Access
 
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode");
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_Period>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_Period");
-            modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValue");
+            modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues");
             modelBuilder.Entity<AEC_HistoricEarningOutput>().ToTable("Rulebase_AEC_HistoricEarningOutput");
-            modelBuilder.Entity<AEC_Learner>().ToTable("Rulebase_AEC_Learner");
+            modelBuilder.Entity<AEC_Learner>(e =>
+            {
+                e.ToTable("Rulebase_AEC_Learner");
+
+                e.Property(p => p.ULN).HasColumnType("double");
+            });
             modelBuilder.Entity<AEC_LearningDelivery>().ToTable("Rulebase_AEC_LearningDelivery");
             modelBuilder.Entity<AEC_LearningDelivery_Period>().ToTable("Rulebase_AEC_LearningDelivery_Period");
             modelBuilder.Entity<AEC_LearningDelivery_PeriodisedTextValue>().ToTable("Rulebase_AEC_LearningDelivery_PeriodisedTextValues");

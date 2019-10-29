@@ -39,6 +39,7 @@ namespace ESFA.DC.ILR.DataStore.Access
                 entity =>
                 {
                     entity.ToTable("Invalid_Learner");
+                    entity.Property(e => e.ULN).HasColumnType("double");
                     entity.Property(e => e.PrevLearnRefNumber).HasColumnType("memo");
                     entity.Property(e => e.FamilyName).HasColumnType("memo");
                     entity.Property(e => e.GivenNames).HasColumnType("memo");
@@ -108,7 +109,7 @@ namespace ESFA.DC.ILR.DataStore.Access
 
             modelBuilder.Entity<LearningProvider>().ToTable("Invalid_LearningProvider");
 
-            modelBuilder.Entity<LLDDandHealthProblem>().ToTable("Invalid_LLDDandHealtProblem");
+            modelBuilder.Entity<LLDDandHealthProblem>().ToTable("Invalid_LLDDandHealthProblem");
 
             modelBuilder.Entity<ProviderSpecDeliveryMonitoring>(entity =>
             {

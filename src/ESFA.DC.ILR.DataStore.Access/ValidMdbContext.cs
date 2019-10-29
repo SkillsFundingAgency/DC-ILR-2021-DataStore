@@ -40,7 +40,12 @@ namespace ESFA.DC.ILR.DataStore.Access
             modelBuilder.Entity<ContactPreference>().ToTable("Valid_ContactPreference");
             modelBuilder.Entity<DPOutcome>().ToTable("Valid_DPOutcome");
             modelBuilder.Entity<EmploymentStatusMonitoring>().ToTable("Valid_EmploymentStatusMonitoring");
-            modelBuilder.Entity<Learner>().ForJetIsMemoryOptimized().ToTable("Valid_Learner");
+            modelBuilder.Entity<Learner>(e =>
+            {
+                e.ToTable("Valid_Learner");
+                e.Property(p => p.ULN).HasColumnType("double");
+            });
+
             modelBuilder.Entity<LearnerDestinationandProgression>().ToTable("Valid_LearnerDestinationAndProgression");
             modelBuilder.Entity<LearnerEmploymentStatus>().ToTable("Valid_LearnerEmploymentStatus");
             modelBuilder.Entity<LearnerFAM>().ToTable("Valid_LearnerFAM");
@@ -51,7 +56,7 @@ namespace ESFA.DC.ILR.DataStore.Access
             modelBuilder.Entity<LearningDeliveryHE>().ToTable("Valid_LearningDeliveryHE");
             modelBuilder.Entity<LearningDeliveryWorkPlacement>().ToTable("Valid_LearningDeliveryWorkPlacement");
             modelBuilder.Entity<LearningProvider>().ToTable("Valid_LearningProvider");
-            modelBuilder.Entity<LLDDandHealthProblem>().ToTable("Valid_LLDDandHealtProblem");
+            modelBuilder.Entity<LLDDandHealthProblem>().ToTable("Valid_LLDDandHealthProblem");
             modelBuilder.Entity<ProviderSpecDeliveryMonitoring>().ToTable("Valid_ProviderSpecDeliveryMonitoring");
             modelBuilder.Entity<ProviderSpecLearnerMonitoring>().ToTable("Valid_ProviderSpecLearnerMonitoring");
             modelBuilder.Entity<Source>().ToTable("Valid_Source");
