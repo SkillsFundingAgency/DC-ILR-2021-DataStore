@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 {
     [DbContext(typeof(RulebaseMdbContext))]
-    [Migration("20191002144649_InitialCreate")]
+    [Migration("20191025104451_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -300,7 +300,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier", "AttributeName")
                         .HasName("PK__AEC_Appr__4E0E98778FF23B7C");
 
-                    b.ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValue","Rulebase");
+                    b.ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues","Rulebase");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.AEC_HistoricEarningOutput", b =>
@@ -391,7 +391,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasMaxLength(12)
                         .IsUnicode(false);
 
-                    b.Property<long>("ULN");
+                    b.Property<double>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
                         .HasName("PK__AEC_Lear__2770A72721AD3348");

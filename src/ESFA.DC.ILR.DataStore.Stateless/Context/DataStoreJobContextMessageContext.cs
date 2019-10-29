@@ -68,6 +68,6 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string EsfFundingDatabaseConnectionString => _persistDataConfiguration.EsfFundingDatabaseConnectionString;
 
-        public string MdbConnectionString => throw new NotImplementedException();
+        public string ExportOutputLocation => throw new NotImplementedException();
     }
 }

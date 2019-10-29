@@ -162,7 +162,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.HasKey("UKPRN", "LearnRefNumber", "LLDDCat", "LLDDandHealthProblem_ID")
                         .HasName("PK__LLDDandH__CFA94E1CDBFD452F");
 
-                    b.ToTable("Valid_LLDDandHealtProblem","Valid");
+                    b.ToTable("Valid_LLDDandHealthProblem","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.Learner", b =>
@@ -261,15 +261,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .HasMaxLength(18)
                         .IsUnicode(false);
 
-                    b.Property<long>("ULN");
+                    b.Property<double>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__Learner__2770A7272800E247")
-                        .HasAnnotation("Jet:Clustered", false);
+                        .HasName("PK__Learner__2770A7272800E247");
 
                     b.ToTable("Valid_Learner","Valid");
-
-                    b.HasAnnotation("Jet:MemoryOptimized", true);
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.LearnerDestinationandProgression", b =>

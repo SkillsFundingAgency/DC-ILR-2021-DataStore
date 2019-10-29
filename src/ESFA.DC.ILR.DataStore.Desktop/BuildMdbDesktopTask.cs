@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.ILR.DataStore.Access;
 using ESFA.DC.ILR.DataStore.Desktop.Service.Interface;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Desktop.Interface;
@@ -21,7 +22,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop
         {
             var datastoreContext = _dataStoreContextFactory.Build(desktopContext);
 
-            await _databaseDeploymentService.DeployAsync(datastoreContext.MdbConnectionString, cancellationToken);
+            await _databaseDeploymentService.DeployAsync(string.Format(MdbConstants.MdbConnectionStringTemplate, datastoreContext.ExportOutputLocation), cancellationToken);
 
             return desktopContext;
         }

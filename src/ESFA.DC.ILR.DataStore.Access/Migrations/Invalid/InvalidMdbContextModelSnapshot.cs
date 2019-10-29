@@ -199,7 +199,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.HasIndex("LearnRefNumber", "LLDDCat")
                         .HasName("IX_Invalid_LLDDandHealthProblem");
 
-                    b.ToTable("Invalid_LLDDandHealtProblem","Invalid");
+                    b.ToTable("Invalid_LLDDandHealthProblem","Invalid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.Learner", b =>
@@ -313,7 +313,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
-                    b.Property<long?>("ULN");
+                    b.Property<double?>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "Learner_Id");
 

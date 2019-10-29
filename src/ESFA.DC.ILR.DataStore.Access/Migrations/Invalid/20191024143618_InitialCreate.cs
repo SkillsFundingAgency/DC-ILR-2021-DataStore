@@ -112,7 +112,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     PrevLearnRefNumber = table.Column<string>(type: "memo", unicode: false, maxLength: 1000, nullable: true),
                     PrevUKPRN = table.Column<long>(nullable: true),
                     PMUKPRN = table.Column<long>(nullable: true),
-                    ULN = table.Column<long>(nullable: true),
+                    ULN = table.Column<double>(type: "double", nullable: true),
                     FamilyName = table.Column<string>(type: "memo", unicode: false, maxLength: 1000, nullable: true),
                     GivenNames = table.Column<string>(type: "memo", unicode: false, maxLength: 1000, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: true),
@@ -364,7 +364,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invalid_LLDDandHealtProblem",
+                name: "Invalid_LLDDandHealthProblem",
                 schema: "Invalid",
                 columns: table => new
                 {
@@ -377,7 +377,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invalid_LLDDandHealtProblem", x => new { x.UKPRN, x.LLDDandHealthProblem_Id });
+                    table.PrimaryKey("PK_Invalid_LLDDandHealthProblem", x => new { x.UKPRN, x.LLDDandHealthProblem_Id });
                 });
 
             migrationBuilder.CreateTable(
@@ -621,13 +621,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
             migrationBuilder.CreateIndex(
                 name: "IX_Parent_Invalid_LLDDandHealthProblem",
                 schema: "Invalid",
-                table: "Invalid_LLDDandHealtProblem",
+                table: "Invalid_LLDDandHealthProblem",
                 column: "Learner_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invalid_LLDDandHealthProblem",
                 schema: "Invalid",
-                table: "Invalid_LLDDandHealtProblem",
+                table: "Invalid_LLDDandHealthProblem",
                 columns: new[] { "LearnRefNumber", "LLDDCat" });
 
             migrationBuilder.CreateIndex(
@@ -728,7 +728,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                 schema: "Invalid");
 
             migrationBuilder.DropTable(
-                name: "Invalid_LLDDandHealtProblem",
+                name: "Invalid_LLDDandHealthProblem",
                 schema: "Invalid");
 
             migrationBuilder.DropTable(
