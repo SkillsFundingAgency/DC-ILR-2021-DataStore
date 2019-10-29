@@ -5,6 +5,7 @@ using ESFA.DC.ILR.DataStore.Desktop.PersistData;
 using ESFA.DC.ILR.DataStore.Desktop.PersistData.Mappers;
 using ESFA.DC.ILR.DataStore.Export;
 using ESFA.DC.ILR.DataStore.Export.Interface;
+using ESFA.DC.ILR.DataStore.Export.SchemaExport;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.Desktop.Interface;
