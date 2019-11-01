@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Access;
 using ESFA.DC.ILR.DataStore.Export.Interface;
+using ESFA.DC.ILR.DataStore.Export.Mappers;
 using ESFA.DC.ILR.DataStore.Export.Mappers.Valid;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
@@ -19,19 +20,19 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
         public async Task ExportAsync(IDataStoreCache dataStoreCache, OleDbConnection connection, OleDbTransaction transaction, string exportPath,
             CancellationToken cancellationToken)
         {
-            await ExportTableAsync<CollectionDetail, ValidCollectionDetailsClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<CollectionDetail, DefaultTableClassMap<CollectionDetail>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
             await ExportTableAsync<Learner, ValidLearnerClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<LearningProvider, ValidLearningProviderClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<LearningProvider, DefaultTableClassMap<LearningProvider>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<Source, ValidSourceClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<Source, DefaultTableClassMap<Source>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<SourceFile, ValidSourceFileClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<SourceFile, DefaultTableClassMap<SourceFile>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<ContactPreference, ValidContactPreferenceClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<ContactPreference, DefaultTableClassMap<ContactPreference>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<EmploymentStatusMonitoring, ValidEmploymentStatusMonitoringClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<EmploymentStatusMonitoring, DefaultTableClassMap<EmploymentStatusMonitoring>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
             await ExportTableAsync<LearnerEmploymentStatus, ValidLearnerEmploymentStatusClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 

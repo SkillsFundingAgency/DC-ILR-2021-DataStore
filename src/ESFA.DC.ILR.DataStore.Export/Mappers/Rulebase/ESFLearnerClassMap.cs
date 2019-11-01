@@ -1,14 +1,13 @@
-﻿using CsvHelper.Configuration;
-using ESFA.DC.ILR1920.DataStore.EF;
+﻿using ESFA.DC.ILR1920.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
 {
-    public class ESFLearnerClassMap : ClassMap<ESF_Learner>
+    public class ESFLearnerClassMap : DefaultTableClassMap<ESF_Learner>
     {
         public ESFLearnerClassMap()
         {
-            Map(m => m.UKPRN);
-            Map(m => m.LearnRefNumber);
+            Map(m => m.ESF_LearningDeliveries).Ignore();
+            Map(m => m.UKPRNNavigation).Ignore();
         }
     }
 }
