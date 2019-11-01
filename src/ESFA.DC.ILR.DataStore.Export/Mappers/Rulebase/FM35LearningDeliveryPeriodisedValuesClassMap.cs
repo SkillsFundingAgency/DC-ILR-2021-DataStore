@@ -1,28 +1,12 @@
-﻿using CsvHelper.Configuration;
-using ESFA.DC.ILR1920.DataStore.EF;
+﻿using ESFA.DC.ILR1920.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
 {
-    public class FM35LearningDeliveryPeriodisedValuesClassMap : ClassMap<FM35_LearningDelivery_PeriodisedValue>
+    public class FM35LearningDeliveryPeriodisedValuesClassMap : DefaultTableClassMap<FM35_LearningDelivery_PeriodisedValue>
     {
         public FM35LearningDeliveryPeriodisedValuesClassMap()
         {
-            Map(m => m.UKPRN);
-            Map(m => m.LearnRefNumber);
-            Map(m => m.AimSeqNumber);
-            Map(m => m.AttributeName);
-            Map(m => m.Period_1);
-            Map(m => m.Period_2);
-            Map(m => m.Period_3);
-            Map(m => m.Period_4);
-            Map(m => m.Period_5);
-            Map(m => m.Period_6);
-            Map(m => m.Period_7);
-            Map(m => m.Period_8);
-            Map(m => m.Period_9);
-            Map(m => m.Period_10);
-            Map(m => m.Period_11);
-            Map(m => m.Period_12);
+            Map(m => m.FM35_LearningDelivery).Ignore();
         }
     }
 }
