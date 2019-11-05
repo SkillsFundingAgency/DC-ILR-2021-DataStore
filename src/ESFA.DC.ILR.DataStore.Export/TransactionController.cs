@@ -11,7 +11,7 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export
 {
-    public class TransactionController : ITransactionController
+    public class TransactionController : IExportTransactionController
     {
         private readonly IEnumerable<ISchemaExport> _schemaExports;
         private readonly ILogger _logger;

@@ -10,9 +10,9 @@ namespace ESFA.DC.ILR.DataStore.Desktop
     public class BuildMdbDesktopTask : IDesktopTask
     {
         private readonly IDataStoreContextFactory<IDesktopContext> _dataStoreContextFactory;
-        private readonly IDatabaseDeploymentService _databaseDeploymentService;
+        private readonly IMdbDeploymentService _databaseDeploymentService;
 
-        public BuildMdbDesktopTask(IDataStoreContextFactory<IDesktopContext> dataStoreContextFactory, IDatabaseDeploymentService databaseDeploymentService)
+        public BuildMdbDesktopTask(IDataStoreContextFactory<IDesktopContext> dataStoreContextFactory, IMdbDeploymentService databaseDeploymentService)
         {
             _dataStoreContextFactory = dataStoreContextFactory;
             _databaseDeploymentService = databaseDeploymentService;

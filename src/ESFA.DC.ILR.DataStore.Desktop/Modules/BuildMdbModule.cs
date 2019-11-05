@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
         protected override void Load(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<BuildMdbDesktopTask>().As<IDesktopTask>();
-            containerBuilder.RegisterType<MdbDatabaseDeploymentService>().As<IDatabaseDeploymentService>();
+            containerBuilder.RegisterType<MdbDatabaseDeploymentService>().As<IMdbDeploymentService>();
             containerBuilder.RegisterType<DataStoreContextFactory>().As<IDataStoreContextFactory<IDesktopContext>>();
 
             containerBuilder.RegisterType<ValidGenerateSchema>().As<IGenerateSchema>();
