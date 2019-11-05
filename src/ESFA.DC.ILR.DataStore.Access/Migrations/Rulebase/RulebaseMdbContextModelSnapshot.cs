@@ -364,7 +364,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<decimal?>("HistoricTotalProgAimPaymentsInTheYear")
                         .HasColumnType("decimal(12, 5)");
 
-                    b.Property<long?>("HistoricULNOutput");
+                    b.Property<double?>("HistoricULNOutput")
+                        .HasColumnType("double");
 
                     b.Property<DateTime?>("HistoricUptoEndDateOutput")
                         .HasColumnType("date");

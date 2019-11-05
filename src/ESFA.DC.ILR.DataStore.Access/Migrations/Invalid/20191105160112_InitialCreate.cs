@@ -150,7 +150,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     LearnerDestinationandProgression_Id = table.Column<int>(nullable: false),
                     UKPRN = table.Column<int>(nullable: false),
                     LearnRefNumber = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-                    ULN = table.Column<long>(nullable: true)
+                    ULN = table.Column<double>(type: "double", nullable: true)
                 },
                 constraints: table =>
                 {

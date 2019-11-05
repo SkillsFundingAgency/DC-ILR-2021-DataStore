@@ -334,7 +334,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
-                    b.Property<long?>("ULN");
+                    b.Property<double?>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnerDestinationandProgression_Id");
 

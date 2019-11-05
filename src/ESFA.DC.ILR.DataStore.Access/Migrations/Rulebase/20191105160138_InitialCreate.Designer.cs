@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 {
     [DbContext(typeof(RulebaseMdbContext))]
-    [Migration("20191025104451_InitialCreate")]
+    [Migration("20191105160138_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -366,7 +366,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<decimal?>("HistoricTotalProgAimPaymentsInTheYear")
                         .HasColumnType("decimal(12, 5)");
 
-                    b.Property<long?>("HistoricULNOutput");
+                    b.Property<double?>("HistoricULNOutput")
+                        .HasColumnType("double");
 
                     b.Property<DateTime?>("HistoricUptoEndDateOutput")
                         .HasColumnType("date");
