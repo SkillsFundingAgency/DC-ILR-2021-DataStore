@@ -58,7 +58,12 @@ namespace ESFA.DC.ILR.DataStore.Access
                     entity.Property(e => e.CampId).HasColumnType("memo");
                 });
 
-            modelBuilder.Entity<LearnerDestinationandProgression>().ToTable("Invalid_LearnerDestinationAndProgression");
+            modelBuilder.Entity<LearnerDestinationandProgression>(e =>
+            {
+                e.ToTable("Invalid_LearnerDestinationAndProgression");
+                e.Property(p => p.ULN).HasColumnType("double");
+            });
+
             modelBuilder.Entity<LearnerEmploymentStatus>().ToTable("Invalid_LearnerEmploymentStatus");
             modelBuilder.Entity<LearnerFAM>(
                 entity =>

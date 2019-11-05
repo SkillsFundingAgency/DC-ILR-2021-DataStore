@@ -46,7 +46,11 @@ namespace ESFA.DC.ILR.DataStore.Access
                 e.Property(p => p.ULN).HasColumnType("double");
             });
 
-            modelBuilder.Entity<LearnerDestinationandProgression>().ToTable("Valid_LearnerDestinationAndProgression");
+            modelBuilder.Entity<LearnerDestinationandProgression>(e =>
+            {
+                e.ToTable("Valid_LearnerDestinationAndProgression");
+                e.Property(p => p.ULN).HasColumnType("double");
+            });
             modelBuilder.Entity<LearnerEmploymentStatus>().ToTable("Valid_LearnerEmploymentStatus");
             modelBuilder.Entity<LearnerFAM>().ToTable("Valid_LearnerFAM");
             modelBuilder.Entity<LearnerHE>().ToTable("Valid_LearnerHE");

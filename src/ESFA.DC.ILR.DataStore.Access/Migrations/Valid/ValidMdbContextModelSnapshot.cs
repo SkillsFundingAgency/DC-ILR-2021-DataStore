@@ -278,7 +278,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .HasMaxLength(12)
                         .IsUnicode(false);
 
-                    b.Property<long>("ULN");
+                    b.Property<double>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
                         .HasName("PK__LearnerD__2770A72787FC8583");
@@ -666,6 +667,16 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .HasName("PK__Provider__63E551EA945F4643");
 
                     b.ToTable("Valid_ProviderSpecLearnerMonitoring","Valid");
+                });
+
+            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.ProviderUkprnEntity", b =>
+                {
+                    b.Property<int>("UKPRN")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("UKPRN");
+
+                    b.ToTable("ProviderUkprns");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.Source", b =>

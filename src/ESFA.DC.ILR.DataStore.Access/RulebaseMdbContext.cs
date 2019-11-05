@@ -37,7 +37,11 @@ namespace ESFA.DC.ILR.DataStore.Access
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode");
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_Period>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_Period");
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues");
-            modelBuilder.Entity<AEC_HistoricEarningOutput>().ToTable("Rulebase_AEC_HistoricEarningOutput");
+            modelBuilder.Entity<AEC_HistoricEarningOutput>(e =>
+            {
+                e.ToTable("Rulebase_AEC_HistoricEarningOutput");
+                e.Property(p => p.HistoricULNOutput).HasColumnType("double");
+            });
             modelBuilder.Entity<AEC_Learner>(e =>
             {
                 e.ToTable("Rulebase_AEC_Learner");
