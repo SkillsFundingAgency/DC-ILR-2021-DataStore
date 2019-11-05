@@ -76,7 +76,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     HistoricTNP4Output = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
                     HistoricTotal1618UpliftPaymentsInTheYear = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
                     HistoricTotalProgAimPaymentsInTheYear = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricULNOutput = table.Column<long>(nullable: true),
+                    HistoricULNOutput = table.Column<double>(type: "double", nullable: true),
                     HistoricUptoEndDateOutput = table.Column<DateTime>(type: "date", nullable: true),
                     HistoricVirtualTNP3EndofThisYearOutput = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
                     HistoricVirtualTNP4EndofThisYearOutput = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),

@@ -49,19 +49,19 @@
     <Compile Include="Interface\IGenerateSchema.cs" />
     <Compile Include="InvalidGenerateSchema.cs" />
     <Compile Include="InvalidMdbContext.cs" />
-    <Compile Include="Migrations\Invalid\20191024143618_InitialCreate.cs" />
-    <Compile Include="Migrations\Invalid\20191024143618_InitialCreate.designer.cs">
-      <DependentUpon>20191024143618_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Invalid\20191105160112_InitialCreate.cs" />
+    <Compile Include="Migrations\Invalid\20191105160112_InitialCreate.designer.cs">
+      <DependentUpon>20191105160112_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Invalid\InvalidMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Rulebase\20191025104451_InitialCreate.cs" />
-    <Compile Include="Migrations\Rulebase\20191025104451_InitialCreate.designer.cs">
-      <DependentUpon>20191025104451_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Rulebase\20191105160138_InitialCreate.cs" />
+    <Compile Include="Migrations\Rulebase\20191105160138_InitialCreate.designer.cs">
+      <DependentUpon>20191105160138_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Rulebase\RulebaseMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Valid\20191024092957_InitialCreate.cs" />
-    <Compile Include="Migrations\Valid\20191024092957_InitialCreate.designer.cs">
-      <DependentUpon>20191024092957_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Valid\20191105160201_InitialCreate.cs" />
+    <Compile Include="Migrations\Valid\20191105160201_InitialCreate.designer.cs">
+      <DependentUpon>20191105160201_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Valid\ValidMdbContextModelSnapshot.cs" />
     <Compile Include="RulebaseGenerateSchema.cs" />
