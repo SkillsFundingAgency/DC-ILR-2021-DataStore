@@ -1,16 +1,13 @@
-﻿using CsvHelper.Configuration;
-using ESFA.DC.ILR1920.DataStore.EF.Valid;
+﻿using ESFA.DC.ILR1920.DataStore.EF.Valid;
 
 namespace ESFA.DC.ILR.DataStore.Export.Mappers.Valid
 {
-    public class ValidLearnerHEClassMap : ClassMap<LearnerHE>
+    public class ValidLearnerHEClassMap : DefaultTableClassMap<LearnerHE>
     {
         public ValidLearnerHEClassMap()
         {
-            Map(m => m.UKPRN);
-            Map(m => m.LearnRefNumber);
-            Map(m => m.UCASPERID);
-            Map(m => m.TTACCOM);
+            Map(m => m.Learner).Ignore();
+            Map(m => m.LearnerHEFinancialSupports).Ignore();
         }
     }
 }

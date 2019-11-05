@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Access;
 using ESFA.DC.ILR.DataStore.Export.Interface;
-using ESFA.DC.ILR.DataStore.Export.Mappers.dbo;
+using ESFA.DC.ILR.DataStore.Export.Mappers;
 using ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR1920.DataStore.EF;
@@ -38,7 +38,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 
             await ExportTableAsync<AEC_ApprenticeshipPriceEpisode_PeriodisedValue, AECApprenticeshipPriceEpisodePeriodisedValueClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<AEC_HistoricEarningOutput, AECHistoricEarningOutputClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<AEC_HistoricEarningOutput, DefaultTableClassMap<AEC_HistoricEarningOutput>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
             await ExportTableAsync<ALB_global, ALBglobalClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
@@ -74,7 +74,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 
             await ExportTableAsync<ESF_LearningDeliveryDeliverable_PeriodisedValue, ESFLearningDeliveryDeliverablePeriodisedValuesClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<ESF_DPOutcome, ESFDPOutcomeClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<ESF_DPOutcome, DefaultTableClassMap<ESF_DPOutcome>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
             await ExportTableAsync<FM25_global, FM25globalClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
@@ -106,7 +106,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 
             await ExportTableAsync<TBL_LearningDelivery_PeriodisedValue, TBLLearningDeliveryPeriodsedValuesClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
 
-            await ExportTableAsync<ValidationError, ValidationErrorClassMap>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
+            await ExportTableAsync<ValidationError, DefaultTableClassMap<ValidationError>>(exportPath, dataStoreCache, connection, transaction, cancellationToken);
         }
     }
 }

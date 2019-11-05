@@ -11,11 +11,11 @@ namespace ESFA.DC.ILR.DataStore.Export
 {
     public class ValidationErrorSeed : IExport
     {
-        private readonly IExport _mdbExport;
+        private readonly IExport _export;
 
-        public ValidationErrorSeed(IExport mdbExport)
+        public ValidationErrorSeed(IExport export)
         {
-            _mdbExport = mdbExport;
+            _export = export;
         }
 
         public async Task ExportAsync<T, TClassMap>(string tableName, IEnumerable<T> source, string exportPath, OleDbConnection connection,
@@ -30,11 +30,11 @@ namespace ESFA.DC.ILR.DataStore.Export
                     validationError.Id = identity++;
                 }
 
-                await _mdbExport.ExportAsync<T, TClassMap>(tableName, validationErrors as IEnumerable<T>, exportPath, connection, transaction, cancellationToken);
+                await _export.ExportAsync<T, TClassMap>(tableName, validationErrors as IEnumerable<T>, exportPath, connection, transaction, cancellationToken);
             }
             else
             {
-                await _mdbExport.ExportAsync<T, TClassMap>(tableName, source, exportPath, connection, transaction, cancellationToken);
+                await _export.ExportAsync<T, TClassMap>(tableName, source, exportPath, connection, transaction, cancellationToken);
             }
         }
     }

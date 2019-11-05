@@ -1,16 +1,12 @@
-﻿using CsvHelper.Configuration;
-using ESFA.DC.ILR1920.DataStore.EF;
+﻿using ESFA.DC.ILR1920.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
 {
-    public class ALBglobalClassMap : ClassMap<ALB_global>
+    public class ALBglobalClassMap : DefaultTableClassMap<ALB_global>
     {
         public ALBglobalClassMap()
         {
-            Map(m => m.UKPRN);
-            Map(m => m.LARSVersion);
-            Map(m => m.PostcodeAreaCostVersion);
-            Map(m => m.RulebaseVersion);
+            Map(m => m.ALB_Learners).Ignore();
         }
     }
 }

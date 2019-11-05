@@ -9,7 +9,6 @@ using ESFA.DC.ILR.DataStore.Export.SchemaExport;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.Desktop.Interface;
-using EntryPoint = ESFA.DC.ILR.DataStore.PersistData.EntryPoint;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.Modules
 {
@@ -19,9 +18,9 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
         {
             containerBuilder.RegisterType<MdbDesktopTask>().As<IDesktopTask>();
             containerBuilder.RegisterType<DataStoreContextFactory>().As<IDataStoreContextFactory<IDesktopContext>>();
-            containerBuilder.RegisterType<EntryPoint>().As<IEntryPoint>();
+            containerBuilder.RegisterType<EntryPoint>().As<IExportEntryPoint>();
             containerBuilder.RegisterType<MdbExport>().As<IExport>();
-            containerBuilder.RegisterType<TransactionController>().As<ITransactionController>();
+            containerBuilder.RegisterType<TransactionController>().As<IExportTransactionController>();
 
             containerBuilder.RegisterType<DesktopFM36HistoryMapper>().As<IFM36HistoryMapper>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<DesktopFM36HistoryTransaction>().As<IFM36HistoryTransaction>().InstancePerLifetimeScope();

@@ -3,11 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Access.Interface;
 using ESFA.DC.ILR.DataStore.Desktop.Service.Interface;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.Service
 {
-    public class MdbDatabaseDeploymentService : IDatabaseDeploymentService
+    public class MdbDatabaseDeploymentService : IMdbDeploymentService
     {
         private readonly IEnumerable<IGenerateSchema> _generateSchemas;
 

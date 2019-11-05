@@ -2,18 +2,19 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.ILR.DataStore.Export.Interface;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export
 {
-    public class EntryPoint : IEntryPoint
+    public class EntryPoint : IExportEntryPoint
     {
-        private readonly ITransactionController _transactionController;
+        private readonly IExportTransactionController _transactionController;
         private readonly IDataStoreDataCacheProvider _dataStoreDataCacheProvider;
         private readonly ILogger _logger;
 
-        public EntryPoint(ITransactionController transactionController, IDataStoreDataCacheProvider dataStoreDataCacheProvider, ILogger logger)
+        public EntryPoint(IExportTransactionController transactionController, IDataStoreDataCacheProvider dataStoreDataCacheProvider, ILogger logger)
         {
             _transactionController = transactionController;
             _dataStoreDataCacheProvider = dataStoreDataCacheProvider;
