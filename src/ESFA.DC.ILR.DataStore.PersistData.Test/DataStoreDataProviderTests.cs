@@ -149,6 +149,19 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
             NewProvider(rulesProviderService: mock.Object).ProvideRulesAsync(dataStoreContextMock, cancellationToken).Should().Be(task);
         }
 
+        [Fact]
+        public void ProvideReferenceDataVersionsAsync()
+        {
+            var mock = new Mock<IProviderService<ReferenceDataVersions>>();
+            var dataStoreContextMock = new Mock<IDataStoreContext>().Object;
+            var task = Task.FromResult(new Mock<ReferenceDataVersions>().Object);
+            var cancellationToken = CancellationToken.None;
+
+            mock.Setup(p => p.ProvideAsync(dataStoreContextMock, cancellationToken)).Returns(task);
+
+            NewProvider(referenceDataVersionsProviderService: mock.Object).ProvideReferenceDataVersionsAsync(dataStoreContextMock, cancellationToken).Should().Be(task);
+        }
+
         private DataStoreDataProvider NewProvider(
             IProviderService<Message> ilrProviderService = null,
             IProviderService<ILR.Model.Loose.Message> looseIlrProviderService = null,
@@ -160,7 +173,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
             IProviderService<FM81Global> fm81ProviderService = null,
             IProviderService<List<string>> validLearnerProviderService = null,
             IProviderService<List<ValidationError>> validationErrorsProviderService = null,
-            IProviderService<List<ValidationRule>> rulesProviderService = null)
+            IProviderService<List<ValidationRule>> rulesProviderService = null,
+            IProviderService<ReferenceDataVersions> referenceDataVersionsProviderService = null)
         {
             return new DataStoreDataProvider(
                 ilrProviderService,
@@ -173,7 +187,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test
                 fm81ProviderService,
                 validLearnerProviderService,
                 validationErrorsProviderService,
-                rulesProviderService);
+                rulesProviderService,
+                referenceDataVersionsProviderService);
         }
     }
 }

@@ -245,7 +245,7 @@ namespace ESFA.DC.ILR.DataStore.Stubs
         {
         }
 
-        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext)
+        public void MapData(IDataStoreCache cache, ReferenceDataVersions referenceDataVersions, IDataStoreContext dataStoreContext)
         {
         }
     }

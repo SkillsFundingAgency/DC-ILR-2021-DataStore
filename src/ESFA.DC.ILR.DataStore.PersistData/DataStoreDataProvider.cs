@@ -27,6 +27,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         private readonly IProviderService<List<string>> _validLearnerProviderService;
         private readonly IProviderService<List<ValidationError>> _validationErrorsProviderService;
         private readonly IProviderService<List<ValidationRule>> _rulesProviderService;
+        private readonly IProviderService<ReferenceDataVersions> _referenceDataVersionProviderService;
 
         public DataStoreDataProvider(
             IProviderService<Message> ilrProviderService,
@@ -39,7 +40,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IProviderService<FM81Global> fm81ProviderService,
             IProviderService<List<string>> validLearnerProviderService,
             IProviderService<List<ValidationError>> validationErrorsProviderService,
-            IProviderService<List<ValidationRule>> rulesProviderService)
+            IProviderService<List<ValidationRule>> rulesProviderService, 
+            IProviderService<ReferenceDataVersions> referenceDataVersionProviderService)
         {
             _ilrProviderService = ilrProviderService;
             _looseIlrProviderService = looseIlrProviderService;
@@ -52,6 +54,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _validLearnerProviderService = validLearnerProviderService;
             _validationErrorsProviderService = validationErrorsProviderService;
             _rulesProviderService = rulesProviderService;
+            _referenceDataVersionProviderService = referenceDataVersionProviderService;
         }
 
         public Task<Message> ProvideMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
@@ -107,6 +110,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         public Task<List<ValidationRule>> ProvideRulesAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             return _rulesProviderService.ProvideAsync(dataStoreContext, cancellationToken);
+        }
+
+        public Task<ReferenceDataVersions> ProvideReferenceDataVersionsAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        {
+            return _referenceDataVersionProviderService.ProvideAsync(dataStoreContext, cancellationToken);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _esfFundingMapper = esfFundingMapper;
         }
 
-        public void MapProcessingInformationData(IDataStoreCache cache, IDataStoreContext dataStoreContext) => _processingInformationDataMapper.MapData(cache, dataStoreContext);
+        public void MapProcessingInformationData(IDataStoreCache cache, ReferenceDataVersions referenceDataVersions, IDataStoreContext dataStoreContext) => _processingInformationDataMapper.MapData(cache, referenceDataVersions, dataStoreContext);
 
         public void MapValidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers) => _validLearnerDataMapper.MapLearnerData(cache, message, validLearnRefNumbers);
 

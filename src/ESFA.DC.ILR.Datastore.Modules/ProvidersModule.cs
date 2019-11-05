@@ -32,6 +32,8 @@ namespace ESFA.DC.ILR.Datastore.Modules
 
             containerBuilder.RegisterType<ValidationErrorsProviderService>().As<IProviderService<List<ValidationError>>>();
 
+            containerBuilder.RegisterType<ReferenceDataVersionsProviderService>().As<IProviderService<ReferenceDataVersions>>();
+
             containerBuilder.RegisterType<ALBProviderService>().As<IProviderService<ALBGlobal>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM25ProviderService>().As<IProviderService<FM25Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM35ProviderService>().As<IProviderService<FM35Global>>().InstancePerLifetimeScope();

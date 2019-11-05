@@ -36,5 +36,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
         Task<List<ValidationError>> ProvideValidationErrorsAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
 
         Task<List<ValidationRule>> ProvideRulesAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
+
+        Task<ReferenceDataVersions> ProvideReferenceDataVersionsAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
     }
 }
