@@ -33,6 +33,7 @@ namespace ESFA.DC.ILR.DataStore.Access
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Ignore<PeriodEndMetricsEntity>();
+            modelBuilder.Ignore<ACTCountsEntity>();
             modelBuilder.Ignore<LearnerLearningDeliveryEntity>();
 
             modelBuilder.Entity<AppFinRecord>().ToTable("Valid_AppFinRecord");

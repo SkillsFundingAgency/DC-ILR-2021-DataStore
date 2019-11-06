@@ -236,6 +236,7 @@
     <None Include="z.ExtendedProperties.sql" />
     <Build Include="Valid\Stored Procedures\GetLearnerAndDeliveryDetails.sql" />
     <Build Include="Valid\Stored Procedures\GetFileDetailsProviderUkprns.sql" />
+    <Build Include="dbo\Stored Procedures\GetACTCounts.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">

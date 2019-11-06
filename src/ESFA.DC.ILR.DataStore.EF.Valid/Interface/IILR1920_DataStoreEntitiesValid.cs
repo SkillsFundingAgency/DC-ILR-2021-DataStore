@@ -33,5 +33,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid.Interface
         DbSet<LearnerLearningDeliveryEntity> LearnerLearningDeliveries { get; set; }
 
         DbSet<ProviderUkprnEntity> ProviderUkprns { get; set; }
+
+        DbSet<ACTCountsEntity> ActCounts { get; set; }
     }
 }
