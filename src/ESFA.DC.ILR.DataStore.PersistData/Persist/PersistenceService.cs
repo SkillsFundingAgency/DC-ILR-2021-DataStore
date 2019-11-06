@@ -7,6 +7,7 @@ using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
+using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
 
@@ -147,8 +148,28 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
         {
             long fileDetailsId;
 
-            using (SqlCommand sqlCommand = new SqlCommand(BuildInsertFileDetailsSql(dataStoreCache.Get<FileDetail>().Single()), sqlConnection, sqlTransaction))
+            var fileDetails = dataStoreCache.Get<FileDetail>().Single();
+
+            using (SqlCommand sqlCommand = new SqlCommand(BuildInsertFileDetailsSql(), sqlConnection, sqlTransaction))
             {
+                sqlCommand.Parameters.AddWithNullableValue("@UKPRN", fileDetails.UKPRN);
+                sqlCommand.Parameters.AddWithNullableValue("@FileName", fileDetails.Filename);
+                sqlCommand.Parameters.AddWithNullableValue("@FileSizeKb", fileDetails.FileSizeKb);
+                sqlCommand.Parameters.AddWithNullableValue("@TotalLearnersSubmitted", fileDetails.TotalLearnersSubmitted);
+                sqlCommand.Parameters.AddWithNullableValue("@TotalValidLearnersSubmitted", fileDetails.TotalValidLearnersSubmitted);
+                sqlCommand.Parameters.AddWithNullableValue("@TotalInvalidLearnersSubmitted", fileDetails.TotalInvalidLearnersSubmitted);
+                sqlCommand.Parameters.AddWithNullableValue("@TotalErrorCount", fileDetails.TotalErrorCount);
+                sqlCommand.Parameters.AddWithNullableValue("@TotalWarningCount", fileDetails.TotalWarningCount);
+                sqlCommand.Parameters.AddWithNullableValue("@SubmittedTime", fileDetails.SubmittedTime);
+                sqlCommand.Parameters.AddWithNullableValue("@Success", fileDetails.Success);
+                sqlCommand.Parameters.AddWithNullableValue("@OrgName", fileDetails.OrgName);
+                sqlCommand.Parameters.AddWithNullableValue("@OrgVersion", fileDetails.OrgVersion);
+                sqlCommand.Parameters.AddWithNullableValue("@LarsVersion", fileDetails.LarsVersion);
+                sqlCommand.Parameters.AddWithNullableValue("@EmployersVersion", fileDetails.EmployersVersion);
+                sqlCommand.Parameters.AddWithNullableValue("@PostcodesVersion", fileDetails.PostcodesVersion);
+                sqlCommand.Parameters.AddWithNullableValue("@CampusIdentifierVersion", fileDetails.CampusIdentifierVersion);
+                sqlCommand.Parameters.AddWithNullableValue("@EasUploadDateTime", fileDetails.EasUploadDateTime);
+
                 fileDetailsId = (long)await sqlCommand.ExecuteScalarAsync(cancellationToken);
             }
 
@@ -163,9 +184,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
             await _bulkInsert.Insert(TableNameConstants.ESF_FundingData, dataStoreCache.Get<ESFFundingData>(), sqlConnection, sqlTransaction, cancellationToken);
         }
 
-        private string BuildInsertFileDetailsSql(FileDetail fileDetail)
+        private string BuildInsertFileDetailsSql()
         {
-            return $"INSERT INTO [dbo].[FileDetails] ([UKPRN], [Filename], [FileSizeKb], [TotalLearnersSubmitted], [TotalValidLearnersSubmitted], [TotalInvalidLearnersSubmitted], [TotalErrorCount], [TotalWarningCount], [SubmittedTime], [Success]) output INSERTED.ID VALUES ({fileDetail.UKPRN}, '{fileDetail.Filename}', {fileDetail.FileSizeKb}, {fileDetail.TotalLearnersSubmitted}, {fileDetail.TotalValidLearnersSubmitted}, {fileDetail.TotalInvalidLearnersSubmitted}, {fileDetail.TotalErrorCount}, {fileDetail.TotalWarningCount}, '{fileDetail.SubmittedTime:yyyy/MM/dd HH:mm:ss}', 1)";
+            return @"INSERT INTO [dbo].[FileDetails]
+                   ([UKPRN], [Filename], [FileSizeKb], [TotalLearnersSubmitted], [TotalValidLearnersSubmitted], [TotalInvalidLearnersSubmitted], [TotalErrorCount], [TotalWarningCount], [SubmittedTime], [Success], [OrgName], [OrgVersion], [LarsVersion], [EmployersVersion], [PostcodesVersion], [CampusIdentifierVersion], [EasUploadDateTime]) output INSERTED.ID
+                   VALUES (@UKPRN, @FileName, @FileSizeKb, @TotalLearnersSubmitted, @TotalValidLearnersSubmitted, @TotalInvalidLearnersSubmitted, @TotalErrorCount, @TotalWarningCount, @SubmittedTime, @Success, @OrgName, @OrgVersion, @LarsVersion, @EmployersVersion, @PostcodesVersion, @CampusIdentifierVersion, @EasUploadDateTime)";
         }
 
         private string BuildInsertProcessingDataSql(long fileDetailsId, ProcessingData processingData)
