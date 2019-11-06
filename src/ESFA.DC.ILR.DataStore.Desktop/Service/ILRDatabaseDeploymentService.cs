@@ -49,6 +49,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Service
             dacDeployOptions.SqlCommandVariableValues.Add("RELEASE_RELEASENAME", defaultValue);
             dacDeployOptions.SqlCommandVariableValues.Add("ROUserPassword", defaultValue);
             dacDeployOptions.SqlCommandVariableValues.Add("RWUserPassword", defaultValue);
+            dacDeployOptions.SqlCommandVariableValues.Add("MatchClaimROPassword", defaultValue);
 
             return dacDeployOptions;
         }

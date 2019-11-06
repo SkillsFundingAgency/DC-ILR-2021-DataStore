@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IDataStoreMapper
     {
-        void MapProcessingInformationData(IDataStoreCache cache, IDataStoreContext dataStoreContext);
+        void MapProcessingInformationData(IDataStoreCache cache, ReferenceDataVersions referenceDataVersions, IDataStoreContext dataStoreContext);
 
         void MapValidLearnerData(IDataStoreCache cache, IMessage message, IEnumerable<string> validLearnRefNumbers);
 

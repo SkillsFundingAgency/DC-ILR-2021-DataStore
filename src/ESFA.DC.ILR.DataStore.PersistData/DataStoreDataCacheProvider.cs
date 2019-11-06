@@ -36,6 +36,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             var fm81Task = _externalDataProvider.ProvideFM81Async(dataStoreContext, cancellationToken);
             var validationErrorsTask = _externalDataProvider.ProvideValidationErrorsAsync(dataStoreContext, cancellationToken);
             var rulesTask = _externalDataProvider.ProvideRulesAsync(dataStoreContext, cancellationToken);
+            var referenceDataVersionsTask = _externalDataProvider.ProvideReferenceDataVersionsAsync(dataStoreContext, cancellationToken);
 
             var tasks = new List<Task>()
             {
@@ -50,6 +51,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                 fm81Task,
                 validationErrorsTask,
                 rulesTask,
+                referenceDataVersionsTask
             };
 
             await Task.WhenAll(tasks);
@@ -58,7 +60,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
             var cache = new DataStoreCache();
 
-            _dataStoreMapper.MapProcessingInformationData(cache, dataStoreContext);
+            _dataStoreMapper.MapProcessingInformationData(cache, referenceDataVersionsTask.Result, dataStoreContext);
             _dataStoreMapper.MapValidLearnerData(cache, messageTask.Result, validLearnerTask.Result);
             _dataStoreMapper.MapInvalidLearnerData(cache, looseMessageTask.Result, validLearnerTask.Result);
             _dataStoreMapper.MapALBData(cache, albTask.Result);

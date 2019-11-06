@@ -2,6 +2,7 @@
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
+using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR1920.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
@@ -15,18 +16,18 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext)
+        public void MapData(IDataStoreCache cache, ReferenceDataVersions referenceDataVersions, IDataStoreContext dataStoreContext)
         {
-            PopulateDataStoreCache(cache, dataStoreContext);
+            PopulateDataStoreCache(cache, referenceDataVersions, dataStoreContext);
         }
 
-        private void PopulateDataStoreCache(IDataStoreCache cache, IDataStoreContext dataStoreContext)
+        private void PopulateDataStoreCache(IDataStoreCache cache, ReferenceDataVersions referenceDataVersions, IDataStoreContext dataStoreContext)
         {
-            cache.Add(BuildFileDetail(dataStoreContext));
+            cache.Add(BuildFileDetail(dataStoreContext, referenceDataVersions));
             cache.Add(BuildProcessingData(dataStoreContext));
         }
 
-        private FileDetail BuildFileDetail(IDataStoreContext dataStoreContext)
+        private FileDetail BuildFileDetail(IDataStoreContext dataStoreContext, ReferenceDataVersions referenceDataVersions)
         {
             return new FileDetail()
                 {
@@ -39,7 +40,14 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                     TotalInvalidLearnersSubmitted = dataStoreContext.InvalidLearnRefNumbersCount,
                     TotalValidLearnersSubmitted = dataStoreContext.ValidLearnRefNumbersCount,
                     TotalErrorCount = dataStoreContext.ValidationTotalErrorCount,
-                    TotalWarningCount = dataStoreContext.ValidationTotalWarningCount
+                    TotalWarningCount = dataStoreContext.ValidationTotalWarningCount,
+                    OrgName = referenceDataVersions.OrgName,
+                    OrgVersion = referenceDataVersions.OrgVersion,
+                    LarsVersion = referenceDataVersions.LarsVersion,
+                    EmployersVersion = referenceDataVersions.EmployersVersion,
+                    PostcodesVersion = referenceDataVersions.PostcodesVersion,
+                    CampusIdentifierVersion = referenceDataVersions.CampusIdentifierVersion,
+                    EasUploadDateTime = referenceDataVersions.EasUploadDateTime
             };
         }
 
