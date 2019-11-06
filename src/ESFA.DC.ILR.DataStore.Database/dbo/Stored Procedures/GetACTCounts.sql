@@ -54,9 +54,11 @@ INNER JOIN @MaxDate B on
 			a.LearnRefNumber = b.LearnRefNumber and
 			a.LearnAimRef = b.LearnAimRef and
 			a.LearnDelFAMDateFrom = b.LearnDelFAMDateFrom
- SELECT del.[UKPRN]
-     ,count(distinct act1.[LearnRefNumber]) as 'Number of Learners with ACT1'
-     ,count(distinct act2.[LearnRefNumber]) as 'Number of Learners with ACT2'
+ SELECT 
+	 ROW_NUMBER() over (ORDER BY del.[UKPRN]) AS Id,   
+	 del.[UKPRN] 
+     ,count(distinct act1.[LearnRefNumber]) [LearnersAct1]
+     ,count(distinct act2.[LearnRefNumber]) [LearnersAct2]
  FROM [Valid].[LearningDelivery] del
  INNER JOIN [dbo].[FileDetails] fd on 
 			del.ukprn = fd.ukprn and success = 1

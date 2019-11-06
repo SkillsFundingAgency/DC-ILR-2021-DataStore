@@ -5,7 +5,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid
     public class ACTCountsEntity
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public int UkPrn { get; set; }
 
