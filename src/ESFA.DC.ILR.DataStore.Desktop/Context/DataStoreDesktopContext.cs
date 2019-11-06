@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             _desktopContext = desktopContext;
         }
 
-        public int Ukprn => 1234;
+        public int Ukprn => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.Ukprn].ToString());
 
         public string Filename => _desktopContext.KeyValuePairs[ILRContextKeys.Filename].ToString();
 
