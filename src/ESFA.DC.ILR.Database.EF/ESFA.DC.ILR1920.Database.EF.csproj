@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.13</Version>
+    <Version>0.1.10</Version>
     <Authors>DC</Authors>
     <Company>ESFA</Company>
     <Product>ESFA.DC.ILR1920.Database.EF</Product>
