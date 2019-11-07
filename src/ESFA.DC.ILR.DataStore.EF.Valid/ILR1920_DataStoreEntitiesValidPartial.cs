@@ -30,6 +30,7 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 
         // period end stored procedure output type
         public virtual DbSet<PeriodEndMetricsEntity> PeriodEndMetrics { get; set; }
+        public virtual DbSet<ACTCountsEntity> ActCounts { get; set; }
         public virtual DbSet<LearnerLearningDeliveryEntity> LearnerLearningDeliveries { get; set; }
         public virtual DbSet<ProviderUkprnEntity> ProviderUkprns { get; set; }
     }
