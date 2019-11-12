@@ -79,4 +79,5 @@ INNER JOIN @MaxDate B on
  END
 GO
 
+GRANT EXECUTE ON dbo.GetACTCounts TO DataViewing;
 
