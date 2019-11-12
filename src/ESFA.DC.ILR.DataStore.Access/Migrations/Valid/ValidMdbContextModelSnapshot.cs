@@ -669,16 +669,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.ToTable("Valid_ProviderSpecLearnerMonitoring","Valid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.ProviderUkprnEntity", b =>
-                {
-                    b.Property<int>("UKPRN")
-                        .ValueGeneratedOnAdd();
-
-                    b.HasKey("UKPRN");
-
-                    b.ToTable("ProviderUkprns");
-                });
-
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.Source", b =>
                 {
                     b.Property<int>("UKPRN");
