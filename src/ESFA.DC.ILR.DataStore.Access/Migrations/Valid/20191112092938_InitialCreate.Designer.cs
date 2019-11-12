@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
 {
     [DbContext(typeof(ValidMdbContext))]
-    [Migration("20191105160201_InitialCreate")]
+    [Migration("20191112092938_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -669,16 +669,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .HasName("PK__Provider__63E551EA945F4643");
 
                     b.ToTable("Valid_ProviderSpecLearnerMonitoring","Valid");
-                });
-
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.ProviderUkprnEntity", b =>
-                {
-                    b.Property<int>("UKPRN")
-                        .ValueGeneratedOnAdd();
-
-                    b.HasKey("UKPRN");
-
-                    b.ToTable("ProviderUkprns");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Valid.Source", b =>

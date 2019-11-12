@@ -59,9 +59,9 @@
       <DependentUpon>20191105160138_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Rulebase\RulebaseMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Valid\20191105160201_InitialCreate.cs" />
-    <Compile Include="Migrations\Valid\20191105160201_InitialCreate.designer.cs">
-      <DependentUpon>20191105160201_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Valid\20191112092938_InitialCreate.cs" />
+    <Compile Include="Migrations\Valid\20191112092938_InitialCreate.designer.cs">
+      <DependentUpon>20191112092938_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Valid\ValidMdbContextModelSnapshot.cs" />
     <Compile Include="RulebaseGenerateSchema.cs" />

@@ -1,5 +1,4 @@
 ﻿using System;
-using EntityFrameworkCore.Jet.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
@@ -10,18 +9,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
         {
             migrationBuilder.EnsureSchema(
                 name: "Valid");
-
-            migrationBuilder.CreateTable(
-                name: "ProviderUkprns",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false)
-                        .Annotation("Jet:ValueGenerationStrategy", JetValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProviderUkprns", x => x.UKPRN);
-                });
 
             migrationBuilder.CreateTable(
                 name: "Valid_CollectionDetails",
@@ -579,9 +566,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ProviderUkprns");
-
             migrationBuilder.DropTable(
                 name: "Valid_AppFinRecord",
                 schema: "Valid");
