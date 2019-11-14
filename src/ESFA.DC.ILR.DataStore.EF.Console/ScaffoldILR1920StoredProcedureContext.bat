@@ -1,0 +1,1 @@
+dotnet.exe ef dbcontext scaffold "Server=.\;Database=ILR1920DataStore;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -c ILR1920_DataStoreEntitiesStoredProc --schema dummy --force --startup-project . --project ..\ESFA.DC.ILR1920.DataStore.EF.StoredProc --verbose
