@@ -184,6 +184,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
             await _bulkInsert.Insert(TableNameConstants.ESF_FundingData, dataStoreCache.Get<ESFFundingData>(), sqlConnection, sqlTransaction, cancellationToken);
         }
 
+        public async Task PersistESFLatestProviderSubmissionAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        {
+            await _bulkInsert.Insert(TableNameConstants.ESF_LatestProviderSubmission, dataStoreCache.Get<LatestProviderSubmission>(), sqlConnection, sqlTransaction, cancellationToken);
+        }
+
         private string BuildInsertFileDetailsSql()
         {
             return @"INSERT INTO [dbo].[FileDetails]
