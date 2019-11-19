@@ -44,6 +44,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             learningDeliveryPeriodisedValues
                 .NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue
                     .NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildFundingData( dataStoreContext, learningDeliveryPeriodisedValue, conRefNumberDictionary, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode, academicYear, collectionReturnCode, collectionType))));
+
+            cache.Add(BuildLatestProviderSubmission(ukprn, collectionReturnCode, collectionType));
         }
 
         public ESFFundingData BuildFundingData(IDataStoreContext dataStoreContext, LearningDeliveryDeliverablePeriodisedValue lddpv, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn, int aimSeqNumber, string learnRefNumber, string deliverableCode, string academicYear, string collectionReturnCode, string collectionType)
@@ -71,6 +73,16 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 Period_11 = lddpv.Period11,
                 Period_12 = lddpv.Period12,
                 AcademicYear = academicYear,
+                CollectionReturnCode = collectionReturnCode,
+                CollectionType = collectionType
+            };
+        }
+
+        public LatestProviderSubmission BuildLatestProviderSubmission(int ukprn, string collectionReturnCode, string collectionType)
+        {
+            return new LatestProviderSubmission()
+            {
+                UKPRN = ukprn,
                 CollectionReturnCode = collectionReturnCode,
                 CollectionType = collectionType
             };
