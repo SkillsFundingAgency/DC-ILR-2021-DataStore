@@ -53,6 +53,9 @@
           <Section Name="VersionSection">
             <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
           </Section>
+          <Section Name="TelemetrySection">
+            <Parameter Name="InstrumentationKey" Value="[InstrumentationKey]" />
+          </Section>
         </Settings>
       </ConfigOverride>
     </ConfigOverrides>

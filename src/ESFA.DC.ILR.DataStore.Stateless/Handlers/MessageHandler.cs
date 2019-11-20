@@ -9,6 +9,7 @@ using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Telemetry.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
 {
@@ -49,6 +50,8 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Handlers
                     var logger = childLifeTimeScope.Resolve<ILogger>();
                     logme = logger;
                     logger.LogDebug("Started Data Store");
+                    var telemetry = childLifeTimeScope.Resolve<ITelemetry>();
+                    telemetry.AddProperty("JobId", jobContextMessage.JobId.ToString());
 
                     IEntryPoint entryPoint;
                     try
