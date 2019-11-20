@@ -30,7 +30,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
                      WHERE UKPRN = @UKPRN AND AcademicYear = @AcademicYear AND CollectionReturnCode = @CollectionReturnCode
 
                      DELETE FROM [Current].[LatestProviderSubmission] 
-                     WHERE UKPRN = @UKPRN AND CollectionType = @CollectionType";
+                     WHERE UKPRN = @UKPRN AND CollectionType = @CollectionType AND CollectionReturnCode = @CollectionReturnCode";
         }
     }
 }
