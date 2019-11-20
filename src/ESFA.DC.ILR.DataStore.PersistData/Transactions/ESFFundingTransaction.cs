@@ -39,10 +39,13 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                     try
                     {
                         await _dataStorePersistenceService.ClearEsfSummarisationDataAsync(dataStoreContext, esfFundingConnection, esfFundingTransaction, cancellationToken);
-                        _logger.LogDebug("ESF Funding clean up successful");
+                        _logger.LogDebug("ESF clean up successful");
 
                         await _persistenceService.PersistESFSummarisationDataAsync(cache, esfFundingConnection, esfFundingTransaction, cancellationToken);
                         _logger.LogDebug("ESF Funding persistence complete");
+
+                        await _persistenceService.PersistESFLatestProviderSubmissionAsync(cache, esfFundingConnection, esfFundingTransaction, cancellationToken);
+                        _logger.LogDebug("ESF Latest Provider Submission persistence complete");
 
                         esfFundingTransaction.Commit();
                     }
