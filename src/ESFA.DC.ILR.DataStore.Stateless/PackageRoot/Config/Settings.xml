@@ -32,4 +32,8 @@
     <Parameter Name="ServiceReleaseVersion" Value="" />
   </Section>
 
+  <Section Name="TelemetrySection">
+    <Parameter Name="InstrumentationKey" Value="" />
+  </Section>
+
 </Settings>
