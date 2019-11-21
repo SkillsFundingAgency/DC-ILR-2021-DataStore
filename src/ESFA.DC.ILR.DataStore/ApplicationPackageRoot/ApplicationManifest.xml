@@ -20,6 +20,7 @@
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
+    <Parameter Name="InstrumentationKey" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 

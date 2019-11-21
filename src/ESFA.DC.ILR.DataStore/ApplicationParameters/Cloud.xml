@@ -14,5 +14,6 @@
     <Parameter Name="DataServicePlacementConstraints" Value="__DataServicePlacementConstraints__" />
     <Parameter Name="JobStatusQueueName" Value="__JobStatusQueueName__" />
     <Parameter Name="ServiceReleaseVersion" Value="__ServiceReleaseVersion__" />
+    <Parameter Name="InstrumentationKey" Value="__InstrumentationKey__" />
   </Parameters>
 </Application>
