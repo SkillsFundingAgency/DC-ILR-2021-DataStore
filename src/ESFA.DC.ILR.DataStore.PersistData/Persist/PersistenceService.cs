@@ -22,9 +22,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
         private readonly ITelemetry _telemetry;
         private readonly ILogger _logger;
 
-        public PersistenceService(IBulkInsert bulkInsert)
+        public PersistenceService(IBulkInsert bulkInsert, ILogger logger, ITelemetry telemetry)
         {
             _bulkInsert = bulkInsert;
+            _logger = logger;
+            _telemetry = telemetry;
         }
 
         public async Task PersistValidationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
