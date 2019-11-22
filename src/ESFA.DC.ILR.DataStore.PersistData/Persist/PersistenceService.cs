@@ -11,6 +11,7 @@ using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Telemetry.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Persist
@@ -19,6 +20,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
     {
         private readonly IBulkInsert _bulkInsert;
         private readonly ITelemetry _telemetry;
+        private readonly ILogger _logger;
 
         public PersistenceService(IBulkInsert bulkInsert)
         {
@@ -186,6 +188,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         private void SendTelemetry(FileDetail fileDetails)
         {
+            _logger.LogDebug($"About to send telemetry ITelemrty==null {_telemetry == null} fileDetails.FileSizeKb==null {fileDetails.FileSizeKb == null}");
             _telemetry.TrackEvent("ILR.JobFileDetails",
                 new Dictionary<string, string>
                 {
