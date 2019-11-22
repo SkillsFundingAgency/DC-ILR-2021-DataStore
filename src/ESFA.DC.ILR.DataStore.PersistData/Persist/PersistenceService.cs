@@ -188,7 +188,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         private void SendTelemetry(FileDetail fileDetails)
         {
-            _logger.LogDebug($"About to send telemetry ITelemrty==null {_telemetry == null} fileDetails.FileSizeKb==null {fileDetails.FileSizeKb == null}");
+            _logger.LogDebug($"About to send telemetry FileDetails==null {fileDetails==null} ITelemrty == null {_telemetry == null}");
             _telemetry.TrackEvent("ILR.JobFileDetails",
                 new Dictionary<string, string>
                 {
