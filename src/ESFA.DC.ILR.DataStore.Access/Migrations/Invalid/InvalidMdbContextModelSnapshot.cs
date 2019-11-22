@@ -278,7 +278,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
-                    b.Property<long?>("PMUKPRN");
+                    b.Property<double?>("PMUKPRN")
+                        .HasColumnType("double");
 
                     b.Property<long?>("PlanEEPHours");
 
@@ -299,7 +300,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
-                    b.Property<long?>("PrevUKPRN");
+                    b.Property<double?>("PrevUKPRN")
+                        .HasColumnType("double");
 
                     b.Property<long?>("PriorAttain");
 

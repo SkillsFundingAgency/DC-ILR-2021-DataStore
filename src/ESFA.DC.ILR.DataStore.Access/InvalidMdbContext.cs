@@ -40,6 +40,8 @@ namespace ESFA.DC.ILR.DataStore.Access
                 {
                     entity.ToTable("Invalid_Learner");
                     entity.Property(e => e.ULN).HasColumnType("double");
+                    entity.Property(e => e.PrevUKPRN).HasColumnType("double");
+                    entity.Property(e => e.PMUKPRN).HasColumnType("double");
                     entity.Property(e => e.PrevLearnRefNumber).HasColumnType("memo");
                     entity.Property(e => e.FamilyName).HasColumnType("memo");
                     entity.Property(e => e.GivenNames).HasColumnType("memo");
