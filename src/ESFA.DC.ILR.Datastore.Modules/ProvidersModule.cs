@@ -40,19 +40,6 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<FM36ProviderService>().As<IProviderService<FM36Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM70ProviderService>().As<IProviderService<FM70Global>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM81ProviderService>().As<IProviderService<FM81Global>>().InstancePerLifetimeScope();
-
-            RegisterStubServices(containerBuilder);
-        }
-
-        private void RegisterStubServices(ContainerBuilder containerBuilder)
-        {
-            containerBuilder.RegisterType<ProviderServiceStub>()
-                    .As<IProviderService<List<ValidationRule>>>()
-                    .InstancePerLifetimeScope();
-        }
-
-        private void RegisterServices(ContainerBuilder containerBuilder)
-        {
             containerBuilder.RegisterType<RulesProviderService>().As<IProviderService<List<ValidationRule>>>().InstancePerLifetimeScope();
         }
     }
