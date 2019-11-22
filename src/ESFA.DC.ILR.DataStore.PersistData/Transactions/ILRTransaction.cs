@@ -76,7 +76,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogDebug($"ILR Transaction failed attempting to rollback - {ex.Message}");
+                        _logger.LogError($"ILR Transaction failed attempting to rollback - {ex.Message}", ex);
 
                         ilrTransaction.Rollback();
 
