@@ -76,6 +76,7 @@ INNER JOIN @MaxDate B on
  GROUP BY del.UKPRN
  ORDER BY del.ukprn
 
+
  END
 GO
 
