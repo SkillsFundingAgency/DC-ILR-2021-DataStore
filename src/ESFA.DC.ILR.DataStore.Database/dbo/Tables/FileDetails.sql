@@ -10,7 +10,7 @@
     [TotalWarningCount]             INT           NULL,
     [SubmittedTime]                 DATETIME      NULL,
     [Success]                       BIT           NULL,
-	[OrgName]                       NVARCHAR (200) NULL,
+	[OrgName]                       NVARCHAR (255) NULL,
 	[OrgVersion]                    NVARCHAR (50) NULL,
 	[LarsVersion]                   NVARCHAR (50) NULL,
 	[EmployersVersion]              NVARCHAR (50) NULL,
