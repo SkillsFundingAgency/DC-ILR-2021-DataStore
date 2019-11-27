@@ -73,26 +73,31 @@ INNER JOIN @MaxDate B on
 Group By ukprn, LearnDelFAMCode
 order by ukprn
 
- SELECT 
-	 distinct fd.[UKPRN] 
-	 ,IsNull(act1.Learners,0) AS [LearnersAct1]
-     ,IsNull(act2.Learners,0) AS [LearnersAct2]
+ Select 
+	ROW_NUMBER() over (ORDER BY x.[UKPRN]) AS Id,   
+	x.ukprn,
+	x.[LearnersAct1],
+	x.[LearnersAct2]
+		FROM
+		( SELECT 
+			 distinct fd.[UKPRN]
+			 ,IsNull(act1.Learners,0) AS [LearnersAct1]
+			 ,IsNull(act2.Learners,0) AS [LearnersAct2]
 
- FROM dbo.FileDetails fd
+		 FROM dbo.FileDetails fd
  
- LEFT JOIN (Select * from @AimsNoDups Where LearnDelFAMCode = 1) act1 on 
-			fd.ukprn = act1.ukprn and
-			fd.Success = 1
+		 LEFT JOIN (Select * from @AimsNoDups Where LearnDelFAMCode = 1) act1 on 
+					fd.ukprn = act1.ukprn and
+					fd.Success = 1
 			
- LEFT JOIN (Select * from @AimsNoDups Where LearnDelFAMCode = 2)  act2 on 
-			fd.ukprn = act2.ukprn 
-			 and fd.Success = 1
-WHERE act1.Learners is not null or act2.Learners is not null
-ORDER BY fd.ukprn
+		 LEFT JOIN (Select * from @AimsNoDups Where LearnDelFAMCode = 2)  act2 on 
+					fd.ukprn = act2.ukprn 
+					 and fd.Success = 1
+		WHERE act1.Learners is not null or act2.Learners is not null
+		) x
+ORDER BY x.ukprn
 
-
-
- END
+END
 GO
 
 GRANT EXECUTE ON dbo.GetACTCounts TO DataViewing;
