@@ -190,9 +190,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         private void SendTelemetry(FileDetail fileDetails)
         {
-            _logger.LogDebug($"About to send telemetry");
-            _logger.LogDebug($"FileDetails ==null {fileDetails == null}");
-            _logger.LogDebug($"ITelemetry == null {_telemetry == null}");
             _telemetry.TrackEvent("ILR.JobFileDetails",
                 new Dictionary<string, string>
                 {
