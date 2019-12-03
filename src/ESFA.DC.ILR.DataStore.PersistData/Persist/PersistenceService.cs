@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,16 +11,22 @@ using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
+using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Telemetry.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
     public sealed class PersistenceService : IPersistenceService
     {
         private readonly IBulkInsert _bulkInsert;
+        private readonly ITelemetry _telemetry;
+        private readonly ILogger _logger;
 
-        public PersistenceService(IBulkInsert bulkInsert)
+        public PersistenceService(IBulkInsert bulkInsert, ILogger logger, ITelemetry telemetry)
         {
             _bulkInsert = bulkInsert;
+            _logger = logger;
+            _telemetry = telemetry;
         }
 
         public async Task PersistValidationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
@@ -150,6 +157,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
             var fileDetails = dataStoreCache.Get<FileDetail>().Single();
 
+            SendTelemetry(fileDetails);
+
             using (SqlCommand sqlCommand = new SqlCommand(BuildInsertFileDetailsSql(), sqlConnection, sqlTransaction))
             {
                 sqlCommand.Parameters.AddWithNullableValue("@UKPRN", fileDetails.UKPRN);
@@ -177,6 +186,25 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
             {
                 await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }
+        }
+
+        private void SendTelemetry(FileDetail fileDetails)
+        {
+            _telemetry.TrackEvent("ILR.JobFileDetails",
+                new Dictionary<string, string>
+                {
+                    { "Ukprn", fileDetails.UKPRN.ToString() },
+                    { "FileSizeKb", fileDetails.FileSizeKb.ToString() }
+                },
+                new Dictionary<string, double>
+                {
+                    { "ILR.TotalLearnersSubmitted", (double)fileDetails.TotalLearnersSubmitted },
+                    { "ILR.TotalValidLearnersSubmitted", (double)fileDetails.TotalValidLearnersSubmitted },
+                    { "ILR.TotalInvalidLearnersSubmitted", (double)fileDetails.TotalInvalidLearnersSubmitted },
+                    { "ILR.TotalErrorCount", (double)fileDetails.TotalErrorCount },
+                    { "ILR.TotalWarningCount", (double)fileDetails.TotalWarningCount }
+                }
+            );
         }
 
         public async Task PersistESFSummarisationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
