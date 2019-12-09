@@ -17,8 +17,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 
             var header = ilr.HeaderEntity;
             var sourceFileCollection = ilr.SourceFilesCollection;
-            var learners = ilr.Learners?.Where(l => !learnersValid.Contains(l.LearnRefNumber.Trim(), StringComparer.OrdinalIgnoreCase));
-            var learnerDestinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => !learnersValid.Contains(ldp.LearnRefNumber.Trim(), StringComparer.OrdinalIgnoreCase));
+            var learners = ilr.Learners?.Where(l => !learnersValid.Contains(!string.IsNullOrWhiteSpace(l.LearnRefNumber) ? l.LearnRefNumber.Trim() : string.Empty, StringComparer.OrdinalIgnoreCase));
+            var learnerDestinationAndProgressions = ilr.LearnerDestinationAndProgressions?.Where(ldp => !learnersValid.Contains(!string.IsNullOrWhiteSpace(ldp.LearnRefNumber) ? ldp.LearnRefNumber.Trim() : string.Empty, StringComparer.OrdinalIgnoreCase));
 
             PopulateInvalidLearners(cache, ukprn, header, sourceFileCollection, learners, learnerDestinationAndProgressions);
         }
