@@ -18,22 +18,25 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
         {
             var learners = fm70Global.Learners;
 
+            var ukprn = fm70Global.UKPRN;
+
+            PopulateDataStoreCache(cache, dataStoreContext, message, learners, ukprn);
+        }
+
+        private void PopulateDataStoreCache(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, IEnumerable<FM70Learner> learners, int ukprn)
+        {
+            var academicYear = $"20{dataStoreContext.CollectionYear.Substring(0, 2)}/{dataStoreContext.CollectionYear.Substring(2, 2)}";
+            var collectionReturnCode = dataStoreContext.CollectionPeriod;
+            var collectionType = $"ILR{dataStoreContext.CollectionYear}";
+
+            cache.Add(BuildLatestProviderSubmission(ukprn, collectionReturnCode, collectionType));
+
             if (learners == null)
             {
                 return;
             }
 
-            var ukprn = fm70Global.UKPRN;
             var conRefNumberDictionary = BuildConRefNumberDictionary(message);
-
-            PopulateDataStoreCache(cache, dataStoreContext, learners, conRefNumberDictionary, ukprn);
-        }
-
-        private void PopulateDataStoreCache(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<FM70Learner> learners, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn)
-        {
-            var academicYear = $"20{dataStoreContext.CollectionYear.Substring(0, 2)}/{dataStoreContext.CollectionYear.Substring(2, 2)}";
-            var collectionReturnCode = dataStoreContext.CollectionPeriod;
-            var collectionType = $"ILR{dataStoreContext.CollectionYear}";
 
             var learningDeliveryPeriodisedValues = 
                 learners
@@ -44,8 +47,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             learningDeliveryPeriodisedValues
                 .NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue
                     .NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildFundingData( dataStoreContext, learningDeliveryPeriodisedValue, conRefNumberDictionary, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode, academicYear, collectionReturnCode, collectionType))));
-
-            cache.Add(BuildLatestProviderSubmission(ukprn, collectionReturnCode, collectionType));
         }
 
         public ESFFundingData BuildFundingData(IDataStoreContext dataStoreContext, LearningDeliveryDeliverablePeriodisedValue lddpv, Dictionary<string, Dictionary<int, string>> conRefNumberDictionary, int ukprn, int aimSeqNumber, string learnRefNumber, string deliverableCode, string academicYear, string collectionReturnCode, string collectionType)
