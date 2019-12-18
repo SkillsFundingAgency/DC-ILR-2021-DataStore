@@ -6,18 +6,18 @@ using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.Model.ReferenceData;
 using ESFA.DC.ILR.IO.Model.Validation;
-using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR.Model.Loose.Interface;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class ValidationDataMapper : IValidationDataMapper
     {
-        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
+        public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, ILooseMessage message)
         {
             cache.AddRange(BuildValidationErrors(dataStoreContext, validationErrors, rules, message));
         }
 
-        public List<ILR1920.DataStore.EF.ValidationError> BuildValidationErrors(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
+        public List<ILR1920.DataStore.EF.ValidationError> BuildValidationErrors(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, ILooseMessage message)
         {
             return validationErrors?
                         .Select(ve =>
@@ -29,9 +29,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                             var learningDelivery =
                                 message?
                                     .Learners?
-                                    .FirstOrDefault(x => x.LearnRefNumber == ve.LearnerReferenceNumber)?
+                                    .FirstOrDefault(x => string.Equals(x.LearnRefNumber, ve.LearnerReferenceNumber, StringComparison.OrdinalIgnoreCase))?
                                     .LearningDeliveries
-                                    .FirstOrDefault(x => x.AimSeqNumber == ve.AimSequenceNumber);
+                                    .FirstOrDefault(x => x.AimSeqNumberNullable == ve.AimSequenceNumber);
 
                             var severity = ve.Severity != null && ve.Severity.Length >= 1
                                 ? ve.Severity?.Substring(0, 1)

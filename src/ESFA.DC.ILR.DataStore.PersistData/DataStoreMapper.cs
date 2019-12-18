@@ -78,7 +78,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
 
         public void MapFM36HistoryData(IDataStoreCache cache, FM36Global fm36Global, IDataStoreContext dataStoreContext) => _fm36HistoryMapper.MapData(cache, fm36Global, dataStoreContext);
 
-        public void MapValidationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules)
+        public void MapValidationData(IDataStoreCache cache, IDataStoreContext dataStoreContext, ILooseMessage message, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules)
             => _validationDataMapper.MapData(cache, dataStoreContext, validationErrors, rules, message);
 
         public void MapESFFundingData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global fm70Global) => _esfFundingMapper.MapData(cache, dataStoreContext, message, fm70Global);

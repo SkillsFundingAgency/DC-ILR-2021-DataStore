@@ -10,7 +10,7 @@ using ESFA.DC.ILR.FundingService.FM35.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
-using ESFA.DC.ILR.Model.Interface;
+using ESFA.DC.ILR.Model.Loose.Interface;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ValidationError = ESFA.DC.ILR.IO.Model.Validation.ValidationError;
 
@@ -241,7 +241,7 @@ namespace ESFA.DC.ILR.DataStore.Stubs
             return new List<ALB_LearningDelivery_PeriodisedValue>();
         }
 
-        public void MapData(IDataStoreCache cache, IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, IMessage message)
+        public void MapData(IDataStoreCache cache, IDataStoreContext datStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, ILooseMessage message)
         {
         }
 
