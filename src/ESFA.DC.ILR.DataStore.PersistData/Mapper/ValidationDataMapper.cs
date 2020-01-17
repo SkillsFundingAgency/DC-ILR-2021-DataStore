@@ -30,7 +30,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                                 message?
                                     .Learners?
                                     .FirstOrDefault(x => string.Equals(x.LearnRefNumber, ve.LearnerReferenceNumber, StringComparison.OrdinalIgnoreCase))?
-                                    .LearningDeliveries
+                                    .LearningDeliveries?
                                     .FirstOrDefault(x => x.AimSeqNumberNullable == ve.AimSequenceNumber);
 
                             var severity = ve.Severity != null && ve.Severity.Length >= 1
