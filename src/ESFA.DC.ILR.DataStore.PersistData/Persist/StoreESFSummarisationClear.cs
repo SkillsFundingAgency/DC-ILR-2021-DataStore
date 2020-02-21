@@ -19,6 +19,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
                 sqlCommand.Parameters.AddWithNullableValue("@AcademicYear", academicYear);
                 sqlCommand.Parameters.AddWithNullableValue("@CollectionReturnCode", dataStoreContext.CollectionPeriod);
                 sqlCommand.Parameters.AddWithNullableValue("@CollectionType", collectionType);
+                sqlCommand.CommandTimeout = 600;
 
                 await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }
