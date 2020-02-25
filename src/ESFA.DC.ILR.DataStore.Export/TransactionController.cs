@@ -27,28 +27,17 @@ namespace ESFA.DC.ILR.DataStore.Export
             using (var connection = new OleDbConnection(string.Format(MdbConstants.MdbConnectionStringTemplate, dataStoreContext.ExportOutputLocation)))
             {
                 await connection.OpenAsync(cancellationToken);
-                using (var transaction = connection.BeginTransaction())
+
+                _logger.LogInfo("Starting Export");
+
+                foreach (var schemaExport in _schemaExports)
                 {
-                    try
-                    {
-                        _logger.LogInfo("Starting Export");
-
-                        foreach (var schemaExport in _schemaExports)
-                        {
-                            await schemaExport.ExportAsync(cache, connection, transaction, dataStoreContext.ExportOutputLocation, cancellationToken);
-                        }
-
-                        cancellationToken.ThrowIfCancellationRequested();
-                        transaction.Commit();
-                        _logger.LogInfo("Finished Export");
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        _logger.LogError(ex.Message);
-                        throw;
-                    }
+                    await schemaExport.ExportAsync(cache, connection, dataStoreContext.ExportOutputLocation, cancellationToken);
                 }
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                _logger.LogInfo("Finished Export");
             }
 
             return true;

@@ -7,6 +7,6 @@ namespace ESFA.DC.ILR.DataStore.Export.Interface
 {
     public interface ISchemaExport
     {
-        Task ExportAsync(IDataStoreCache dataStoreCache, OleDbConnection connection, OleDbTransaction transaction, string exportPath, CancellationToken cancellationToken);
+        Task ExportAsync(IDataStoreCache dataStoreCache, OleDbConnection connection, string exportPath, CancellationToken cancellationToken);
     }
 }
