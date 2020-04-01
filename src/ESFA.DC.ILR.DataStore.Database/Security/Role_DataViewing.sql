@@ -4,7 +4,7 @@ GO
 
 -- Grant access rights to a specific schema in the database
 GRANT 
-	REFERENCES, 
+--	REFERENCES, 
 	SELECT, 
 	VIEW DEFINITION 
 ON SCHEMA::dbo
@@ -13,7 +13,7 @@ GO
 
 -- Grant access rights to a specific schema in the database
 GRANT 
-REFERENCES, 
+--	REFERENCES, 
 	SELECT, 
 	VIEW DEFINITION 
 ON SCHEMA::Invalid
@@ -22,7 +22,7 @@ GO
 
 -- Grant access rights to a specific schema in the database
 GRANT 
-	REFERENCES, 
+--	REFERENCES, 
 	SELECT, 
 	VIEW DEFINITION 
 ON SCHEMA::Valid
@@ -31,7 +31,7 @@ GO
 
 -- Grant access rights to a specific schema in the database
 GRANT 
-	REFERENCES, 
+--	REFERENCES, 
 	SELECT, 
 	VIEW DEFINITION 
 ON SCHEMA::Rulebase
@@ -40,7 +40,7 @@ GO
 
 -- Grant access rights to a specific schema in the database
 GRANT 
-	REFERENCES, 
+--	REFERENCES, 
 	SELECT, 
 	VIEW DEFINITION 
 ON SCHEMA::DataLock

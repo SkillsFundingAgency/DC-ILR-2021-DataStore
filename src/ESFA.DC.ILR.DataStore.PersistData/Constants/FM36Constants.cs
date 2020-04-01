@@ -2,24 +2,6 @@
 {
     public static class FM36Constants
     {
-        public const string FM36_global = "Rulebase.AEC_global";
-
-        public const string FM36_Learner = "Rulebase.AEC_Learner";
-
-        public const string FM36_LearningDelivery = "Rulebase.AEC_LearningDelivery";
-
-        public const string FM36_LearningDelivery_Period = "Rulebase.AEC_LearningDelivery_Period";
-
-        public const string FM36_LearningDelivery_PeriodisedValues = "Rulebase.AEC_LearningDelivery_PeriodisedValues";
-
-        public const string FM36_LearningDelivery_PeriodisedTextValues = "Rulebase.AEC_LearningDelivery_PeriodisedTextValues";
-
-        public const string FM36_PriceEpisodes = "Rulebase.AEC_ApprenticeshipPriceEpisode";
-
-        public const string FM36_PriceEpisode_Period = "Rulebase.AEC_ApprenticeshipPriceEpisode_Period";
-
-        public const string FM36_PriceEpisode_PeriodisedValues = "Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues";
-
         public const string DisadvFirstPayment = "DisadvFirstPayment";
         public const string DisadvSecondPayment = "DisadvSecondPayment";
         public const string FundLineType = "FundLineType";

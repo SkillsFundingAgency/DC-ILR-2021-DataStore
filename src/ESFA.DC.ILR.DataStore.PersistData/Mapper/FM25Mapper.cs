@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model.Funding;
+using ESFA.DC.ILR.DataStore.Model.Interface;
+using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
 using ESFA.DC.ILR1920.DataStore.EF;
 
@@ -9,29 +9,42 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM25Mapper : IFM25Mapper
     {
-        public FM25Data MapData(FM25Global fm25Global)
+        public void MapData(IDataStoreCache cache, FM25Global fm25Global)
         {
-            var data = new FM25Data();
+            var learners = fm25Global.Learners;
 
-            if (fm25Global.Learners != null)
+            if (learners == null)
             {
-                data.Globals = MapFM25Global(fm25Global).ToList();
-                data.Learners = MapFM25Learners(fm25Global).ToList();
-                data.Fm25Fm35Globals = MapFM25_35_Global(fm25Global).ToList();
-                data.Fm25Fm35LearnerPeriods = MapFM25_35_LearnerPeriod(fm25Global).ToList();
-                data.Fm25Fm35LearnerPeriodisedValues = MapFM25_35_LearnerPeriodisedValues(fm25Global).ToList();
+                return;
             }
 
-            return data;
+            var ukprn = fm25Global.UKPRN.Value;
+
+            PopulateDataStoreCache(cache, learners, fm25Global, ukprn);
         }
 
-        public IEnumerable<FM25_global> MapFM25Global(FM25Global fm25Global)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM25Learner> learners, FM25Global fm25Global, int ukprn)
+        {
+            cache.AddRange(BuildFM25Global(fm25Global, ukprn));
+            cache.AddRange(BuildFM25_35_Global(fm25Global, ukprn));
+
+            learners.NullSafeForEach(learner =>
+            {
+                var learnRefNumber = learner.LearnRefNumber;
+
+                cache.Add(BuildFM25Learner(ukprn, learner));
+                learner.LearnerPeriods.NullSafeForEach(learnerPeriod => cache.Add(BuildFM25_35_LearnerPeriod(learnerPeriod, ukprn, learnRefNumber)));
+                learner.LearnerPeriodisedValues.NullSafeForEach(learnerPV => cache.Add(BuildFM25_35_LearnerPeriodisedValues(learnerPV, ukprn, learnRefNumber)));
+            });
+        }
+
+        public List<FM25_global> BuildFM25Global(FM25Global fm25Global, int ukprn)
         {
             return new List<FM25_global>()
             {
                 new FM25_global
                 {
-                    UKPRN = fm25Global.UKPRN.Value,
+                    UKPRN = ukprn,
                     LARSVersion = fm25Global.LARSVersion,
                     OrgVersion = fm25Global.OrgVersion,
                     PostcodeDisadvantageVersion = fm25Global.PostcodeDisadvantageVersion,
@@ -40,86 +53,84 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             };
         }
 
-        public IEnumerable<FM25_Learner> MapFM25Learners(FM25Global fm25Global)
+        public FM25_Learner BuildFM25Learner(int ukprn, FM25Learner learner)
         {
-            return fm25Global.Learners.Select(l => new FM25_Learner
+            return new FM25_Learner
             {
-                UKPRN = fm25Global.UKPRN.Value,
-                LearnRefNumber = l.LearnRefNumber,
-                AcadMonthPayment = l.AcadMonthPayment,
-                OnProgPayment = l.OnProgPayment,
-                AcadProg = l.AcadProg,
-                ActualDaysILCurrYear = l.ActualDaysILCurrYear,
-                AreaCostFact1618Hist = l.AreaCostFact1618Hist,
-                Block1DisadvUpliftNew = l.Block1DisadvUpliftNew,
-                Block2DisadvElementsNew = l.Block2DisadvElementsNew,
-                ConditionOfFundingEnglish = l.ConditionOfFundingEnglish,
-                ConditionOfFundingMaths = l.ConditionOfFundingMaths,
-                CoreAimSeqNumber = l.CoreAimSeqNumber,
-                FullTimeEquiv = l.FullTimeEquiv,
-                FundLine = l.FundLine,
-                LearnerActEndDate = l.LearnerActEndDate,
-                LearnerPlanEndDate = l.LearnerPlanEndDate,
-                LearnerStartDate = l.LearnerStartDate,
-                NatRate = l.NatRate,
-                PlannedDaysILCurrYear = l.PlannedDaysILCurrYear,
-                ProgWeightHist = l.ProgWeightHist,
-                ProgWeightNew = l.ProgWeightNew,
-                PrvDisadvPropnHist = l.PrvDisadvPropnHist,
-                PrvHistLrgProgPropn = l.PrvHistLrgProgPropn,
-                PrvRetentFactHist = l.PrvRetentFactHist,
-                RateBand = l.RateBand,
-                RetentNew = l.RetentNew,
-                StartFund = l.StartFund,
-                ThresholdDays = l.ThresholdDays
-            });
+                UKPRN = ukprn,
+                LearnRefNumber = learner.LearnRefNumber,
+                AcadMonthPayment = learner.AcadMonthPayment,
+                OnProgPayment = learner.OnProgPayment,
+                AcadProg = learner.AcadProg,
+                ActualDaysILCurrYear = learner.ActualDaysILCurrYear,
+                AreaCostFact1618Hist = learner.AreaCostFact1618Hist,
+                Block1DisadvUpliftNew = learner.Block1DisadvUpliftNew,
+                Block2DisadvElementsNew = learner.Block2DisadvElementsNew,
+                ConditionOfFundingEnglish = learner.ConditionOfFundingEnglish,
+                ConditionOfFundingMaths = learner.ConditionOfFundingMaths,
+                CoreAimSeqNumber = learner.CoreAimSeqNumber,
+                FullTimeEquiv = learner.FullTimeEquiv,
+                FundLine = learner.FundLine,
+                LearnerActEndDate = learner.LearnerActEndDate,
+                LearnerPlanEndDate = learner.LearnerPlanEndDate,
+                LearnerStartDate = learner.LearnerStartDate,
+                NatRate = learner.NatRate,
+                PlannedDaysILCurrYear = learner.PlannedDaysILCurrYear,
+                ProgWeightHist = learner.ProgWeightHist,
+                ProgWeightNew = learner.ProgWeightNew,
+                PrvDisadvPropnHist = learner.PrvDisadvPropnHist,
+                PrvHistLrgProgPropn = learner.PrvHistLrgProgPropn,
+                PrvRetentFactHist = learner.PrvRetentFactHist,
+                RateBand = learner.RateBand,
+                RetentNew = learner.RetentNew,
+                StartFund = learner.StartFund,
+                ThresholdDays = learner.ThresholdDays
+            };
         }
 
-        public IEnumerable<FM25_FM35_global> MapFM25_35_Global(FM25Global fm25Global)
+        public List<FM25_FM35_global> BuildFM25_35_Global(FM25Global fm25Global, int ukprn)
         {
             return new List<FM25_FM35_global>()
             {
                 new FM25_FM35_global
                 {
-                    UKPRN = fm25Global.UKPRN.Value,
+                    UKPRN = ukprn,
                     RulebaseVersion = fm25Global.RulebaseVersion
                 }
             };
         }
 
-        public IEnumerable<FM25_FM35_Learner_Period> MapFM25_35_LearnerPeriod(FM25Global fm25Global)
+        public FM25_FM35_Learner_Period BuildFM25_35_LearnerPeriod(LearnerPeriod learnerPeriod, int ukprn, string learnRefNumber)
         {
-            return fm25Global.Learners.SelectMany(l => l.LearnerPeriods.Select(lp => new FM25_FM35_Learner_Period
+            return new FM25_FM35_Learner_Period()
             {
-                UKPRN = fm25Global.UKPRN.Value,
-                LearnRefNumber = l.LearnRefNumber,
-                Period = lp.Period.Value,
-                LnrOnProgPay = lp.LnrOnProgPay
-            }));
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                Period = learnerPeriod.Period.Value,
+                LnrOnProgPay = learnerPeriod.LnrOnProgPay
+            };
         }
 
-        public IEnumerable<FM25_FM35_Learner_PeriodisedValue> MapFM25_35_LearnerPeriodisedValues(FM25Global fm25Global)
+        public FM25_FM35_Learner_PeriodisedValue BuildFM25_35_LearnerPeriodisedValues(LearnerPeriodisedValues learnerPeriodisedValues, int ukprn, string learnRefNumber)
         {
-            return
-                  fm25Global.Learners.SelectMany(l => l.LearnerPeriodisedValues.Select(lpv =>
-                  new FM25_FM35_Learner_PeriodisedValue
-                  {
-                      UKPRN = fm25Global.UKPRN.Value,
-                      LearnRefNumber = l.LearnRefNumber,
-                      AttributeName = lpv.AttributeName,
-                      Period_1 = lpv.Period1,
-                      Period_2 = lpv.Period2,
-                      Period_3 = lpv.Period3,
-                      Period_4 = lpv.Period4,
-                      Period_5 = lpv.Period5,
-                      Period_6 = lpv.Period6,
-                      Period_7 = lpv.Period7,
-                      Period_8 = lpv.Period8,
-                      Period_9 = lpv.Period9,
-                      Period_10 = lpv.Period10,
-                      Period_11 = lpv.Period11,
-                      Period_12 = lpv.Period12
-                  }));
+            return new FM25_FM35_Learner_PeriodisedValue()
+            {
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                AttributeName = learnerPeriodisedValues.AttributeName,
+                Period_1 = learnerPeriodisedValues.Period1,
+                Period_2 = learnerPeriodisedValues.Period2,
+                Period_3 = learnerPeriodisedValues.Period3,
+                Period_4 = learnerPeriodisedValues.Period4,
+                Period_5 = learnerPeriodisedValues.Period5,
+                Period_6 = learnerPeriodisedValues.Period6,
+                Period_7 = learnerPeriodisedValues.Period7,
+                Period_8 = learnerPeriodisedValues.Period8,
+                Period_9 = learnerPeriodisedValues.Period9,
+                Period_10 = learnerPeriodisedValues.Period10,
+                Period_11 = learnerPeriodisedValues.Period11,
+                Period_12 = learnerPeriodisedValues.Period12
+            };
         }
     }
 }

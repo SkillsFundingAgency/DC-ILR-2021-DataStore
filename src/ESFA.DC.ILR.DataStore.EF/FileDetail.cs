@@ -16,5 +16,12 @@ namespace ESFA.DC.ILR1920.DataStore.EF
         public int? TotalWarningCount { get; set; }
         public DateTime? SubmittedTime { get; set; }
         public bool? Success { get; set; }
+        public string OrgName { get; set; }
+        public string OrgVersion { get; set; }
+        public string LarsVersion { get; set; }
+        public string EmployersVersion { get; set; }
+        public string PostcodesVersion { get; set; }
+        public string CampusIdentifierVersion { get; set; }
+        public DateTime? EasUploadDateTime { get; set; }
     }
 }

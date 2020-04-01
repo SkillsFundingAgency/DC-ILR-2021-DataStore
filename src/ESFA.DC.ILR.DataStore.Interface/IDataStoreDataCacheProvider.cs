@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IDataStoreDataCacheProvider
     {
-        Task<IDataStoreDataCache> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
+        Task<IDataStoreCache> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
     }
 }

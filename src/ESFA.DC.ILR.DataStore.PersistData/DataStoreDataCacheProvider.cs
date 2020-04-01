@@ -21,11 +21,12 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _logger = logger;
         }
 
-        public async Task<IDataStoreDataCache> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        public async Task<IDataStoreCache> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             _logger.LogInfo("Starting External Data Provision Tasks");
 
             var messageTask = _externalDataProvider.ProvideMessageAsync(dataStoreContext, cancellationToken);
+            var looseMessageTask = _externalDataProvider.ProvideLooseMessageAsync(dataStoreContext, cancellationToken);
             var validLearnerTask = _externalDataProvider.ProvideValidLearnersAsync(dataStoreContext, cancellationToken);
             var albTask = _externalDataProvider.ProvideALBAsync(dataStoreContext, cancellationToken);
             var fm25Task = _externalDataProvider.ProvideFM25Async(dataStoreContext, cancellationToken);
@@ -35,10 +36,12 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             var fm81Task = _externalDataProvider.ProvideFM81Async(dataStoreContext, cancellationToken);
             var validationErrorsTask = _externalDataProvider.ProvideValidationErrorsAsync(dataStoreContext, cancellationToken);
             var rulesTask = _externalDataProvider.ProvideRulesAsync(dataStoreContext, cancellationToken);
+            var referenceDataVersionsTask = _externalDataProvider.ProvideReferenceDataVersionsAsync(dataStoreContext, cancellationToken);
 
             var tasks = new List<Task>()
             {
                 messageTask,
+                looseMessageTask,
                 validLearnerTask,
                 albTask,
                 fm25Task,
@@ -48,30 +51,31 @@ namespace ESFA.DC.ILR.DataStore.PersistData
                 fm81Task,
                 validationErrorsTask,
                 rulesTask,
+                referenceDataVersionsTask
             };
 
             await Task.WhenAll(tasks);
 
             _logger.LogInfo("Data Provision Finished, starting Cache Mapping");
 
-            var dataStoreDataCache = new DataStoreDataCache
-            {
-                ProcessingInformation = _dataStoreMapper.MapProcessingInformationData(dataStoreContext),
-                ValidLearnerData = _dataStoreMapper.MapValidLearnerData(messageTask.Result, validLearnerTask.Result),
-                InvalidLearnerData = _dataStoreMapper.MapInvalidLearnerData(messageTask.Result, validLearnerTask.Result),
-                ALBData = _dataStoreMapper.MapALBData(albTask.Result),
-                FM25Data = _dataStoreMapper.MapFM25Data(fm25Task.Result),
-                FM35Data = _dataStoreMapper.MapFM35Data(fm35Task.Result),
-                FM36Data = _dataStoreMapper.MapFM36Data(fm36Task.Result),
-                FM70Data = _dataStoreMapper.MapFM70Data(fm70Task.Result),
-                FM81Data = _dataStoreMapper.MapFM81Data(fm81Task.Result),
-                FM36HistoryData = _dataStoreMapper.MapFM36HistoryData(fm36Task.Result, dataStoreContext),
-                ValidationData = _dataStoreMapper.MapValidationData(dataStoreContext, messageTask.Result, validationErrorsTask.Result, rulesTask.Result)
-            };
+            var cache = new DataStoreCache();
+
+            _dataStoreMapper.MapProcessingInformationData(cache, referenceDataVersionsTask.Result, dataStoreContext);
+            _dataStoreMapper.MapValidLearnerData(cache, messageTask.Result, validLearnerTask.Result);
+            _dataStoreMapper.MapInvalidLearnerData(cache, looseMessageTask.Result, validLearnerTask.Result);
+            _dataStoreMapper.MapALBData(cache, albTask.Result);
+            _dataStoreMapper.MapFM25Data(cache, fm25Task.Result);
+            _dataStoreMapper.MapFM35Data(cache, fm35Task.Result);
+            _dataStoreMapper.MapFM36Data(cache, fm36Task.Result);
+            _dataStoreMapper.MapFM70Data(cache, fm70Task.Result);
+            _dataStoreMapper.MapFM81Data(cache, fm81Task.Result);
+            _dataStoreMapper.MapFM36HistoryData(cache, fm36Task.Result, dataStoreContext);
+            _dataStoreMapper.MapValidationData(cache, dataStoreContext, looseMessageTask.Result, validationErrorsTask.Result, rulesTask.Result);
+            _dataStoreMapper.MapESFFundingData(cache, dataStoreContext, messageTask.Result, fm70Task.Result);
 
             _logger.LogInfo("Cache Mapping Complete");
 
-            return dataStoreDataCache;
+            return cache;
         }
     }
 }

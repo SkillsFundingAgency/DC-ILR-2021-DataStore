@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model.Funding;
+using ESFA.DC.ILR.DataStore.Model.Interface;
+using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
@@ -12,116 +13,130 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM70Mapper : IFM70Mapper
     {
-        public FM70Data MapData(FM70Global fm70Global)
+        public void MapData(IDataStoreCache cache, FM70Global fm70Global)
         {
-            var data = new FM70Data();
+            var learners = fm70Global.Learners;
 
-            if (fm70Global.Learners != null)
+            if (learners == null)
             {
-                data.Globals = MapGlobals(fm70Global).ToList();
-                data.Learners = MapLearners(fm70Global).ToList();
-                data.DPOutcomes = MapDPOutcomes(fm70Global).ToList();
-                data.LearningDeliveries = MapLearningDeliveries(fm70Global).ToList();
-                data.LearningDeliveryDeliverables = MapLearningDeliveryDeliverables(fm70Global).ToList();
-                data.LearningDeliveryDeliverablePeriods = MapLearningDeliveryDeliverablePeriods(fm70Global).ToList();
-                data.LearningDeliveryDeliverablePeriodisedValues = MapLearningDeliveryDeliverablePeriodisedValues(fm70Global).ToList();
+                return;
             }
 
-            return data;
+            var ukprn = fm70Global.UKPRN;
+
+            PopulateDataStoreCache(cache, learners, fm70Global, ukprn);
         }
 
-        public IEnumerable<ESF_global> MapGlobals(FM70Global fm70Global)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM70Learner> learners, FM70Global fm70Global, int ukprn)
+        {
+            cache.AddRange(BuildGlobals(fm70Global, ukprn));
+
+            learners.NullSafeForEach(learner =>
+            {
+                var learnRefNumber = learner.LearnRefNumber;
+
+                cache.Add(BuildLearner(ukprn, learnRefNumber));
+                learner.LearnerDPOutcomes.NullSafeForEach(learnerDp => cache.Add(BuildDPOutcome(learnerDp, ukprn, learnRefNumber)));
+                learner.LearningDeliveries.NullSafeForEach(learningDelivery =>
+                {
+                    var aimSeqNumber = learningDelivery.AimSeqNumber.Value;
+
+                    cache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber));
+                    learningDelivery.LearningDeliveryDeliverableValues.NullSafeForEach(ldd => cache.Add(BuildLearningDeliveryDeliverable(ldd, ukprn, learnRefNumber, aimSeqNumber)));
+                });
+            });
+
+            var learningDeliveryPeriodisedValues = learners.SelectMany(l => l.LearningDeliveries.SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
+                    new FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>(ukprn, l.LearnRefNumber, ld.AimSeqNumber.Value, ldd.DeliverableCode, ldd.LearningDeliveryDeliverablePeriodisedValues))));
+
+            cache.AddRange(BuildLearningDeliveryDeliverablePeriods(learningDeliveryPeriodisedValues));
+
+            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildLearningDeliveryDeliverablePeriodisedValue(learningDeliveryPeriodisedValue, ukprn, ldpv.AimSeqNumber, ldpv.LearnRefNumber, ldpv.EsfDeliverableCode))));
+        }
+
+        public List<ESF_global> BuildGlobals(FM70Global fm70Global, int ukprn)
         {
             return new List<ESF_global>()
             {
                 new ESF_global
                 {
-                    UKPRN = fm70Global.UKPRN,
+                    UKPRN = ukprn,
                     RulebaseVersion = fm70Global.RulebaseVersion,
                 }
             };
         }
 
-        public IEnumerable<ESF_Learner> MapLearners(FM70Global fm70Global)
+        public ESF_Learner BuildLearner(int ukprn, string learnRefNumber)
         {
-            return fm70Global.Learners.Select(l =>
-            new ESF_Learner
+            return new ESF_Learner
             {
-                UKPRN = fm70Global.UKPRN,
-                LearnRefNumber = l.LearnRefNumber
-            });
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber
+            };
         }
 
-        public IEnumerable<ESF_DPOutcome> MapDPOutcomes(FM70Global fm70Global)
+        public ESF_DPOutcome BuildDPOutcome(LearnerDPOutcome learnerDpOutcome, int ukprn, string learnRefNumber)
         {
-            return fm70Global.Learners.SelectMany(l => l.LearnerDPOutcomes.Select(dp =>
-            new ESF_DPOutcome
+            return new ESF_DPOutcome
             {
-                UKPRN = fm70Global.UKPRN,
-                LearnRefNumber = l.LearnRefNumber,
-                OutCode = dp.OutCode,
-                OutcomeDateForProgression = dp.OutcomeDateForProgression,
-                OutStartDate = dp.OutStartDate,
-                OutType = dp.OutType,
-                PotentialESFProgressionType = dp.PotentialESFProgressionType,
-                ProgressionType = dp.ProgressionType,
-                ReachedThreeMonthPoint = dp.ReachedThreeMonthPoint,
-                ReachedSixMonthPoint = dp.ReachedSixMonthPoint,
-                ReachedTwelveMonthPoint = dp.ReachedTwelveMonthPoint
-            }));
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                OutCode = learnerDpOutcome.OutCode,
+                OutcomeDateForProgression = learnerDpOutcome.OutcomeDateForProgression,
+                OutStartDate = learnerDpOutcome.OutStartDate,
+                OutType = learnerDpOutcome.OutType,
+                PotentialESFProgressionType = learnerDpOutcome.PotentialESFProgressionType,
+                ProgressionType = learnerDpOutcome.ProgressionType,
+                ReachedThreeMonthPoint = learnerDpOutcome.ReachedThreeMonthPoint,
+                ReachedSixMonthPoint = learnerDpOutcome.ReachedSixMonthPoint,
+                ReachedTwelveMonthPoint = learnerDpOutcome.ReachedTwelveMonthPoint
+            };
         }
 
-        public IEnumerable<ESF_LearningDelivery> MapLearningDeliveries(FM70Global fm70Global)
+        public ESF_LearningDelivery BuildLearningDelivery(LearningDelivery ld, int ukprn, string learnRefNumber)
         {
-            return fm70Global.Learners.SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new ESF_LearningDelivery
-               {
-                   UKPRN = fm70Global.UKPRN,
-                   LearnRefNumber = l.LearnRefNumber,
-                   AimSeqNumber = ld.AimSeqNumber.Value,
-                   Achieved = ld.LearningDeliveryValue.Achieved,
-                   AddProgCostElig = ld.LearningDeliveryValue.AddProgCostElig,
-                   AdjustedAreaCostFactor = ld.LearningDeliveryValue.AdjustedAreaCostFactor,
-                   AdjustedPremiumFactor = ld.LearningDeliveryValue.AdjustedPremiumFactor,
-                   AdjustedStartDate = ld.LearningDeliveryValue.AdjustedStartDate,
-                   AimClassification = ld.LearningDeliveryValue.AimClassification,
-                   AimValue = ld.LearningDeliveryValue.AimValue,
-                   ApplicWeightFundRate = ld.LearningDeliveryValue.ApplicWeightFundRate,
-                   EligibleProgressionOutcomeCode = ld.LearningDeliveryValue.EligibleProgressionOutcomeCode,
-                   EligibleProgressionOutcomeType = ld.LearningDeliveryValue.EligibleProgressionOutcomeType,
-                   EligibleProgressionOutomeStartDate = ld.LearningDeliveryValue.EligibleProgressionOutomeStartDate,
-                   FundStart = ld.LearningDeliveryValue.FundStart,
-                   LARSWeightedRate = ld.LearningDeliveryValue.LARSWeightedRate,
-                   LatestPossibleStartDate = ld.LearningDeliveryValue.LatestPossibleStartDate,
-                   LDESFEngagementStartDate = ld.LearningDeliveryValue.LDESFEngagementStartDate,
-                   LearnDelLearnerEmpAtStart = ld.LearningDeliveryValue.LearnDelLearnerEmpAtStart,
-                   PotentiallyEligibleForProgression = ld.LearningDeliveryValue.PotentiallyEligibleForProgression,
-                   ProgressionEndDate = ld.LearningDeliveryValue.ProgressionEndDate,
-                   Restart = ld.LearningDeliveryValue.Restart,
-                   WeightedRateFromESOL = ld.LearningDeliveryValue.WeightedRateFromESOL,
-               }));
-        }
-
-        public IEnumerable<ESF_LearningDeliveryDeliverable> MapLearningDeliveryDeliverables(FM70Global fm70Global)
-        {
-            return fm70Global.Learners.SelectMany(l => l.LearningDeliveries
-            .SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
-            new ESF_LearningDeliveryDeliverable
+            return new ESF_LearningDelivery
             {
-                UKPRN = fm70Global.UKPRN,
-                LearnRefNumber = l.LearnRefNumber,
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
                 AimSeqNumber = ld.AimSeqNumber.Value,
+                Achieved = ld.LearningDeliveryValue.Achieved,
+                AddProgCostElig = ld.LearningDeliveryValue.AddProgCostElig,
+                AdjustedAreaCostFactor = ld.LearningDeliveryValue.AdjustedAreaCostFactor,
+                AdjustedPremiumFactor = ld.LearningDeliveryValue.AdjustedPremiumFactor,
+                AdjustedStartDate = ld.LearningDeliveryValue.AdjustedStartDate,
+                AimClassification = ld.LearningDeliveryValue.AimClassification,
+                AimValue = ld.LearningDeliveryValue.AimValue,
+                ApplicWeightFundRate = ld.LearningDeliveryValue.ApplicWeightFundRate,
+                EligibleProgressionOutcomeCode = ld.LearningDeliveryValue.EligibleProgressionOutcomeCode,
+                EligibleProgressionOutcomeType = ld.LearningDeliveryValue.EligibleProgressionOutcomeType,
+                EligibleProgressionOutomeStartDate = ld.LearningDeliveryValue.EligibleProgressionOutomeStartDate,
+                FundStart = ld.LearningDeliveryValue.FundStart,
+                LARSWeightedRate = ld.LearningDeliveryValue.LARSWeightedRate,
+                LatestPossibleStartDate = ld.LearningDeliveryValue.LatestPossibleStartDate,
+                LDESFEngagementStartDate = ld.LearningDeliveryValue.LDESFEngagementStartDate,
+                LearnDelLearnerEmpAtStart = ld.LearningDeliveryValue.LearnDelLearnerEmpAtStart,
+                PotentiallyEligibleForProgression = ld.LearningDeliveryValue.PotentiallyEligibleForProgression,
+                ProgressionEndDate = ld.LearningDeliveryValue.ProgressionEndDate,
+                Restart = ld.LearningDeliveryValue.Restart,
+                WeightedRateFromESOL = ld.LearningDeliveryValue.WeightedRateFromESOL,
+            };
+        }
+
+        public ESF_LearningDeliveryDeliverable BuildLearningDeliveryDeliverable(LearningDeliveryDeliverableValues ldd, int ukprn, string learnRefNumber, int aimSeqNumber)
+        {
+            return new ESF_LearningDeliveryDeliverable
+            {
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                AimSeqNumber = aimSeqNumber,
                 DeliverableCode = ldd.DeliverableCode,
                 DeliverableUnitCost = ldd.DeliverableUnitCost
-            })));
+            };
         }
 
-        public IEnumerable<ESF_LearningDeliveryDeliverable_Period> MapLearningDeliveryDeliverablePeriods(FM70Global fm70Global)
+        public IEnumerable<ESF_LearningDeliveryDeliverable_Period> BuildLearningDeliveryDeliverablePeriods(IEnumerable<FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>> periodisedValues)
         {
-            var periodisedValues = fm70Global.Learners.SelectMany(l => l.LearningDeliveries
-           .SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
-            new FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>(fm70Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ldd.DeliverableCode, ldd.LearningDeliveryDeliverablePeriodisedValues))));
-
             var learningDeliveryDeliverablePeriods = new List<ESF_LearningDeliveryDeliverable_Period>();
 
             for (var i = 1; i < 13; i++)
@@ -147,35 +162,28 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             return learningDeliveryDeliverablePeriods;
         }
 
-        public IEnumerable<ESF_LearningDeliveryDeliverable_PeriodisedValue> MapLearningDeliveryDeliverablePeriodisedValues(FM70Global fm70Global)
+        public ESF_LearningDeliveryDeliverable_PeriodisedValue BuildLearningDeliveryDeliverablePeriodisedValue(LearningDeliveryDeliverablePeriodisedValue lddpv, int ukprn, int aimSeqNumber, string learnRefNumber, string deliverableCode)
         {
-            var periodisedValues = fm70Global.Learners.SelectMany(l => l.LearningDeliveries
-            .SelectMany(ld => ld.LearningDeliveryDeliverableValues.Select(ldd =>
-             new FundModelESFLearningDeliveryPeriodisedValue<List<LearningDeliveryDeliverablePeriodisedValue>>(fm70Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ldd.DeliverableCode, ldd.LearningDeliveryDeliverablePeriodisedValues))));
-
-            return
-                   periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
-                   .Select(p =>
-                   new ESF_LearningDeliveryDeliverable_PeriodisedValue
-                   {
-                       UKPRN = pv.Ukprn,
-                       AimSeqNumber = pv.AimSeqNumber,
-                       LearnRefNumber = pv.LearnRefNumber,
-                       DeliverableCode = pv.EsfDeliverableCode,
-                       AttributeName = p.AttributeName,
-                       Period_1 = p.Period1,
-                       Period_2 = p.Period2,
-                       Period_3 = p.Period3,
-                       Period_4 = p.Period4,
-                       Period_5 = p.Period5,
-                       Period_6 = p.Period6,
-                       Period_7 = p.Period7,
-                       Period_8 = p.Period8,
-                       Period_9 = p.Period9,
-                       Period_10 = p.Period10,
-                       Period_11 = p.Period11,
-                       Period_12 = p.Period12
-                   }));
+            return new ESF_LearningDeliveryDeliverable_PeriodisedValue
+            {
+                UKPRN = ukprn,
+                AimSeqNumber = aimSeqNumber,
+                LearnRefNumber = learnRefNumber,
+                DeliverableCode = deliverableCode,
+                AttributeName = lddpv.AttributeName,
+                Period_1 = lddpv.Period1,
+                Period_2 = lddpv.Period2,
+                Period_3 = lddpv.Period3,
+                Period_4 = lddpv.Period4,
+                Period_5 = lddpv.Period5,
+                Period_6 = lddpv.Period6,
+                Period_7 = lddpv.Period7,
+                Period_8 = lddpv.Period8,
+                Period_9 = lddpv.Period9,
+                Period_10 = lddpv.Period10,
+                Period_11 = lddpv.Period11,
+                Period_12 = lddpv.Period12
+            };
         }
     }
 }

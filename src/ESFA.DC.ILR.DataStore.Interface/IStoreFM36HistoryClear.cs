@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface IStoreFM36HistoryClear
     {
-        Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken);
+        Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }
 }

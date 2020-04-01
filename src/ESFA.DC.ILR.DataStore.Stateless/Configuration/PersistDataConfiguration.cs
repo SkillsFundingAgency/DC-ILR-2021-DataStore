@@ -6,6 +6,6 @@
 
         public string AppEarnHistoryDataStoreConnectionString { get; set; }
 
-        public string IlrValidationErrorsConnectionString { get; set; }
+        public string EsfFundingDatabaseConnectionString { get; set; }
     }
 }

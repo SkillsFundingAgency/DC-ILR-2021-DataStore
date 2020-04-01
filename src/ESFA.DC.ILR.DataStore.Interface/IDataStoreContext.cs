@@ -16,6 +16,8 @@ namespace ESFA.DC.ILR.DataStore.Interface
 
         string ReturnPeriod { get; }
 
+        string CollectionPeriod { get; }
+
         DateTime? SubmissionDateTimeUtc { get; }
 
         long FileSizeInBytes { get; }
@@ -49,5 +51,9 @@ namespace ESFA.DC.ILR.DataStore.Interface
         string IlrDatabaseConnectionString { get; }
 
         string AppEarnHistoryDatabaseConnectionString { get; }
+
+        string EsfFundingDatabaseConnectionString { get; }
+
+        string ExportOutputLocation { get; }
     }
 }

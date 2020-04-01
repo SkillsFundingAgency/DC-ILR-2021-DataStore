@@ -105,6 +105,7 @@
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="DataLock\Stored Procedures\" />
     <Folder Include="Valid\Stored Procedures" />
+    <Folder Include="zzDeploymentProfiles" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Rulebase\Tables\VAL_global.sql" />
@@ -220,7 +221,7 @@
     <Build Include="Rulebase\Tables\FM35_LearningDelivery.sql" />
     <Build Include="Rulebase\Tables\FM35_LearningDelivery_Period.sql" />
     <Build Include="Rulebase\Tables\FM35_LearningDelivery_PeriodisedValues.sql" />
-    <!--<Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode.sql" />
+    <Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode.sql" />
     <Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_Period.sql" />
     <Build Include="Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_PeriodisedValues.sql" />
     <Build Include="Rulebase\Tables\AEC_global.sql" />
@@ -229,7 +230,13 @@
     <Build Include="Rulebase\Tables\AEC_LearningDelivery.sql" />
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_Period.sql" />
     <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedTextValues.sql" />
-    <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql" />-->
+    <Build Include="Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql" />
+    <Build Include="dbo\Stored Procedures\GetPeriodEndMetrics.sql" />
+    <Build Include="Security\MatchClaim_RO_User.sql" />
+    <None Include="z.ExtendedProperties.sql" />
+    <Build Include="Valid\Stored Procedures\GetLearnerAndDeliveryDetails.sql" />
+    <Build Include="Valid\Stored Procedures\GetFileDetailsProviderUkprns.sql" />
+    <Build Include="dbo\Stored Procedures\GetACTCounts.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
@@ -243,6 +250,10 @@
     <SqlCmdVariable Include="DSCIUserPassword">
       <DefaultValue>NotUsed@1223zxxas@ss.PR</DefaultValue>
       <Value>$(SqlCmdVar__7)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="MatchClaimROPassword">
+      <DefaultValue>NotUsed@1223zxxas@ss.MC</DefaultValue>
+      <Value>$(SqlCmdVar__8)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="RELEASE_RELEASENAME">
       <DefaultValue>ZZZ.ZZZZ.ZZ.zZZZZZ</DefaultValue>
@@ -262,5 +273,8 @@
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="zScript.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="zzDeploymentProfiles\zz.Local.Dev.Version.publish.xml" />
   </ItemGroup>
 </Project>

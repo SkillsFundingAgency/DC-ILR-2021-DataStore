@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.ILR.DataStore.Interface.Mappers;
-using ESFA.DC.ILR.DataStore.Model.Funding;
+using ESFA.DC.ILR.DataStore.Model.Interface;
+using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
@@ -12,23 +13,42 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
     public class FM35Mapper : IFM35Mapper
     {
-        public FM35Data MapData(FM35Global fm35Global)
+        public void MapData(IDataStoreCache cache, FM35Global fm35Global)
         {
-            var data = new FM35Data();
+            var learners = fm35Global.Learners;
 
-            if (fm35Global.Learners != null)
+            if (learners == null)
             {
-                data.Globals = MapGlobals(fm35Global).ToList();
-                data.Learners = MapLearners(fm35Global).ToList();
-                data.LearningDeliveries = MapLearningDeliveries(fm35Global).ToList();
-                data.LearningDeliveryPeriods = MapLearningDeliveryPeriods(fm35Global).ToList();
-                data.LearningDeliveryPeriodisedValues = MapLearningDeliveryPeriodisedValues(fm35Global).ToList();
+                return;
             }
 
-            return data;
+            var ukprn = fm35Global.UKPRN;
+
+            PopulateDataStoreCache(cache, learners, fm35Global, ukprn);
         }
 
-        public IEnumerable<FM35_global> MapGlobals(FM35Global fm35Global)
+        private void PopulateDataStoreCache(IDataStoreCache cache, IEnumerable<FM35Learner> learners, FM35Global fm35Global, int ukprn)
+        {
+            cache.AddRange(BuildGlobals(fm35Global, ukprn));
+
+            learners.NullSafeForEach(learner =>
+            {
+                var learnRefNumber = learner.LearnRefNumber;
+
+                cache.Add(BuildLearner(ukprn, learnRefNumber));
+
+                learner.LearningDeliveries.NullSafeForEach(learningDelivery => cache.Add(BuildLearningDelivery(learningDelivery, ukprn, learnRefNumber)));
+            });
+
+            var learningDeliveryPeriodisedValues = learners.SelectMany(l => l.LearningDeliveries.Select(ld =>
+                    new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(ukprn, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
+
+            cache.AddRange(BuildLearningDeliveryPeriods(learningDeliveryPeriodisedValues));
+
+            learningDeliveryPeriodisedValues.NullSafeForEach(ldpv => ldpv.LearningDeliveryPeriodisedValue.NullSafeForEach(learningDeliveryPeriodisedValue => cache.Add(BuildLearningDeliveryPeriodisedValues(learningDeliveryPeriodisedValue, ldpv.AimSeqNumber, ukprn, ldpv.LearnRefNumber))));
+        }
+
+        public List<FM35_global> BuildGlobals(FM35Global fm35Global, int ukprn)
         {
             return new List<FM35_global>()
             {
@@ -36,7 +56,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 {
                     CurFundYr = fm35Global.CurFundYr,
                     LARSVersion = fm35Global.LARSVersion,
-                    UKPRN = fm35Global.UKPRN,
+                    UKPRN = ukprn,
                     RulebaseVersion = fm35Global.RulebaseVersion,
                     OrgVersion = fm35Global.OrgVersion,
                     PostcodeDisadvantageVersion = fm35Global.PostcodeDisadvantageVersion
@@ -44,105 +64,100 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             };
         }
 
-        public IEnumerable<FM35_Learner> MapLearners(FM35Global fm35Global)
+        public FM35_Learner BuildLearner(int ukprn, string learnRefNumber)
         {
-            return fm35Global.Learners.Select(l => new FM35_Learner
+            return new FM35_Learner
             {
-                UKPRN = fm35Global.UKPRN,
-                LearnRefNumber = l.LearnRefNumber
-            });
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber
+            };
         }
 
-        public IEnumerable<FM35_LearningDelivery> MapLearningDeliveries(FM35Global fm35Global)
+        public FM35_LearningDelivery BuildLearningDelivery(LearningDelivery learningDelivery, int ukprn, string learnRefNumber)
         {
-            return fm35Global.Learners
-                .SelectMany(l => l.LearningDeliveries.Select(ld =>
-                new FM35_LearningDelivery
-                {
-                    UKPRN = fm35Global.UKPRN,
-                    LearnRefNumber = l.LearnRefNumber,
-                    AimSeqNumber = ld.AimSeqNumber.Value,
-                    AchApplicDate = ld.LearningDeliveryValue.AchApplicDate,
-                    Achieved = ld.LearningDeliveryValue.Achieved,
-                    AchieveElement = ld.LearningDeliveryValue.AchieveElement,
-                    AchievePayElig = ld.LearningDeliveryValue.AchievePayElig,
-                    AchievePayPctPreTrans = ld.LearningDeliveryValue.AchievePayPctPreTrans,
-                    AchPayTransHeldBack = ld.LearningDeliveryValue.AchPayTransHeldBack,
-                    ActualDaysIL = ld.LearningDeliveryValue.ActualDaysIL,
-                    ActualNumInstalm = ld.LearningDeliveryValue.ActualNumInstalm,
-                    ActualNumInstalmPreTrans = ld.LearningDeliveryValue.ActualNumInstalmPreTrans,
-                    ActualNumInstalmTrans = ld.LearningDeliveryValue.ActualNumInstalmTrans,
-                    AdjLearnStartDate = ld.LearningDeliveryValue.AdjLearnStartDate,
-                    AdltLearnResp = ld.LearningDeliveryValue.AdltLearnResp,
-                    AgeAimStart = ld.LearningDeliveryValue.AgeAimStart,
-                    AimValue = ld.LearningDeliveryValue.AimValue,
-                    AppAdjLearnStartDate = ld.LearningDeliveryValue.AppAdjLearnStartDate,
-                    AppAgeFact = ld.LearningDeliveryValue.AppAgeFact,
-                    AppATAGTA = ld.LearningDeliveryValue.AppATAGTA,
-                    AppCompetency = ld.LearningDeliveryValue.AppCompetency,
-                    AppFuncSkill = ld.LearningDeliveryValue.AppFuncSkill,
-                    AppFuncSkill1618AdjFact = ld.LearningDeliveryValue.AppFuncSkill1618AdjFact,
-                    AppKnowl = ld.LearningDeliveryValue.AppKnowl,
-                    AppLearnStartDate = ld.LearningDeliveryValue.AppLearnStartDate,
-                    ApplicEmpFactDate = ld.LearningDeliveryValue.ApplicEmpFactDate,
-                    ApplicFactDate = ld.LearningDeliveryValue.ApplicFactDate,
-                    ApplicFundRateDate = ld.LearningDeliveryValue.ApplicFundRateDate,
-                    ApplicProgWeightFact = ld.LearningDeliveryValue.ApplicProgWeightFact,
-                    ApplicUnweightFundRate = ld.LearningDeliveryValue.ApplicUnweightFundRate,
-                    ApplicWeightFundRate = ld.LearningDeliveryValue.ApplicWeightFundRate,
-                    AppNonFund = ld.LearningDeliveryValue.AppNonFund,
-                    AreaCostFactAdj = ld.LearningDeliveryValue.AreaCostFactAdj,
-                    BalInstalmPreTrans = ld.LearningDeliveryValue.BalInstalmPreTrans,
-                    BaseValueUnweight = ld.LearningDeliveryValue.BaseValueUnweight,
-                    CapFactor = ld.LearningDeliveryValue.CapFactor,
-                    DisUpFactAdj = ld.LearningDeliveryValue.DisUpFactAdj,
-                    EmpOutcomePayElig = ld.LearningDeliveryValue.EmpOutcomePayElig,
-                    EmpOutcomePctHeldBackTrans = ld.LearningDeliveryValue.EmpOutcomePctHeldBackTrans,
-                    EmpOutcomePctPreTrans = ld.LearningDeliveryValue.EmpOutcomePctPreTrans,
-                    EmpRespOth = ld.LearningDeliveryValue.EmpRespOth,
-                    ESOL = ld.LearningDeliveryValue.ESOL,
-                    FullyFund = ld.LearningDeliveryValue.FullyFund,
-                    FundLine = ld.LearningDeliveryValue.FundLine,
-                    FundStart = ld.LearningDeliveryValue.FundStart,
-                    LargeEmployerID = ld.LearningDeliveryValue.LargeEmployerID,
-                    LargeEmployerFM35Fctr = ld.LearningDeliveryValue.LargeEmployerFM35Fctr,
-                    LargeEmployerStatusDate = ld.LearningDeliveryValue.LargeEmployerStatusDate,
-                    LTRCUpliftFctr = ld.LearningDeliveryValue.LTRCUpliftFctr,
-                    NonGovCont = ld.LearningDeliveryValue.NonGovCont,
-                    OLASSCustody = ld.LearningDeliveryValue.OLASSCustody,
-                    OnProgPayPctPreTrans = ld.LearningDeliveryValue.OnProgPayPctPreTrans,
-                    OutstndNumOnProgInstalm = ld.LearningDeliveryValue.OutstndNumOnProgInstalm,
-                    OutstndNumOnProgInstalmTrans = ld.LearningDeliveryValue.OutstndNumOnProgInstalmTrans,
-                    PlannedNumOnProgInstalm = ld.LearningDeliveryValue.PlannedNumOnProgInstalm,
-                    PlannedNumOnProgInstalmTrans = ld.LearningDeliveryValue.PlannedNumOnProgInstalmTrans,
-                    PlannedTotalDaysIL = ld.LearningDeliveryValue.PlannedTotalDaysIL,
-                    PlannedTotalDaysILPreTrans = ld.LearningDeliveryValue.PlannedTotalDaysILPreTrans,
-                    PropFundRemain = ld.LearningDeliveryValue.PropFundRemain,
-                    PropFundRemainAch = ld.LearningDeliveryValue.PropFundRemainAch,
-                    PrscHEAim = ld.LearningDeliveryValue.PrscHEAim,
-                    Residential = ld.LearningDeliveryValue.Residential,
-                    Restart = ld.LearningDeliveryValue.Restart,
-                    SpecResUplift = ld.LearningDeliveryValue.SpecResUplift,
-                    StartPropTrans = ld.LearningDeliveryValue.StartPropTrans,
-                    ThresholdDays = ld.LearningDeliveryValue.ThresholdDays,
-                    Traineeship = ld.LearningDeliveryValue.Traineeship,
-                    Trans = ld.LearningDeliveryValue.Trans,
-                    TrnAdjLearnStartDate = ld.LearningDeliveryValue.TrnAdjLearnStartDate,
-                    TrnWorkPlaceAim = ld.LearningDeliveryValue.TrnWorkPlaceAim,
-                    TrnWorkPrepAim = ld.LearningDeliveryValue.TrnWorkPrepAim,
-                    UnWeightedRateFromESOL = ld.LearningDeliveryValue.UnWeightedRateFromESOL,
-                    UnweightedRateFromLARS = ld.LearningDeliveryValue.UnweightedRateFromLARS,
-                    WeightedRateFromESOL = ld.LearningDeliveryValue.WeightedRateFromESOL,
-                    WeightedRateFromLARS = ld.LearningDeliveryValue.WeightedRateFromLARS
-                }));
+            return new FM35_LearningDelivery
+            {
+                UKPRN = ukprn,
+                LearnRefNumber = learnRefNumber,
+                AimSeqNumber = learningDelivery.AimSeqNumber.Value,
+                AchApplicDate = learningDelivery.LearningDeliveryValue.AchApplicDate,
+                Achieved = learningDelivery.LearningDeliveryValue.Achieved,
+                AchieveElement = learningDelivery.LearningDeliveryValue.AchieveElement,
+                AchievePayElig = learningDelivery.LearningDeliveryValue.AchievePayElig,
+                AchievePayPctPreTrans = learningDelivery.LearningDeliveryValue.AchievePayPctPreTrans,
+                AchPayTransHeldBack = learningDelivery.LearningDeliveryValue.AchPayTransHeldBack,
+                ActualDaysIL = learningDelivery.LearningDeliveryValue.ActualDaysIL,
+                ActualNumInstalm = learningDelivery.LearningDeliveryValue.ActualNumInstalm,
+                ActualNumInstalmPreTrans = learningDelivery.LearningDeliveryValue.ActualNumInstalmPreTrans,
+                ActualNumInstalmTrans = learningDelivery.LearningDeliveryValue.ActualNumInstalmTrans,
+                AdjLearnStartDate = learningDelivery.LearningDeliveryValue.AdjLearnStartDate,
+                AdltLearnResp = learningDelivery.LearningDeliveryValue.AdltLearnResp,
+                AgeAimStart = learningDelivery.LearningDeliveryValue.AgeAimStart,
+                AimValue = learningDelivery.LearningDeliveryValue.AimValue,
+                AppAdjLearnStartDate = learningDelivery.LearningDeliveryValue.AppAdjLearnStartDate,
+                AppAgeFact = learningDelivery.LearningDeliveryValue.AppAgeFact,
+                AppATAGTA = learningDelivery.LearningDeliveryValue.AppATAGTA,
+                AppCompetency = learningDelivery.LearningDeliveryValue.AppCompetency,
+                AppFuncSkill = learningDelivery.LearningDeliveryValue.AppFuncSkill,
+                AppFuncSkill1618AdjFact = learningDelivery.LearningDeliveryValue.AppFuncSkill1618AdjFact,
+                AppKnowl = learningDelivery.LearningDeliveryValue.AppKnowl,
+                AppLearnStartDate = learningDelivery.LearningDeliveryValue.AppLearnStartDate,
+                ApplicEmpFactDate = learningDelivery.LearningDeliveryValue.ApplicEmpFactDate,
+                ApplicFactDate = learningDelivery.LearningDeliveryValue.ApplicFactDate,
+                ApplicFundRateDate = learningDelivery.LearningDeliveryValue.ApplicFundRateDate,
+                ApplicProgWeightFact = learningDelivery.LearningDeliveryValue.ApplicProgWeightFact,
+                ApplicUnweightFundRate = learningDelivery.LearningDeliveryValue.ApplicUnweightFundRate,
+                ApplicWeightFundRate = learningDelivery.LearningDeliveryValue.ApplicWeightFundRate,
+                AppNonFund = learningDelivery.LearningDeliveryValue.AppNonFund,
+                AreaCostFactAdj = learningDelivery.LearningDeliveryValue.AreaCostFactAdj,
+                BalInstalmPreTrans = learningDelivery.LearningDeliveryValue.BalInstalmPreTrans,
+                BaseValueUnweight = learningDelivery.LearningDeliveryValue.BaseValueUnweight,
+                CapFactor = learningDelivery.LearningDeliveryValue.CapFactor,
+                DisUpFactAdj = learningDelivery.LearningDeliveryValue.DisUpFactAdj,
+                EmpOutcomePayElig = learningDelivery.LearningDeliveryValue.EmpOutcomePayElig,
+                EmpOutcomePctHeldBackTrans = learningDelivery.LearningDeliveryValue.EmpOutcomePctHeldBackTrans,
+                EmpOutcomePctPreTrans = learningDelivery.LearningDeliveryValue.EmpOutcomePctPreTrans,
+                EmpRespOth = learningDelivery.LearningDeliveryValue.EmpRespOth,
+                ESOL = learningDelivery.LearningDeliveryValue.ESOL,
+                FullyFund = learningDelivery.LearningDeliveryValue.FullyFund,
+                FundLine = learningDelivery.LearningDeliveryValue.FundLine,
+                FundStart = learningDelivery.LearningDeliveryValue.FundStart,
+                LargeEmployerID = learningDelivery.LearningDeliveryValue.LargeEmployerID,
+                LargeEmployerFM35Fctr = learningDelivery.LearningDeliveryValue.LargeEmployerFM35Fctr,
+                LargeEmployerStatusDate = learningDelivery.LearningDeliveryValue.LargeEmployerStatusDate,
+                LearnDelFundOrgCode = learningDelivery.LearningDeliveryValue.LearnDelFundOrgCode,
+                LTRCUpliftFctr = learningDelivery.LearningDeliveryValue.LTRCUpliftFctr,
+                NonGovCont = learningDelivery.LearningDeliveryValue.NonGovCont,
+                OLASSCustody = learningDelivery.LearningDeliveryValue.OLASSCustody,
+                OnProgPayPctPreTrans = learningDelivery.LearningDeliveryValue.OnProgPayPctPreTrans,
+                OutstndNumOnProgInstalm = learningDelivery.LearningDeliveryValue.OutstndNumOnProgInstalm,
+                OutstndNumOnProgInstalmTrans = learningDelivery.LearningDeliveryValue.OutstndNumOnProgInstalmTrans,
+                PlannedNumOnProgInstalm = learningDelivery.LearningDeliveryValue.PlannedNumOnProgInstalm,
+                PlannedNumOnProgInstalmTrans = learningDelivery.LearningDeliveryValue.PlannedNumOnProgInstalmTrans,
+                PlannedTotalDaysIL = learningDelivery.LearningDeliveryValue.PlannedTotalDaysIL,
+                PlannedTotalDaysILPreTrans = learningDelivery.LearningDeliveryValue.PlannedTotalDaysILPreTrans,
+                PropFundRemain = learningDelivery.LearningDeliveryValue.PropFundRemain,
+                PropFundRemainAch = learningDelivery.LearningDeliveryValue.PropFundRemainAch,
+                PrscHEAim = learningDelivery.LearningDeliveryValue.PrscHEAim,
+                Residential = learningDelivery.LearningDeliveryValue.Residential,
+                Restart = learningDelivery.LearningDeliveryValue.Restart,
+                SpecResUplift = learningDelivery.LearningDeliveryValue.SpecResUplift,
+                StartPropTrans = learningDelivery.LearningDeliveryValue.StartPropTrans,
+                ThresholdDays = learningDelivery.LearningDeliveryValue.ThresholdDays,
+                Traineeship = learningDelivery.LearningDeliveryValue.Traineeship,
+                Trans = learningDelivery.LearningDeliveryValue.Trans,
+                TrnAdjLearnStartDate = learningDelivery.LearningDeliveryValue.TrnAdjLearnStartDate,
+                TrnWorkPlaceAim = learningDelivery.LearningDeliveryValue.TrnWorkPlaceAim,
+                TrnWorkPrepAim = learningDelivery.LearningDeliveryValue.TrnWorkPrepAim,
+                UnWeightedRateFromESOL = learningDelivery.LearningDeliveryValue.UnWeightedRateFromESOL,
+                UnweightedRateFromLARS = learningDelivery.LearningDeliveryValue.UnweightedRateFromLARS,
+                WeightedRateFromESOL = learningDelivery.LearningDeliveryValue.WeightedRateFromESOL,
+                WeightedRateFromLARS = learningDelivery.LearningDeliveryValue.WeightedRateFromLARS
+            };
         }
 
-        public IEnumerable<FM35_LearningDelivery_Period> MapLearningDeliveryPeriods(FM35Global fm35Global)
+        public List<FM35_LearningDelivery_Period> BuildLearningDeliveryPeriods(IEnumerable<FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>> periodisedValues)
         {
-            var periodisedValues = fm35Global.Learners
-               .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(fm35Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
-
             var learningDeliveryPeriods = new List<FM35_LearningDelivery_Period>();
 
             for (var i = 1; i < 13; i++)
@@ -179,34 +194,27 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             return learningDeliveryPeriods;
         }
 
-        public IEnumerable<FM35_LearningDelivery_PeriodisedValue> MapLearningDeliveryPeriodisedValues(FM35Global fm35Global)
+        public FM35_LearningDelivery_PeriodisedValue BuildLearningDeliveryPeriodisedValues(LearningDeliveryPeriodisedValue ldpv, int aimSeqNumber, int ukprn, string learnRefNumber)
         {
-            var periodisedValues = fm35Global.Learners
-               .SelectMany(l => l.LearningDeliveries.Select(ld =>
-               new FundModelLearningDeliveryPeriodisedValue<List<LearningDeliveryPeriodisedValue>>(fm35Global.UKPRN, l.LearnRefNumber, ld.AimSeqNumber.Value, ld.LearningDeliveryPeriodisedValues)));
-
-            return
-                   periodisedValues.SelectMany(pv => pv.LearningDeliveryPeriodisedValue
-                   .Select(p =>
-                   new FM35_LearningDelivery_PeriodisedValue
-                   {
-                       UKPRN = pv.Ukprn,
-                       AimSeqNumber = pv.AimSeqNumber,
-                       LearnRefNumber = pv.LearnRefNumber,
-                       AttributeName = p.AttributeName,
-                       Period_1 = p.Period1,
-                       Period_2 = p.Period2,
-                       Period_3 = p.Period3,
-                       Period_4 = p.Period4,
-                       Period_5 = p.Period5,
-                       Period_6 = p.Period6,
-                       Period_7 = p.Period7,
-                       Period_8 = p.Period8,
-                       Period_9 = p.Period9,
-                       Period_10 = p.Period10,
-                       Period_11 = p.Period11,
-                       Period_12 = p.Period12
-                   }));
+            return new FM35_LearningDelivery_PeriodisedValue
+            {
+                UKPRN = ukprn,
+                AimSeqNumber = aimSeqNumber,
+                LearnRefNumber = learnRefNumber,
+                AttributeName = ldpv.AttributeName,
+                Period_1 = ldpv.Period1,
+                Period_2 = ldpv.Period2,
+                Period_3 = ldpv.Period3,
+                Period_4 = ldpv.Period4,
+                Period_5 = ldpv.Period5,
+                Period_6 = ldpv.Period6,
+                Period_7 = ldpv.Period7,
+                Period_8 = ldpv.Period8,
+                Period_9 = ldpv.Period9,
+                Period_10 = ldpv.Period10,
+                Period_11 = ldpv.Period11,
+                Period_12 = ldpv.Period12
+            };
         }
     }
 }

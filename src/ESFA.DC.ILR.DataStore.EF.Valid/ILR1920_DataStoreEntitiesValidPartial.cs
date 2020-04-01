@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.ILR1920.DataStore.EF.Valid
 {
@@ -26,5 +27,9 @@ namespace ESFA.DC.ILR1920.DataStore.EF.Valid
         IQueryable<ProviderSpecLearnerMonitoring> IILR1920_DataStoreEntitiesValid.ProviderSpecLearnerMonitorings => ProviderSpecLearnerMonitorings;
         IQueryable<Source> IILR1920_DataStoreEntitiesValid.Sources => Sources;
         IQueryable<SourceFile> IILR1920_DataStoreEntitiesValid.SourceFiles => SourceFiles;
+
+        // period end stored procedure output type
+        public virtual DbSet<PeriodEndMetricsEntity> PeriodEndMetrics { get; set; }
+        public virtual DbSet<ACTCountsEntity> ActCounts { get; set; }
     }
 }

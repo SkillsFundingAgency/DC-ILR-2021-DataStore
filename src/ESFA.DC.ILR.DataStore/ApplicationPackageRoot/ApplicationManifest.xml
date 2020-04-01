@@ -12,6 +12,7 @@
     <Parameter Name="AuditMaxConcurrentCalls" DefaultValue="1" />
     <Parameter Name="ILRDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=ILR1819_DataStore;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=AppEarnHistory;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
+    <Parameter Name="EsfFundingDatabaseConnectionString" DefaultValue="data source=(local);initial catalog=EsfFunding;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
     <Parameter Name="LoggerConnectionstring" DefaultValue="Server=localhost;Database=logs;User Id=loguser;Password=password1;" />
     <Parameter Name="MaxMessageSize" DefaultValue="1073741824" />
     <Parameter Name="AzureBlobConnectionString" DefaultValue="UseDevelopmentStorage=true" />
@@ -19,7 +20,7 @@
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
-    <Parameter Name="IlrValidationErrorsConnectionString" DefaultValue="" />
+    <Parameter Name="InstrumentationKey" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -44,7 +45,7 @@
           <Section Name="DataStoreSection">
             <Parameter Name="ILRDataStoreConnectionString" Value="[ILRDataStoreConnectionString]" />
             <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="[AppEarnHistoryDataStoreConnectionString]" />
-            <Parameter Name="IlrValidationErrorsConnectionString" Value="[IlrValidationErrorsConnectionString]" />
+            <Parameter Name="EsfFundingDatabaseConnectionString" Value="[EsfFundingDatabaseConnectionString]" />
           </Section>
           <Section Name="IOConfiguration">
             <Parameter Name="ConnectionString" Value="[AzureBlobConnectionString]" />
@@ -52,6 +53,9 @@
           </Section>
           <Section Name="VersionSection">
             <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
+          </Section>
+          <Section Name="TelemetrySection">
+            <Parameter Name="InstrumentationKey" Value="[InstrumentationKey]" />
           </Section>
         </Settings>
       </ConfigOverride>

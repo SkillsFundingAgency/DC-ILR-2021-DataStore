@@ -18,17 +18,16 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         [Fact]
         public void MapAppsEarningsHistory()
         {
-            var returnCode = "01";
+            var returnCode = "R01";
             var year = "1819";
 
-            var mapAppsEarningsHistory = Mapper().MapAppsEarningsHistory(_fundingOutputs, returnCode, year);
+            var mapAppsEarningsHistory = Mapper().BuildAppsEarningsHistory(_fundingOutputs, returnCode, year);
 
             mapAppsEarningsHistory.Should().NotBeNull();
             mapAppsEarningsHistory.Count().Should().Be(1);
             mapAppsEarningsHistory.Select(a => a.UKPRN).Should().BeEquivalentTo(ukprn);
             mapAppsEarningsHistory.Select(a => a.CollectionReturnCode).Should().BeEquivalentTo("R01");
             mapAppsEarningsHistory.Select(a => a.CollectionYear).Should().BeEquivalentTo("1819");
-            mapAppsEarningsHistory.Select(a => a.OnProgProgAimPaymentsInTheYear).Should().BeEquivalentTo(3000m);
             mapAppsEarningsHistory.Select(a => a.ULN).Should().BeEquivalentTo(9900278304);
             mapAppsEarningsHistory.Select(a => a.LearnRefNumber).Should().Contain(learnRefNumbers);
         }

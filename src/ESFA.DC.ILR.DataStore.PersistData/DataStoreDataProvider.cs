@@ -17,6 +17,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData
     public class DataStoreDataProvider : IDataStoreDataProvider
     {
         private readonly IProviderService<Message> _ilrProviderService;
+        private readonly IProviderService<ILR.Model.Loose.Message> _looseIlrProviderService;
         private readonly IProviderService<ALBGlobal> _albProviderService;
         private readonly IProviderService<FM25Global> _fm25ProviderService;
         private readonly IProviderService<FM35Global> _fm35ProviderService;
@@ -26,9 +27,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         private readonly IProviderService<List<string>> _validLearnerProviderService;
         private readonly IProviderService<List<ValidationError>> _validationErrorsProviderService;
         private readonly IProviderService<List<ValidationRule>> _rulesProviderService;
+        private readonly IProviderService<ReferenceDataVersions> _referenceDataVersionProviderService;
 
         public DataStoreDataProvider(
             IProviderService<Message> ilrProviderService,
+            IProviderService<ILR.Model.Loose.Message> looseIlrProviderService,
             IProviderService<ALBGlobal> albProviderService,
             IProviderService<FM25Global> fm25ProviderService,
             IProviderService<FM35Global> fm35ProviderService,
@@ -37,9 +40,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             IProviderService<FM81Global> fm81ProviderService,
             IProviderService<List<string>> validLearnerProviderService,
             IProviderService<List<ValidationError>> validationErrorsProviderService,
-            IProviderService<List<ValidationRule>> rulesProviderService)
+            IProviderService<List<ValidationRule>> rulesProviderService, 
+            IProviderService<ReferenceDataVersions> referenceDataVersionProviderService)
         {
             _ilrProviderService = ilrProviderService;
+            _looseIlrProviderService = looseIlrProviderService;
             _albProviderService = albProviderService;
             _fm25ProviderService = fm25ProviderService;
             _fm35ProviderService = fm35ProviderService;
@@ -49,11 +54,17 @@ namespace ESFA.DC.ILR.DataStore.PersistData
             _validLearnerProviderService = validLearnerProviderService;
             _validationErrorsProviderService = validationErrorsProviderService;
             _rulesProviderService = rulesProviderService;
+            _referenceDataVersionProviderService = referenceDataVersionProviderService;
         }
 
         public Task<Message> ProvideMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             return _ilrProviderService.ProvideAsync(dataStoreContext, cancellationToken);
+        }
+
+        public Task<ILR.Model.Loose.Message> ProvideLooseMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        {
+            return _looseIlrProviderService.ProvideAsync(dataStoreContext, cancellationToken);
         }
 
         public Task<List<string>> ProvideValidLearnersAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
@@ -99,6 +110,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData
         public Task<List<ValidationRule>> ProvideRulesAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
             return _rulesProviderService.ProvideAsync(dataStoreContext, cancellationToken);
+        }
+
+        public Task<ReferenceDataVersions> ProvideReferenceDataVersionsAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
+        {
+            return _referenceDataVersionProviderService.ProvideAsync(dataStoreContext, cancellationToken);
         }
     }
 }

@@ -6,6 +6,6 @@ namespace ESFA.DC.ILR.DataStore.Interface
 {
     public interface ITransactionController
     {
-        Task<bool> WriteAsync(IDataStoreContext dataStoreContext, IDataStoreDataCache dataStoreDataCache, CancellationToken cancellationToken);
+        Task<bool> WriteAsync(IDataStoreContext dataStoreContext, IDataStoreCache cache, CancellationToken cancellationToken);
     }
 }

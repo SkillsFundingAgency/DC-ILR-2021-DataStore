@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/ESFA.DC.ILR1920.DataStore" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="ILRDataStoreConnectionString" Value="__ILR1819DataStoreConnectionString__" />
+    <Parameter Name="ILRDataStoreConnectionString" Value="__ILR1920DataStoreConnectionStringRW__" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="__AppEarnHistoryDataStoreConnectionString__" />
+    <Parameter Name="EsfFundingDatabaseConnectionString" Value="__EsfFundingDatabaseConnectionString__" />
     <Parameter Name="AuditQueueName" Value="__AuditQueueName__" />
     <Parameter Name="TopicName" Value="__TopicName__" />
     <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />
@@ -13,7 +14,6 @@
     <Parameter Name="DataServicePlacementConstraints" Value="__DataServicePlacementConstraints__" />
     <Parameter Name="JobStatusQueueName" Value="__JobStatusQueueName__" />
     <Parameter Name="ServiceReleaseVersion" Value="__ServiceReleaseVersion__" />
-    <Parameter Name="IlrValidationErrorsConnectionString" Value="__ValidationErrorsConnectionString__" />
-    <!-- Topic Names -->
+    <Parameter Name="InstrumentationKey" Value="__InstrumentationKey__" />
   </Parameters>
 </Application>

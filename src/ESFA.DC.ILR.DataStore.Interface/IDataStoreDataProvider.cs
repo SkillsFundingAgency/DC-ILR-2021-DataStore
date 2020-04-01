@@ -17,6 +17,8 @@ namespace ESFA.DC.ILR.DataStore.Interface
     {
         Task<Message> ProvideMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
 
+        Task<ILR.Model.Loose.Message> ProvideLooseMessageAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
+
         Task<List<string>> ProvideValidLearnersAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
 
         Task<ALBGlobal> ProvideALBAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
@@ -34,5 +36,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
         Task<List<ValidationError>> ProvideValidationErrorsAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
 
         Task<List<ValidationRule>> ProvideRulesAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
+
+        Task<ReferenceDataVersions> ProvideReferenceDataVersionsAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken);
     }
 }

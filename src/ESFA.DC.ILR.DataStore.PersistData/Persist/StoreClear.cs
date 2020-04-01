@@ -8,10 +8,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 {
     public sealed class StoreClear : IStoreClear
     {
-        public async Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, CancellationToken cancellationToken)
+        public async Task ClearAsync(IDataStoreContext dataStoreContext, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             using (SqlCommand sqlCommand =
-                    new SqlCommand("[dbo].[DeleteExistingRecords]", sqlConnection))
+                    new SqlCommand("[dbo].[DeleteExistingRecords]", sqlConnection, sqlTransaction))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = dataStoreContext.Ukprn;

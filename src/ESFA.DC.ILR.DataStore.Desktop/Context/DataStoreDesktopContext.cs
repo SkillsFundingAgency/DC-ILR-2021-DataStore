@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
             _desktopContext = desktopContext;
         }
 
-        public int Ukprn => 1234;
+        public int Ukprn => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.Ukprn].ToString());
 
         public string Filename => _desktopContext.KeyValuePairs[ILRContextKeys.Filename].ToString();
 
@@ -25,6 +25,8 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
         public string CollectionYear => _desktopContext.KeyValuePairs[ILRContextKeys.CollectionYear].ToString();
 
         public string ReturnPeriod => _desktopContext.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
+
+        public string CollectionPeriod => $"R{_desktopContext.KeyValuePairs[ILRContextKeys.ReturnPeriod]:D2}";
 
         public DateTime? SubmissionDateTimeUtc => _desktopContext.DateTimeUtc;
 
@@ -40,35 +42,17 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
 
         public string ValidationErrors => _desktopContext.KeyValuePairs[ILRContextKeys.ValidationErrors].ToString();
 
-        public string FundingFM81Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM81Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm81Output].ToString();
 
-        public string FundingFM70Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM70Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm70Output].ToString();
 
-        public string FundingFM36Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM36Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm36Output].ToString();
 
-        public string FundingFM35Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM35Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm35Output].ToString();
 
-        public string FundingFM25Output
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingFM25Output => _desktopContext.KeyValuePairs[ILRContextKeys.FundingFm25Output].ToString();
 
-        public string FundingALBOutput
-        {
-            get => throw new NotImplementedException();
-        }
+        public string FundingALBOutput => _desktopContext.KeyValuePairs[ILRContextKeys.FundingAlbOutput].ToString();
 
         public string IlrReferenceData => _desktopContext.KeyValuePairs[ILRContextKeys.IlrReferenceData].ToString();
 
@@ -80,5 +64,12 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
         {
             get => throw new NotImplementedException();
         }
+
+        public string EsfFundingDatabaseConnectionString
+        {
+            get => throw new NotImplementedException();
+        }
+
+        public string ExportOutputLocation => $"{Container}/Export";
     }
 }

@@ -16,7 +16,7 @@
   <Section Name="DataStoreSection">
     <Parameter Name="ILRDataStoreConnectionString" Value="" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="" />
-    <Parameter Name="IlrValidationErrorsConnectionString" Value="" />
+    <Parameter Name="EsfFundingDatabaseConnectionString" Value="" />
   </Section>
 
   <Section  Name="IOConfiguration">
@@ -30,6 +30,10 @@
 
   <Section Name="VersionSection">
     <Parameter Name="ServiceReleaseVersion" Value="" />
+  </Section>
+
+  <Section Name="TelemetrySection">
+    <Parameter Name="InstrumentationKey" Value="" />
   </Section>
 
 </Settings>
