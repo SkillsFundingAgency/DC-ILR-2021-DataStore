@@ -445,7 +445,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerMock.Setup(l => l.LearnRefNumber).Returns("12345");
 
             var learnerEmploymentStatusMock = new Mock<ILooseLearnerEmploymentStatus>();
-            learnerEmploymentStatusMock.Setup(les => les.AgreeId).Returns("AgreeId");
             learnerEmploymentStatusMock.Setup(les => les.DateEmpStatAppNullable).Returns(new DateTime(2000, 01, 01));
             learnerEmploymentStatusMock.Setup(les => les.EmpIdNullable).Returns(1);
             learnerEmploymentStatusMock.Setup(les => les.EmpStatNullable).Returns(2);
@@ -457,7 +456,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerEmploymentStatus.LearnerEmploymentStatus_Id.Should().Be(1);
             learnerEmploymentStatus.UKPRN.Should().Be(_ukprn);
             learnerEmploymentStatus.LearnRefNumber.Should().Be("12345");
-            learnerEmploymentStatus.AgreeId.Should().Be("AgreeId");
+            learnerEmploymentStatus.AgreeId.Should().BeNullOrEmpty();
             learnerEmploymentStatus.DateEmpStatApp.Should().Be(new DateTime(2000, 01, 01));
             learnerEmploymentStatus.EmpId.Should().Be(1);
             learnerEmploymentStatus.EmpStat.Should().Be(2);

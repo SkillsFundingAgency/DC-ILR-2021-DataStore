@@ -12,9 +12,9 @@
     <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM36.FundingOutput.Model" Version="0.0.180" />
     <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM70.FundingOutput.Model" Version="0.0.180" />
     <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM81.FundingOutput.Model" Version="0.0.180" />
-    <PackageReference Include="ESFA.DC.ILR.1920.IO.Model.Validation" Version="0.1.2-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.Model" Version="0.1.5-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.Model.Loose" Version="0.1.8-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.IO.Model.Validation" Version="0.1.0-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Model" Version="0.1.0-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Model.Loose" Version="0.1.0-beta0001" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 

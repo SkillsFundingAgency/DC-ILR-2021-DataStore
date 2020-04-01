@@ -377,7 +377,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 Learner_Id = learnerId,
                 LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
                 UKPRN = ukprn,
-                AgreeId = learnerEmploymentStatus.AgreeId,
+                AgreeId = null,// removed from 2021, learnerEmploymentStatus.AgreeId,
                 LearnRefNumber = learner.LearnRefNumber,
                 DateEmpStatApp = learnerEmploymentStatus.DateEmpStatAppNullable,
                 EmpId = learnerEmploymentStatus.EmpIdNullable,
