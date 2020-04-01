@@ -1,22 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ESFA.DC.ILR1920.DataStoreType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ESFA.DC.ILR2021.DataStoreType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="ESFA.DC.ILR1920.DataStore.Stateless_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="AuditQueueName" DefaultValue="audit-queue" />
+    <Parameter Name="AuditQueueName" DefaultValue="" />
     <Parameter Name="TopicName" DefaultValue="TopicName" />
     <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
     <Parameter Name="DataStoreSubscriptionName" DefaultValue="" />
-    <Parameter Name="TopicMaxConcurrentCalls" DefaultValue="1" />
-    <Parameter Name="TopicMaxCallbackTimeSpanMinutes" DefaultValue="30" />
-    <Parameter Name="JobStatusMaxConcurrentCalls" DefaultValue="1" />
-    <Parameter Name="AuditMaxConcurrentCalls" DefaultValue="1" />
-    <Parameter Name="ILRDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=ILR1819_DataStore;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
-    <Parameter Name="AppEarnHistoryDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=AppEarnHistory;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
-    <Parameter Name="EsfFundingDatabaseConnectionString" DefaultValue="data source=(local);initial catalog=EsfFunding;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
-    <Parameter Name="LoggerConnectionstring" DefaultValue="Server=localhost;Database=logs;User Id=loguser;Password=password1;" />
-    <Parameter Name="MaxMessageSize" DefaultValue="1073741824" />
-    <Parameter Name="AzureBlobConnectionString" DefaultValue="UseDevelopmentStorage=true" />
-    <Parameter Name="AzureBlobContainerName" DefaultValue="ilr-files" />
+    <Parameter Name="TopicMaxConcurrentCalls" DefaultValue="" />
+    <Parameter Name="TopicMaxCallbackTimeSpanMinutes" DefaultValue="" />
+    <Parameter Name="JobStatusMaxConcurrentCalls" DefaultValue="" />
+    <Parameter Name="AuditMaxConcurrentCalls" DefaultValue="" />
+    <Parameter Name="ILRDataStoreConnectionString" DefaultValue="" />
+    <Parameter Name="AppEarnHistoryDataStoreConnectionString" DefaultValue="" />
+    <Parameter Name="EsfFundingDatabaseConnectionString" DefaultValue="" />
+    <Parameter Name="LoggerConnectionstring" DefaultValue="" />
+    <Parameter Name="MaxMessageSize" DefaultValue="" />
+    <Parameter Name="AzureBlobConnectionString" DefaultValue="" />
     <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
@@ -26,7 +24,7 @@
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="ESFA.DC.ILR1920.DataStore.StatelessPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="ESFA.DC.ILR2021.DataStore.StatelessPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides>
       <ConfigOverride Name="Config">
         <Settings>
@@ -47,9 +45,8 @@
             <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="[AppEarnHistoryDataStoreConnectionString]" />
             <Parameter Name="EsfFundingDatabaseConnectionString" Value="[EsfFundingDatabaseConnectionString]" />
           </Section>
-          <Section Name="IOConfiguration">
+          <Section Name="AzureStorageFileServiceConfiguration">
             <Parameter Name="ConnectionString" Value="[AzureBlobConnectionString]" />
-            <Parameter Name="ContainerName" Value="[AzureBlobContainerName]" />
           </Section>
           <Section Name="VersionSection">
             <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
@@ -67,11 +64,5 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
-    <Service Name="ESFA.DC.ILR1920.DataStore.Stateless" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="ESFA.DC.ILR1920.DataStore.StatelessType" InstanceCount="[ESFA.DC.ILR1920.DataStore.Stateless_InstanceCount]">
-        <SingletonPartition />
-        <PlacementConstraints>[DataServicePlacementConstraints]</PlacementConstraints>
-      </StatelessService>
-    </Service>
   </DefaultServices>
 </ApplicationManifest>

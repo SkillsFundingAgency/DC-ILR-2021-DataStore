@@ -19,11 +19,10 @@
     <Parameter Name="EsfFundingDatabaseConnectionString" Value="" />
   </Section>
 
-  <Section  Name="IOConfiguration">
+  <Section Name="AzureStorageFileServiceConfiguration">
     <Parameter Name="ConnectionString" Value="" />
-    <Parameter Name="ContainerName" Value="" />
   </Section>
-
+  
   <Section Name="LoggerSection">
     <Parameter Name="LoggerConnectionstring" Value="" />
   </Section>
