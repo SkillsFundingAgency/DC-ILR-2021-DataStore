@@ -340,18 +340,6 @@
     <None Include="JsonOutputs\ALB.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="app.config">
-      <TransformOnBuild>true</TransformOnBuild>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="app.Debug.config">
-      <DependentUpon>app.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
-    <None Include="app.Release.config">
-      <DependentUpon>app.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Include="ReportOutputs\control-20180618-133604.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -387,16 +375,16 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
-      <Project>{2110e8a2-3e66-4380-8486-e9cd11ce2f08}</Project>
+    <ProjectReference Include="..\Database1920\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
+      <Project>{78f22238-8e31-4582-8cc3-f699ec56cb18}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF.Invalid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
-      <Project>{347ccc6e-c787-43be-97f0-1a86495f0e48}</Project>
+    <ProjectReference Include="..\Database1920\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
+      <Project>{f7c1b823-43ae-4662-bd0f-d2624fdb8095}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF.Valid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
-      <Project>{ef950d08-778d-46cc-8400-86ac4b9a0a3e}</Project>
+    <ProjectReference Include="..\Database1920\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
+      <Project>{5f9c7d0e-b9ef-41d9-a6ae-8d0f8531a039}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj">

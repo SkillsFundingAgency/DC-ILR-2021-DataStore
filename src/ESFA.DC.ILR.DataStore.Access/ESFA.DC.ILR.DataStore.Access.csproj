@@ -88,19 +88,18 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
-      <Project>{2110E8A2-3E66-4380-8486-E9CD11CE2F08}</Project>
+    <ProjectReference Include="..\Database1920\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
+      <Project>{78f22238-8e31-4582-8cc3-f699ec56cb18}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF.Invalid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
-      <Project>{347CCC6E-C787-43BE-97F0-1A86495F0E48}</Project>
+    <ProjectReference Include="..\Database1920\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
+      <Project>{f7c1b823-43ae-4662-bd0f-d2624fdb8095}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF.Valid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
-      <Project>{EF950D08-778D-46CC-8400-86AC4B9A0A3E}</Project>
+    <ProjectReference Include="..\Database1920\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
+      <Project>{5f9c7d0e-b9ef-41d9-a6ae-8d0f8531a039}</Project>
       <Name>ESFA.DC.ILR1920.DataStore.EF</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
