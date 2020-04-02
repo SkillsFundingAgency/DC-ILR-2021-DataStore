@@ -8,9 +8,9 @@
     <PackageReference Include="ESFA.DC.DateTimeProvider.Interface" Version="0.1.6-beta0001" />
     <PackageReference Include="ESFA.DC.ESF.FundingData.Database.EF" Version="0.2.443" />
     <PackageReference Include="ESFA.DC.FileService.Interface" Version="0.1.18-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.Model" Version="0.1.5-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.Model.Loose" Version="0.1.8-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR1920.ReferenceDataService.Model" Version="0.0.352" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Model" Version="0.1.0-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Model.Loose" Version="0.1.0-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.ReferenceDataService.Model" Version="0.1.69" />
     <PackageReference Include="ESFA.DC.IO.Interfaces" Version="0.1.18-beta0001" />
     <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.4-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Database\ESFA.DC.ILR2021.DataStore.EF.Invalid\ESFA.DC.ILR2021.DataStore.EF.Invalid.csproj" />
+    <ProjectReference Include="..\Database\ESFA.DC.ILR2021.DataStore.EF.Valid\ESFA.DC.ILR2021.DataStore.EF.Valid.csproj" />
+    <ProjectReference Include="..\Database\ESFA.DC.ILR2021.DataStore.EF\ESFA.DC.ILR2021.DataStore.EF.csproj" />
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" />
     <ProjectReference Include="..\ESFA.DC.ILR.Datastore.Model\ESFA.DC.ILR.DataStore.Model.csproj" />
   </ItemGroup>

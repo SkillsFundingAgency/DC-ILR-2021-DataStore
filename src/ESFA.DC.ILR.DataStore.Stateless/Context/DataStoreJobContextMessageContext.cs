@@ -26,7 +26,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
 
         public string Container => _jobContextMessage.KeyValuePairs[ILRContextKeys.Container].ToString();
 
-        public string CollectionYear => "1920";
+        public string CollectionYear => "2021";
 
         public string ReturnPeriod => _jobContextMessage.KeyValuePairs[ILRContextKeys.ReturnPeriod].ToString();
 

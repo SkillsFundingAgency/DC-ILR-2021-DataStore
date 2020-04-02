@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         public void BuildFundingData()
         {
             var dataStoreContextMock = new Mock<IDataStoreContext>();
-            dataStoreContextMock.Setup(ds => ds.CollectionYear).Returns("1920");
+            dataStoreContextMock.Setup(ds => ds.CollectionYear).Returns("2021");
             dataStoreContextMock.Setup(ds => ds.CollectionPeriod).Returns("R01");
 
             var learningDeliveryDeliverablePeriodisedValue = new LearningDeliveryDeliverablePeriodisedValue()
@@ -39,9 +39,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             var learnRefNumber = "LearnRefNumber";
             var deliverableCode = "DeliverableCode";
             var conRefNumber = "ConRefNumber";
-            var academicYear = "2019/20";
+            var academicYear = "2020/21";
             var collectionReturnCode = "R01";
-            var collectionType = "ILR1920";
+            var collectionType = "ILR2021";
 
             var conRefNumberDictionary = new Dictionary<string, Dictionary<int, string>>();
 
@@ -74,9 +74,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             esfFundingData.Period_10.Should().Be(10);
             esfFundingData.Period_11.Should().Be(11);
             esfFundingData.Period_12.Should().Be(12);
-            esfFundingData.AcademicYear.Should().Be("2019/20");
+            esfFundingData.AcademicYear.Should().Be("2020/21");
             esfFundingData.CollectionReturnCode.Should().Be("R01");
-            esfFundingData.CollectionType.Should().Be("ILR1920");
+            esfFundingData.CollectionType.Should().Be("ILR2021");
         }
 
         private ESFFundingMapper Mapper() => new ESFFundingMapper();

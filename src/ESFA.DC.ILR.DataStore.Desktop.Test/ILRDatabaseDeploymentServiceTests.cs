@@ -18,7 +18,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Test
         {
             var connectionStringBuilder = new SqlConnectionStringBuilder
             {
-                InitialCatalog = "ILR1920",
+                InitialCatalog = "ILR2021",
                 IntegratedSecurity = true,
                 DataSource = "(local)"
             };

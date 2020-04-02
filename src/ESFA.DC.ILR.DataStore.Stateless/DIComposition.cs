@@ -40,10 +40,9 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             var versionInfo = serviceFabricConfigurationService.GetConfigSectionAs<VersionInfo>("VersionSection");
             containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>();
 
-            var ioConfiguration = serviceFabricConfigurationService.GetConfigSectionAs<IOConfiguration>("IOConfiguration");
-            var azureFileServiceConfiguration = new AzureStorageFileServiceConfiguration() { ConnectionString = ioConfiguration.ConnectionString };
+            var azureStorageFileServiceConfiguration = serviceFabricConfigurationService.GetConfigSectionAs<AzureStorageFileServiceConfiguration>("AzureStorageFileServiceConfiguration");
 
-            containerBuilder.RegisterModule(new IOModule(azureFileServiceConfiguration, ioConfiguration));
+            containerBuilder.RegisterModule(new IOModule(azureStorageFileServiceConfiguration));
 
             containerBuilder.RegisterType<JobContextMessageDataStoreFactory>().As<IDataStoreContextFactory<IJobContextMessage>>();
 
