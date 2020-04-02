@@ -18,7 +18,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                 .HasAnnotation("Jet:ValueGenerationStrategy", JetValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.AppFinRecord", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.AppFinRecord", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -54,7 +54,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_AppFinRecord","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.CollectionDetail", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.CollectionDetail", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -76,7 +76,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_CollectionDetails","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.ContactPreference", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.ContactPreference", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -105,7 +105,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_ContactPreference","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.DPOutcome", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.DPOutcome", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -143,7 +143,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_DPOutcome","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.EmploymentStatusMonitoring", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.EmploymentStatusMonitoring", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -175,7 +175,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_EmploymentStatusMonitoring","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LLDDandHealthProblem", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LLDDandHealthProblem", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -202,7 +202,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LLDDandHealthProblem","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.Learner", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.Learner", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -326,7 +326,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_Learner","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearnerDestinationandProgression", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearnerDestinationandProgression", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -347,15 +347,11 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearnerDestinationAndProgression","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearnerEmploymentStatus", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearnerEmploymentStatus", b =>
                 {
                     b.Property<int>("UKPRN");
 
                     b.Property<int>("LearnerEmploymentStatus_Id");
-
-                    b.Property<string>("AgreeId")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
 
                     b.Property<DateTime?>("DateEmpStatApp")
                         .HasColumnType("date");
@@ -381,7 +377,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearnerEmploymentStatus","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearnerFAM", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearnerFAM", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -411,7 +407,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearnerFAM","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearnerHE", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearnerHE", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -441,7 +437,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearnerHE","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearnerHEFinancialSupport", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearnerHEFinancialSupport", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -468,7 +464,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearnerHEFinancialSupport","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearningDelivery", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearningDelivery", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -536,6 +532,8 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
 
                     b.Property<long?>("OtherFundAdj");
 
+                    b.Property<long?>("OtjActHours");
+
                     b.Property<string>("OutGrade")
                         .HasColumnType("memo")
                         .HasMaxLength(1000)
@@ -573,7 +571,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearningDelivery","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearningDeliveryFAM", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearningDeliveryFAM", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -613,7 +611,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearningDeliveryFAM","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearningDeliveryHE", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearningDeliveryHE", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -702,7 +700,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearningDeliveryHE","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearningDeliveryWorkPlacement", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearningDeliveryWorkPlacement", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -739,7 +737,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearningDeliveryWorkPlacement","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.LearningProvider", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.LearningProvider", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -753,7 +751,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_LearningProvider","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.ProviderSpecDeliveryMonitoring", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.ProviderSpecDeliveryMonitoring", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -787,7 +785,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_ProviderSpecDeliveryMonitoring","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.ProviderSpecLearnerMonitoring", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.ProviderSpecLearnerMonitoring", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -819,7 +817,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_ProviderSpecLearnerMonitoring","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.Source", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.Source", b =>
                 {
                     b.Property<int>("UKPRN");
 
@@ -861,7 +859,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     b.ToTable("Invalid_Source","Invalid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR1920.DataStore.EF.Invalid.SourceFile", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Invalid.SourceFile", b =>
                 {
                     b.Property<int>("UKPRN");
 

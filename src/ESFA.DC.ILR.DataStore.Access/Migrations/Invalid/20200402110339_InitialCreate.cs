@@ -168,8 +168,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     LearnRefNumber = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
                     EmpStat = table.Column<long>(nullable: true),
                     DateEmpStatApp = table.Column<DateTime>(type: "date", nullable: true),
-                    EmpId = table.Column<long>(nullable: true),
-                    AgreeId = table.Column<string>(unicode: false, maxLength: 100, nullable: true)
+                    EmpId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -263,6 +262,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
                     OutGrade = table.Column<string>(type: "memo", unicode: false, maxLength: 1000, nullable: true),
                     SWSupAimId = table.Column<string>(type: "memo", unicode: false, maxLength: 1000, nullable: true),
                     PHours = table.Column<long>(nullable: true),
+                    OtjActHours = table.Column<long>(nullable: true),
                     LSDPostcode = table.Column<string>(type: "memo", unicode: false, maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
