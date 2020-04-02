@@ -7,7 +7,7 @@ using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
 using ESFA.DC.ILR.FundingService.FM81.FundingOutput.Model.Output;
-using ESFA.DC.ILR1920.DataStore.EF;
+using ESFA.DC.ILR2021.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {

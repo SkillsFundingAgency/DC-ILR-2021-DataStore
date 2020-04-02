@@ -210,15 +210,16 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDeliveryMock.Setup(ld => ld.OrigLearnStartDateNullable).Returns(new DateTime(2000, 01, 01));
             learningDeliveryMock.Setup(ld => ld.OtherFundAdjNullable).Returns(8);
             learningDeliveryMock.Setup(ld => ld.OutGrade).Returns("OutGrade");
-            learningDeliveryMock.Setup(ld => ld.OutcomeNullable).Returns(9);
-            learningDeliveryMock.Setup(ld => ld.PartnerUKPRNNullable).Returns(10);
-            learningDeliveryMock.Setup(ld => ld.PHoursNullable).Returns(11);
-            learningDeliveryMock.Setup(ld => ld.PriorLearnFundAdjNullable).Returns(12);
-            learningDeliveryMock.Setup(ld => ld.ProgTypeNullable).Returns(13);
-            learningDeliveryMock.Setup(ld => ld.PwayCodeNullable).Returns(14);
-            learningDeliveryMock.Setup(ld => ld.StdCodeNullable).Returns(15);
+            learningDeliveryMock.Setup(ld => ld.OtjActHoursNullable).Returns(9);
+            learningDeliveryMock.Setup(ld => ld.OutcomeNullable).Returns(10);
+            learningDeliveryMock.Setup(ld => ld.PartnerUKPRNNullable).Returns(11);
+            learningDeliveryMock.Setup(ld => ld.PHoursNullable).Returns(12);
+            learningDeliveryMock.Setup(ld => ld.PriorLearnFundAdjNullable).Returns(13);
+            learningDeliveryMock.Setup(ld => ld.ProgTypeNullable).Returns(14);
+            learningDeliveryMock.Setup(ld => ld.PwayCodeNullable).Returns(15);
+            learningDeliveryMock.Setup(ld => ld.StdCodeNullable).Returns(16);
             learningDeliveryMock.Setup(ld => ld.SWSupAimId).Returns("SWSupAimId");
-            learningDeliveryMock.Setup(ld => ld.WithdrawReasonNullable).Returns(16);
+            learningDeliveryMock.Setup(ld => ld.WithdrawReasonNullable).Returns(17);
 
             var learningDelivery = Mapper().BuildLearningDelivery(_ukprn, learnerMock.Object, learningDeliveryMock.Object, 0, 1);
 
@@ -244,17 +245,17 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDelivery.LearnStartDate.Should().Be(new DateTime(2000, 01, 01));
             learningDelivery.LSDPostcode.Should().Be("LSDPostcode");
             learningDelivery.OrigLearnStartDate.Should().Be(new DateTime(2000, 01, 01));
-            learningDelivery.OtherFundAdj.Should().Be(8);
+            learningDelivery.OtjActHours.Should().Be(9);
             learningDelivery.OutGrade.Should().Be("OutGrade");
-            learningDelivery.Outcome.Should().Be(9);
-            learningDelivery.PartnerUKPRN.Should().Be(10);
-            learningDelivery.PHours.Should().Be(11);
-            learningDelivery.PriorLearnFundAdj.Should().Be(12);
-            learningDelivery.ProgType.Should().Be(13);
-            learningDelivery.PwayCode.Should().Be(14);
-            learningDelivery.StdCode.Should().Be(15);
+            learningDelivery.Outcome.Should().Be(10);
+            learningDelivery.PartnerUKPRN.Should().Be(11);
+            learningDelivery.PHours.Should().Be(12);
+            learningDelivery.PriorLearnFundAdj.Should().Be(13);
+            learningDelivery.ProgType.Should().Be(14);
+            learningDelivery.PwayCode.Should().Be(15);
+            learningDelivery.StdCode.Should().Be(16);
             learningDelivery.SWSupAimId.Should().Be("SWSupAimId");
-            learningDelivery.WithdrawReason.Should().Be(16);
+            learningDelivery.WithdrawReason.Should().Be(17);
         }
 
         [Fact]
@@ -456,7 +457,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerEmploymentStatus.LearnerEmploymentStatus_Id.Should().Be(1);
             learnerEmploymentStatus.UKPRN.Should().Be(_ukprn);
             learnerEmploymentStatus.LearnRefNumber.Should().Be("12345");
-            learnerEmploymentStatus.AgreeId.Should().BeNullOrEmpty();
             learnerEmploymentStatus.DateEmpStatApp.Should().Be(new DateTime(2000, 01, 01));
             learnerEmploymentStatus.EmpId.Should().Be(1);
             learnerEmploymentStatus.EmpStat.Should().Be(2);

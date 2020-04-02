@@ -5,7 +5,7 @@ using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.Model.Loose.Interface;
-using ESFA.DC.ILR1920.DataStore.EF.Invalid;
+using ESFA.DC.ILR2021.DataStore.EF.Invalid;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -260,6 +260,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 LSDPostcode = learningDelivery.LSDPostcode,
                 OrigLearnStartDate = learningDelivery.OrigLearnStartDateNullable,
                 OtherFundAdj = learningDelivery.OtherFundAdjNullable,
+                OtjActHours = learningDelivery.OtjActHoursNullable,
                 OutGrade = learningDelivery.OutGrade,
                 Outcome = learningDelivery.OutcomeNullable,
                 PartnerUKPRN = learningDelivery.PartnerUKPRNNullable,
@@ -377,7 +378,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 Learner_Id = learnerId,
                 LearnerEmploymentStatus_Id = learnerEmploymentStatusId,
                 UKPRN = ukprn,
-                AgreeId = null,// removed from 2021, learnerEmploymentStatus.AgreeId,
                 LearnRefNumber = learner.LearnRefNumber,
                 DateEmpStatApp = learnerEmploymentStatus.DateEmpStatAppNullable,
                 EmpId = learnerEmploymentStatus.EmpIdNullable,
