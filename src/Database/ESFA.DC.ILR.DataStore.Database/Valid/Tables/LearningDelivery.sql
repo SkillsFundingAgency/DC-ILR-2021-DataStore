@@ -28,7 +28,7 @@
     [OutGrade]           VARCHAR (6)  NULL,
     [SWSupAimId]         VARCHAR (36) NULL,
 	[PHours]			 INT		  NULL,
-	[OtjActHours]		 INT		  NULL,
+	[OTJActHours]		 INT		  NULL,
 	[LSDPostcode]		 VARCHAR (8)  NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC, [AimSeqNumber] ASC)
 );

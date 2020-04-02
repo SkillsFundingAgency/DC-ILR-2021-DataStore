@@ -243,7 +243,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDelivery.LSDPostcode.Should().Be("LSDPostcode");
             learningDelivery.OrigLearnStartDate.Should().Be(new DateTime(2000, 01, 01));
             learningDelivery.OtherFundAdj.Should().Be(8);
-            learningDelivery.OtjActHours.Should().Be(9);
+            learningDelivery.OTJActHours.Should().Be(9);
             learningDelivery.OutGrade.Should().Be("OutGrade");
             learningDelivery.Outcome.Should().Be(10);
             learningDelivery.PartnerUKPRN.Should().Be(11);

@@ -42,7 +42,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF.Valid
         public string OutGrade { get; set; }
         public string SWSupAimId { get; set; }
         public int? PHours { get; set; }
-        public int? OtjActHours { get; set; }
+        public int? OTJActHours { get; set; }
         public string LSDPostcode { get; set; }
 
         public virtual Learner Learner { get; set; }

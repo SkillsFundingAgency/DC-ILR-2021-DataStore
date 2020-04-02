@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
 {
     [DbContext(typeof(InvalidMdbContext))]
-    [Migration("20200402110339_InitialCreate")]
+    [Migration("20200402152010_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -529,12 +529,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
 
                     b.Property<int?>("Learner_Id");
 
+                    b.Property<long?>("OTJActHours");
+
                     b.Property<DateTime?>("OrigLearnStartDate")
                         .HasColumnType("date");
 
                     b.Property<long?>("OtherFundAdj");
-
-                    b.Property<long?>("OtjActHours");
 
                     b.Property<string>("OutGrade")
                         .HasColumnType("memo")

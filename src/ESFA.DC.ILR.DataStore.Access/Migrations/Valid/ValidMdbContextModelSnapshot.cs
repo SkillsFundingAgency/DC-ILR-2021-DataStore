@@ -140,7 +140,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int?>("ESMCode");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "DateEmpStatApp", "ESMType")
-                        .HasName("PK__Employme__316BBA31174CF433");
+                        .HasName("PK__Employme__316BBA310759C04F");
 
                     b.ToTable("Valid_EmploymentStatusMonitoring","Valid");
                 });
@@ -160,7 +160,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int?>("PrimaryLLDD");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "LLDDCat", "LLDDandHealthProblem_ID")
-                        .HasName("PK__LLDDandH__CFA94E1CB2A55CFE");
+                        .HasName("PK__LLDDandH__CFA94E1C4A632E93");
 
                     b.ToTable("Valid_LLDDandHealthProblem","Valid");
                 });
@@ -265,7 +265,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__Learner__2770A727D7259089");
+                        .HasName("PK__Learner__2770A72734B2CDBC");
 
                     b.ToTable("Valid_Learner","Valid");
                 });
@@ -282,7 +282,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__LearnerD__2770A727E8DEDBDA");
+                        .HasName("PK__LearnerD__2770A7270F69C5C1");
 
                     b.ToTable("Valid_LearnerDestinationAndProgression","Valid");
                 });
@@ -303,7 +303,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int>("EmpStat");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "DateEmpStatApp")
-                        .HasName("PK__LearnerE__7200C4BE2E24182A");
+                        .HasName("PK__LearnerE__7200C4BE71CB04A5");
 
                     b.ToTable("Valid_LearnerEmploymentStatus","Valid");
                 });
@@ -345,7 +345,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__LearnerH__2770A727EE6A490F");
+                        .HasName("PK__LearnerH__2770A7276EFFC83E");
 
                     b.ToTable("Valid_LearnerHE","Valid");
                 });
@@ -363,7 +363,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int>("FINAMOUNT");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "FINTYPE")
-                        .HasName("PK__LearnerH__09F54B72ECAC036C");
+                        .HasName("PK__LearnerH__09F54B72D27F416D");
 
                     b.ToTable("Valid_LearnerHEFinancialSupport","Valid");
                 });
@@ -423,12 +423,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<DateTime>("LearnStartDate")
                         .HasColumnType("date");
 
+                    b.Property<int?>("OTJActHours");
+
                     b.Property<DateTime?>("OrigLearnStartDate")
                         .HasColumnType("date");
 
                     b.Property<int?>("OtherFundAdj");
-
-                    b.Property<int?>("OtjActHours");
 
                     b.Property<string>("OutGrade")
                         .HasMaxLength(6)
@@ -455,7 +455,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int?>("WithdrawReason");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__Learning__0C29443A57F421E9");
+                        .HasName("PK__Learning__0C29443A72526BFE");
 
                     b.ToTable("Valid_LearningDelivery","Valid");
                 });
@@ -574,7 +574,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int>("YEARSTU");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__Learning__0C29443A10562F0A");
+                        .HasName("PK__Learning__0C29443ADBDC79FE");
 
                     b.ToTable("Valid_LearningDeliveryHE","Valid");
                 });
@@ -614,7 +614,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     b.Property<int>("UKPRN");
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__Learning__50F26B71030A9B3E");
+                        .HasName("PK__Learning__50F26B7122158A9F");
 
                     b.ToTable("Valid_LearningProvider","Valid");
                 });
@@ -639,7 +639,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "ProvSpecDelMonOccur")
-                        .HasName("PK__Provider__9F5C50851E71729A");
+                        .HasName("PK__Provider__9F5C5085CA03DCC2");
 
                     b.ToTable("Valid_ProviderSpecDeliveryMonitoring","Valid");
                 });
@@ -662,7 +662,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber", "ProvSpecLearnMonOccur")
-                        .HasName("PK__Provider__63E551EA8411135D");
+                        .HasName("PK__Provider__63E551EAF6A7AC54");
 
                     b.ToTable("Valid_ProviderSpecLearnerMonitoring","Valid");
                 });

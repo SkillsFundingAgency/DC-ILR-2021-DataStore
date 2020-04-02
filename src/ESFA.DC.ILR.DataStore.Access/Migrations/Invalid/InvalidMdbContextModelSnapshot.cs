@@ -527,12 +527,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Invalid
 
                     b.Property<int?>("Learner_Id");
 
+                    b.Property<long?>("OTJActHours");
+
                     b.Property<DateTime?>("OrigLearnStartDate")
                         .HasColumnType("date");
 
                     b.Property<long?>("OtherFundAdj");
-
-                    b.Property<long?>("OtjActHours");
 
                     b.Property<string>("OutGrade")
                         .HasColumnType("memo")

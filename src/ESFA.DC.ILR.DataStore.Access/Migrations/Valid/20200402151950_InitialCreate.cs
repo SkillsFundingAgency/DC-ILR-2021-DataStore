@@ -38,7 +38,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Employme__316BBA31174CF433", x => new { x.UKPRN, x.LearnRefNumber, x.DateEmpStatApp, x.ESMType });
+                    table.PrimaryKey("PK__Employme__316BBA310759C04F", x => new { x.UKPRN, x.LearnRefNumber, x.DateEmpStatApp, x.ESMType });
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +78,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Learner__2770A727D7259089", x => new { x.UKPRN, x.LearnRefNumber });
+                    table.PrimaryKey("PK__Learner__2770A72734B2CDBC", x => new { x.UKPRN, x.LearnRefNumber });
                 });
 
             migrationBuilder.CreateTable(
@@ -92,7 +92,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LearnerD__2770A727E8DEDBDA", x => new { x.UKPRN, x.LearnRefNumber });
+                    table.PrimaryKey("PK__LearnerD__2770A7270F69C5C1", x => new { x.UKPRN, x.LearnRefNumber });
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +104,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Learning__50F26B71030A9B3E", x => x.UKPRN);
+                    table.PrimaryKey("PK__Learning__50F26B7122158A9F", x => x.UKPRN);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,7 +181,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LearnerE__7200C4BE2E24182A", x => new { x.UKPRN, x.LearnRefNumber, x.DateEmpStatApp });
+                    table.PrimaryKey("PK__LearnerE__7200C4BE71CB04A5", x => new { x.UKPRN, x.LearnRefNumber, x.DateEmpStatApp });
                     table.ForeignKey(
                         name: "FK_LearnerEmploymentStatus_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
@@ -225,7 +225,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LearnerH__2770A727EE6A490F", x => new { x.UKPRN, x.LearnRefNumber });
+                    table.PrimaryKey("PK__LearnerH__2770A7276EFFC83E", x => new { x.UKPRN, x.LearnRefNumber });
                     table.ForeignKey(
                         name: "FK_LearnerHE_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
@@ -269,12 +269,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                     OutGrade = table.Column<string>(unicode: false, maxLength: 6, nullable: true),
                     SWSupAimId = table.Column<string>(unicode: false, maxLength: 36, nullable: true),
                     PHours = table.Column<int>(nullable: true),
-                    OtjActHours = table.Column<int>(nullable: true),
+                    OTJActHours = table.Column<int>(nullable: true),
                     LSDPostcode = table.Column<string>(unicode: false, maxLength: 8, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Learning__0C29443A57F421E9", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber });
+                    table.PrimaryKey("PK__Learning__0C29443A72526BFE", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber });
                     table.ForeignKey(
                         name: "FK_LearningDelivery_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
@@ -297,7 +297,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LLDDandH__CFA94E1CB2A55CFE", x => new { x.UKPRN, x.LearnRefNumber, x.LLDDCat, x.LLDDandHealthProblem_ID });
+                    table.PrimaryKey("PK__LLDDandH__CFA94E1C4A632E93", x => new { x.UKPRN, x.LearnRefNumber, x.LLDDCat, x.LLDDandHealthProblem_ID });
                     table.ForeignKey(
                         name: "FK_LLDDandHealthProblem_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
@@ -319,7 +319,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Provider__63E551EA8411135D", x => new { x.UKPRN, x.LearnRefNumber, x.ProvSpecLearnMonOccur });
+                    table.PrimaryKey("PK__Provider__63E551EAF6A7AC54", x => new { x.UKPRN, x.LearnRefNumber, x.ProvSpecLearnMonOccur });
                     table.ForeignKey(
                         name: "FK_ProviderSpecLearnerMonitoring_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
@@ -366,7 +366,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__LearnerH__09F54B72ECAC036C", x => new { x.UKPRN, x.LearnRefNumber, x.FINTYPE });
+                    table.PrimaryKey("PK__LearnerH__09F54B72D27F416D", x => new { x.UKPRN, x.LearnRefNumber, x.FINTYPE });
                     table.ForeignKey(
                         name: "FK_LearnerHEFinancialSupport_LearnerHE",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
@@ -462,7 +462,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Learning__0C29443A10562F0A", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber });
+                    table.PrimaryKey("PK__Learning__0C29443ADBDC79FE", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber });
                     table.ForeignKey(
                         name: "FK_LearningDeliveryHE_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
@@ -511,7 +511,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Provider__9F5C50851E71729A", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.ProvSpecDelMonOccur });
+                    table.PrimaryKey("PK__Provider__9F5C5085CA03DCC2", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.ProvSpecDelMonOccur });
                     table.ForeignKey(
                         name: "FK_ProviderSpecDeliveryMonitoring_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },

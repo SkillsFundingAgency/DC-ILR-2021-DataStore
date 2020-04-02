@@ -213,7 +213,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 LSDPostcode = learningDelivery.LSDPostcode,
                 OrigLearnStartDate = learningDelivery.OrigLearnStartDateNullable,
                 OtherFundAdj = learningDelivery.OtherFundAdjNullable,
-                OtjActHours = learningDelivery.OtjActHoursNullable,
+                OTJActHours = learningDelivery.OtjActHoursNullable,
                 OutGrade = learningDelivery.OutGrade,
                 Outcome = learningDelivery.OutcomeNullable,
                 PartnerUKPRN = learningDelivery.PartnerUKPRNNullable,

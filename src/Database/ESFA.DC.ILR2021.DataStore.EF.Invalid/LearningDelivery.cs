@@ -36,7 +36,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF.Invalid
         public string OutGrade { get; set; }
         public string SWSupAimId { get; set; }
         public long? PHours { get; set; }
-        public long? OtjActHours { get; set; }
+        public long? OTJActHours { get; set; }
         public string LSDPostcode { get; set; }
     }
 }
