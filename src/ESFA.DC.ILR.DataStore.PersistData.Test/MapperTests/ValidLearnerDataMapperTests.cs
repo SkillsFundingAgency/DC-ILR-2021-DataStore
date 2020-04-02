@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             var header = new Mock<IHeader>();
             header.Setup(h => h.CollectionDetailsEntity.CollectionString).Returns("collectionString");
             header.Setup(h => h.CollectionDetailsEntity.FilePreparationDate).Returns(new DateTime(2000, 01, 01));
-            header.Setup(h => h.CollectionDetailsEntity.YearString).Returns("1920");
+            header.Setup(h => h.CollectionDetailsEntity.YearString).Returns("2021");
 
             var collectionDetails = Mapper().BuildCollectionDetails(_ukprn, header.Object);
 
@@ -30,7 +30,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             collectionDetails.Single().UKPRN.Should().Be(_ukprn);
             collectionDetails.Single().Collection.Should().Be("collectionString");
             collectionDetails.Single().FilePreparationDate.Should().Be(new DateTime(2000, 01, 01));
-            collectionDetails.Single().Year.Should().Be("1920");
+            collectionDetails.Single().Year.Should().Be("2021");
         }
 
         [Fact]

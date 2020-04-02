@@ -26,10 +26,10 @@ GO
 ALTER ROLE [db_datareader] DROP MEMBER [User_DSCI];
 GO
 RAISERROR('			     RO User',10,1) WITH NOWAIT;
-ALTER USER [ILR1920DataStore_RO_User] WITH PASSWORD = N'$(ROUserPassword)';
+ALTER USER [ILR2021DataStore_RO_User] WITH PASSWORD = N'$(ROUserPassword)';
 GO
 RAISERROR('			     RW User',10,1) WITH NOWAIT;
-ALTER USER [ILR1920DataStore_RW_User] WITH PASSWORD = N'$(RWUserPassword)';
+ALTER USER [ILR2021DataStore_RW_User] WITH PASSWORD = N'$(RWUserPassword)';
 GO
 RAISERROR('			     DSCI User',10,1) WITH NOWAIT;
 ALTER USER [User_DSCI] WITH PASSWORD = N'$(DSCIUserPassword)';
