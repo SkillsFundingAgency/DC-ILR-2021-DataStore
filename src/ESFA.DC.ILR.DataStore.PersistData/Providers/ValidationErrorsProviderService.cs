@@ -8,24 +8,27 @@ using ESFA.DC.Serialization.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 {
+    using ESFA.DC.FileService.Interface;
+
     public class ValidationErrorsProviderService : IProviderService<List<ValidationError>>
     {
         private readonly IJsonSerializationService _jsonSerializationService;
-        private readonly IKeyValuePersistenceService _keyValuePersistenceService;
+        private readonly IFileService _fileService;
 
         public ValidationErrorsProviderService(
             IJsonSerializationService jsonSerializationService,
-            IKeyValuePersistenceService keyValuePersistenceService)
+            IFileService fileService)
         {
             _jsonSerializationService = jsonSerializationService;
-            _keyValuePersistenceService = keyValuePersistenceService;
+            _fileService = fileService;
         }
 
         public async Task<List<ValidationError>> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
-            var validationErrors = await _keyValuePersistenceService.GetAsync(dataStoreContext.ValidationErrors, cancellationToken);
-
-            return _jsonSerializationService.Deserialize<List<ValidationError>>(validationErrors);
+            using (var stream = await _fileService.OpenReadStreamAsync(dataStoreContext.ValidationErrors, dataStoreContext.Container, cancellationToken))
+            {
+                return _jsonSerializationService.Deserialize<List<ValidationError>>(stream);
+            }
         }
     }
 }
