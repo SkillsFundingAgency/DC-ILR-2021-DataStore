@@ -20,6 +20,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless
                 var builder = DIComposition.BuildContainer(new ServiceFabricConfigurationService());
 
                 // Register the Autofac magic for Service Fabric support.
+
                 builder.RegisterServiceFabricSupport();
 
                 // Register the stateless service.

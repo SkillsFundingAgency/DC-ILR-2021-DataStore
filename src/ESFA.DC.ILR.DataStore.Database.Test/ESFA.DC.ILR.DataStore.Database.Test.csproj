@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Database.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Database.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +42,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Database.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +52,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ESFA.DC.ILR1819.DataStore.Database.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -113,7 +113,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ESFA.DC.ILR1819.DataStore.Database.Test.ruleset">
+    <None Include="..SFA.DC.ILR.DataStore.ruleset">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
