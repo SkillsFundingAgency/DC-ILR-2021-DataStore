@@ -11,10 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF.Invalid\ESFA.DC.ILR2021.DataStore.EF.Invalid.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF.StoredProc\ESFA.DC.ILR2021.DataStore.EF.StoredProc.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF.Valid\ESFA.DC.ILR2021.DataStore.EF.Valid.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF\ESFA.DC.ILR2021.DataStore.EF.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF.Invalid\ESFA.DC.ILR2021.DataStore.EF.Invalid.csproj" PrivateAssets ="All" />
+    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF.StoredProc\ESFA.DC.ILR2021.DataStore.EF.StoredProc.csproj" PrivateAssets="All"/>
+    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF.Valid\ESFA.DC.ILR2021.DataStore.EF.Valid.csproj" PrivateAssets="All"/>
+    <ProjectReference Include="..\ESFA.DC.ILR2021.DataStore.EF\ESFA.DC.ILR2021.DataStore.EF.csproj" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>
