@@ -39,6 +39,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? RetentNew { get; set; }
         public bool? StartFund { get; set; }
         public int? ThresholdDays { get; set; }
+        public bool? TLevelStudent { get; set; }
 
         public virtual FM25_global UKPRNNavigation { get; set; }
         public virtual ICollection<FM25_FM35_Learner_PeriodisedValue> FM25_FM35_Learner_PeriodisedValues { get; set; }

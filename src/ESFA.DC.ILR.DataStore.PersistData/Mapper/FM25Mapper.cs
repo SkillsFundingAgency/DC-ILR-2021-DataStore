@@ -84,7 +84,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 RateBand = learner.RateBand,
                 RetentNew = learner.RetentNew,
                 StartFund = learner.StartFund,
-                ThresholdDays = learner.ThresholdDays
+                ThresholdDays = learner.ThresholdDays,
+                TLevelStudent = learner.TLevelStudent
             };
         }
 
