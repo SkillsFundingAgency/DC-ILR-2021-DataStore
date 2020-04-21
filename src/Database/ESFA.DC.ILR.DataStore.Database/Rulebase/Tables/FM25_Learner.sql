@@ -27,6 +27,7 @@
     [RetentNew]                 DECIMAL (10, 5) NULL,
     [StartFund]                 BIT             NULL,
     [ThresholdDays]             INT             NULL,
+    [TLevelStudent]             BIT             NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC)
 );
 GO
