@@ -27,6 +27,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Providers
 
         public async Task<Message> ProvideAsync(IDataStoreContext dataStoreContext, CancellationToken cancellationToken)
         {
+            _logger.LogInfo("Starting file retrieval for loose file" + dataStoreContext.OriginalFilename);
             try
             {
                 using (var stream = await _fileService.OpenReadStreamAsync(dataStoreContext.OriginalFilename, dataStoreContext.Container, cancellationToken))
