@@ -35,6 +35,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? PrvDisadvPropnHist { get; set; }
         public decimal? PrvHistLrgProgPropn { get; set; }
         public decimal? PrvRetentFactHist { get; set; }
+        public decimal? PrvHistL3ProgMathEngProp { get; set; }
         public string RateBand { get; set; }
         public decimal? RetentNew { get; set; }
         public bool? StartFund { get; set; }

@@ -23,6 +23,7 @@
     [PrvDisadvPropnHist]        DECIMAL (10, 5) NULL,
     [PrvHistLrgProgPropn]       DECIMAL (10, 5) NULL,
     [PrvRetentFactHist]         DECIMAL (10, 5) NULL,
+    [PrvHistL3ProgMathEngProp]  DECIMAL (10, 5) NULL,
     [RateBand]                  VARCHAR (50)    NULL,
     [RetentNew]                 DECIMAL (10, 5) NULL,
     [StartFund]                 BIT             NULL,
