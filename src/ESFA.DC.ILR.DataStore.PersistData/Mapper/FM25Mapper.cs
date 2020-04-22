@@ -81,6 +81,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 PrvDisadvPropnHist = learner.PrvDisadvPropnHist,
                 PrvHistLrgProgPropn = learner.PrvHistLrgProgPropn,
                 PrvRetentFactHist = learner.PrvRetentFactHist,
+                PrvHistL3ProgMathEngProp = learner.PrvHistL3ProgMathEngProp,
                 RateBand = learner.RateBand,
                 RetentNew = learner.RetentNew,
                 StartFund = learner.StartFund,

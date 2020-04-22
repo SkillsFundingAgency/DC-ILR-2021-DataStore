@@ -14,12 +14,12 @@
 
   <ItemGroup>
     <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.ALB.FundingOutput.Model" Version="0.1.34" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM25.FundingOutput.Model" Version="0.1.34" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM35.FundingOutput.Model" Version="0.1.34" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM36.FundingOutput.Model" Version="0.1.34" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM70.FundingOutput.Model" Version="0.1.34" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM81.FundingOutput.Model" Version="0.1.34" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.ALB.FundingOutput.Model" Version="0.1.38" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM25.FundingOutput.Model" Version="0.1.38" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM35.FundingOutput.Model" Version="0.1.38" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM36.FundingOutput.Model" Version="0.1.38" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM70.FundingOutput.Model" Version="0.1.38" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM81.FundingOutput.Model" Version="0.1.38" />
     <PackageReference Include="ESFA.DC.ILR.2021.IO.Model.Validation" Version="0.1.1-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.2021.Model" Version="0.1.1-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.2021.Model.Loose" Version="0.1.1-beta0001" />
