@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 {
     [DbContext(typeof(RulebaseMdbContext))]
-    [Migration("20200402110405_InitialCreate")]
+    [Migration("20200423153025_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,7 +156,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier")
-                        .HasName("PK__AEC_Appr__BCF596CA5DEBB821");
+                        .HasName("PK__AEC_Appr__BCF596CA1879623A");
 
                     b.ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode","Rulebase");
                 });
@@ -237,7 +237,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier", "Period")
-                        .HasName("PK__AEC_Appr__9984F1E7C407054E");
+                        .HasName("PK__AEC_Appr__9984F1E75FAB109F");
 
                     b.HasIndex("UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier")
                         .HasName("ix_AEC_ApprenticeshipPriceEpisodePeriod");
@@ -298,7 +298,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier", "AttributeName")
-                        .HasName("PK__AEC_Appr__4E0E9877E6B93578");
+                        .HasName("PK__AEC_Appr__4E0E987741CE20FF");
 
                     b.ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues","Rulebase");
                 });
@@ -379,7 +379,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AppIdentifierOutput")
-                        .HasName("PK__AEC_Hist__9CDF07421B128BF3");
+                        .HasName("PK__AEC_Hist__9CDF07428B5BFCD4");
 
                     b.ToTable("Rulebase_AEC_HistoricEarningOutput","Rulebase");
                 });
@@ -396,7 +396,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__AEC_Lear__2770A72788182B45");
+                        .HasName("PK__AEC_Lear__2770A7278792C44D");
 
                     b.ToTable("Rulebase_AEC_Learner","Rulebase");
                 });
@@ -526,7 +526,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<int?>("ThresholdDays");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__AEC_Lear__0C29443A9F91DA30");
+                        .HasName("PK__AEC_Lear__0C29443A20062BF5");
 
                     b.ToTable("Rulebase_AEC_LearningDelivery","Rulebase");
                 });
@@ -626,7 +626,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "Period")
-                        .HasName("PK__AEC_Lear__2958231702863661");
+                        .HasName("PK__AEC_Lear__2958231757A77AB4");
 
                     b.ToTable("Rulebase_AEC_LearningDelivery_Period","Rulebase");
                 });
@@ -694,7 +694,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "AttributeName")
-                        .HasName("PK__AEC_Lear__FED24A87645F7399");
+                        .HasName("PK__AEC_Lear__FED24A8763ED2B59");
 
                     b.ToTable("Rulebase_AEC_LearningDelivery_PeriodisedTextValues","Rulebase");
                 });
@@ -750,7 +750,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "AttributeName")
-                        .HasName("PK__AEC_Lear__FED24A87AAF4BB38");
+                        .HasName("PK__AEC_Lear__FED24A87F218A769");
 
                     b.ToTable("Rulebase_AEC_LearningDelivery_PeriodisedValues","Rulebase");
                 });
@@ -785,7 +785,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__ALB_Lear__2770A727C43F7EDD");
+                        .HasName("PK__ALB_Lear__2770A7274773B5E0");
 
                     b.ToTable("Rulebase_ALB_Learner","Rulebase");
                 });
@@ -803,7 +803,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<int?>("ALBSeqNum");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "Period")
-                        .HasName("PK__ALB_Lear__7066D5F50CB357CA");
+                        .HasName("PK__ALB_Lear__7066D5F511371796");
 
                     b.ToTable("Rulebase_ALB_Learner_Period","Rulebase");
                 });
@@ -857,7 +857,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AttributeName")
-                        .HasName("PK__ALB_Lear__08C04CF859B58A76");
+                        .HasName("PK__ALB_Lear__08C04CF88C312358");
 
                     b.ToTable("Rulebase_ALB_Learner_PeriodisedValues","Rulebase");
                 });
@@ -912,7 +912,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__ALB_Lear__0C29443A00D66D89");
+                        .HasName("PK__ALB_Lear__0C29443A4E335012");
 
                     b.ToTable("Rulebase_ALB_LearningDelivery","Rulebase");
                 });
@@ -941,7 +941,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(12, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "Period")
-                        .HasName("PK__ALB_Lear__295823177634EADB");
+                        .HasName("PK__ALB_Lear__29582317EADE1B8B");
 
                     b.ToTable("Rulebase_ALB_LearningDelivery_Period","Rulebase");
                 });
@@ -997,7 +997,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "AttributeName")
-                        .HasName("PK__ALB_Lear__FED24A873521730C");
+                        .HasName("PK__ALB_Lear__FED24A87217B9F84");
 
                     b.ToTable("Rulebase_ALB_LearningDelivery_PeriodisedValues","Rulebase");
                 });
@@ -1019,7 +1019,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__ALB_glob__50F26B71D5CB26A9");
+                        .HasName("PK__ALB_glob__50F26B71EF738AE6");
 
                     b.ToTable("Rulebase_ALB_global","Rulebase");
                 });
@@ -1131,7 +1131,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(6, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__DV_Learn__2770A72703590F4E");
+                        .HasName("PK__DV_Learn__2770A727C11B1C32");
 
                     b.ToTable("Rulebase_DV_Learner","Rulebase");
                 });
@@ -1489,7 +1489,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<int?>("Prog_SourceFundSFA");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__DV_Learn__0C29443A1789C092");
+                        .HasName("PK__DV_Learn__0C29443A0135C5AD");
 
                     b.ToTable("Rulebase_DV_LearningDelivery","Rulebase");
                 });
@@ -1582,7 +1582,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<bool?>("ReachedTwelveMonthPoint");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "OutCode", "OutType", "OutStartDate")
-                        .HasName("PK__ESF_DPOu__1D621D2985B16FFB");
+                        .HasName("PK__ESF_DPOu__1D621D29DB6E8A68");
 
                     b.ToTable("Rulebase_ESF_DPOutcome","Rulebase");
                 });
@@ -1596,7 +1596,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__ESF_Lear__2770A72780D4C6FB");
+                        .HasName("PK__ESF_Lear__2770A72763267086");
 
                     b.ToTable("Rulebase_ESF_Learner","Rulebase");
                 });
@@ -1667,7 +1667,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(10, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__ESF_Lear__0C29443A4C97F493");
+                        .HasName("PK__ESF_Lear__0C29443A6559851F");
 
                     b.ToTable("Rulebase_ESF_LearningDelivery","Rulebase");
                 });
@@ -1690,7 +1690,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "DeliverableCode")
-                        .HasName("PK__ESF_Lear__C21F732AB49C3CB6");
+                        .HasName("PK__ESF_Lear__C21F732A53D0319C");
 
                     b.ToTable("Rulebase_ESF_LearningDeliveryDeliverable","Rulebase");
                 });
@@ -1728,7 +1728,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "DeliverableCode", "Period")
-                        .HasName("PK__ESF_Lear__10486558BA63A001");
+                        .HasName("PK__ESF_Lear__10486558745853DD");
 
                     b.ToTable("Rulebase_ESF_LearningDeliveryDeliverable_Period","Rulebase");
                 });
@@ -1788,7 +1788,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "DeliverableCode", "AttributeName")
-                        .HasName("PK__ESF_Lear__1D30C3C1A67B20AC");
+                        .HasName("PK__ESF_Lear__1D30C3C19D486620");
 
                     b.ToTable("Rulebase_ESF_LearningDeliveryDeliverable_PeriodisedValues","Rulebase");
                 });
@@ -1820,7 +1820,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "Period")
-                        .HasName("PK__FM25_FM3__7066D5F5BE84C6C5");
+                        .HasName("PK__FM25_FM3__7066D5F5066DB488");
 
                     b.ToTable("Rulebase_FM25_FM35_Learner_Period","Rulebase");
                 });
@@ -1874,7 +1874,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AttributeName")
-                        .HasName("PK__FM25_FM3__08C04CF88400D048");
+                        .HasName("PK__FM25_FM3__08C04CF8C4B842B5");
 
                     b.ToTable("Rulebase_FM25_FM35_Learner_PeriodisedValues","Rulebase");
                 });
@@ -1888,7 +1888,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__FM25_FM3__50F26B715A96AD78");
+                        .HasName("PK__FM25_FM3__50F26B71DCDD6B94");
 
                     b.ToTable("Rulebase_FM25_FM35_global","Rulebase");
                 });
@@ -1959,6 +1959,9 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<decimal?>("PrvDisadvPropnHist")
                         .HasColumnType("decimal(10, 5)");
 
+                    b.Property<decimal?>("PrvHistL3ProgMathEngProp")
+                        .HasColumnType("decimal(10, 5)");
+
                     b.Property<decimal?>("PrvHistLrgProgPropn")
                         .HasColumnType("decimal(10, 5)");
 
@@ -1974,10 +1977,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 
                     b.Property<bool?>("StartFund");
 
+                    b.Property<bool?>("TLevelStudent");
+
                     b.Property<int?>("ThresholdDays");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__FM25_Lea__2770A727146088D1");
+                        .HasName("PK__FM25_Lea__2770A727F1351FA2");
 
                     b.ToTable("Rulebase_FM25_Learner","Rulebase");
                 });
@@ -2003,7 +2008,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__FM25_glo__50F26B71E9D655E6");
+                        .HasName("PK__FM25_glo__50F26B714B38EAD2");
 
                     b.ToTable("Rulebase_FM25_global","Rulebase");
                 });
@@ -2017,7 +2022,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__FM35_Lea__2770A727EF047039");
+                        .HasName("PK__FM35_Lea__2770A72749708AC1");
 
                     b.ToTable("Rulebase_FM35_Learner","Rulebase");
                 });
@@ -2386,7 +2391,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__TBL_Lear__2770A727A90B432C");
+                        .HasName("PK__TBL_Lear__2770A727DA42FA5A");
 
                     b.ToTable("Rulebase_TBL_Learner","Rulebase");
                 });
@@ -2531,7 +2536,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("date");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
-                        .HasName("PK__TBL_Lear__0C29443A57E67260");
+                        .HasName("PK__TBL_Lear__0C29443A180DD9A6");
 
                     b.ToTable("Rulebase_TBL_LearningDelivery","Rulebase");
                 });
@@ -2589,7 +2594,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "Period")
-                        .HasName("PK__TBL_Lear__29582317D97944AE");
+                        .HasName("PK__TBL_Lear__295823176D043531");
 
                     b.ToTable("Rulebase_TBL_LearningDelivery_Period","Rulebase");
                 });
@@ -2645,7 +2650,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasColumnType("decimal(15, 5)");
 
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "AttributeName")
-                        .HasName("PK__TBL_Lear__FED24A877D4E1BEE");
+                        .HasName("PK__TBL_Lear__FED24A87B77A5CE7");
 
                     b.ToTable("Rulebase_TBL_LearningDelivery_PeriodisedValues","Rulebase");
                 });
@@ -2667,7 +2672,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__TBL_glob__50F26B71E347C0E7");
+                        .HasName("PK__TBL_glob__50F26B710811E41B");
 
                     b.ToTable("Rulebase_TBL_global","Rulebase");
                 });
@@ -2716,7 +2721,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__VALDP_gl__50F26B718D7B4517");
+                        .HasName("PK__VALDP_gl__50F26B7164B5436D");
 
                     b.ToTable("Rulebase_VALDP_global","Rulebase");
                 });
@@ -2759,7 +2764,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN", "LearnRefNumber")
-                        .HasName("PK__VAL_Lear__2770A727BCA3B458");
+                        .HasName("PK__VAL_Lear__2770A7274E43A674");
 
                     b.ToTable("Rulebase_VAL_Learner","Rulebase");
                 });
@@ -2771,7 +2776,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.Property<int>("AimSeqNumber");
 
                     b.HasKey("UKPRN", "AimSeqNumber")
-                        .HasName("PK__VAL_Lear__E56C5AA3C1649D78");
+                        .HasName("PK__VAL_Lear__E56C5AA39140B86F");
 
                     b.ToTable("Rulebase_VAL_LearningDelivery","Rulebase");
                 });
@@ -2830,7 +2835,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .IsUnicode(false);
 
                     b.HasKey("UKPRN")
-                        .HasName("PK__VAL_glob__50F26B714B9DBD3B");
+                        .HasName("PK__VAL_glob__50F26B712B41C851");
 
                     b.ToTable("Rulebase_VAL_global","Rulebase");
                 });
