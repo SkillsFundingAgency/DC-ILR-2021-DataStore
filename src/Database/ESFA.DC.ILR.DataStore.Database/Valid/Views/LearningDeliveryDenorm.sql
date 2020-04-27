@@ -63,8 +63,8 @@ SELECT
 	,DAM.DAM2
 	,DAM.DAM3
 	,DAM.DAM4
-
-
+	,DAM.DAM5
+	,DAM.DAM6
 FROM
 	Valid.LearningDelivery as ld
 	left join
@@ -258,7 +258,9 @@ FROM
 			max([DAM1]) as [DAM1],
 			max([DAM2]) as [DAM2],
 			max([DAM3]) as [DAM3],
-			max([DAM4]) as [DAM4]
+			max([DAM4]) as [DAM4],
+			max([DAM5]) as [DAM5],
+			max([DAM6]) as [DAM6]
 		from
 		(
 			select
@@ -268,7 +270,9 @@ FROM
 				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 1 then LearnDelFAMCode else null end  as [DAM1],
 				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 2 then LearnDelFAMCode else null end  as [DAM2],
 				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 3 then LearnDelFAMCode else null end  as [DAM3],
-				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 4 then LearnDelFAMCode else null end  as [DAM4]
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 4 then LearnDelFAMCode else null end  as [DAM4],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 5 then LearnDelFAMCode else null end  as [DAM5],
+				case row_number() over (partition by [LearnRefNumber], AimSeqNumber, UKPRN order by [LearnRefNumber]) when 6 then LearnDelFAMCode else null end  as [DAM6]
 			from
 				[Valid].[LearningDeliveryFAM]
 			where
