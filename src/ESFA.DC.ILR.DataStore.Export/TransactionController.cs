@@ -35,7 +35,12 @@ namespace ESFA.DC.ILR.DataStore.Export
                 {
                     _schemaExports.TryGetValue(key, out var export);
 
-                    export?.ExportAsync(cache, connection, dataStoreContext.ExportOutputLocation, cancellationToken);
+                    if (export == null)
+                    {
+                        continue;
+                    }
+
+                    await export.ExportAsync(cache, connection, dataStoreContext.ExportOutputLocation, cancellationToken);
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
