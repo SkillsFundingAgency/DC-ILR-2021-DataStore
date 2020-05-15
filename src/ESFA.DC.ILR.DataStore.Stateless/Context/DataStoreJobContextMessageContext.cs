@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ESFA.DC.ILR.Constants;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
@@ -69,5 +71,7 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Context
         public string EsfFundingDatabaseConnectionString => _persistDataConfiguration.EsfFundingDatabaseConnectionString;
 
         public string ExportOutputLocation => throw new NotImplementedException();
+
+        public IEnumerable<string> Tasks => _jobContextMessage.Topics[_jobContextMessage.TopicPointer].Tasks.SelectMany(x => x.Tasks);
     }
 }

@@ -1,4 +1,8 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using Autofac;
 using ESFA.DC.ILR.Datastore.Modules;
 using ESFA.DC.ILR.DataStore.Desktop.Context;
 using ESFA.DC.ILR.DataStore.Desktop.PersistData;
@@ -17,7 +21,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
         protected override void Load(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<MdbDesktopTask>().As<IDesktopTask>();
-            containerBuilder.RegisterType<DataStoreContextFactory>().As<IDataStoreContextFactory<IDesktopContext>>();
+            containerBuilder.RegisterType<ExportContextFactory>().As<IDataStoreContextFactory<IDesktopContext>>();
             containerBuilder.RegisterType<EntryPoint>().As<IExportEntryPoint>();
             containerBuilder.RegisterType<MdbExport>().As<IExport>();
             containerBuilder.RegisterType<TransactionController>().As<IExportTransactionController>();
@@ -34,9 +38,19 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
             containerBuilder.RegisterDecorator<CsvExport, IExport>();
             containerBuilder.RegisterDecorator<ValidationErrorSeed, IExport>();
 
-            containerBuilder.RegisterType<ValidSchemaExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<AlbExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<DVExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<EsfExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<FM25_FM35Export>().As<ISchemaExport>();
+            containerBuilder.RegisterType<FM25Export>().As<ISchemaExport>();
+            containerBuilder.RegisterType<FM35Export>().As<ISchemaExport>();
+            containerBuilder.RegisterType<FM36Export>().As<ISchemaExport>();
             containerBuilder.RegisterType<InvalidSchemaExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<RulebaseSchemaExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<TBLExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<ValidationErrorExport>().As<ISchemaExport>();
+            containerBuilder.RegisterType<ValidSchemaExport>().As<ISchemaExport>();
+
+            containerBuilder.RegisterAdapter<IEnumerable<ISchemaExport>, IImmutableDictionary<string, ISchemaExport>>(cb => cb.ToImmutableDictionary(k => k.TaskKey, v => v, StringComparer.OrdinalIgnoreCase));
         }
     }
 }

@@ -17,11 +17,14 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
         private readonly IExport _export;
         private readonly ILogger _logger;
 
-        protected AbstractSchemaExport(DbContext context, IExport export, ILogger logger)
+        public string TaskKey { get; }
+
+        protected AbstractSchemaExport(DbContext context, IExport export, ILogger logger, string taskKey)
         {
             _context = context;
             _export = export;
             _logger = logger;
+            TaskKey = taskKey;
         }
 
         protected async Task ExportTableAsync<T, TClassMap>(string exportPath, IDataStoreCache cache, OleDbConnection connection, CancellationToken cancellationToken) where TClassMap : ClassMap<T>
