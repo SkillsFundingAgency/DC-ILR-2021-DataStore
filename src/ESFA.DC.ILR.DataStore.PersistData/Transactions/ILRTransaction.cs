@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Interface;
@@ -12,20 +15,27 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
     {
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly IPersistenceService _persistenceService;
+        private readonly IEnumerable<ITableSetTransaction> _ilrTransactions;
         private readonly ILogger _logger;
 
         public ILRTransaction(
             IDataStorePersistenceService dataStorePersistenceService,
             IPersistenceService persistenceService,
+            IEnumerable<ITableSetTransaction> ilrTransactions,
             ILogger logger)
         {
             _dataStorePersistenceService = dataStorePersistenceService;
             _persistenceService = persistenceService;
+            _ilrTransactions = ilrTransactions;
             _logger = logger;
         }
 
         public async Task WriteILRDataAsync(IDataStoreContext dataStoreContext, IDataStoreCache cache, CancellationToken cancellationToken)
         {
+            var transactions = _ilrTransactions
+                .Where(t => dataStoreContext.Tasks.Contains(t.TaskKey, StringComparer.OrdinalIgnoreCase))
+                .OrderBy(t => t.TaskOrder);
+
             using (SqlConnection ilrConnection = new SqlConnection(dataStoreContext.IlrDatabaseConnectionString))
             {
                 await ilrConnection.OpenAsync(cancellationToken);
@@ -46,29 +56,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Transactions
                         _logger.LogDebug("WriteToDEDS - ILR File Details Stored");
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        await _persistenceService.PersistInvalidLearnerDataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR Invalid Learner Data Stored");
-                        cancellationToken.ThrowIfCancellationRequested();
-
-                        await _persistenceService.PersistValidLearnerDataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR Valid Learner Data Stored");
-                        cancellationToken.ThrowIfCancellationRequested();
-
-                        await _persistenceService.PersistALBDataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR ALB Data Stored");
-                        await _persistenceService.PersistFM25DataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR FM25 Data Stored");
-                        await _persistenceService.PersistFM35DataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR FM35 Data Stored");
-                        await _persistenceService.PersistFM36DataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR FM36 Data Stored");
-                        await _persistenceService.PersistFM70DataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR FM70 Data Stored");
-                        await _persistenceService.PersistFM81DataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR FM81 Data Stored");
-
-                        await _persistenceService.PersistValidationDataAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
-                        _logger.LogDebug("WriteToDEDS - ILR Validation Output Data Stored");
+                        foreach (var transaction in transactions)
+                        {
+                            await transaction.WriteAsync(cache, ilrConnection, ilrTransaction, cancellationToken);
+                        }
 
                         cancellationToken.ThrowIfCancellationRequested();
 

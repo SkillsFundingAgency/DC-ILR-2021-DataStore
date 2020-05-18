@@ -95,9 +95,6 @@
     <Build Include="..\ESFA.DC.ILR.DataStore.Database\dbo\Tables\VersionInfo.sql">
       <Link>dbo\Tables\VersionInfo.sql</Link>
     </Build>
-    <Build Include="..\ESFA.DC.ILR.DataStore.Database\dbo\Stored Procedures\DeleteExistingRecords.sql">
-      <Link>dbo\Stored Procedures\DeleteExistingRecords.sql</Link>
-    </Build>
     <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\AppFinRecord.sql">
       <Link>Valid\Tables\AppFinRecord.sql</Link>
     </Build>
@@ -359,5 +356,6 @@
     <Build Include="..\ESFA.DC.ILR.DataStore.Database\DataLock\Tables\ValidationError.sql">
       <Link>Datalock\Tables\ValidationError.sql</Link>
     </Build>
+    <Build Include="dbo\Stored Procedures\DeleteExistingRecords.sql" />
   </ItemGroup>
 </Project>
