@@ -1,6 +1,7 @@
 ﻿using System.Data.OleDb;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.ILR.DataStore.Access;
 using ESFA.DC.ILR.DataStore.Export.Interface;
 using ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase;
 using ESFA.DC.ILR.DataStore.Model.Interface;
@@ -12,8 +13,8 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
     public class FM25Export : AbstractSchemaExport, IOrderedExport
     {
-        public FM25Export(DbContext context, IExport export, ILogger logger) 
-            : base(context, export, logger, Constants.TaskExportFM25Tables, 5)
+        public FM25Export(IExport export, ILogger logger) 
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportFM25Tables, 5)
         {
         }
 
