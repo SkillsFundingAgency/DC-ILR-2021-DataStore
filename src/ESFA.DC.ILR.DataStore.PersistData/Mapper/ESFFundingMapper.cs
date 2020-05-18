@@ -16,7 +16,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapData(IDataStoreCache cache, IDataStoreContext dataStoreContext, IMessage message, FM70Global fm70Global)
         {
-            var learners = fm70Global.Learners;
+            var learners = fm70Global?.Learners;
 
             var ukprn = fm70Global.UKPRN;
 

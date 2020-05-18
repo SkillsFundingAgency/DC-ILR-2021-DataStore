@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal)
         {
-            var learners = albGlobal.Learners;
+            var learners = albGlobal?.Learners;
 
             if (learners == null)
             {
