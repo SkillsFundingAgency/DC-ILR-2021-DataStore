@@ -10,10 +10,10 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
-    public class AlbExport : AbstractSchemaExport, ISchemaExport
+    public class AlbExport : AbstractSchemaExport, IOrderedExport
     {
         public AlbExport(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportAlbTables)
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportAlbTables, 1)
         {
         }
 

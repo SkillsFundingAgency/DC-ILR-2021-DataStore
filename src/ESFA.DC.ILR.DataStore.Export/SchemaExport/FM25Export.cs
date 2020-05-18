@@ -10,10 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
-    public class FM25Export : AbstractSchemaExport, ISchemaExport
+    public class FM25Export : AbstractSchemaExport, IOrderedExport
     {
         public FM25Export(DbContext context, IExport export, ILogger logger) 
-            : base(context, export, logger, Constants.TaskExportFM25Tables)
+            : base(context, export, logger, Constants.TaskExportFM25Tables, 5)
         {
         }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using Autofac;
 using ESFA.DC.ILR.Datastore.Modules;
 using ESFA.DC.ILR.DataStore.Desktop.Context;
@@ -38,19 +39,17 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
             containerBuilder.RegisterDecorator<CsvExport, IExport>();
             containerBuilder.RegisterDecorator<ValidationErrorSeed, IExport>();
 
-            containerBuilder.RegisterType<AlbExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<DVExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<EsfExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<FM25_FM35Export>().As<ISchemaExport>();
-            containerBuilder.RegisterType<FM25Export>().As<ISchemaExport>();
-            containerBuilder.RegisterType<FM35Export>().As<ISchemaExport>();
-            containerBuilder.RegisterType<FM36Export>().As<ISchemaExport>();
-            containerBuilder.RegisterType<InvalidSchemaExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<TBLExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<ValidationErrorExport>().As<ISchemaExport>();
-            containerBuilder.RegisterType<ValidSchemaExport>().As<ISchemaExport>();
-
-            containerBuilder.RegisterAdapter<IEnumerable<ISchemaExport>, IImmutableDictionary<string, ISchemaExport>>(cb => cb.ToImmutableDictionary(k => k.TaskKey, v => v, StringComparer.OrdinalIgnoreCase));
+            containerBuilder.RegisterType<AlbExport>().As<IOrderedExport>();
+            containerBuilder.RegisterType<DVExport>().As<IOrderedExport>();
+            containerBuilder.RegisterType<EsfExport>().As<IOrderedExport>();
+            containerBuilder.RegisterType<FM25_FM35Export>().As<IOrderedExport>();
+            containerBuilder.RegisterType<FM25Export>().As<IOrderedExport>();
+            containerBuilder.RegisterType<FM35Export>().As<IOrderedExport>();
+            containerBuilder.RegisterType<FM36Export>().As<IOrderedExport>();
+            containerBuilder.RegisterType<InvalidOrderedExport>().As<IOrderedExport>();
+            containerBuilder.RegisterType<TBLExport>().As<IOrderedExport>();
+            containerBuilder.RegisterType<ValidationErrorExport>().As<IOrderedExport>();
+            containerBuilder.RegisterType<ValidOrderedExport>().As<IOrderedExport>();
         }
     }
 }

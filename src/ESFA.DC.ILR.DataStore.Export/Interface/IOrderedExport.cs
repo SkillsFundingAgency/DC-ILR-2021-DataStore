@@ -5,8 +5,10 @@ using ESFA.DC.ILR.DataStore.Model.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Export.Interface
 {
-    public interface ISchemaExport
+    public interface IOrderedExport
     {
+        int TaskOrder { get; }
+
         string TaskKey { get; }
 
         Task ExportAsync(IDataStoreCache dataStoreCache, OleDbConnection connection, string exportPath, CancellationToken cancellationToken);

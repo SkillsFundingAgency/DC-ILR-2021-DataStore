@@ -11,10 +11,10 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
-    public class EsfExport : AbstractSchemaExport, ISchemaExport
+    public class EsfExport : AbstractSchemaExport, IOrderedExport
     {
         public EsfExport(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportEsfTables)
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportEsfTables, 3)
         {
         }
 

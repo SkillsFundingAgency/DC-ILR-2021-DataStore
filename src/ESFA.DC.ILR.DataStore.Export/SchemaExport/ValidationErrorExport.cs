@@ -10,10 +10,10 @@ using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
-    public class ValidationErrorExport : AbstractSchemaExport, ISchemaExport
+    public class ValidationErrorExport : AbstractSchemaExport, IOrderedExport
     {
         public ValidationErrorExport(IExport export, ILogger logger)
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportValidationErrorTable)
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportValidationErrorTable, 10)
         {
         }
 
