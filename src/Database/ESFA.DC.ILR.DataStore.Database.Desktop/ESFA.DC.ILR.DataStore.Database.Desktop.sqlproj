@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>ESFA.DC.ILR.DataStore.Database.Desktop</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{2478c64f-eda1-4eab-ba67-f87972d09d11}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>ESFA.DC.ILR.DataStore.Database.Desktop</RootNamespace>
+    <AssemblyName>ESFA.DC.ILR.DataStore.Database.Desktop</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Security" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="Valid" />
+    <Folder Include="Valid\Tables" />
+    <Folder Include="Invalid" />
+    <Folder Include="Invalid\Tables" />
+    <Folder Include="Rulebase" />
+    <Folder Include="Rulebase\Tables" />
+    <Folder Include="Datalock" />
+    <Folder Include="Datalock\Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Security\DataLock.sql">
+      <Link>Security\DataLock.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Security\Invalid.sql">
+      <Link>Security\Invalid.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Security\Rulebase.sql">
+      <Link>Security\Rulebase.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Security\Valid.sql">
+      <Link>Security\Valid.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\dbo\Tables\FileDetails.sql">
+      <Link>dbo\Tables\FileDetails.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\dbo\Tables\ProcessingData.sql">
+      <Link>dbo\Tables\ProcessingData.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\dbo\Tables\ValidationError.sql">
+      <Link>dbo\Tables\ValidationError.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\dbo\Tables\VersionInfo.sql">
+      <Link>dbo\Tables\VersionInfo.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\AppFinRecord.sql">
+      <Link>Valid\Tables\AppFinRecord.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\CollectionDetails.sql">
+      <Link>Valid\Tables\CollectionDetails.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\ContactPreference.sql">
+      <Link>Valid\Tables\ContactPreference.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\DPOutcome.sql">
+      <Link>Valid\Tables\DPOutcome.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\EmploymentStatusMonitoring.sql">
+      <Link>Valid\Tables\EmploymentStatusMonitoring.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\Learner.sql">
+      <Link>Valid\Tables\Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearnerDestinationandProgression.sql">
+      <Link>Valid\Tables\LearnerDestinationandProgression.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearnerEmploymentStatus.sql">
+      <Link>Valid\Tables\LearnerEmploymentStatus.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearnerFAM.sql">
+      <Link>Valid\Tables\LearnerFAM.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearnerHE.sql">
+      <Link>Valid\Tables\LearnerHE.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearnerHEFinancialSupport.sql">
+      <Link>Valid\Tables\LearnerHEFinancialSupport.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearningDelivery.sql">
+      <Link>Valid\Tables\LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearningDeliveryFAM.sql">
+      <Link>Valid\Tables\LearningDeliveryFAM.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearningDeliveryHE.sql">
+      <Link>Valid\Tables\LearningDeliveryHE.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearningDeliveryWorkPlacement.sql">
+      <Link>Valid\Tables\LearningDeliveryWorkPlacement.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LearningProvider.sql">
+      <Link>Valid\Tables\LearningProvider.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\LLDDandHealthProblem.sql">
+      <Link>Valid\Tables\LLDDandHealthProblem.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\ProviderSpecDeliveryMonitoring.sql">
+      <Link>Valid\Tables\ProviderSpecDeliveryMonitoring.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\ProviderSpecLearnerMonitoring.sql">
+      <Link>Valid\Tables\ProviderSpecLearnerMonitoring.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\Source.sql">
+      <Link>Valid\Tables\Source.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Tables\SourceFile.sql">
+      <Link>Valid\Tables\SourceFile.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\AppFinRecord.sql">
+      <Link>Invalid\Tables\AppFinRecord.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\CollectionDetails.sql">
+      <Link>Invalid\Tables\CollectionDetails.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\ContactPreference.sql">
+      <Link>Invalid\Tables\ContactPreference.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\DPOutcome.sql">
+      <Link>Invalid\Tables\DPOutcome.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\EmploymentStatusMonitoring.sql">
+      <Link>Invalid\Tables\EmploymentStatusMonitoring.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\Learner.sql">
+      <Link>Invalid\Tables\Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearnerDestinationandProgression.sql">
+      <Link>Invalid\Tables\LearnerDestinationandProgression.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearnerEmploymentStatus.sql">
+      <Link>Invalid\Tables\LearnerEmploymentStatus.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearnerFAM.sql">
+      <Link>Invalid\Tables\LearnerFAM.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearnerHE.sql">
+      <Link>Invalid\Tables\LearnerHE.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearnerHEFinancialSupport.sql">
+      <Link>Invalid\Tables\LearnerHEFinancialSupport.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearningDelivery.sql">
+      <Link>Invalid\Tables\LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearningDeliveryFAM.sql">
+      <Link>Invalid\Tables\LearningDeliveryFAM.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearningDeliveryHE.sql">
+      <Link>Invalid\Tables\LearningDeliveryHE.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearningDeliveryWorkPlacement.sql">
+      <Link>Invalid\Tables\LearningDeliveryWorkPlacement.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LearningProvider.sql">
+      <Link>Invalid\Tables\LearningProvider.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\LLDDandHealthProblem.sql">
+      <Link>Invalid\Tables\LLDDandHealthProblem.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\ProviderSpecDeliveryMonitoring.sql">
+      <Link>Invalid\Tables\ProviderSpecDeliveryMonitoring.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\ProviderSpecLearnerMonitoring.sql">
+      <Link>Invalid\Tables\ProviderSpecLearnerMonitoring.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\Source.sql">
+      <Link>Invalid\Tables\Source.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Invalid\Tables\SourceFile.sql">
+      <Link>Invalid\Tables\SourceFile.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_global.sql">
+      <Link>Rulebase\Tables\ALB_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_Learner.sql">
+      <Link>Rulebase\Tables\ALB_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_Learner_Period.sql">
+      <Link>Rulebase\Tables\ALB_Learner_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_Learner_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\ALB_Learner_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_LearningDelivery.sql">
+      <Link>Rulebase\Tables\ALB_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_LearningDelivery_Period.sql">
+      <Link>Rulebase\Tables\ALB_LearningDelivery_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ALB_LearningDelivery_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\ALB_LearningDelivery_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\DV_global.sql">
+      <Link>Rulebase\Tables\DV_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\DV_Learner.sql">
+      <Link>Rulebase\Tables\DV_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\DV_LearningDelivery.sql">
+      <Link>Rulebase\Tables\DV_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_DPOutcome.sql">
+      <Link>Rulebase\Tables\ESF_DPOutcome.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_global.sql">
+      <Link>Rulebase\Tables\ESF_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_LearningDelivery.sql">
+      <Link>Rulebase\Tables\ESF_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_LearningDeliveryDeliverable.sql">
+      <Link>Rulebase\Tables\ESF_LearningDeliveryDeliverable.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_LearningDeliveryDeliverable_Period.sql">
+      <Link>Rulebase\Tables\ESF_LearningDeliveryDeliverable_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_LearningDeliveryDeliverable_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\ESF_LearningDeliveryDeliverable_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESFVAL_global.sql">
+      <Link>Rulebase\Tables\ESFVAL_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESFVAL_ValidationError.sql">
+      <Link>Rulebase\Tables\ESFVAL_ValidationError.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM25_FM35_global.sql">
+      <Link>Rulebase\Tables\FM25_FM35_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM25_FM35_Learner_Period.sql">
+      <Link>Rulebase\Tables\FM25_FM35_Learner_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM25_FM35_Learner_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\FM25_FM35_Learner_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM25_global.sql">
+      <Link>Rulebase\Tables\FM25_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM25_Learner.sql">
+      <Link>Rulebase\Tables\FM25_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM35_global.sql">
+      <Link>Rulebase\Tables\FM35_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM35_Learner.sql">
+      <Link>Rulebase\Tables\FM35_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM35_LearningDelivery.sql">
+      <Link>Rulebase\Tables\FM35_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM35_LearningDelivery_Period.sql">
+      <Link>Rulebase\Tables\FM35_LearningDelivery_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM35_LearningDelivery_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\FM35_LearningDelivery_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\FM70_Learner.sql">
+      <Link>Rulebase\Tables\FM70_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\TBL_global.sql">
+      <Link>Rulebase\Tables\TBL_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\TBL_Learner.sql">
+      <Link>Rulebase\Tables\TBL_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\TBL_LearningDelivery.sql">
+      <Link>Rulebase\Tables\TBL_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\TBL_LearningDelivery_Period.sql">
+      <Link>Rulebase\Tables\TBL_LearningDelivery_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\TBL_LearningDelivery_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\TBL_LearningDelivery_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VAL_global.sql">
+      <Link>Rulebase\Tables\VAL_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VAL_Learner.sql">
+      <Link>Rulebase\Tables\VAL_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VAL_LearningDelivery.sql">
+      <Link>Rulebase\Tables\VAL_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VAL_ValidationError.sql">
+      <Link>Rulebase\Tables\VAL_ValidationError.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VALDP_global.sql">
+      <Link>Rulebase\Tables\VALDP_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VALDP_ValidationError.sql">
+      <Link>Rulebase\Tables\VALDP_ValidationError.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\VALFD_ValidationError.sql">
+      <Link>Rulebase\Tables\VALFD_ValidationError.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\DataLock\Tables\DasLearnerCommitment.sql">
+      <Link>Datalock\Tables\DasLearnerCommitment.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\DataLock\Tables\PriceEpisodeMatch.sql">
+      <Link>Datalock\Tables\PriceEpisodeMatch.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\DataLock\Tables\PriceEpisodePeriodMatch.sql">
+      <Link>Datalock\Tables\PriceEpisodePeriodMatch.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\DataLock\Tables\ValidationError.sql">
+      <Link>Datalock\Tables\ValidationError.sql</Link>
+    </Build>
+    <Build Include="dbo\Stored Procedures\DeleteExistingRecords.sql" />
+  </ItemGroup>
+</Project>

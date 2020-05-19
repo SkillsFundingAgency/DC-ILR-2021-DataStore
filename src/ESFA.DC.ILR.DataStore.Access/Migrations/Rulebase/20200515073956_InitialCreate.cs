@@ -35,59 +35,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_global",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LARSVersion = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-                    RulebaseVersion = table.Column<string>(unicode: false, maxLength: 10, nullable: true),
-                    Year = table.Column<string>(unicode: false, maxLength: 4, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rulebase_AEC_global", x => x.UKPRN);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_HistoricEarningOutput",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    AppIdentifierOutput = table.Column<string>(unicode: false, maxLength: 10, nullable: false),
-                    AppProgCompletedInTheYearOutput = table.Column<bool>(nullable: true),
-                    HistoricDaysInYearOutput = table.Column<int>(nullable: true),
-                    HistoricEffectiveTNPStartDateOutput = table.Column<DateTime>(type: "date", nullable: true),
-                    HistoricEmpIdEndWithinYearOutput = table.Column<int>(nullable: true),
-                    HistoricEmpIdStartWithinYearOutput = table.Column<int>(nullable: true),
-                    HistoricFworkCodeOutput = table.Column<int>(nullable: true),
-                    HistoricLearner1618AtStartOutput = table.Column<bool>(nullable: true),
-                    HistoricPMRAmountOutput = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricProgrammeStartDateIgnorePathwayOutput = table.Column<DateTime>(type: "date", nullable: true),
-                    HistoricProgrammeStartDateMatchPathwayOutput = table.Column<DateTime>(type: "date", nullable: true),
-                    HistoricProgTypeOutput = table.Column<int>(nullable: true),
-                    HistoricPwayCodeOutput = table.Column<int>(nullable: true),
-                    HistoricSTDCodeOutput = table.Column<int>(nullable: true),
-                    HistoricTNP1Output = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricTNP2Output = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricTNP3Output = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricTNP4Output = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricTotal1618UpliftPaymentsInTheYear = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricTotalProgAimPaymentsInTheYear = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricULNOutput = table.Column<double>(type: "double", nullable: true),
-                    HistoricUptoEndDateOutput = table.Column<DateTime>(type: "date", nullable: true),
-                    HistoricVirtualTNP3EndofThisYearOutput = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricVirtualTNP4EndofThisYearOutput = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    HistoricLearnDelProgEarliestACT2DateOutput = table.Column<DateTime>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Hist__9CDF07428B5BFCD4", x => new { x.UKPRN, x.LearnRefNumber, x.AppIdentifierOutput });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rulebase_ALB_global",
                 schema: "Rulebase",
                 columns: table => new
@@ -337,27 +284,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_Learner",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    ULN = table.Column<double>(type: "double", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Lear__2770A7278792C44D", x => new { x.UKPRN, x.LearnRefNumber });
-                    table.ForeignKey(
-                        name: "FK_AECLearner_AECglobal",
-                        column: x => x.UKPRN,
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_global",
-                        principalColumn: "UKPRN",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rulebase_ALB_Learner",
                 schema: "Rulebase",
                 columns: table => new
@@ -570,135 +496,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         principalSchema: "Rulebase",
                         principalTable: "Rulebase_VAL_global",
                         principalColumn: "UKPRN",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    PriceEpisodeIdentifier = table.Column<string>(unicode: false, maxLength: 25, nullable: false),
-                    TNP4 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    TNP1 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    EpisodeStartDate = table.Column<DateTime>(type: "date", nullable: true),
-                    TNP2 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    TNP3 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisode1618FrameworkUpliftRemainingAmount = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisode1618FrameworkUpliftTotPrevEarnings = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisode1618FUBalValue = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisode1618FUMonthInstValue = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisode1618FUTotEarnings = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeUpperBandLimit = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodePlannedEndDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeActualEndDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeActualEndDateIncEPA = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeTotalTNPPrice = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeUpperLimitAdjustment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodePlannedInstalments = table.Column<int>(nullable: true),
-                    PriceEpisodeActualInstalments = table.Column<int>(nullable: true),
-                    PriceEpisodeCompletionElement = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodePreviousEarnings = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeInstalmentValue = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeTotalEarnings = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeCompleted = table.Column<bool>(nullable: true),
-                    PriceEpisodeRemainingTNPAmount = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeRemainingAmountWithinUpperLimit = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeCappedRemainingTNPAmount = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeExpectedTotalMonthlyValue = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeAimSeqNumber = table.Column<int>(nullable: true),
-                    PriceEpisodeApplic1618FrameworkUpliftCompElement = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeFundLineType = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-                    EpisodeEffectiveTNPStartDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeFirstAdditionalPaymentThresholdDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeSecondAdditionalPaymentThresholdDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeContractType = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-                    PriceEpisodePreviousEarningsSameProvider = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeTotalPMRs = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeCumulativePMRs = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeCompExemCode = table.Column<int>(nullable: true),
-                    PriceEpisodeLearnerAdditionalPaymentThresholdDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeAgreeId = table.Column<string>(unicode: false, maxLength: 6, nullable: true),
-                    PriceEpisodeRedStartDate = table.Column<DateTime>(type: "date", nullable: true),
-                    PriceEpisodeRedStatusCode = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Appr__BCF596CA1879623A", x => new { x.UKPRN, x.LearnRefNumber, x.PriceEpisodeIdentifier });
-                    table.ForeignKey(
-                        name: "FK_AECApprenticeshipPriceEpisode_AECLearner",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_Learner",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber" },
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_LearningDelivery",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    AimSeqNumber = table.Column<int>(nullable: false),
-                    ActualDaysIL = table.Column<int>(nullable: true),
-                    ActualNumInstalm = table.Column<int>(nullable: true),
-                    AdjStartDate = table.Column<DateTime>(type: "date", nullable: true),
-                    AgeAtProgStart = table.Column<int>(nullable: true),
-                    AppAdjLearnStartDate = table.Column<DateTime>(type: "date", nullable: true),
-                    AppAdjLearnStartDateMatchPathway = table.Column<DateTime>(type: "date", nullable: true),
-                    ApplicCompDate = table.Column<DateTime>(type: "date", nullable: true),
-                    CombinedAdjProp = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Completed = table.Column<bool>(nullable: true),
-                    FirstIncentiveThresholdDate = table.Column<DateTime>(type: "date", nullable: true),
-                    FundStart = table.Column<bool>(nullable: true),
-                    LDApplic1618FrameworkUpliftTotalActEarnings = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnAimRef = table.Column<string>(unicode: false, maxLength: 8, nullable: true),
-                    LearnDel1618AtStart = table.Column<bool>(nullable: true),
-                    LearnDelAppAccDaysIL = table.Column<int>(nullable: true),
-                    LearnDelApplicDisadvAmount = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelApplicEmp1618Incentive = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelApplicEmpDate = table.Column<DateTime>(type: "date", nullable: true),
-                    LearnDelApplicProv1618FrameworkUplift = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelApplicProv1618Incentive = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelAppPrevAccDaysIL = table.Column<int>(nullable: true),
-                    LearnDelDaysIL = table.Column<int>(nullable: true),
-                    LearnDelDisadAmount = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelEligDisadvPayment = table.Column<bool>(nullable: true),
-                    LearnDelEmpIdFirstAdditionalPaymentThreshold = table.Column<int>(nullable: true),
-                    LearnDelEmpIdSecondAdditionalPaymentThreshold = table.Column<int>(nullable: true),
-                    LearnDelHistDaysThisApp = table.Column<int>(nullable: true),
-                    LearnDelHistProgEarnings = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelInitialFundLineType = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-                    LearnDelMathEng = table.Column<bool>(nullable: true),
-                    MathEngAimValue = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    OutstandNumOnProgInstalm = table.Column<int>(nullable: true),
-                    PlannedNumOnProgInstalm = table.Column<int>(nullable: true),
-                    PlannedTotalDaysIL = table.Column<int>(nullable: true),
-                    SecondIncentiveThresholdDate = table.Column<DateTime>(type: "date", nullable: true),
-                    ThresholdDays = table.Column<int>(nullable: true),
-                    LearnDelProgEarliestACT2Date = table.Column<DateTime>(type: "date", nullable: true),
-                    LearnDelNonLevyProcured = table.Column<bool>(nullable: true),
-                    LearnDelApplicCareLeaverIncentive = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelHistDaysCareLeavers = table.Column<int>(nullable: true),
-                    LearnDelAccDaysILCareLeavers = table.Column<int>(nullable: true),
-                    LearnDelPrevAccDaysILCareLeavers = table.Column<int>(nullable: true),
-                    LearnDelLearnerAddPayThresholdDate = table.Column<DateTime>(type: "date", nullable: true),
-                    LearnDelRedCode = table.Column<int>(nullable: true),
-                    LearnDelRedStartDate = table.Column<DateTime>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Lear__0C29443A20062BF5", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber });
-                    table.ForeignKey(
-                        name: "FK_AECLearningDelivery_AECLearner",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_Learner",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1249,201 +1046,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_Period",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    PriceEpisodeIdentifier = table.Column<string>(unicode: false, maxLength: 25, nullable: false),
-                    Period = table.Column<int>(nullable: false),
-                    PriceEpisodeApplic1618FrameworkUpliftBalancing = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeApplic1618FrameworkUpliftCompletionPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeApplic1618FrameworkUpliftOnProgPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeBalancePayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeBalanceValue = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeCompletionPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeFirstDisadvantagePayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeFirstEmp1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeFirstProv1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeInstalmentsThisPeriod = table.Column<int>(nullable: true),
-                    PriceEpisodeLevyNonPayInd = table.Column<int>(nullable: true),
-                    PriceEpisodeLSFCash = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeOnProgPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeProgFundIndMaxEmpCont = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeProgFundIndMinCoInvest = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeSecondDisadvantagePayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeSecondEmp1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeSecondProv1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeSFAContribPct = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeTotProgFunding = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    PriceEpisodeLearnerAdditionalPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Appr__9984F1E75FAB109F", x => new { x.UKPRN, x.LearnRefNumber, x.PriceEpisodeIdentifier, x.Period });
-                    table.ForeignKey(
-                        name: "FK_AECApprenticeshipPriceEpisodePeriod_AECApprenticeshipPriceEpisode",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber, x.PriceEpisodeIdentifier },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_ApprenticeshipPriceEpisode",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier" },
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    PriceEpisodeIdentifier = table.Column<string>(unicode: false, maxLength: 25, nullable: false),
-                    AttributeName = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
-                    Period_1 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_2 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_3 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_4 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_5 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_6 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_7 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_8 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_9 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_10 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_11 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_12 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Appr__4E0E987741CE20FF", x => new { x.UKPRN, x.LearnRefNumber, x.PriceEpisodeIdentifier, x.AttributeName });
-                    table.ForeignKey(
-                        name: "FK_AECApprenticeshipPriceEpisodePeriodisedValues_AECApprenticeshipPriceEpisode",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber, x.PriceEpisodeIdentifier },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_ApprenticeshipPriceEpisode",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier" },
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_LearningDelivery_Period",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    AimSeqNumber = table.Column<int>(nullable: false),
-                    Period = table.Column<int>(nullable: false),
-                    DisadvFirstPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    DisadvSecondPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    FundLineType = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-                    InstPerPeriod = table.Column<int>(nullable: true),
-                    LDApplic1618FrameworkUpliftBalancingPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LDApplic1618FrameworkUpliftCompletionPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LDApplic1618FrameworkUpliftOnProgPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelContType = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
-                    LearnDelFirstEmp1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelFirstProv1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelLevyNonPayInd = table.Column<int>(nullable: true),
-                    LearnDelSecondEmp1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelSecondProv1618Pay = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelSEMContWaiver = table.Column<bool>(nullable: true),
-                    LearnDelSFAContribPct = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnSuppFund = table.Column<bool>(nullable: true),
-                    LearnSuppFundCash = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    MathEngBalPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    MathEngBalPct = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    MathEngOnProgPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    MathEngOnProgPct = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    ProgrammeAimBalPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    ProgrammeAimCompletionPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    ProgrammeAimOnProgPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    ProgrammeAimProgFundIndMaxEmpCont = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    ProgrammeAimProgFundIndMinCoInvest = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    ProgrammeAimTotProgFund = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    LearnDelLearnAddPayment = table.Column<decimal>(type: "decimal(12, 5)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Lear__2958231757A77AB4", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.Period });
-                    table.ForeignKey(
-                        name: "FK_AECLearningDeliveryPeriod_AECLearningDelivery",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_LearningDelivery",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_LearningDelivery_PeriodisedTextValues",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    AimSeqNumber = table.Column<int>(nullable: false),
-                    AttributeName = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
-                    Period_1 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_2 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_3 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_4 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_5 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_6 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_7 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_8 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_9 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_10 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_11 = table.Column<string>(unicode: false, maxLength: 255, nullable: true),
-                    Period_12 = table.Column<string>(unicode: false, maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Lear__FED24A8763ED2B59", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.AttributeName });
-                    table.ForeignKey(
-                        name: "FK_AECLearningDeliveryPeriodisedTextValues_AECLearningDeliveryPeriod",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_LearningDelivery",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rulebase_AEC_LearningDelivery_PeriodisedValues",
-                schema: "Rulebase",
-                columns: table => new
-                {
-                    UKPRN = table.Column<int>(nullable: false),
-                    LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    AimSeqNumber = table.Column<int>(nullable: false),
-                    AttributeName = table.Column<string>(unicode: false, maxLength: 100, nullable: false),
-                    Period_1 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_2 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_3 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_4 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_5 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_6 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_7 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_8 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_9 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_10 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_11 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true),
-                    Period_12 = table.Column<decimal>(type: "decimal(12, 5)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__AEC_Lear__FED24A87F218A769", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.AttributeName });
-                    table.ForeignKey(
-                        name: "FK_AECLearningDeliveryPeriodisedValues_AECLearningDeliveryPeriod",
-                        columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
-                        principalSchema: "Rulebase",
-                        principalTable: "Rulebase_AEC_LearningDelivery",
-                        principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rulebase_ALB_LearningDelivery_Period",
                 schema: "Rulebase",
                 columns: table => new
@@ -1738,42 +1340,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 name: "IX_ValidationError",
                 table: "dbo_ValidationError",
                 column: "UKPRN");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_AEC_ApprenticeshipPriceEpisodePeriod",
-                schema: "Rulebase",
-                table: "Rulebase_AEC_ApprenticeshipPriceEpisode_Period",
-                columns: new[] { "UKPRN", "LearnRefNumber", "PriceEpisodeIdentifier" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "dbo_ValidationError");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_Period",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_HistoricEarningOutput",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_LearningDelivery_Period",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_LearningDelivery_PeriodisedTextValues",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_LearningDelivery_PeriodisedValues",
-                schema: "Rulebase");
 
             migrationBuilder.DropTable(
                 name: "Rulebase_ALB_Learner_Period",
@@ -1864,14 +1436,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "Rulebase_AEC_ApprenticeshipPriceEpisode",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_LearningDelivery",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
                 name: "Rulebase_ALB_LearningDelivery",
                 schema: "Rulebase");
 
@@ -1904,10 +1468,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "Rulebase_AEC_Learner",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
                 name: "Rulebase_ALB_Learner",
                 schema: "Rulebase");
 
@@ -1929,10 +1489,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 
             migrationBuilder.DropTable(
                 name: "Rulebase_TBL_Learner",
-                schema: "Rulebase");
-
-            migrationBuilder.DropTable(
-                name: "Rulebase_AEC_global",
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(

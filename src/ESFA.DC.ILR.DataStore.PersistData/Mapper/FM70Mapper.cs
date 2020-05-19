@@ -15,7 +15,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapData(IDataStoreCache cache, FM70Global fm70Global)
         {
-            var learners = fm70Global.Learners;
+            var learners = fm70Global?.Learners;
 
             if (learners == null)
             {
