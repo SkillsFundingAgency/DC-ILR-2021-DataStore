@@ -37,8 +37,7 @@ namespace ESFA.DC.ILR.Datastore.Modules
             containerBuilder.RegisterType<FM70Transation>().As<ITableSetTransaction>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FM81Transation>().As<ITableSetTransaction>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<InvalidTransaction>().As<ITableSetTransaction>().InstancePerLifetimeScope();
-            containerBuilder.RegisterType<ValidationOutputTransation>().As<ITableSetTransaction>()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidationOutputTransation>().As<ITableSetTransaction>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<ValidTransaction>().As<ITableSetTransaction>().InstancePerLifetimeScope();
         }
     }
