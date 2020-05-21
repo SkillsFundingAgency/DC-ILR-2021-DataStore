@@ -69,6 +69,7 @@
     <Folder Include="Rulebase\Tables" />
     <Folder Include="Datalock" />
     <Folder Include="Datalock\Tables" />
+    <Folder Include="Valid\Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="..\ESFA.DC.ILR.DataStore.Database\Security\DataLock.sql">
@@ -357,5 +358,17 @@
       <Link>Datalock\Tables\ValidationError.sql</Link>
     </Build>
     <Build Include="dbo\Stored Procedures\DeleteExistingRecords.sql" />
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Views\ApprenticeshipFinancialRecord.sql">
+      <Link>Valid\Views\ApprenticeshipFinancialRecord.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Views\LearnerDenorm.sql">
+      <Link>Valid\Views\LearnerDenorm.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Views\LearnerEmploymentStatusDenorm.sql">
+      <Link>Valid\Views\LearnerEmploymentStatusDenorm.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Valid\Views\LearningDeliveryDenorm.sql">
+      <Link>Valid\Views\LearningDeliveryDenorm.sql</Link>
+    </Build>
   </ItemGroup>
 </Project>
