@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class FM25Export : AbstractSchemaExport, IOrderedExport
     {
         public FM25Export(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportFM25Tables, 5)
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportFM25Tables, 4)
         {
         }
 
