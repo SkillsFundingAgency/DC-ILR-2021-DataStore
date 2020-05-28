@@ -56,9 +56,9 @@
       <DependentUpon>20200423153105_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Invalid\InvalidMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Rulebase\20200515073956_InitialCreate.cs" />
-    <Compile Include="Migrations\Rulebase\20200515073956_InitialCreate.designer.cs">
-      <DependentUpon>20200515073956_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Rulebase\20200528144333_InitialCreate.cs" />
+    <Compile Include="Migrations\Rulebase\20200528144333_InitialCreate.designer.cs">
+      <DependentUpon>20200528144333_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Rulebase\RulebaseMdbContextModelSnapshot.cs" />
     <Compile Include="Migrations\Valid\20200423153122_InitialCreate.cs" />
