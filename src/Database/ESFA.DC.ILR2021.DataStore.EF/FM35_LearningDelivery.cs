@@ -73,6 +73,8 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? PropFundRemain { get; set; }
         public decimal? PropFundRemainAch { get; set; }
         public bool? PrscHEAim { get; set; }
+        public decimal? ReservedUpliftFactor1 { get; set; }
+        public decimal? ReservedUpliftRate1 { get; set; }
         public bool? Residential { get; set; }
         public bool? Restart { get; set; }
         public decimal? SpecResUplift { get; set; }

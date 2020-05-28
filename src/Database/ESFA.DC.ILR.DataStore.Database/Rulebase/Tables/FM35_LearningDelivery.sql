@@ -61,6 +61,8 @@
     [PropFundRemain]               DECIMAL (10, 5) NULL,
     [PropFundRemainAch]            DECIMAL (10, 5) NULL,
     [PrscHEAim]                    BIT             NULL,
+	[ReservedUpliftFactor1]		   DECIMAL (10, 5) NULL,
+	[ReservedUpliftRate1]		   DECIMAL (10, 5) NULL,
     [Residential]                  BIT             NULL,
     [Restart]                      BIT             NULL,
     [SpecResUplift]                DECIMAL (10, 5) NULL,

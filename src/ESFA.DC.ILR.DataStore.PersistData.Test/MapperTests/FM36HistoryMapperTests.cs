@@ -25,10 +25,10 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
 
             mapAppsEarningsHistory.Should().NotBeNull();
             mapAppsEarningsHistory.Count().Should().Be(1);
-            mapAppsEarningsHistory.Select(a => a.UKPRN).Should().BeEquivalentTo(ukprn);
+            mapAppsEarningsHistory.Select(a => a.Ukprn).Should().BeEquivalentTo(ukprn);
             mapAppsEarningsHistory.Select(a => a.CollectionReturnCode).Should().BeEquivalentTo("R01");
             mapAppsEarningsHistory.Select(a => a.CollectionYear).Should().BeEquivalentTo("1819");
-            mapAppsEarningsHistory.Select(a => a.ULN).Should().BeEquivalentTo(9900278304);
+            mapAppsEarningsHistory.Select(a => a.Uln).Should().BeEquivalentTo(9900278304);
             mapAppsEarningsHistory.Select(a => a.LearnRefNumber).Should().Contain(learnRefNumbers);
         }
 

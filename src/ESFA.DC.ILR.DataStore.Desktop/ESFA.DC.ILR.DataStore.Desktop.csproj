@@ -35,15 +35,15 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
-    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
+    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.2.0-alpha0009" />
     <PackageReference Include="ESFA.DC.ILR.2021.Constants" Version="0.1.4-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.2021.Desktop.Interface" Version="0.1.0.1" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.ALB.FundingOutput.Model" Version="0.1.38" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM25.FundingOutput.Model" Version="0.1.38" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM35.FundingOutput.Model" Version="0.1.38" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM36.FundingOutput.Model" Version="0.1.38" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM70.FundingOutput.Model" Version="0.1.38" />
-    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM81.FundingOutput.Model" Version="0.1.38" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.ALB.FundingOutput.Model" Version="0.1.73" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM25.FundingOutput.Model" Version="0.1.73" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM35.FundingOutput.Model" Version="0.1.73" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM36.FundingOutput.Model" Version="0.1.73" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM70.FundingOutput.Model" Version="0.1.73" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM81.FundingOutput.Model" Version="0.1.73" />
     <PackageReference Include="FastMember" Version="1.4.1" />
     <PackageReference Include="Microsoft.SqlServer.DacFx.x86" Version="150.4384.2" />
   </ItemGroup>

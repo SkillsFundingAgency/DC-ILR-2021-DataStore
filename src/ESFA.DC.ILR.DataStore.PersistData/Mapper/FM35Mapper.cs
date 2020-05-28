@@ -139,6 +139,8 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 PropFundRemain = learningDelivery.LearningDeliveryValue.PropFundRemain,
                 PropFundRemainAch = learningDelivery.LearningDeliveryValue.PropFundRemainAch,
                 PrscHEAim = learningDelivery.LearningDeliveryValue.PrscHEAim,
+                ReservedUpliftFactor1 = learningDelivery.LearningDeliveryValue.ReservedUpliftFactor1,
+                ReservedUpliftRate1 = learningDelivery.LearningDeliveryValue.ReservedUpliftRate1,
                 Residential = learningDelivery.LearningDeliveryValue.Residential,
                 Restart = learningDelivery.LearningDeliveryValue.Restart,
                 SpecResUplift = learningDelivery.LearningDeliveryValue.SpecResUplift,
