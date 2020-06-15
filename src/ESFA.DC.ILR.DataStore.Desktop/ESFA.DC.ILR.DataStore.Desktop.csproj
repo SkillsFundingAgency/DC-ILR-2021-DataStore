@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>ESFA.DC.ILR.2021.DataStore.Desktop</PackageId>
-    <Version>0.500.6</Version>
+    <Version>0.1.0</Version>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <Authors>DC</Authors>
     <Company>ESFA</Company>
