@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class InvalidOrderedExport : AbstractSchemaExport, IOrderedExport
     {
         public InvalidOrderedExport(IExport export, ILogger logger)
-            : base(new InvalidMdbContext(), export, logger, Constants.TaskExportInvalidTables, 8)
+            : base(new InvalidMdbContext(), export, logger, Constants.TaskExportInvalidTables, 2)
         {
         }
 

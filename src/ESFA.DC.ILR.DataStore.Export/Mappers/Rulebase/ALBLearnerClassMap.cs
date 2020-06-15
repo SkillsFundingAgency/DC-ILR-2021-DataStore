@@ -10,6 +10,7 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
             Map(m => m.ALB_Learner_Periods).Ignore();
             Map(m => m.ALB_LearningDeliveries).Ignore();
             Map(m => m.UKPRNNavigation).Ignore();
+            Map(m => m.Learner).Ignore();
         }
     }
 }

@@ -32,3 +32,12 @@ GO
 
 ALTER TABLE [Rulebase].[ESF_LearningDelivery] CHECK CONSTRAINT [FK_ESFLearningDelivery_ESFLearner]
 GO
+
+
+
+ALTER TABLE [Rulebase].[ESF_LearningDelivery]  WITH NOCHECK ADD  CONSTRAINT [FK_ESF_LearningDelivery_ValidLearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [AimSeqNumber])
+REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+GO
+
+ALTER TABLE [Rulebase].[ESF_LearningDelivery] CHECK CONSTRAINT [FK_ESF_LearningDelivery_ValidLearningDelivery]
+GO

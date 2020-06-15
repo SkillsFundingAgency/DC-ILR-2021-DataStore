@@ -1,19 +1,19 @@
 ﻿using System.Data.Jet;
 using EntityFrameworkCore.Jet;
 using ESFA.DC.ILR.DataStore.Access.ContextMutator;
-using ESFA.DC.ILR2021.DataStore.EF.Valid;
+using ESFA.DC.ILR2021.DataStore.EF;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.ILR.DataStore.Access
 {
-    public class ValidMdbContext : ILR2021_DataStoreEntitiesValid
+    public class ValidMdbContext : ILR2021_DataStoreEntities
     {
         public ValidMdbContext()
         {
         }
 
         public ValidMdbContext(DbContextOptions<ValidMdbContext> options)
-            : base(DbContextMutator.MutateOptionsType<ILR2021_DataStoreEntitiesValid>(options))
+            : base(DbContextMutator.MutateOptionsType<ILR2021_DataStoreEntities>(options))
         {
         }
 

@@ -1,10 +1,37 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace ESFA.DC.ILR2021.DataStore.EF.Interface
 {
     public interface IILR2021_DataStoreEntities : IDisposable
     {
+        IQueryable<AppFinRecord> AppFinRecords { get; }
+        IQueryable<CollectionDetail> CollectionDetails { get; }
+        IQueryable<ContactPreference> ContactPreferences { get; }
+        IQueryable<DPOutcome> DPOutcomes { get; }
+        IQueryable<EmploymentStatusMonitoring> EmploymentStatusMonitorings { get; }
+        IQueryable<LLDDandHealthProblem> LLDDandHealthProblems { get; }
+        IQueryable<Learner> Learners { get; }
+        IQueryable<LearnerDestinationandProgression> LearnerDestinationandProgressions { get; }
+        IQueryable<LearnerEmploymentStatus> LearnerEmploymentStatuses { get; }
+        IQueryable<LearnerFAM> LearnerFAMs { get; }
+        IQueryable<LearnerHE> LearnerHEs { get; }
+        IQueryable<LearnerHEFinancialSupport> LearnerHEFinancialSupports { get; }
+        IQueryable<LearningDelivery> LearningDeliveries { get; }
+        IQueryable<LearningDeliveryFAM> LearningDeliveryFAMs { get; }
+        IQueryable<LearningDeliveryHE> LearningDeliveryHEs { get; }
+        IQueryable<LearningDeliveryWorkPlacement> LearningDeliveryWorkPlacements { get; }
+        IQueryable<LearningProvider> LearningProviders { get; }
+        IQueryable<ProviderSpecDeliveryMonitoring> ProviderSpecDeliveryMonitorings { get; }
+        IQueryable<ProviderSpecLearnerMonitoring> ProviderSpecLearnerMonitorings { get; }
+        IQueryable<Source> Sources { get; }
+        IQueryable<SourceFile> SourceFiles { get; }
+
+        DbSet<PeriodEndMetricsEntity> PeriodEndMetrics { get; set; }
+
+        DbSet<ACTCountsEntity> ActCounts { get; set; }
+
         IQueryable<AEC_ApprenticeshipPriceEpisode> AEC_ApprenticeshipPriceEpisodes { get; }
         IQueryable<AEC_ApprenticeshipPriceEpisode_Period> AEC_ApprenticeshipPriceEpisode_Periods { get; }
         IQueryable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> AEC_ApprenticeshipPriceEpisode_PeriodisedValues { get; }

@@ -57,3 +57,10 @@ GO
 
 ALTER TABLE [Rulebase].[AEC_LearningDelivery] CHECK CONSTRAINT [FK_AECLearningDelivery_AECLearner]
 GO
+
+ALTER TABLE [Rulebase].[AEC_LearningDelivery]  WITH NOCHECK ADD  CONSTRAINT [FK_AEC_LearningDelivery_ValidLearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [AimSeqNumber])
+REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+GO
+
+ALTER TABLE [Rulebase].[AEC_LearningDelivery] CHECK CONSTRAINT [FK_AEC_LearningDelivery_ValidLearningDelivery]
+GO

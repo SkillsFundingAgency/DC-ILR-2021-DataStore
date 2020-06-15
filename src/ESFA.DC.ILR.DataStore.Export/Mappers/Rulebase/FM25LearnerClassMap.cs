@@ -9,6 +9,7 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
             Map(m => m.FM25_FM35_Learner_PeriodisedValues).Ignore();
             Map(m => m.FM25_FM35_Learner_Periods).Ignore();
             Map(m => m.UKPRNNavigation).Ignore();
+            Map(m => m.Learner).Ignore();
         }
     }
 }

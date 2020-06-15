@@ -9,6 +9,7 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
             Map(m => m.ESF_Learner).Ignore();
             Map(m => m.ESF_LearningDeliveryDeliverable_Periods).Ignore();
             Map(m => m.ESF_LearningDeliveryDeliverables).Ignore();
+            Map(m => m.LearningDelivery).Ignore();
         }
     }
 }

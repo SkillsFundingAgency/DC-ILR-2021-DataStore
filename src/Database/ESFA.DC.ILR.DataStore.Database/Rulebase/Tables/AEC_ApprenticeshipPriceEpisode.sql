@@ -29,7 +29,7 @@
     [PriceEpisodeRemainingAmountWithinUpperLimit]            DECIMAL (12, 5) NULL,
     [PriceEpisodeCappedRemainingTNPAmount]                   DECIMAL (12, 5) NULL,
     [PriceEpisodeExpectedTotalMonthlyValue]                  DECIMAL (12, 5) NULL,
-    [PriceEpisodeAimSeqNumber]                               INT             NULL,
+    [PriceEpisodeAimSeqNumber]                               INT             NOT NULL,
     [PriceEpisodeApplic1618FrameworkUpliftCompElement]		 DECIMAL (12, 5) NULL,
     [PriceEpisodeFundLineType]                               VARCHAR (100)   NULL,
     [EpisodeEffectiveTNPStartDate]                           DATE            NULL,
@@ -53,3 +53,11 @@ REFERENCES [Rulebase].[AEC_Learner] ([UKPRN], [LearnRefNumber]);
 GO
 
 ALTER TABLE [Rulebase].[AEC_ApprenticeshipPriceEpisode] CHECK CONSTRAINT [FK_AECApprenticeshipPriceEpisode_AECLearner]
+GO
+
+ALTER TABLE [Rulebase].[AEC_ApprenticeshipPriceEpisode]  WITH NOCHECK ADD  CONSTRAINT [FK_AEC_ApprenticeshipPriceEpisode_ValidLearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [PriceEpisodeAimSeqNumber])
+REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+GO
+
+ALTER TABLE [Rulebase].[AEC_ApprenticeshipPriceEpisode] CHECK CONSTRAINT [FK_AEC_ApprenticeshipPriceEpisode_ValidLearningDelivery]
+GO

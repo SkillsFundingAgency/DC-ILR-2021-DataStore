@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class ValidationErrorExport : AbstractSchemaExport, IOrderedExport
     {
         public ValidationErrorExport(IExport export, ILogger logger)
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportValidationErrorTable, 10)
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportValidationErrorTable, 3)
         {
         }
 

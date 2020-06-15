@@ -28,4 +28,9 @@ GO
 ALTER TABLE [Rulebase].[ALB_LearningDelivery] CHECK CONSTRAINT [FK_ALBLearningDelivery_ALBLearner]
 GO
 
+ALTER TABLE [Rulebase].[ALB_LearningDelivery]  WITH NOCHECK ADD  CONSTRAINT [FK_ALB_LearningDelivery_ValidLearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [AimSeqNumber])
+REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+GO
 
+ALTER TABLE [Rulebase].[ALB_LearningDelivery] CHECK CONSTRAINT [FK_ALB_LearningDelivery_ValidLearningDelivery]
+GO

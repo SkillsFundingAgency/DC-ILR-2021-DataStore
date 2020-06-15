@@ -31,6 +31,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public DateTime? ApplicFactDate { get; set; }
 
         public virtual ALB_Learner ALB_Learner { get; set; }
+        public virtual LearningDelivery LearningDelivery { get; set; }
         public virtual ICollection<ALB_LearningDelivery_PeriodisedValue> ALB_LearningDelivery_PeriodisedValues { get; set; }
         public virtual ICollection<ALB_LearningDelivery_Period> ALB_LearningDelivery_Periods { get; set; }
     }

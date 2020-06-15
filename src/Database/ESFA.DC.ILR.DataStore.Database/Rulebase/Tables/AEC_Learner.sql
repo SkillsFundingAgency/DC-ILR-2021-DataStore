@@ -12,3 +12,10 @@ GO
 
 ALTER TABLE [Rulebase].[AEC_Learner] CHECK CONSTRAINT [FK_AECLearner_AECglobal]
 GO
+
+ALTER TABLE [Rulebase].[AEC_Learner]  WITH NOCHECK ADD  CONSTRAINT [FK_AEC_Learner_ValidLearner] FOREIGN KEY([UKPRN], [LearnRefNumber])
+REFERENCES [Valid].[Learner] ([UKPRN], [LearnRefNumber])
+GO
+
+ALTER TABLE [Rulebase].[AEC_Learner] CHECK CONSTRAINT [FK_AEC_Learner_ValidLearner]
+GO

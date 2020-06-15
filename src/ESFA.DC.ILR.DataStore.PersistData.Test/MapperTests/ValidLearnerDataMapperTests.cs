@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.PersistData.Mapper;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR2021.DataStore.EF.Valid;
+using ESFA.DC.ILR2021.DataStore.EF;
 using FluentAssertions;
 using Moq;
 using Xunit;

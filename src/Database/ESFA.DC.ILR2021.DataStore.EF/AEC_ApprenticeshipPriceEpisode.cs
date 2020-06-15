@@ -41,7 +41,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? PriceEpisodeRemainingAmountWithinUpperLimit { get; set; }
         public decimal? PriceEpisodeCappedRemainingTNPAmount { get; set; }
         public decimal? PriceEpisodeExpectedTotalMonthlyValue { get; set; }
-        public int? PriceEpisodeAimSeqNumber { get; set; }
+        public int PriceEpisodeAimSeqNumber { get; set; }
         public decimal? PriceEpisodeApplic1618FrameworkUpliftCompElement { get; set; }
         public string PriceEpisodeFundLineType { get; set; }
         public DateTime? EpisodeEffectiveTNPStartDate { get; set; }
@@ -58,6 +58,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public int? PriceEpisodeRedStatusCode { get; set; }
 
         public virtual AEC_Learner AEC_Learner { get; set; }
+        public virtual LearningDelivery LearningDelivery { get; set; }
         public virtual ICollection<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> AEC_ApprenticeshipPriceEpisode_PeriodisedValues { get; set; }
         public virtual ICollection<AEC_ApprenticeshipPriceEpisode_Period> AEC_ApprenticeshipPriceEpisode_Periods { get; set; }
     }

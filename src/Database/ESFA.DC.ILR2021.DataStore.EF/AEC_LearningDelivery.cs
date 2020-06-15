@@ -62,6 +62,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public DateTime? LearnDelRedStartDate { get; set; }
 
         public virtual AEC_Learner AEC_Learner { get; set; }
+        public virtual LearningDelivery LearningDelivery { get; set; }
         public virtual ICollection<AEC_LearningDelivery_PeriodisedTextValue> AEC_LearningDelivery_PeriodisedTextValues { get; set; }
         public virtual ICollection<AEC_LearningDelivery_PeriodisedValue> AEC_LearningDelivery_PeriodisedValues { get; set; }
         public virtual ICollection<AEC_LearningDelivery_Period> AEC_LearningDelivery_Periods { get; set; }

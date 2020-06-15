@@ -12,3 +12,9 @@ GO
 ALTER TABLE [Rulebase].[ESF_Learner] CHECK CONSTRAINT [FK_ESFLearner_ESFglobal]
 GO
 
+ALTER TABLE [Rulebase].[ESF_Learner]  WITH NOCHECK ADD  CONSTRAINT [FK_ESF_Learner_ValidLearner] FOREIGN KEY([UKPRN], [LearnRefNumber])
+REFERENCES [Valid].[Learner] ([UKPRN], [LearnRefNumber])
+GO
+
+ALTER TABLE [Rulebase].[ESF_Learner] CHECK CONSTRAINT [FK_ESF_Learner_ValidLearner]
+GO

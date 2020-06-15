@@ -42,6 +42,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public int? ThresholdDays { get; set; }
         public bool? TLevelStudent { get; set; }
 
+        public virtual Learner Learner { get; set; }
         public virtual FM25_global UKPRNNavigation { get; set; }
         public virtual ICollection<FM25_FM35_Learner_PeriodisedValue> FM25_FM35_Learner_PeriodisedValues { get; set; }
         public virtual ICollection<FM25_FM35_Learner_Period> FM25_FM35_Learner_Periods { get; set; }

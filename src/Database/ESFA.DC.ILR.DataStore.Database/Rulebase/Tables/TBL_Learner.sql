@@ -11,3 +11,12 @@ GO
 
 ALTER TABLE [Rulebase].[TBL_Learner] CHECK CONSTRAINT [FK_TBLLearner_TBLglobal]
 GO
+
+
+ALTER TABLE [Rulebase].[TBL_Learner]  WITH NOCHECK ADD  CONSTRAINT [FK_TBL_Learner_ValidLearner] FOREIGN KEY([UKPRN], [LearnRefNumber])
+REFERENCES [Valid].[Learner] ([UKPRN], [LearnRefNumber])
+GO
+
+ALTER TABLE [Rulebase].[TBL_Learner] CHECK CONSTRAINT [FK_TBL_Learner_ValidLearner]
+GO
+  

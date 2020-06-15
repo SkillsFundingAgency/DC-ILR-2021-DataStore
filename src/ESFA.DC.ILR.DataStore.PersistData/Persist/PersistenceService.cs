@@ -10,7 +10,6 @@ using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR2021.DataStore.EF;
-using ESFA.DC.ILR2021.DataStore.EF.Valid;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Telemetry.Interfaces;
 

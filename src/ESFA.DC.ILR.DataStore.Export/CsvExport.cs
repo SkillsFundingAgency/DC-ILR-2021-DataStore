@@ -26,9 +26,8 @@ namespace ESFA.DC.ILR.DataStore.Export
             using (var writer = new StreamWriter(await _fileService.OpenWriteStreamAsync($"{tableName}.csv", exportPath, cancellationToken)))
             using (var csv = new CsvWriter(writer))
             {
-                csv.Configuration.RegisterClassMap<TClassMap>();
+                csv.Configuration.IgnoreReferences = true;
                 csv.Configuration.ShouldQuote = (field, context) => true;
-
                 csv.WriteRecords(source);
 
                 csv.Configuration.UnregisterClassMap<TClassMap>();
