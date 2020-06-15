@@ -32,6 +32,10 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public virtual DbSet<ALB_LearningDelivery_Period> ALB_LearningDelivery_Periods { get; set; }
         public virtual DbSet<ALB_LearningDelivery_PeriodisedValue> ALB_LearningDelivery_PeriodisedValues { get; set; }
         public virtual DbSet<ALB_global> ALB_globals { get; set; }
+        public virtual DbSet<AppFinRecord> AppFinRecords { get; set; }
+        public virtual DbSet<CollectionDetail> CollectionDetails { get; set; }
+        public virtual DbSet<ContactPreference> ContactPreferences { get; set; }
+        public virtual DbSet<DPOutcome> DPOutcomes { get; set; }
         public virtual DbSet<DV_Learner> DV_Learners { get; set; }
         public virtual DbSet<DV_LearningDelivery> DV_LearningDeliveries { get; set; }
         public virtual DbSet<DV_global> DV_globals { get; set; }
@@ -44,6 +48,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public virtual DbSet<ESF_LearningDeliveryDeliverable_Period> ESF_LearningDeliveryDeliverable_Periods { get; set; }
         public virtual DbSet<ESF_LearningDeliveryDeliverable_PeriodisedValue> ESF_LearningDeliveryDeliverable_PeriodisedValues { get; set; }
         public virtual DbSet<ESF_global> ESF_globals { get; set; }
+        public virtual DbSet<EmploymentStatusMonitoring> EmploymentStatusMonitorings { get; set; }
         public virtual DbSet<FM25_FM35_Learner_Period> FM25_FM35_Learner_Periods { get; set; }
         public virtual DbSet<FM25_FM35_Learner_PeriodisedValue> FM25_FM35_Learner_PeriodisedValues { get; set; }
         public virtual DbSet<FM25_FM35_global> FM25_FM35_globals { get; set; }
@@ -55,7 +60,23 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public virtual DbSet<FM35_LearningDelivery_PeriodisedValue> FM35_LearningDelivery_PeriodisedValues { get; set; }
         public virtual DbSet<FM35_global> FM35_globals { get; set; }
         public virtual DbSet<FileDetail> FileDetails { get; set; }
+        public virtual DbSet<LLDDandHealthProblem> LLDDandHealthProblems { get; set; }
+        public virtual DbSet<Learner> Learners { get; set; }
+        public virtual DbSet<LearnerDestinationandProgression> LearnerDestinationandProgressions { get; set; }
+        public virtual DbSet<LearnerEmploymentStatus> LearnerEmploymentStatuses { get; set; }
+        public virtual DbSet<LearnerFAM> LearnerFAMs { get; set; }
+        public virtual DbSet<LearnerHE> LearnerHEs { get; set; }
+        public virtual DbSet<LearnerHEFinancialSupport> LearnerHEFinancialSupports { get; set; }
+        public virtual DbSet<LearningDelivery> LearningDeliveries { get; set; }
+        public virtual DbSet<LearningDeliveryFAM> LearningDeliveryFAMs { get; set; }
+        public virtual DbSet<LearningDeliveryHE> LearningDeliveryHEs { get; set; }
+        public virtual DbSet<LearningDeliveryWorkPlacement> LearningDeliveryWorkPlacements { get; set; }
+        public virtual DbSet<LearningProvider> LearningProviders { get; set; }
         public virtual DbSet<ProcessingData> ProcessingDatas { get; set; }
+        public virtual DbSet<ProviderSpecDeliveryMonitoring> ProviderSpecDeliveryMonitorings { get; set; }
+        public virtual DbSet<ProviderSpecLearnerMonitoring> ProviderSpecLearnerMonitorings { get; set; }
+        public virtual DbSet<Source> Sources { get; set; }
+        public virtual DbSet<SourceFile> SourceFiles { get; set; }
         public virtual DbSet<TBL_Learner> TBL_Learners { get; set; }
         public virtual DbSet<TBL_LearningDelivery> TBL_LearningDeliveries { get; set; }
         public virtual DbSet<TBL_LearningDelivery_Period> TBL_LearningDelivery_Periods { get; set; }
@@ -87,7 +108,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.PriceEpisodeIdentifier })
-                    .HasName("PK__AEC_Appr__BCF596CA094F99EA");
+                    .HasName("PK__AEC_Appr__BCF596CA2556B8CC");
 
                 entity.ToTable("AEC_ApprenticeshipPriceEpisode", "Rulebase");
 
@@ -182,12 +203,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AECApprenticeshipPriceEpisode_AECLearner");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithMany(p => p.AEC_ApprenticeshipPriceEpisodes)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber, d.PriceEpisodeAimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AEC_ApprenticeshipPriceEpisode_ValidLearningDelivery");
             });
 
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.PriceEpisodeIdentifier, e.Period })
-                    .HasName("PK__AEC_Appr__9984F1E7BC09DC6E");
+                    .HasName("PK__AEC_Appr__9984F1E7909742E4");
 
                 entity.ToTable("AEC_ApprenticeshipPriceEpisode_Period", "Rulebase");
 
@@ -250,7 +277,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.PriceEpisodeIdentifier, e.AttributeName })
-                    .HasName("PK__AEC_Appr__4E0E9877EBA7B626");
+                    .HasName("PK__AEC_Appr__4E0E987769A62C9B");
 
                 entity.ToTable("AEC_ApprenticeshipPriceEpisode_PeriodisedValues", "Rulebase");
 
@@ -300,7 +327,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_HistoricEarningOutput>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AppIdentifierOutput })
-                    .HasName("PK__AEC_Hist__9CDF074221C0A40A");
+                    .HasName("PK__AEC_Hist__9CDF07427EC6A7A0");
 
                 entity.ToTable("AEC_HistoricEarningOutput", "Rulebase");
 
@@ -344,7 +371,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__AEC_Lear__2770A727D5F63AFD");
+                    .HasName("PK__AEC_Lear__2770A72796924DD0");
 
                 entity.ToTable("AEC_Learner", "Rulebase");
 
@@ -357,12 +384,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => d.UKPRN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AECLearner_AECglobal");
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.AEC_Learner)
+                    .HasForeignKey<AEC_Learner>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AEC_Learner_ValidLearner");
             });
 
             modelBuilder.Entity<AEC_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__AEC_Lear__0C29443A218EE53C");
+                    .HasName("PK__AEC_Lear__0C29443AE0184677");
 
                 entity.ToTable("AEC_LearningDelivery", "Rulebase");
 
@@ -423,12 +456,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AECLearningDelivery_AECLearner");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithOne(p => p.AEC_LearningDelivery)
+                    .HasForeignKey<AEC_LearningDelivery>(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AEC_LearningDelivery_ValidLearningDelivery");
             });
 
             modelBuilder.Entity<AEC_LearningDelivery_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.Period })
-                    .HasName("PK__AEC_Lear__29582317DC8142B0");
+                    .HasName("PK__AEC_Lear__2958231765F913E9");
 
                 entity.ToTable("AEC_LearningDelivery_Period", "Rulebase");
 
@@ -498,7 +537,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_LearningDelivery_PeriodisedTextValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__AEC_Lear__FED24A87DAE4D0BD");
+                    .HasName("PK__AEC_Lear__FED24A8730BCFB54");
 
                 entity.ToTable("AEC_LearningDelivery_PeriodisedTextValues", "Rulebase");
 
@@ -568,7 +607,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_LearningDelivery_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__AEC_Lear__FED24A87B548F7D4");
+                    .HasName("PK__AEC_Lear__FED24A87B8534837");
 
                 entity.ToTable("AEC_LearningDelivery_PeriodisedValues", "Rulebase");
 
@@ -635,7 +674,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__ALB_Lear__2770A72799901C6F");
+                    .HasName("PK__ALB_Lear__2770A727E6931CF6");
 
                 entity.ToTable("ALB_Learner", "Rulebase");
 
@@ -648,12 +687,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => d.UKPRN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ALBLearner_ALBglobal");
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.ALB_Learner)
+                    .HasForeignKey<ALB_Learner>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ALB_Learner_ValidLearner");
             });
 
             modelBuilder.Entity<ALB_Learner_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.Period })
-                    .HasName("PK__ALB_Lear__7066D5F58AC79E50");
+                    .HasName("PK__ALB_Lear__7066D5F5894490F3");
 
                 entity.ToTable("ALB_Learner_Period", "Rulebase");
 
@@ -671,7 +716,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_Learner_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AttributeName })
-                    .HasName("PK__ALB_Lear__08C04CF82494001C");
+                    .HasName("PK__ALB_Lear__08C04CF88735278F");
 
                 entity.ToTable("ALB_Learner_PeriodisedValues", "Rulebase");
 
@@ -717,7 +762,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__ALB_Lear__0C29443A9E0DEA94");
+                    .HasName("PK__ALB_Lear__0C29443A90FF4CD9");
 
                 entity.ToTable("ALB_LearningDelivery", "Rulebase");
 
@@ -748,12 +793,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ALBLearningDelivery_ALBLearner");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithOne(p => p.ALB_LearningDelivery)
+                    .HasForeignKey<ALB_LearningDelivery>(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ALB_LearningDelivery_ValidLearningDelivery");
             });
 
             modelBuilder.Entity<ALB_LearningDelivery_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.Period })
-                    .HasName("PK__ALB_Lear__295823177857CEB7");
+                    .HasName("PK__ALB_Lear__29582317FC43E0F0");
 
                 entity.ToTable("ALB_LearningDelivery_Period", "Rulebase");
 
@@ -777,7 +828,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_LearningDelivery_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__ALB_Lear__FED24A870F37A35A");
+                    .HasName("PK__ALB_Lear__FED24A877E691596");
 
                 entity.ToTable("ALB_LearningDelivery_PeriodisedValues", "Rulebase");
 
@@ -823,7 +874,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__ALB_glob__50F26B714800B48D");
+                    .HasName("PK__ALB_glob__50F26B714EFA38CA");
 
                 entity.ToTable("ALB_global", "Rulebase");
 
@@ -842,10 +893,107 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<AppFinRecord>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.AppFinRecord_Id });
+
+                entity.ToTable("AppFinRecord", "Valid");
+
+                entity.HasIndex(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AFinType })
+                    .HasName("IX_Valid_AppFinRecord");
+
+                entity.Property(e => e.AFinDate).HasColumnType("date");
+
+                entity.Property(e => e.AFinType)
+                    .IsRequired()
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LearnRefNumber)
+                    .IsRequired()
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithMany(p => p.AppFinRecords)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AppFinRecord_LearningDelivery");
+            });
+
+            modelBuilder.Entity<CollectionDetail>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.Collection, e.Year });
+
+                entity.ToTable("CollectionDetails", "Valid");
+
+                entity.Property(e => e.Collection)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Year)
+                    .HasMaxLength(4)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FilePreparationDate).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<ContactPreference>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.ContPrefType, e.ContPrefCode })
+                    .HasName("PK_ContactPref");
+
+                entity.ToTable("ContactPreference", "Valid");
+
+                entity.HasIndex(e => new { e.LearnRefNumber, e.ContPrefType })
+                    .HasName("IX_Valid_ContactPreference");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ContPrefType)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.ContactPreferences)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ContactPreference_Learner");
+            });
+
+            modelBuilder.Entity<DPOutcome>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.OutType, e.OutCode, e.OutStartDate, e.OutCollDate });
+
+                entity.ToTable("DPOutcome", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OutType)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OutStartDate).HasColumnType("date");
+
+                entity.Property(e => e.OutCollDate).HasColumnType("date");
+
+                entity.Property(e => e.OutEndDate).HasColumnType("date");
+
+                entity.HasOne(d => d.LearnerDestinationandProgression)
+                    .WithMany(p => p.DPOutcomes)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DPOutcome_LearnerDestinationandProgression");
+            });
+
             modelBuilder.Entity<DV_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__DV_Learn__2770A7279B5AA38A");
+                    .HasName("PK__DV_Learn__2770A7271ECF747D");
 
                 entity.ToTable("DV_Learner", "Rulebase");
 
@@ -867,7 +1015,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<DV_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__DV_Learn__0C29443AD0DF2BA0");
+                    .HasName("PK__DV_Learn__0C29443A342FBC6C");
 
                 entity.ToTable("DV_LearningDelivery", "Rulebase");
 
@@ -990,7 +1138,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_DPOutcome>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.OutCode, e.OutType, e.OutStartDate })
-                    .HasName("PK__ESF_DPOu__1D621D299DA13D3D");
+                    .HasName("PK__ESF_DPOu__1D621D2965BC80C1");
 
                 entity.ToTable("ESF_DPOutcome", "Rulebase");
 
@@ -1014,7 +1162,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__ESF_Lear__2770A727FBFDD956");
+                    .HasName("PK__ESF_Lear__2770A727DD97754B");
 
                 entity.ToTable("ESF_Learner", "Rulebase");
 
@@ -1027,12 +1175,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => d.UKPRN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ESFLearner_ESFglobal");
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.ESF_Learner)
+                    .HasForeignKey<ESF_Learner>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ESF_Learner_ValidLearner");
             });
 
             modelBuilder.Entity<ESF_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__ESF_Lear__0C29443AD601C083");
+                    .HasName("PK__ESF_Lear__0C29443AC30CBC5C");
 
                 entity.ToTable("ESF_LearningDelivery", "Rulebase");
 
@@ -1075,12 +1229,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ESFLearningDelivery_ESFLearner");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithOne(p => p.ESF_LearningDelivery)
+                    .HasForeignKey<ESF_LearningDelivery>(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ESF_LearningDelivery_ValidLearningDelivery");
             });
 
             modelBuilder.Entity<ESF_LearningDeliveryDeliverable>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.DeliverableCode })
-                    .HasName("PK__ESF_Lear__C21F732AC39E17C5");
+                    .HasName("PK__ESF_Lear__C21F732A983E5547");
 
                 entity.ToTable("ESF_LearningDeliveryDeliverable", "Rulebase");
 
@@ -1104,7 +1264,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_LearningDeliveryDeliverable_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.DeliverableCode, e.Period })
-                    .HasName("PK__ESF_Lear__10486558F47FCFC9");
+                    .HasName("PK__ESF_Lear__104865589A68286C");
 
                 entity.ToTable("ESF_LearningDeliveryDeliverable_Period", "Rulebase");
 
@@ -1134,7 +1294,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_LearningDeliveryDeliverable_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.DeliverableCode, e.AttributeName })
-                    .HasName("PK__ESF_Lear__1D30C3C1230B6646");
+                    .HasName("PK__ESF_Lear__1D30C3C1C48CFC03");
 
                 entity.ToTable("ESF_LearningDeliveryDeliverable_PeriodisedValues", "Rulebase");
 
@@ -1194,10 +1354,28 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<EmploymentStatusMonitoring>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.DateEmpStatApp, e.ESMType })
+                    .HasName("PK__Employme__316BBA3183E50035");
+
+                entity.ToTable("EmploymentStatusMonitoring", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateEmpStatApp).HasColumnType("date");
+
+                entity.Property(e => e.ESMType)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<FM25_FM35_Learner_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.Period })
-                    .HasName("PK__FM25_FM3__7066D5F5F562786B");
+                    .HasName("PK__FM25_FM3__7066D5F59A0A0058");
 
                 entity.ToTable("FM25_FM35_Learner_Period", "Rulebase");
 
@@ -1223,7 +1401,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_FM35_Learner_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AttributeName })
-                    .HasName("PK__FM25_FM3__08C04CF80AC6B99A");
+                    .HasName("PK__FM25_FM3__08C04CF88B2E43A1");
 
                 entity.ToTable("FM25_FM35_Learner_PeriodisedValues", "Rulebase");
 
@@ -1275,7 +1453,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_FM35_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__FM25_FM3__50F26B710FF0D61E");
+                    .HasName("PK__FM25_FM3__50F26B719671602B");
 
                 entity.ToTable("FM25_FM35_global", "Rulebase");
 
@@ -1289,7 +1467,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__FM25_Lea__2770A727702E51C6");
+                    .HasName("PK__FM25_Lea__2770A7272D073FAD");
 
                 entity.ToTable("FM25_Learner", "Rulebase");
 
@@ -1350,12 +1528,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => d.UKPRN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FM25Learner_FM25global");
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.FM25_Learner)
+                    .HasForeignKey<FM25_Learner>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FM25_Learner_ValidLearner");
             });
 
             modelBuilder.Entity<FM25_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__FM25_glo__50F26B7128D8D325");
+                    .HasName("PK__FM25_glo__50F26B712D2271B6");
 
                 entity.ToTable("FM25_global", "Rulebase");
 
@@ -1381,7 +1565,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM35_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__FM35_Lea__2770A727C61706D3");
+                    .HasName("PK__FM35_Lea__2770A7275A034E0A");
 
                 entity.ToTable("FM35_Learner", "Rulebase");
 
@@ -1394,6 +1578,12 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => d.UKPRN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FM35Learner_FM35global");
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.FM35_Learner)
+                    .HasForeignKey<FM35_Learner>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FM35_Learner_ValidLearner");
             });
 
             modelBuilder.Entity<FM35_LearningDelivery>(entity =>
@@ -1497,6 +1687,12 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FM35LearningDelivery_FM35Learner");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithOne(p => p.FM35_LearningDelivery)
+                    .HasForeignKey<FM35_LearningDelivery>(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FM35_LearningDelivery_ValidLearningDelivery");
             });
 
             modelBuilder.Entity<FM35_LearningDelivery_Period>(entity =>
@@ -1646,6 +1842,382 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                 entity.Property(e => e.SubmittedTime).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<LLDDandHealthProblem>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.LLDDCat, e.LLDDandHealthProblem_ID })
+                    .HasName("PK__LLDDandH__CFA94E1C0171C65E");
+
+                entity.ToTable("LLDDandHealthProblem", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.LLDDandHealthProblems)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LLDDandHealthProblem_Learner");
+            });
+
+            modelBuilder.Entity<Learner>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
+                    .HasName("PK__Learner__2770A72787628C4D");
+
+                entity.ToTable("Learner", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AddLine1)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AddLine2)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AddLine3)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AddLine4)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CampId)
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("date");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EngGrade)
+                    .HasMaxLength(4)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FamilyName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.GivenNames)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MathGrade)
+                    .HasMaxLength(4)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NINumber)
+                    .HasMaxLength(9)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Postcode)
+                    .IsRequired()
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PostcodePrior)
+                    .IsRequired()
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PrevLearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Sex)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TelNo)
+                    .HasMaxLength(18)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<LearnerDestinationandProgression>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
+                    .HasName("PK__LearnerD__2770A727196A9BAC");
+
+                entity.ToTable("LearnerDestinationandProgression", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<LearnerEmploymentStatus>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.DateEmpStatApp })
+                    .HasName("PK__LearnerE__7200C4BE6B058762");
+
+                entity.ToTable("LearnerEmploymentStatus", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateEmpStatApp).HasColumnType("date");
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.LearnerEmploymentStatuses)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearnerEmploymentStatus_Learner");
+            });
+
+            modelBuilder.Entity<LearnerFAM>(entity =>
+            {
+                entity.HasKey(e => new { e.LearnFAMCode, e.LearnFAMType, e.LearnRefNumber, e.UKPRN });
+
+                entity.ToTable("LearnerFAM", "Valid");
+
+                entity.HasIndex(e => new { e.UKPRN, e.LearnRefNumber })
+                    .HasName("IX_Valid_LearnerFAM");
+
+                entity.Property(e => e.LearnFAMType)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.LearnerFAMs)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearnerFAM_Learner");
+            });
+
+            modelBuilder.Entity<LearnerHE>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
+                    .HasName("PK__LearnerH__2770A727BFD1F0BB");
+
+                entity.ToTable("LearnerHE", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UCASPERID)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.LearnerHE)
+                    .HasForeignKey<LearnerHE>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearnerHE_Learner");
+            });
+
+            modelBuilder.Entity<LearnerHEFinancialSupport>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.FINTYPE })
+                    .HasName("PK__LearnerH__09F54B72FAA98B3C");
+
+                entity.ToTable("LearnerHEFinancialSupport", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.LearnerHE)
+                    .WithMany(p => p.LearnerHEFinancialSupports)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearnerHEFinancialSupport_LearnerHE");
+            });
+
+            modelBuilder.Entity<LearningDelivery>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
+                    .HasName("PK__Learning__0C29443A3A2F1D29");
+
+                entity.ToTable("LearningDelivery", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AchDate).HasColumnType("date");
+
+                entity.Property(e => e.ConRefNumber)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DelLocPostCode)
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EPAOrgID)
+                    .HasMaxLength(7)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LSDPostcode)
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LearnActEndDate).HasColumnType("date");
+
+                entity.Property(e => e.LearnAimRef)
+                    .IsRequired()
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LearnPlanEndDate).HasColumnType("date");
+
+                entity.Property(e => e.LearnStartDate).HasColumnType("date");
+
+                entity.Property(e => e.OrigLearnStartDate).HasColumnType("date");
+
+                entity.Property(e => e.OutGrade)
+                    .HasMaxLength(6)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SWSupAimId)
+                    .HasMaxLength(36)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.LearningDeliveries)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearningDelivery_Learner");
+            });
+
+            modelBuilder.Entity<LearningDeliveryFAM>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearningDeliveryFAM_Id });
+
+                entity.ToTable("LearningDeliveryFAM", "Valid");
+
+                entity.HasIndex(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.LearnDelFAMType, e.LearnDelFAMDateFrom })
+                    .HasName("IX_Valid_LearningDeliveryFAM");
+
+                entity.HasIndex(e => new { e.LearnRefNumber, e.AimSeqNumber, e.LearnDelFAMCode, e.LearnDelFAMDateFrom, e.LearnDelFAMDateTo, e.UKPRN, e.LearnDelFAMType })
+                    .HasName("IX_Valid_LearningDeliveryFAM_UKPRN_FamType");
+
+                entity.Property(e => e.LearnDelFAMCode)
+                    .IsRequired()
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LearnDelFAMDateFrom).HasColumnType("date");
+
+                entity.Property(e => e.LearnDelFAMDateTo).HasColumnType("date");
+
+                entity.Property(e => e.LearnDelFAMType)
+                    .IsRequired()
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LearnRefNumber)
+                    .IsRequired()
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithMany(p => p.LearningDeliveryFAMs)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearningDeliveryFAM_LearningDelivery");
+            });
+
+            modelBuilder.Entity<LearningDeliveryHE>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
+                    .HasName("PK__Learning__0C29443AC5180CD7");
+
+                entity.ToTable("LearningDeliveryHE", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DOMICILE)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.HEPostCode)
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NUMHUS)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PCFLDCS).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.PCOLAB).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.PCSLDCS).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.PCTLDCS).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.QUALENT3)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SSN)
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.STULOAD).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.UCASAPPID)
+                    .HasMaxLength(9)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithOne(p => p.LearningDeliveryHE)
+                    .HasForeignKey<LearningDeliveryHE>(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearningDeliveryHE_LearningDelivery");
+            });
+
+            modelBuilder.Entity<LearningDeliveryWorkPlacement>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.WorkPlaceStartDate });
+
+                entity.ToTable("LearningDeliveryWorkPlacement", "Valid");
+
+                entity.HasIndex(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.WorkPlaceStartDate, e.WorkPlaceMode })
+                    .HasName("IX_Valid_LearningDeliveryWorkPlacement");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.WorkPlaceStartDate).HasColumnType("date");
+
+                entity.Property(e => e.WorkPlaceEndDate).HasColumnType("date");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithMany(p => p.LearningDeliveryWorkPlacements)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LearningDeliveryWorkPlacement_LearningDelivery");
+            });
+
+            modelBuilder.Entity<LearningProvider>(entity =>
+            {
+                entity.HasKey(e => e.UKPRN)
+                    .HasName("PK__Learning__50F26B71F1959EB4");
+
+                entity.ToTable("LearningProvider", "Valid");
+
+                entity.Property(e => e.UKPRN).ValueGeneratedNever();
+            });
+
             modelBuilder.Entity<ProcessingData>(entity =>
             {
                 entity.ToTable("ProcessingData");
@@ -1659,10 +2231,137 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasMaxLength(100);
             });
 
+            modelBuilder.Entity<ProviderSpecDeliveryMonitoring>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.ProvSpecDelMonOccur })
+                    .HasName("PK__Provider__9F5C50851211F829");
+
+                entity.ToTable("ProviderSpecDeliveryMonitoring", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProvSpecDelMonOccur)
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProvSpecDelMon)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithMany(p => p.ProviderSpecDeliveryMonitorings)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProviderSpecDeliveryMonitoring_LearningDelivery");
+            });
+
+            modelBuilder.Entity<ProviderSpecLearnerMonitoring>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.ProvSpecLearnMonOccur })
+                    .HasName("PK__Provider__63E551EA64DD990F");
+
+                entity.ToTable("ProviderSpecLearnerMonitoring", "Valid");
+
+                entity.Property(e => e.LearnRefNumber)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProvSpecLearnMonOccur)
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProvSpecLearnMon)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.ProviderSpecLearnerMonitorings)
+                    .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProviderSpecLearnerMonitoring_Learner");
+            });
+
+            modelBuilder.Entity<Source>(entity =>
+            {
+                entity.HasKey(e => e.UKPRN);
+
+                entity.ToTable("Source", "Valid");
+
+                entity.Property(e => e.UKPRN).ValueGeneratedNever();
+
+                entity.Property(e => e.ComponentSetVersion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.ProtectiveMarking)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ReferenceData)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Release)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SerialNo)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SoftwarePackage)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SoftwareSupplier)
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<SourceFile>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.SourceFileName });
+
+                entity.ToTable("SourceFile", "Valid");
+
+                entity.HasIndex(e => e.SourceFileName)
+                    .HasName("IX_Valid_SourceFile");
+
+                entity.Property(e => e.SourceFileName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.FilePreparationDate).HasColumnType("date");
+
+                entity.Property(e => e.Release)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SerialNo)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SoftwarePackage)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SoftwareSupplier)
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<TBL_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__TBL_Lear__2770A727CC783E84");
+                    .HasName("PK__TBL_Lear__2770A72748505CB5");
 
                 entity.ToTable("TBL_Learner", "Rulebase");
 
@@ -1675,12 +2374,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => d.UKPRN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TBLLearner_TBLglobal");
+
+                entity.HasOne(d => d.Learner)
+                    .WithOne(p => p.TBL_Learner)
+                    .HasForeignKey<TBL_Learner>(d => new { d.UKPRN, d.LearnRefNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TBL_Learner_ValidLearner");
             });
 
             modelBuilder.Entity<TBL_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__TBL_Lear__0C29443A4711E117");
+                    .HasName("PK__TBL_Lear__0C29443AC89001AF");
 
                 entity.ToTable("TBL_LearningDelivery", "Rulebase");
 
@@ -1743,12 +2448,18 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasForeignKey(d => new { d.UKPRN, d.LearnRefNumber })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TBLLearningDelivery_TBLLearner");
+
+                entity.HasOne(d => d.LearningDelivery)
+                    .WithOne(p => p.TBL_LearningDelivery)
+                    .HasForeignKey<TBL_LearningDelivery>(d => new { d.UKPRN, d.LearnRefNumber, d.AimSeqNumber })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TBL_LearningDelivery_ValidLearningDelivery");
             });
 
             modelBuilder.Entity<TBL_LearningDelivery_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.Period })
-                    .HasName("PK__TBL_Lear__2958231742753A8D");
+                    .HasName("PK__TBL_Lear__295823171CA2C154");
 
                 entity.ToTable("TBL_LearningDelivery_Period", "Rulebase");
 
@@ -1790,7 +2501,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_LearningDelivery_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__TBL_Lear__FED24A87A605AB8B");
+                    .HasName("PK__TBL_Lear__FED24A8737217154");
 
                 entity.ToTable("TBL_LearningDelivery_PeriodisedValues", "Rulebase");
 
@@ -1836,7 +2547,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__TBL_glob__50F26B71CF6B1433");
+                    .HasName("PK__TBL_glob__50F26B7160F3FB2A");
 
                 entity.ToTable("TBL_global", "Rulebase");
 
@@ -1881,7 +2592,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VALDP_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__VALDP_gl__50F26B714CAA59AF");
+                    .HasName("PK__VALDP_gl__50F26B712263848E");
 
                 entity.ToTable("VALDP_global", "Rulebase");
 
@@ -1926,7 +2637,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VAL_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__VAL_Lear__2770A727C72257EB");
+                    .HasName("PK__VAL_Lear__2770A7270C3A3C65");
 
                 entity.ToTable("VAL_Learner", "Rulebase");
 
@@ -1944,7 +2655,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VAL_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.AimSeqNumber })
-                    .HasName("PK__VAL_Lear__E56C5AA36ED3CA90");
+                    .HasName("PK__VAL_Lear__E56C5AA38458418A");
 
                 entity.ToTable("VAL_LearningDelivery", "Rulebase");
             });
@@ -1975,7 +2686,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VAL_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__VAL_glob__50F26B716D98E5E1");
+                    .HasName("PK__VAL_glob__50F26B713A6F64C0");
 
                 entity.ToTable("VAL_global", "Rulebase");
 

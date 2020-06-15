@@ -11,3 +11,11 @@ GO
 
 ALTER TABLE [Rulebase].[FM35_Learner] CHECK CONSTRAINT [FK_FM35Learner_FM35global]
 GO
+
+
+ALTER TABLE [Rulebase].[FM35_Learner]  WITH NOCHECK ADD  CONSTRAINT [FK_FM35_Learner_ValidLearner] FOREIGN KEY([UKPRN], [LearnRefNumber])
+REFERENCES [Valid].[Learner] ([UKPRN], [LearnRefNumber])
+GO
+
+ALTER TABLE [Rulebase].[FM35_Learner] CHECK CONSTRAINT [FK_FM35_Learner_ValidLearner]
+GO

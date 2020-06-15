@@ -1,10 +1,37 @@
 ﻿using System.Linq;
 using ESFA.DC.ILR2021.DataStore.EF.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.ILR2021.DataStore.EF
 {
-    public partial class ILR2021_DataStoreEntities : IIlr2021RulebaseContext
+    public partial class ILR2021_DataStoreEntities : IIlr2021Context
     {
+        IQueryable<AppFinRecord> IILR2021_DataStoreEntities.AppFinRecords => AppFinRecords;
+        IQueryable<CollectionDetail> IILR2021_DataStoreEntities.CollectionDetails => CollectionDetails;
+        IQueryable<ContactPreference> IILR2021_DataStoreEntities.ContactPreferences => ContactPreferences;
+        IQueryable<DPOutcome> IILR2021_DataStoreEntities.DPOutcomes => DPOutcomes;
+        IQueryable<EmploymentStatusMonitoring> IILR2021_DataStoreEntities.EmploymentStatusMonitorings => EmploymentStatusMonitorings;
+        IQueryable<Learner> IILR2021_DataStoreEntities.Learners => Learners;
+        IQueryable<LearnerDestinationandProgression> IILR2021_DataStoreEntities.LearnerDestinationandProgressions => LearnerDestinationandProgressions;
+        IQueryable<LearnerEmploymentStatus> IILR2021_DataStoreEntities.LearnerEmploymentStatuses => LearnerEmploymentStatuses;
+        IQueryable<LearnerFAM> IILR2021_DataStoreEntities.LearnerFAMs => LearnerFAMs;
+        IQueryable<LearnerHE> IILR2021_DataStoreEntities.LearnerHEs => LearnerHEs;
+        IQueryable<LearnerHEFinancialSupport> IILR2021_DataStoreEntities.LearnerHEFinancialSupports => LearnerHEFinancialSupports;
+        IQueryable<LearningDelivery> IILR2021_DataStoreEntities.LearningDeliveries => LearningDeliveries;
+        IQueryable<LearningDeliveryFAM> IILR2021_DataStoreEntities.LearningDeliveryFAMs => LearningDeliveryFAMs;
+        IQueryable<LearningDeliveryHE> IILR2021_DataStoreEntities.LearningDeliveryHEs => LearningDeliveryHEs;
+        IQueryable<LearningDeliveryWorkPlacement> IILR2021_DataStoreEntities.LearningDeliveryWorkPlacements => LearningDeliveryWorkPlacements;
+        IQueryable<LearningProvider> IILR2021_DataStoreEntities.LearningProviders => LearningProviders;
+        IQueryable<LLDDandHealthProblem> IILR2021_DataStoreEntities.LLDDandHealthProblems => LLDDandHealthProblems;
+        IQueryable<ProviderSpecDeliveryMonitoring> IILR2021_DataStoreEntities.ProviderSpecDeliveryMonitorings => ProviderSpecDeliveryMonitorings;
+        IQueryable<ProviderSpecLearnerMonitoring> IILR2021_DataStoreEntities.ProviderSpecLearnerMonitorings => ProviderSpecLearnerMonitorings;
+        IQueryable<Source> IILR2021_DataStoreEntities.Sources => Sources;
+        IQueryable<SourceFile> IILR2021_DataStoreEntities.SourceFiles => SourceFiles;
+
+        // period end stored procedure output type
+        public virtual DbSet<PeriodEndMetricsEntity> PeriodEndMetrics { get; set; }
+        public virtual DbSet<ACTCountsEntity> ActCounts { get; set; }
+
         IQueryable<AEC_ApprenticeshipPriceEpisode> IILR2021_DataStoreEntities.AEC_ApprenticeshipPriceEpisodes => AEC_ApprenticeshipPriceEpisodes;
         IQueryable<AEC_ApprenticeshipPriceEpisode_Period> IILR2021_DataStoreEntities.AEC_ApprenticeshipPriceEpisode_Periods => AEC_ApprenticeshipPriceEpisode_Periods;
         IQueryable<AEC_ApprenticeshipPriceEpisode_PeriodisedValue> IILR2021_DataStoreEntities.AEC_ApprenticeshipPriceEpisode_PeriodisedValues => AEC_ApprenticeshipPriceEpisode_PeriodisedValues;

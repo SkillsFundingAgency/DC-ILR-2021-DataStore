@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class FM35Export : AbstractSchemaExport, IOrderedExport
     {
         public FM35Export(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportFM35Tables, 6)
+            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportFM35Tables, 9)
         {
         }
 

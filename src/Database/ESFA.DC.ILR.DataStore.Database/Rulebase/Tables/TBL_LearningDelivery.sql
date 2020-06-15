@@ -64,3 +64,11 @@ GO
 
 ALTER TABLE [Rulebase].[TBL_LearningDelivery] CHECK CONSTRAINT [FK_TBLLearningDelivery_TBLLearner]
 GO
+
+
+ALTER TABLE [Rulebase].[TBL_LearningDelivery]  WITH NOCHECK ADD  CONSTRAINT [FK_TBL_LearningDelivery_ValidLearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [AimSeqNumber])
+REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+GO
+
+ALTER TABLE [Rulebase].[TBL_LearningDelivery] CHECK CONSTRAINT [FK_TBL_LearningDelivery_ValidLearningDelivery]
+GO

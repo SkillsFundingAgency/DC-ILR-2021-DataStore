@@ -8,6 +8,7 @@ using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
 using ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output;
 using ESFA.DC.ILR2021.DataStore.EF;
+using LearningDelivery = ESFA.DC.ILR.FundingService.FM70.FundingOutput.Model.Output.LearningDelivery;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {

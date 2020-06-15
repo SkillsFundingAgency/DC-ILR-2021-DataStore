@@ -23,8 +23,10 @@ namespace ESFA.DC.ILR.DataStore.Export
 
         public async Task ExportAsync<T, TClassMap>(string tableName, IEnumerable<T> source, string exportPath, OleDbConnection connection, OleDbTransaction transaction, CancellationToken cancellationToken) where TClassMap : ClassMap
         {
+            var configuration = GetConfiguration<TClassMap>();
+
             using (var writer = new StreamWriter(await _fileService.OpenWriteStreamAsync($"{tableName}.csv", exportPath, cancellationToken)))
-            using (var csv = new CsvWriter(writer))
+            using (var csv = new CsvWriter(writer, configuration))
             {
                 csv.Configuration.RegisterClassMap<TClassMap>();
                 csv.Configuration.ShouldQuote = (field, context) => true;
@@ -35,6 +37,19 @@ namespace ESFA.DC.ILR.DataStore.Export
             }
 
             await _decoratedExport.ExportAsync<T, TClassMap>(tableName, source, exportPath, connection, transaction, cancellationToken);
+        }
+
+        private Configuration GetConfiguration<TClassMap>()
+            where TClassMap : ClassMap
+        {
+            var configuration = new Configuration()
+            {
+                IgnoreReferences = true,
+                ShouldQuote = (field, context) => true
+            };
+
+            configuration.RegisterClassMap<TClassMap>();
+            return configuration;
         }
     }
 }

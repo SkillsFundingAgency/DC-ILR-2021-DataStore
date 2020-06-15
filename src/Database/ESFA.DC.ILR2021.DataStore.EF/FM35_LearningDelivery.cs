@@ -91,6 +91,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? WeightedRateFromLARS { get; set; }
 
         public virtual FM35_Learner FM35_Learner { get; set; }
+        public virtual LearningDelivery LearningDelivery { get; set; }
         public virtual ICollection<FM35_LearningDelivery_PeriodisedValue> FM35_LearningDelivery_PeriodisedValues { get; set; }
         public virtual ICollection<FM35_LearningDelivery_Period> FM35_LearningDelivery_Periods { get; set; }
     }

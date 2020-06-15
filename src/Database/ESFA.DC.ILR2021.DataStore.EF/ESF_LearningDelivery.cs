@@ -36,6 +36,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? WeightedRateFromESOL { get; set; }
 
         public virtual ESF_Learner ESF_Learner { get; set; }
+        public virtual LearningDelivery LearningDelivery { get; set; }
         public virtual ICollection<ESF_LearningDeliveryDeliverable_Period> ESF_LearningDeliveryDeliverable_Periods { get; set; }
         public virtual ICollection<ESF_LearningDeliveryDeliverable> ESF_LearningDeliveryDeliverables { get; set; }
     }

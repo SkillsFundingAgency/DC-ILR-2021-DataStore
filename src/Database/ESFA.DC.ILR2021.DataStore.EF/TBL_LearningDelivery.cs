@@ -67,6 +67,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? YoungAppFirstPayment { get; set; }
         public decimal? YoungAppPayment { get; set; }
 
+        public virtual LearningDelivery LearningDelivery { get; set; }
         public virtual TBL_Learner TBL_Learner { get; set; }
         public virtual ICollection<TBL_LearningDelivery_PeriodisedValue> TBL_LearningDelivery_PeriodisedValues { get; set; }
         public virtual ICollection<TBL_LearningDelivery_Period> TBL_LearningDelivery_Periods { get; set; }

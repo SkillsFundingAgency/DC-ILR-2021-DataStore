@@ -87,3 +87,10 @@ GO
 
 ALTER TABLE [Rulebase].[FM35_LearningDelivery] CHECK CONSTRAINT [FK_FM35LearningDelivery_FM35Learner]
 GO
+
+ALTER TABLE [Rulebase].[FM35_LearningDelivery]  WITH NOCHECK ADD  CONSTRAINT [FK_FM35_LearningDelivery_ValidLearningDelivery] FOREIGN KEY([UKPRN], [LearnRefNumber], [AimSeqNumber])
+REFERENCES [Valid].[LearningDelivery] ([UKPRN], [LearnRefNumber], [AimSeqNumber])
+GO
+
+ALTER TABLE [Rulebase].[FM35_LearningDelivery] CHECK CONSTRAINT [FK_FM35_LearningDelivery_ValidLearningDelivery]
+GO

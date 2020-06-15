@@ -15,6 +15,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public int UKPRN { get; set; }
         public string LearnRefNumber { get; set; }
 
+        public virtual Learner Learner { get; set; }
         public virtual ALB_global UKPRNNavigation { get; set; }
         public virtual ICollection<ALB_Learner_PeriodisedValue> ALB_Learner_PeriodisedValues { get; set; }
         public virtual ICollection<ALB_Learner_Period> ALB_Learner_Periods { get; set; }

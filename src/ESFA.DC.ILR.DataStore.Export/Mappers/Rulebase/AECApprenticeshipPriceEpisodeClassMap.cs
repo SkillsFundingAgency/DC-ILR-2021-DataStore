@@ -9,6 +9,7 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
             Map(m => m.AEC_ApprenticeshipPriceEpisode_PeriodisedValues).Ignore();
             Map(m => m.AEC_ApprenticeshipPriceEpisode_Periods).Ignore();
             Map(m => m.AEC_Learner).Ignore();
+            Map(m => m.LearningDelivery).Ignore();
         }
     }
 }

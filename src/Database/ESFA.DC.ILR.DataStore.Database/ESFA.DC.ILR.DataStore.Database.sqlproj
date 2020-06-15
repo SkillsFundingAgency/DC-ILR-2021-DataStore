@@ -213,7 +213,7 @@
     <Build Include="Security\User_DSCI.sql" />
     <Build Include="dbo\Stored Procedures\usp_DisplayDeploymentProperties.sql" />
     <Build Include="Rulebase\Tables\ALB_Learner.sql" />
-    <Build Include="Rulebase\Tables\FM70_Learner.sql" />
+    <Build Include="Rulebase\Tables\ESF_Learner.sql" />
     <Build Include="Rulebase\Tables\TBL_Learner.sql" />
     <Build Include="Valid\Stored Procedures\GetLearnerDetails.sql" />
     <Build Include="Rulebase\Tables\FM35_global.sql" />

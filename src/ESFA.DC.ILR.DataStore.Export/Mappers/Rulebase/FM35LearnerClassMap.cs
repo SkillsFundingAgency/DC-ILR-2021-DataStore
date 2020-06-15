@@ -8,6 +8,7 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
         {
             Map(m => m.FM35_LearningDeliveries).Ignore();
             Map(m => m.UKPRNNavigation).Ignore();
+            Map(m => m.Learner).Ignore();
         }
     }
 }
