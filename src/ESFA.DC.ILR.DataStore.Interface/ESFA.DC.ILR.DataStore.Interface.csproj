@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.2.0-alpha0009" />
+    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.2021.FundingService.ALB.FundingOutput.Model" Version="0.1.96" />
     <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM25.FundingOutput.Model" Version="0.1.96" />
     <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM35.FundingOutput.Model" Version="0.1.96" />
