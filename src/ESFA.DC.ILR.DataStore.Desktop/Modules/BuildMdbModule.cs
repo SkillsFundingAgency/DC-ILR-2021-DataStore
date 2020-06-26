@@ -19,7 +19,6 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
 
             containerBuilder.RegisterType<ValidGenerateSchema>().As<IGenerateSchema>();
             containerBuilder.RegisterType<InvalidGenerateSchema>().As<IGenerateSchema>();
-            containerBuilder.RegisterType<RulebaseGenerateSchema>().As<IGenerateSchema>();
         }
     }
 }
