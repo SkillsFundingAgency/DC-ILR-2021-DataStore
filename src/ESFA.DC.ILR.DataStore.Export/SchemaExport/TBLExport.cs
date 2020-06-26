@@ -13,7 +13,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class TBLExport : AbstractSchemaExport, IOrderedExport
     {
         public TBLExport(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportTblTables, 11)
+            : base(new ValidMdbContext(), export, logger, Constants.TaskExportTblTables, 11)
         {
         }
 

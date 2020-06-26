@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
+namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
 {
-    [DbContext(typeof(RulebaseMdbContext))]
-    [Migration("20200626105933_InitialCreate")]
+    [DbContext(typeof(ValidMdbContext))]
+    [Migration("20200626141909_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,22 +19,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
             modelBuilder
                 .HasAnnotation("Jet:ValueGenerationStrategy", JetValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
-
-            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.ACTCountsEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("LearnersAct1");
-
-                    b.Property<int>("LearnersAct2");
-
-                    b.Property<int>("UkPrn");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActCounts");
-                });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.AEC_ApprenticeshipPriceEpisode", b =>
                 {
@@ -1068,7 +1052,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasIndex("UKPRN", "LearnRefNumber", "AimSeqNumber", "AFinType")
                         .HasName("IX_Valid_AppFinRecord");
 
-                    b.ToTable("AppFinRecord","Valid");
+                    b.ToTable("Valid_AppFinRecord","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.CollectionDetail", b =>
@@ -1088,7 +1072,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 
                     b.HasKey("UKPRN", "Collection", "Year");
 
-                    b.ToTable("CollectionDetails","Valid");
+                    b.ToTable("Valid_CollectionDetails","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.ContactPreference", b =>
@@ -1111,7 +1095,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasIndex("LearnRefNumber", "ContPrefType")
                         .HasName("IX_Valid_ContactPreference");
 
-                    b.ToTable("ContactPreference","Valid");
+                    b.ToTable("Valid_ContactPreference","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.DPOutcome", b =>
@@ -1139,7 +1123,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 
                     b.HasKey("UKPRN", "LearnRefNumber", "OutType", "OutCode", "OutStartDate", "OutCollDate");
 
-                    b.ToTable("DPOutcome","Valid");
+                    b.ToTable("Valid_DPOutcome","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.DV_Learner", b =>
@@ -1944,7 +1928,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "DateEmpStatApp", "ESMType")
                         .HasName("PK__Employme__316BBA3106CD75AA");
 
-                    b.ToTable("EmploymentStatusMonitoring","Valid");
+                    b.ToTable("Valid_EmploymentStatusMonitoring","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.FM25_FM35_Learner_Period", b =>
@@ -2529,6 +2513,63 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.ToTable("Rulebase_FM35_global","Rulebase");
                 });
 
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.FileDetail", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CampusIdentifierVersion")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("EasUploadDateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("EmployersVersion")
+                        .HasMaxLength(50);
+
+                    b.Property<long?>("FileSizeKb");
+
+                    b.Property<string>("Filename")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("LarsVersion")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("OrgName")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("OrgVersion")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PostcodesVersion")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("SubmittedTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool?>("Success");
+
+                    b.Property<int?>("TotalErrorCount");
+
+                    b.Property<int?>("TotalInvalidLearnersSubmitted");
+
+                    b.Property<int?>("TotalLearnersSubmitted");
+
+                    b.Property<int?>("TotalValidLearnersSubmitted");
+
+                    b.Property<int?>("TotalWarningCount");
+
+                    b.Property<int>("UKPRN");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UKPRN", "Filename", "Success")
+                        .IsUnique()
+                        .HasName("PK_dbo.FileDetails");
+
+                    b.ToTable("FileDetails");
+                });
+
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LLDDandHealthProblem", b =>
                 {
                     b.Property<int>("UKPRN");
@@ -2546,7 +2587,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "LLDDCat", "LLDDandHealthProblem_ID")
                         .HasName("PK__LLDDandH__CFA94E1C19A54FB5");
 
-                    b.ToTable("LLDDandHealthProblem","Valid");
+                    b.ToTable("Valid_LLDDandHealthProblem","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Learner", b =>
@@ -2645,12 +2686,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasMaxLength(18)
                         .IsUnicode(false);
 
-                    b.Property<long>("ULN");
+                    b.Property<double>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
                         .HasName("PK__Learner__2770A7278E02491B");
 
-                    b.ToTable("Learner","Valid");
+                    b.ToTable("Valid_Learner","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearnerDestinationandProgression", b =>
@@ -2661,12 +2703,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasMaxLength(12)
                         .IsUnicode(false);
 
-                    b.Property<long>("ULN");
+                    b.Property<double>("ULN")
+                        .HasColumnType("double");
 
                     b.HasKey("UKPRN", "LearnRefNumber")
                         .HasName("PK__LearnerD__2770A727C9AEFF3F");
 
-                    b.ToTable("LearnerDestinationandProgression","Valid");
+                    b.ToTable("Valid_LearnerDestinationAndProgression","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearnerEmploymentStatus", b =>
@@ -2687,7 +2730,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "DateEmpStatApp")
                         .HasName("PK__LearnerE__7200C4BEFB2271E4");
 
-                    b.ToTable("LearnerEmploymentStatus","Valid");
+                    b.ToTable("Valid_LearnerEmploymentStatus","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearnerFAM", b =>
@@ -2709,7 +2752,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasIndex("UKPRN", "LearnRefNumber")
                         .HasName("IX_Valid_LearnerFAM");
 
-                    b.ToTable("LearnerFAM","Valid");
+                    b.ToTable("Valid_LearnerFAM","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearnerHE", b =>
@@ -2729,7 +2772,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber")
                         .HasName("PK__LearnerH__2770A727B61C2A22");
 
-                    b.ToTable("LearnerHE","Valid");
+                    b.ToTable("Valid_LearnerHE","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearnerHEFinancialSupport", b =>
@@ -2747,7 +2790,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "FINTYPE")
                         .HasName("PK__LearnerH__09F54B724E154F8E");
 
-                    b.ToTable("LearnerHEFinancialSupport","Valid");
+                    b.ToTable("Valid_LearnerHEFinancialSupport","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearningDelivery", b =>
@@ -2839,7 +2882,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
                         .HasName("PK__Learning__0C29443AF6208137");
 
-                    b.ToTable("LearningDelivery","Valid");
+                    b.ToTable("Valid_LearningDelivery","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearningDeliveryFAM", b =>
@@ -2879,7 +2922,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasIndex("LearnRefNumber", "AimSeqNumber", "LearnDelFAMCode", "LearnDelFAMDateFrom", "LearnDelFAMDateTo", "UKPRN", "LearnDelFAMType")
                         .HasName("IX_Valid_LearningDeliveryFAM_UKPRN_FamType");
 
-                    b.ToTable("LearningDeliveryFAM","Valid");
+                    b.ToTable("Valid_LearningDeliveryFAM","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearningDeliveryHE", b =>
@@ -2958,7 +3001,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber")
                         .HasName("PK__Learning__0C29443A079D45E9");
 
-                    b.ToTable("LearningDeliveryHE","Valid");
+                    b.ToTable("Valid_LearningDeliveryHE","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearningDeliveryWorkPlacement", b =>
@@ -2988,7 +3031,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasIndex("UKPRN", "LearnRefNumber", "AimSeqNumber", "WorkPlaceStartDate", "WorkPlaceMode")
                         .HasName("IX_Valid_LearningDeliveryWorkPlacement");
 
-                    b.ToTable("LearningDeliveryWorkPlacement","Valid");
+                    b.ToTable("Valid_LearningDeliveryWorkPlacement","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.LearningProvider", b =>
@@ -2998,25 +3041,29 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN")
                         .HasName("PK__Learning__50F26B71EE934338");
 
-                    b.ToTable("LearningProvider","Valid");
+                    b.ToTable("Valid_LearningProvider","Valid");
                 });
 
-            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.PeriodEndMetricsEntity", b =>
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.ProcessingData", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("EarningsACT1");
+                    b.Property<string>("ExecutionTime")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<decimal>("EarningsACT2");
+                    b.Property<long>("FileDetailsID");
 
-                    b.Property<decimal>("EarningsYTD");
+                    b.Property<string>("ProcessingStep")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("TransactionType");
+                    b.Property<int>("UKPRN");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PeriodEndMetrics");
+                    b.ToTable("ProcessingData");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.ProviderSpecDeliveryMonitoring", b =>
@@ -3041,7 +3088,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "AimSeqNumber", "ProvSpecDelMonOccur")
                         .HasName("PK__Provider__9F5C5085C2A9C2C0");
 
-                    b.ToTable("ProviderSpecDeliveryMonitoring","Valid");
+                    b.ToTable("Valid_ProviderSpecDeliveryMonitoring","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.ProviderSpecLearnerMonitoring", b =>
@@ -3064,7 +3111,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasKey("UKPRN", "LearnRefNumber", "ProvSpecLearnMonOccur")
                         .HasName("PK__Provider__63E551EAA31DE21E");
 
-                    b.ToTable("ProviderSpecLearnerMonitoring","Valid");
+                    b.ToTable("Valid_ProviderSpecLearnerMonitoring","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.Source", b =>
@@ -3104,7 +3151,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 
                     b.HasKey("UKPRN");
 
-                    b.ToTable("Source","Valid");
+                    b.ToTable("Valid_Source","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.SourceFile", b =>
@@ -3142,7 +3189,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     b.HasIndex("SourceFileName")
                         .HasName("IX_Valid_SourceFile");
 
-                    b.ToTable("SourceFile","Valid");
+                    b.ToTable("Valid_SourceFile","Valid");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.TBL_Learner", b =>
@@ -3652,6 +3699,18 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         .HasName("IX_ValidationError");
 
                     b.ToTable("dbo_ValidationError");
+                });
+
+            modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.VersionInfo", b =>
+                {
+                    b.Property<int>("Version");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.HasKey("Version");
+
+                    b.ToTable("VersionInfo");
                 });
 
             modelBuilder.Entity("ESFA.DC.ILR2021.DataStore.EF.AEC_ApprenticeshipPriceEpisode", b =>

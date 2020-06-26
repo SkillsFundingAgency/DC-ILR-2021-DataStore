@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class EsfExport : AbstractSchemaExport, IOrderedExport
     {
         public EsfExport(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportEsfTables, 6)
+            : base(new ValidMdbContext(), export, logger, Constants.TaskExportEsfTables, 6)
         {
         }
 

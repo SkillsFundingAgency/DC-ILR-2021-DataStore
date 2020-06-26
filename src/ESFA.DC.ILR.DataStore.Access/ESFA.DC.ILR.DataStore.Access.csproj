@@ -56,18 +56,11 @@
       <DependentUpon>20200423153105_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Invalid\InvalidMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Rulebase\20200626105933_InitialCreate.cs" />
-    <Compile Include="Migrations\Rulebase\20200626105933_InitialCreate.designer.cs">
-      <DependentUpon>20200626105933_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Rulebase\RulebaseMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Valid\20200423153122_InitialCreate.cs" />
-    <Compile Include="Migrations\Valid\20200423153122_InitialCreate.designer.cs">
-      <DependentUpon>20200423153122_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Valid\20200626141909_InitialCreate.cs" />
+    <Compile Include="Migrations\Valid\20200626141909_InitialCreate.designer.cs">
+      <DependentUpon>20200626141909_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Valid\ValidMdbContextModelSnapshot.cs" />
-    <Compile Include="RulebaseGenerateSchema.cs" />
-    <Compile Include="RulebaseMdbContext.cs" />
     <Compile Include="ValidGenerateSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidMdbContext.cs" />

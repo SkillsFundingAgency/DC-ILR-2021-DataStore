@@ -2,7 +2,7 @@
 using EntityFrameworkCore.Jet.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
+namespace ESFA.DC.ILR.DataStore.Access.Migrations.Valid
 {
     public partial class InitialCreate : Migration
     {
@@ -13,21 +13,6 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 
             migrationBuilder.EnsureSchema(
                 name: "Valid");
-
-            migrationBuilder.CreateTable(
-                name: "ActCounts",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Jet:ValueGenerationStrategy", JetValueGenerationStrategy.IdentityColumn),
-                    UkPrn = table.Column<int>(nullable: false),
-                    LearnersAct1 = table.Column<int>(nullable: false),
-                    LearnersAct2 = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActCounts", x => x.Id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "dbo_ValidationError",
@@ -53,19 +38,60 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "PeriodEndMetrics",
+                name: "FileDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ID = table.Column<long>(nullable: false)
                         .Annotation("Jet:ValueGenerationStrategy", JetValueGenerationStrategy.IdentityColumn),
-                    TransactionType = table.Column<string>(nullable: true),
-                    EarningsYTD = table.Column<decimal>(nullable: false),
-                    EarningsACT1 = table.Column<decimal>(nullable: false),
-                    EarningsACT2 = table.Column<decimal>(nullable: false)
+                    UKPRN = table.Column<int>(nullable: false),
+                    Filename = table.Column<string>(maxLength: 50, nullable: true),
+                    FileSizeKb = table.Column<long>(nullable: true),
+                    TotalLearnersSubmitted = table.Column<int>(nullable: true),
+                    TotalValidLearnersSubmitted = table.Column<int>(nullable: true),
+                    TotalInvalidLearnersSubmitted = table.Column<int>(nullable: true),
+                    TotalErrorCount = table.Column<int>(nullable: true),
+                    TotalWarningCount = table.Column<int>(nullable: true),
+                    SubmittedTime = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Success = table.Column<bool>(nullable: true),
+                    OrgName = table.Column<string>(maxLength: 255, nullable: true),
+                    OrgVersion = table.Column<string>(maxLength: 50, nullable: true),
+                    LarsVersion = table.Column<string>(maxLength: 50, nullable: true),
+                    EmployersVersion = table.Column<string>(maxLength: 50, nullable: true),
+                    PostcodesVersion = table.Column<string>(maxLength: 50, nullable: true),
+                    CampusIdentifierVersion = table.Column<string>(maxLength: 50, nullable: true),
+                    EasUploadDateTime = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PeriodEndMetrics", x => x.Id);
+                    table.PrimaryKey("PK_FileDetails", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProcessingData",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Jet:ValueGenerationStrategy", JetValueGenerationStrategy.IdentityColumn),
+                    UKPRN = table.Column<int>(nullable: false),
+                    FileDetailsID = table.Column<long>(nullable: false),
+                    ProcessingStep = table.Column<string>(maxLength: 100, nullable: false),
+                    ExecutionTime = table.Column<string>(maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProcessingData", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VersionInfo",
+                columns: table => new
+                {
+                    Version = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VersionInfo", x => x.Version);
                 });
 
             migrationBuilder.CreateTable(
@@ -371,7 +397,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "CollectionDetails",
+                name: "Valid_CollectionDetails",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -382,11 +408,11 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CollectionDetails", x => new { x.UKPRN, x.Collection, x.Year });
+                    table.PrimaryKey("PK_Valid_CollectionDetails", x => new { x.UKPRN, x.Collection, x.Year });
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmploymentStatusMonitoring",
+                name: "Valid_EmploymentStatusMonitoring",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -402,7 +428,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "Learner",
+                name: "Valid_Learner",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -411,7 +437,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                     PrevLearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: true),
                     PrevUKPRN = table.Column<int>(nullable: true),
                     PMUKPRN = table.Column<int>(nullable: true),
-                    ULN = table.Column<long>(nullable: false),
+                    ULN = table.Column<double>(type: "double", nullable: false),
                     FamilyName = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
                     GivenNames = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: true),
@@ -442,13 +468,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearnerDestinationandProgression",
+                name: "Valid_LearnerDestinationAndProgression",
                 schema: "Valid",
                 columns: table => new
                 {
                     UKPRN = table.Column<int>(nullable: false),
                     LearnRefNumber = table.Column<string>(unicode: false, maxLength: 12, nullable: false),
-                    ULN = table.Column<long>(nullable: false)
+                    ULN = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -456,7 +482,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningProvider",
+                name: "Valid_LearningProvider",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -468,7 +494,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "Source",
+                name: "Valid_Source",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -484,11 +510,11 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Source", x => x.UKPRN);
+                    table.PrimaryKey("PK_Valid_Source", x => x.UKPRN);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SourceFile",
+                name: "Valid_SourceFile",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -503,7 +529,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SourceFile", x => new { x.UKPRN, x.SourceFileName });
+                    table.PrimaryKey("PK_Valid_SourceFile", x => new { x.UKPRN, x.SourceFileName });
                 });
 
             migrationBuilder.CreateTable(
@@ -617,7 +643,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_AEC_Learner_ValidLearner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -644,7 +670,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ALB_Learner_ValidLearner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -671,7 +697,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ESF_Learner_ValidLearner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -726,7 +752,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_FM25_Learner_ValidLearner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -753,7 +779,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_FM35_Learner_ValidLearner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -780,13 +806,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_TBL_Learner_ValidLearner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactPreference",
+                name: "Valid_ContactPreference",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -802,13 +828,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ContactPreference_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearnerEmploymentStatus",
+                name: "Valid_LearnerEmploymentStatus",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -825,13 +851,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_LearnerEmploymentStatus_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearnerFAM",
+                name: "Valid_LearnerFAM",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -842,18 +868,18 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LearnerFAM", x => new { x.LearnFAMCode, x.LearnFAMType, x.LearnRefNumber, x.UKPRN });
+                    table.PrimaryKey("PK_Valid_LearnerFAM", x => new { x.LearnFAMCode, x.LearnFAMType, x.LearnRefNumber, x.UKPRN });
                     table.ForeignKey(
                         name: "FK_LearnerFAM_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearnerHE",
+                name: "Valid_LearnerHE",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -869,13 +895,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_LearnerHE_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningDelivery",
+                name: "Valid_LearningDelivery",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -918,13 +944,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_LearningDelivery_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LLDDandHealthProblem",
+                name: "Valid_LLDDandHealthProblem",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -941,13 +967,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_LLDDandHealthProblem_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProviderSpecLearnerMonitoring",
+                name: "Valid_ProviderSpecLearnerMonitoring",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -963,13 +989,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ProviderSpecLearnerMonitoring_Learner",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "Learner",
+                        principalTable: "Valid_Learner",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DPOutcome",
+                name: "Valid_DPOutcome",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -983,12 +1009,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DPOutcome", x => new { x.UKPRN, x.LearnRefNumber, x.OutType, x.OutCode, x.OutStartDate, x.OutCollDate });
+                    table.PrimaryKey("PK_Valid_DPOutcome", x => new { x.UKPRN, x.LearnRefNumber, x.OutType, x.OutCode, x.OutStartDate, x.OutCollDate });
                     table.ForeignKey(
                         name: "FK_DPOutcome_LearnerDestinationandProgression",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearnerDestinationandProgression",
+                        principalTable: "Valid_LearnerDestinationAndProgression",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1296,7 +1322,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearnerHEFinancialSupport",
+                name: "Valid_LearnerHEFinancialSupport",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -1312,7 +1338,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_LearnerHEFinancialSupport_LearnerHE",
                         columns: x => new { x.UKPRN, x.LearnRefNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearnerHE",
+                        principalTable: "Valid_LearnerHE",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1381,7 +1407,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_AEC_ApprenticeshipPriceEpisode_ValidLearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.PriceEpisodeAimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1454,7 +1480,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_AEC_LearningDelivery_ValidLearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1497,7 +1523,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ALB_LearningDelivery_ValidLearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1545,7 +1571,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ESF_LearningDelivery_ValidLearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1648,7 +1674,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_FM35_LearningDelivery_ValidLearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1728,13 +1754,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_TBL_LearningDelivery_ValidLearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppFinRecord",
+                name: "Valid_AppFinRecord",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -1749,18 +1775,18 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppFinRecord", x => new { x.UKPRN, x.AppFinRecord_Id });
+                    table.PrimaryKey("PK_Valid_AppFinRecord", x => new { x.UKPRN, x.AppFinRecord_Id });
                     table.ForeignKey(
                         name: "FK_AppFinRecord_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningDeliveryFAM",
+                name: "Valid_LearningDeliveryFAM",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -1775,18 +1801,18 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LearningDeliveryFAM", x => new { x.UKPRN, x.LearningDeliveryFAM_Id });
+                    table.PrimaryKey("PK_Valid_LearningDeliveryFAM", x => new { x.UKPRN, x.LearningDeliveryFAM_Id });
                     table.ForeignKey(
                         name: "FK_LearningDeliveryFAM_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningDeliveryHE",
+                name: "Valid_LearningDeliveryHE",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -1824,13 +1850,13 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_LearningDeliveryHE_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningDeliveryWorkPlacement",
+                name: "Valid_LearningDeliveryWorkPlacement",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -1845,18 +1871,18 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LearningDeliveryWorkPlacement", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.WorkPlaceStartDate });
+                    table.PrimaryKey("PK_Valid_LearningDeliveryWorkPlacement", x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber, x.WorkPlaceStartDate });
                     table.ForeignKey(
                         name: "FK_LearningDeliveryWorkPlacement_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProviderSpecDeliveryMonitoring",
+                name: "Valid_ProviderSpecDeliveryMonitoring",
                 schema: "Valid",
                 columns: table => new
                 {
@@ -1873,7 +1899,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                         name: "FK_ProviderSpecDeliveryMonitoring_LearningDelivery",
                         columns: x => new { x.UKPRN, x.LearnRefNumber, x.AimSeqNumber },
                         principalSchema: "Valid",
-                        principalTable: "LearningDelivery",
+                        principalTable: "Valid_LearningDelivery",
                         principalColumns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -2370,6 +2396,12 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 column: "UKPRN");
 
             migrationBuilder.CreateIndex(
+                name: "PK_dbo.FileDetails",
+                table: "FileDetails",
+                columns: new[] { "UKPRN", "Filename", "Success" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Rulebase_AEC_ApprenticeshipPriceEpisode_UKPRN_LearnRefNumber_PriceEpisodeAimSeqNumber",
                 schema: "Rulebase",
                 table: "Rulebase_AEC_ApprenticeshipPriceEpisode",
@@ -2384,56 +2416,59 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_AppFinRecord",
                 schema: "Valid",
-                table: "AppFinRecord",
+                table: "Valid_AppFinRecord",
                 columns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber", "AFinType" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_ContactPreference",
                 schema: "Valid",
-                table: "ContactPreference",
+                table: "Valid_ContactPreference",
                 columns: new[] { "LearnRefNumber", "ContPrefType" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_LearnerFAM",
                 schema: "Valid",
-                table: "LearnerFAM",
+                table: "Valid_LearnerFAM",
                 columns: new[] { "UKPRN", "LearnRefNumber" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_LearningDeliveryFAM",
                 schema: "Valid",
-                table: "LearningDeliveryFAM",
+                table: "Valid_LearningDeliveryFAM",
                 columns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber", "LearnDelFAMType", "LearnDelFAMDateFrom" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_LearningDeliveryFAM_UKPRN_FamType",
                 schema: "Valid",
-                table: "LearningDeliveryFAM",
+                table: "Valid_LearningDeliveryFAM",
                 columns: new[] { "LearnRefNumber", "AimSeqNumber", "LearnDelFAMCode", "LearnDelFAMDateFrom", "LearnDelFAMDateTo", "UKPRN", "LearnDelFAMType" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_LearningDeliveryWorkPlacement",
                 schema: "Valid",
-                table: "LearningDeliveryWorkPlacement",
+                table: "Valid_LearningDeliveryWorkPlacement",
                 columns: new[] { "UKPRN", "LearnRefNumber", "AimSeqNumber", "WorkPlaceStartDate", "WorkPlaceMode" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Valid_SourceFile",
                 schema: "Valid",
-                table: "SourceFile",
+                table: "Valid_SourceFile",
                 column: "SourceFileName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ActCounts");
-
-            migrationBuilder.DropTable(
                 name: "dbo_ValidationError");
 
             migrationBuilder.DropTable(
-                name: "PeriodEndMetrics");
+                name: "FileDetails");
+
+            migrationBuilder.DropTable(
+                name: "ProcessingData");
+
+            migrationBuilder.DropTable(
+                name: "VersionInfo");
 
             migrationBuilder.DropTable(
                 name: "Rulebase_AEC_ApprenticeshipPriceEpisode_Period",
@@ -2548,71 +2583,71 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "AppFinRecord",
+                name: "Valid_AppFinRecord",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "CollectionDetails",
+                name: "Valid_CollectionDetails",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "ContactPreference",
+                name: "Valid_ContactPreference",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "DPOutcome",
+                name: "Valid_DPOutcome",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "EmploymentStatusMonitoring",
+                name: "Valid_EmploymentStatusMonitoring",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearnerEmploymentStatus",
+                name: "Valid_LearnerEmploymentStatus",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearnerFAM",
+                name: "Valid_LearnerFAM",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearnerHEFinancialSupport",
+                name: "Valid_LearnerHEFinancialSupport",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearningDeliveryFAM",
+                name: "Valid_LearningDeliveryFAM",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearningDeliveryHE",
+                name: "Valid_LearningDeliveryHE",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearningDeliveryWorkPlacement",
+                name: "Valid_LearningDeliveryWorkPlacement",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearningProvider",
+                name: "Valid_LearningProvider",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LLDDandHealthProblem",
+                name: "Valid_LLDDandHealthProblem",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "ProviderSpecDeliveryMonitoring",
+                name: "Valid_ProviderSpecDeliveryMonitoring",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "ProviderSpecLearnerMonitoring",
+                name: "Valid_ProviderSpecLearnerMonitoring",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "Source",
+                name: "Valid_Source",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "SourceFile",
+                name: "Valid_SourceFile",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
@@ -2656,11 +2691,11 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "LearnerDestinationandProgression",
+                name: "Valid_LearnerDestinationAndProgression",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
-                name: "LearnerHE",
+                name: "Valid_LearnerHE",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
@@ -2704,7 +2739,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "LearningDelivery",
+                name: "Valid_LearningDelivery",
                 schema: "Valid");
 
             migrationBuilder.DropTable(
@@ -2720,7 +2755,7 @@ namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
                 schema: "Rulebase");
 
             migrationBuilder.DropTable(
-                name: "Learner",
+                name: "Valid_Learner",
                 schema: "Valid");
         }
     }

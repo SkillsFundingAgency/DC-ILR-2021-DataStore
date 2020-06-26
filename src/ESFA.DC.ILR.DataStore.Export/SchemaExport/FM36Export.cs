@@ -14,7 +14,7 @@ namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
     public class FM36Export : AbstractSchemaExport, IOrderedExport
     {
         public FM36Export(IExport export, ILogger logger) 
-            : base(new RulebaseMdbContext(), export, logger, Constants.TaskExportFM36Tables, 10)
+            : base(new ValidMdbContext(), export, logger, Constants.TaskExportFM36Tables, 10)
         {
         }
 
