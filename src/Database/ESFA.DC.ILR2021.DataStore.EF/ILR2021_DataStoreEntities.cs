@@ -108,7 +108,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.PriceEpisodeIdentifier })
-                    .HasName("PK__AEC_Appr__BCF596CA2556B8CC");
+                    .HasName("PK__AEC_Appr__BCF596CA74EA3654");
 
                 entity.ToTable("AEC_ApprenticeshipPriceEpisode", "Rulebase");
 
@@ -137,10 +137,6 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                 entity.Property(e => e.PriceEpisodeActualEndDate).HasColumnType("date");
 
                 entity.Property(e => e.PriceEpisodeActualEndDateIncEPA).HasColumnType("date");
-
-                entity.Property(e => e.PriceEpisodeAgreeId)
-                    .HasMaxLength(6)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.PriceEpisodeApplic1618FrameworkUpliftCompElement).HasColumnType("decimal(12, 5)");
 
@@ -214,7 +210,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.PriceEpisodeIdentifier, e.Period })
-                    .HasName("PK__AEC_Appr__9984F1E7909742E4");
+                    .HasName("PK__AEC_Appr__9984F1E79E1C6EF4");
 
                 entity.ToTable("AEC_ApprenticeshipPriceEpisode_Period", "Rulebase");
 
@@ -240,6 +236,8 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                 entity.Property(e => e.PriceEpisodeBalanceValue).HasColumnType("decimal(12, 5)");
 
                 entity.Property(e => e.PriceEpisodeCompletionPayment).HasColumnType("decimal(12, 5)");
+
+                entity.Property(e => e.PriceEpisodeESFAContribPct).HasColumnType("decimal(12, 5)");
 
                 entity.Property(e => e.PriceEpisodeFirstDisadvantagePayment).HasColumnType("decimal(12, 5)");
 
@@ -277,7 +275,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.PriceEpisodeIdentifier, e.AttributeName })
-                    .HasName("PK__AEC_Appr__4E0E987769A62C9B");
+                    .HasName("PK__AEC_Appr__4E0E98770E00803A");
 
                 entity.ToTable("AEC_ApprenticeshipPriceEpisode_PeriodisedValues", "Rulebase");
 
@@ -327,7 +325,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_HistoricEarningOutput>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AppIdentifierOutput })
-                    .HasName("PK__AEC_Hist__9CDF07427EC6A7A0");
+                    .HasName("PK__AEC_Hist__9CDF074242B4133F");
 
                 entity.ToTable("AEC_HistoricEarningOutput", "Rulebase");
 
@@ -371,7 +369,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__AEC_Lear__2770A72796924DD0");
+                    .HasName("PK__AEC_Lear__2770A72798E5B85C");
 
                 entity.ToTable("AEC_Learner", "Rulebase");
 
@@ -395,7 +393,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__AEC_Lear__0C29443AE0184677");
+                    .HasName("PK__AEC_Lear__0C29443A4AF160DC");
 
                 entity.ToTable("AEC_LearningDelivery", "Rulebase");
 
@@ -467,7 +465,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_LearningDelivery_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.Period })
-                    .HasName("PK__AEC_Lear__2958231765F913E9");
+                    .HasName("PK__AEC_Lear__29582317751A20E5");
 
                 entity.ToTable("AEC_LearningDelivery_Period", "Rulebase");
 
@@ -493,6 +491,8 @@ namespace ESFA.DC.ILR2021.DataStore.EF
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.LearnDelESFAContribPct).HasColumnType("decimal(12, 5)");
+
                 entity.Property(e => e.LearnDelFirstEmp1618Pay).HasColumnType("decimal(12, 5)");
 
                 entity.Property(e => e.LearnDelFirstProv1618Pay).HasColumnType("decimal(12, 5)");
@@ -509,11 +509,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
 
                 entity.Property(e => e.MathEngBalPayment).HasColumnType("decimal(12, 5)");
 
-                entity.Property(e => e.MathEngBalPct).HasColumnType("decimal(12, 5)");
-
                 entity.Property(e => e.MathEngOnProgPayment).HasColumnType("decimal(12, 5)");
-
-                entity.Property(e => e.MathEngOnProgPct).HasColumnType("decimal(12, 5)");
 
                 entity.Property(e => e.ProgrammeAimBalPayment).HasColumnType("decimal(12, 5)");
 
@@ -537,7 +533,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_LearningDelivery_PeriodisedTextValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__AEC_Lear__FED24A8730BCFB54");
+                    .HasName("PK__AEC_Lear__FED24A87D2508F18");
 
                 entity.ToTable("AEC_LearningDelivery_PeriodisedTextValues", "Rulebase");
 
@@ -607,7 +603,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<AEC_LearningDelivery_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__AEC_Lear__FED24A87B8534837");
+                    .HasName("PK__AEC_Lear__FED24A8719007724");
 
                 entity.ToTable("AEC_LearningDelivery_PeriodisedValues", "Rulebase");
 
@@ -674,7 +670,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__ALB_Lear__2770A727E6931CF6");
+                    .HasName("PK__ALB_Lear__2770A72751E8E8D3");
 
                 entity.ToTable("ALB_Learner", "Rulebase");
 
@@ -698,7 +694,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_Learner_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.Period })
-                    .HasName("PK__ALB_Lear__7066D5F5894490F3");
+                    .HasName("PK__ALB_Lear__7066D5F547754035");
 
                 entity.ToTable("ALB_Learner_Period", "Rulebase");
 
@@ -716,7 +712,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_Learner_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AttributeName })
-                    .HasName("PK__ALB_Lear__08C04CF88735278F");
+                    .HasName("PK__ALB_Lear__08C04CF82E4F6562");
 
                 entity.ToTable("ALB_Learner_PeriodisedValues", "Rulebase");
 
@@ -762,7 +758,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__ALB_Lear__0C29443A90FF4CD9");
+                    .HasName("PK__ALB_Lear__0C29443A6ED065FB");
 
                 entity.ToTable("ALB_LearningDelivery", "Rulebase");
 
@@ -804,7 +800,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_LearningDelivery_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.Period })
-                    .HasName("PK__ALB_Lear__29582317FC43E0F0");
+                    .HasName("PK__ALB_Lear__29582317A07C4441");
 
                 entity.ToTable("ALB_LearningDelivery_Period", "Rulebase");
 
@@ -828,7 +824,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_LearningDelivery_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__ALB_Lear__FED24A877E691596");
+                    .HasName("PK__ALB_Lear__FED24A876783F118");
 
                 entity.ToTable("ALB_LearningDelivery_PeriodisedValues", "Rulebase");
 
@@ -874,7 +870,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ALB_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__ALB_glob__50F26B714EFA38CA");
+                    .HasName("PK__ALB_glob__50F26B71A4A2E2F5");
 
                 entity.ToTable("ALB_global", "Rulebase");
 
@@ -993,7 +989,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<DV_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__DV_Learn__2770A7271ECF747D");
+                    .HasName("PK__DV_Learn__2770A7276A81084F");
 
                 entity.ToTable("DV_Learner", "Rulebase");
 
@@ -1015,7 +1011,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<DV_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__DV_Learn__0C29443A342FBC6C");
+                    .HasName("PK__DV_Learn__0C29443A46FE28DA");
 
                 entity.ToTable("DV_LearningDelivery", "Rulebase");
 
@@ -1138,7 +1134,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_DPOutcome>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.OutCode, e.OutType, e.OutStartDate })
-                    .HasName("PK__ESF_DPOu__1D621D2965BC80C1");
+                    .HasName("PK__ESF_DPOu__1D621D299703F3B6");
 
                 entity.ToTable("ESF_DPOutcome", "Rulebase");
 
@@ -1162,7 +1158,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__ESF_Lear__2770A727DD97754B");
+                    .HasName("PK__ESF_Lear__2770A727B4BE9378");
 
                 entity.ToTable("ESF_Learner", "Rulebase");
 
@@ -1186,7 +1182,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__ESF_Lear__0C29443AC30CBC5C");
+                    .HasName("PK__ESF_Lear__0C29443ADCB506FE");
 
                 entity.ToTable("ESF_LearningDelivery", "Rulebase");
 
@@ -1240,7 +1236,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_LearningDeliveryDeliverable>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.DeliverableCode })
-                    .HasName("PK__ESF_Lear__C21F732A983E5547");
+                    .HasName("PK__ESF_Lear__C21F732AD76123FF");
 
                 entity.ToTable("ESF_LearningDeliveryDeliverable", "Rulebase");
 
@@ -1264,7 +1260,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_LearningDeliveryDeliverable_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.DeliverableCode, e.Period })
-                    .HasName("PK__ESF_Lear__104865589A68286C");
+                    .HasName("PK__ESF_Lear__1048655811F560B4");
 
                 entity.ToTable("ESF_LearningDeliveryDeliverable_Period", "Rulebase");
 
@@ -1294,7 +1290,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ESF_LearningDeliveryDeliverable_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.DeliverableCode, e.AttributeName })
-                    .HasName("PK__ESF_Lear__1D30C3C1C48CFC03");
+                    .HasName("PK__ESF_Lear__1D30C3C1EA3F8B72");
 
                 entity.ToTable("ESF_LearningDeliveryDeliverable_PeriodisedValues", "Rulebase");
 
@@ -1357,7 +1353,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<EmploymentStatusMonitoring>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.DateEmpStatApp, e.ESMType })
-                    .HasName("PK__Employme__316BBA3183E50035");
+                    .HasName("PK__Employme__316BBA3106CD75AA");
 
                 entity.ToTable("EmploymentStatusMonitoring", "Valid");
 
@@ -1375,7 +1371,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_FM35_Learner_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.Period })
-                    .HasName("PK__FM25_FM3__7066D5F59A0A0058");
+                    .HasName("PK__FM25_FM3__7066D5F54EE826EA");
 
                 entity.ToTable("FM25_FM35_Learner_Period", "Rulebase");
 
@@ -1401,7 +1397,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_FM35_Learner_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AttributeName })
-                    .HasName("PK__FM25_FM3__08C04CF88B2E43A1");
+                    .HasName("PK__FM25_FM3__08C04CF8501AA671");
 
                 entity.ToTable("FM25_FM35_Learner_PeriodisedValues", "Rulebase");
 
@@ -1453,7 +1449,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_FM35_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__FM25_FM3__50F26B719671602B");
+                    .HasName("PK__FM25_FM3__50F26B718BEE3F12");
 
                 entity.ToTable("FM25_FM35_global", "Rulebase");
 
@@ -1467,7 +1463,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__FM25_Lea__2770A7272D073FAD");
+                    .HasName("PK__FM25_Lea__2770A727FBD28EFC");
 
                 entity.ToTable("FM25_Learner", "Rulebase");
 
@@ -1539,7 +1535,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM25_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__FM25_glo__50F26B712D2271B6");
+                    .HasName("PK__FM25_glo__50F26B71ED529E72");
 
                 entity.ToTable("FM25_global", "Rulebase");
 
@@ -1565,7 +1561,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<FM35_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__FM35_Lea__2770A7275A034E0A");
+                    .HasName("PK__FM35_Lea__2770A72701F1A75B");
 
                 entity.ToTable("FM35_Learner", "Rulebase");
 
@@ -1845,7 +1841,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LLDDandHealthProblem>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.LLDDCat, e.LLDDandHealthProblem_ID })
-                    .HasName("PK__LLDDandH__CFA94E1C0171C65E");
+                    .HasName("PK__LLDDandH__CFA94E1C19A54FB5");
 
                 entity.ToTable("LLDDandHealthProblem", "Valid");
 
@@ -1863,7 +1859,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__Learner__2770A72787628C4D");
+                    .HasName("PK__Learner__2770A7278E02491B");
 
                 entity.ToTable("Learner", "Valid");
 
@@ -1944,7 +1940,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearnerDestinationandProgression>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__LearnerD__2770A727196A9BAC");
+                    .HasName("PK__LearnerD__2770A727C9AEFF3F");
 
                 entity.ToTable("LearnerDestinationandProgression", "Valid");
 
@@ -1956,7 +1952,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearnerEmploymentStatus>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.DateEmpStatApp })
-                    .HasName("PK__LearnerE__7200C4BE6B058762");
+                    .HasName("PK__LearnerE__7200C4BEFB2271E4");
 
                 entity.ToTable("LearnerEmploymentStatus", "Valid");
 
@@ -2000,7 +1996,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearnerHE>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__LearnerH__2770A727BFD1F0BB");
+                    .HasName("PK__LearnerH__2770A727B61C2A22");
 
                 entity.ToTable("LearnerHE", "Valid");
 
@@ -2022,7 +2018,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearnerHEFinancialSupport>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.FINTYPE })
-                    .HasName("PK__LearnerH__09F54B72FAA98B3C");
+                    .HasName("PK__LearnerH__09F54B724E154F8E");
 
                 entity.ToTable("LearnerHEFinancialSupport", "Valid");
 
@@ -2040,7 +2036,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__Learning__0C29443A3A2F1D29");
+                    .HasName("PK__Learning__0C29443AF6208137");
 
                 entity.ToTable("LearningDelivery", "Valid");
 
@@ -2135,7 +2131,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearningDeliveryHE>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__Learning__0C29443AC5180CD7");
+                    .HasName("PK__Learning__0C29443A079D45E9");
 
                 entity.ToTable("LearningDeliveryHE", "Valid");
 
@@ -2211,7 +2207,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<LearningProvider>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__Learning__50F26B71F1959EB4");
+                    .HasName("PK__Learning__50F26B71EE934338");
 
                 entity.ToTable("LearningProvider", "Valid");
 
@@ -2234,7 +2230,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ProviderSpecDeliveryMonitoring>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.ProvSpecDelMonOccur })
-                    .HasName("PK__Provider__9F5C50851211F829");
+                    .HasName("PK__Provider__9F5C5085C2A9C2C0");
 
                 entity.ToTable("ProviderSpecDeliveryMonitoring", "Valid");
 
@@ -2261,7 +2257,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<ProviderSpecLearnerMonitoring>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.ProvSpecLearnMonOccur })
-                    .HasName("PK__Provider__63E551EA64DD990F");
+                    .HasName("PK__Provider__63E551EAA31DE21E");
 
                 entity.ToTable("ProviderSpecLearnerMonitoring", "Valid");
 
@@ -2361,7 +2357,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__TBL_Lear__2770A72748505CB5");
+                    .HasName("PK__TBL_Lear__2770A727397FC14D");
 
                 entity.ToTable("TBL_Learner", "Rulebase");
 
@@ -2385,7 +2381,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber })
-                    .HasName("PK__TBL_Lear__0C29443AC89001AF");
+                    .HasName("PK__TBL_Lear__0C29443ADE73714A");
 
                 entity.ToTable("TBL_LearningDelivery", "Rulebase");
 
@@ -2459,7 +2455,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_LearningDelivery_Period>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.Period })
-                    .HasName("PK__TBL_Lear__295823171CA2C154");
+                    .HasName("PK__TBL_Lear__29582317BC938E50");
 
                 entity.ToTable("TBL_LearningDelivery_Period", "Rulebase");
 
@@ -2501,7 +2497,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_LearningDelivery_PeriodisedValue>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber, e.AimSeqNumber, e.AttributeName })
-                    .HasName("PK__TBL_Lear__FED24A8737217154");
+                    .HasName("PK__TBL_Lear__FED24A8759CD5B5E");
 
                 entity.ToTable("TBL_LearningDelivery_PeriodisedValues", "Rulebase");
 
@@ -2547,7 +2543,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<TBL_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__TBL_glob__50F26B7160F3FB2A");
+                    .HasName("PK__TBL_glob__50F26B71EEE43F0E");
 
                 entity.ToTable("TBL_global", "Rulebase");
 
@@ -2592,7 +2588,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VALDP_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__VALDP_gl__50F26B712263848E");
+                    .HasName("PK__VALDP_gl__50F26B714C3E0B1D");
 
                 entity.ToTable("VALDP_global", "Rulebase");
 
@@ -2637,7 +2633,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VAL_Learner>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.LearnRefNumber })
-                    .HasName("PK__VAL_Lear__2770A7270C3A3C65");
+                    .HasName("PK__VAL_Lear__2770A727BB5F51AC");
 
                 entity.ToTable("VAL_Learner", "Rulebase");
 
@@ -2655,7 +2651,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VAL_LearningDelivery>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.AimSeqNumber })
-                    .HasName("PK__VAL_Lear__E56C5AA38458418A");
+                    .HasName("PK__VAL_Lear__E56C5AA33AE20373");
 
                 entity.ToTable("VAL_LearningDelivery", "Rulebase");
             });
@@ -2686,7 +2682,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
             modelBuilder.Entity<VAL_global>(entity =>
             {
                 entity.HasKey(e => e.UKPRN)
-                    .HasName("PK__VAL_glob__50F26B713A6F64C0");
+                    .HasName("PK__VAL_glob__50F26B714F1841F0");
 
                 entity.ToTable("VAL_global", "Rulebase");
 

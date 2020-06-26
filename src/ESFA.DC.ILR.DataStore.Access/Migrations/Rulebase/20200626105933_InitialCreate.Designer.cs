@@ -4,14 +4,16 @@ using ESFA.DC.ILR.DataStore.Access;
 using EntityFrameworkCore.Jet.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESFA.DC.ILR.DataStore.Access.Migrations.Rulebase
 {
     [DbContext(typeof(RulebaseMdbContext))]
-    partial class RulebaseMdbContextModelSnapshot : ModelSnapshot
+    [Migration("20200626105933_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

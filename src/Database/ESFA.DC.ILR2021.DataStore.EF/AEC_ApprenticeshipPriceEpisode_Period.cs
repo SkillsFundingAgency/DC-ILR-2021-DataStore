@@ -28,6 +28,7 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? PriceEpisodeSecondEmp1618Pay { get; set; }
         public decimal? PriceEpisodeSecondProv1618Pay { get; set; }
         public decimal? PriceEpisodeSFAContribPct { get; set; }
+        public decimal? PriceEpisodeESFAContribPct { get; set; }
         public decimal? PriceEpisodeTotProgFunding { get; set; }
         public decimal? PriceEpisodeLearnerAdditionalPayment { get; set; }
 

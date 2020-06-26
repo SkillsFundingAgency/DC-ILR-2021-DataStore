@@ -34,36 +34,25 @@ namespace ESFA.DC.ILR.DataStore.Access
             modelBuilder.Ignore<ProcessingData>();
             modelBuilder.Ignore<VersionInfo>();
 
-            modelBuilder.Ignore<AEC_global>();
-            modelBuilder.Ignore<AEC_Learner>();
-            modelBuilder.Ignore<AEC_LearningDelivery>();
-            modelBuilder.Ignore<AEC_LearningDelivery_Period>();
-            modelBuilder.Ignore<AEC_LearningDelivery_PeriodisedTextValue>();
-            modelBuilder.Ignore<AEC_LearningDelivery_PeriodisedValue>();
-            modelBuilder.Ignore<AEC_ApprenticeshipPriceEpisode>();
-            modelBuilder.Ignore<AEC_ApprenticeshipPriceEpisode_Period>();
-            modelBuilder.Ignore<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>();
-            modelBuilder.Ignore<AEC_HistoricEarningOutput>();
+            modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode");
+            modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_Period>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_Period");
+            modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues");
+            modelBuilder.Entity<AEC_HistoricEarningOutput>(e =>
+            {
+                e.ToTable("Rulebase_AEC_HistoricEarningOutput");
+                e.Property(p => p.HistoricULNOutput).HasColumnType("double");
+            });
+            modelBuilder.Entity<AEC_Learner>(e =>
+            {
+                e.ToTable("Rulebase_AEC_Learner");
 
-            //modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode");
-            //modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_Period>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_Period");
-            //modelBuilder.Entity<AEC_ApprenticeshipPriceEpisode_PeriodisedValue>().ToTable("Rulebase_AEC_ApprenticeshipPriceEpisode_PeriodisedValues");
-            //modelBuilder.Entity<AEC_HistoricEarningOutput>(e =>
-            //{
-            //    e.ToTable("Rulebase_AEC_HistoricEarningOutput");
-            //    e.Property(p => p.HistoricULNOutput).HasColumnType("double");
-            //});
-            //modelBuilder.Entity<AEC_Learner>(e =>
-            //{
-            //    e.ToTable("Rulebase_AEC_Learner");
-
-            //    e.Property(p => p.ULN).HasColumnType("double");
-            //});
-            //modelBuilder.Entity<AEC_LearningDelivery>().ToTable("Rulebase_AEC_LearningDelivery");
-            //modelBuilder.Entity<AEC_LearningDelivery_Period>().ToTable("Rulebase_AEC_LearningDelivery_Period");
-            //modelBuilder.Entity<AEC_LearningDelivery_PeriodisedTextValue>().ToTable("Rulebase_AEC_LearningDelivery_PeriodisedTextValues");
-            //modelBuilder.Entity<AEC_LearningDelivery_PeriodisedValue>().ToTable("Rulebase_AEC_LearningDelivery_PeriodisedValues");
-            //modelBuilder.Entity<AEC_global>().ToTable("Rulebase_AEC_global");
+                e.Property(p => p.ULN).HasColumnType("double");
+            });
+            modelBuilder.Entity<AEC_LearningDelivery>().ToTable("Rulebase_AEC_LearningDelivery");
+            modelBuilder.Entity<AEC_LearningDelivery_Period>().ToTable("Rulebase_AEC_LearningDelivery_Period");
+            modelBuilder.Entity<AEC_LearningDelivery_PeriodisedTextValue>().ToTable("Rulebase_AEC_LearningDelivery_PeriodisedTextValues");
+            modelBuilder.Entity<AEC_LearningDelivery_PeriodisedValue>().ToTable("Rulebase_AEC_LearningDelivery_PeriodisedValues");
+            modelBuilder.Entity<AEC_global>().ToTable("Rulebase_AEC_global");
 
             modelBuilder.Entity<ALB_Learner>().ToTable("Rulebase_ALB_Learner");
             modelBuilder.Entity<ALB_Learner_Period>().ToTable("Rulebase_ALB_Learner_Period");
