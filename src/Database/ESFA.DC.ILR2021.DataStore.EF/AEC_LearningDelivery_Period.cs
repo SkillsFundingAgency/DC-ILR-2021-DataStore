@@ -24,12 +24,11 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? LearnDelSecondProv1618Pay { get; set; }
         public bool? LearnDelSEMContWaiver { get; set; }
         public decimal? LearnDelSFAContribPct { get; set; }
+        public decimal? LearnDelESFAContribPct { get; set; }
         public bool? LearnSuppFund { get; set; }
         public decimal? LearnSuppFundCash { get; set; }
         public decimal? MathEngBalPayment { get; set; }
-        public decimal? MathEngBalPct { get; set; }
         public decimal? MathEngOnProgPayment { get; set; }
-        public decimal? MathEngOnProgPct { get; set; }
         public decimal? ProgrammeAimBalPayment { get; set; }
         public decimal? ProgrammeAimCompletionPayment { get; set; }
         public decimal? ProgrammeAimOnProgPayment { get; set; }

@@ -22,6 +22,7 @@
     [PriceEpisodeSecondEmp1618Pay]                           DECIMAL (12, 5) NULL,
     [PriceEpisodeSecondProv1618Pay]                          DECIMAL (12, 5) NULL,
     [PriceEpisodeSFAContribPct]                              DECIMAL (12, 5) NULL,
+    [PriceEpisodeESFAContribPct]                             DECIMAL (12, 5) NULL,
     [PriceEpisodeTotProgFunding]                             DECIMAL (12, 5) NULL,
     [PriceEpisodeLearnerAdditionalPayment]                   DECIMAL (12, 5) NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC, [PriceEpisodeIdentifier] ASC, [Period] ASC)

@@ -93,7 +93,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             }
 
             ldPeriodised.Should().NotBeNull();
-            ldPeriodised.Count().Should().Be(52);
+            ldPeriodised.Count().Should().Be(50);
             ldPeriodised.Select(l => l.UKPRN).Distinct().Should().BeEquivalentTo(ukprn);
             ldPeriodised.Select(l => l.LearnRefNumber).Should().Contain(learnRefNumbers);
         }
@@ -171,7 +171,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             }
 
             pePeriodised.Should().NotBeNull();
-            pePeriodised.Count().Should().Be(42);
+            pePeriodised.Count().Should().Be(44);
             pePeriodised.Select(l => l.UKPRN).Distinct().Should().BeEquivalentTo(ukprn);
             pePeriodised.Select(l => l.LearnRefNumber).Should().Contain(learnRefNumbers);
         }

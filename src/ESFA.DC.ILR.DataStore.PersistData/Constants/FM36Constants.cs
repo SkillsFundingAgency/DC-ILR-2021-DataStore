@@ -18,12 +18,11 @@
         public const string LearnDelSecondProv1618Pay = "LearnDelSecondProv1618Pay";
         public const string LearnDelSEMContWaiver = "LearnDelSEMContWaiver";
         public const string LearnDelSFAContribPct = "LearnDelSFAContribPct";
+        public const string LearnDelESFAContribPct = "LearnDelESFAContribPct";
         public const string LearnSuppFund = "LearnSuppFund";
         public const string LearnSuppFundCash = "LearnSuppFundCash";
         public const string MathEngBalPayment = "MathEngBalPayment";
-        public const string MathEngBalPct = "MathEngBalPct";
         public const string MathEngOnProgPayment = "MathEngOnProgPayment";
-        public const string MathEngOnProgPct = "MathEngOnProgPct";
         public const string ProgrammeAimBalPayment = "ProgrammeAimBalPayment";
         public const string ProgrammeAimCompletionPayment = "ProgrammeAimCompletionPayment";
         public const string ProgrammeAimOnProgPayment = "ProgrammeAimOnProgPayment";
@@ -51,6 +50,7 @@
         public const string PriceEpisodeSecondEmp1618Pay = "PriceEpisodeSecondEmp1618Pay";
         public const string PriceEpisodeSecondProv1618Pay = "PriceEpisodeSecondProv1618Pay";
         public const string PriceEpisodeSFAContribPct = "PriceEpisodeSFAContribPct";
+        public const string PriceEpisodeESFAContribPct = "PriceEpisodeESFAContribPct";
         public const string PriceEpisodeTotProgFunding = "PriceEpisodeTotProgFunding";
     }
 }

@@ -41,7 +41,6 @@
     [PriceEpisodeCumulativePMRs]                             DECIMAL (12, 5) NULL,
     [PriceEpisodeCompExemCode]                               INT             NULL,
     [PriceEpisodeLearnerAdditionalPaymentThresholdDate]      DATE            NULL,
-    [PriceEpisodeAgreeId]                                    VARCHAR (6)     NULL,
     [PriceEpisodeRedStartDate]                               DATE            NULL,
     [PriceEpisodeRedStatusCode]                              INT             NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC, [PriceEpisodeIdentifier] ASC)

@@ -53,7 +53,6 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public decimal? PriceEpisodeCumulativePMRs { get; set; }
         public int? PriceEpisodeCompExemCode { get; set; }
         public DateTime? PriceEpisodeLearnerAdditionalPaymentThresholdDate { get; set; }
-        public string PriceEpisodeAgreeId { get; set; }
         public DateTime? PriceEpisodeRedStartDate { get; set; }
         public int? PriceEpisodeRedStatusCode { get; set; }
 

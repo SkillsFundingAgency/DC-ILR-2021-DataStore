@@ -370,5 +370,35 @@
     <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\ESF_Learner.sql">
       <Link>Rulebase\Tables\ESF_Learner.sql</Link>
     </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_ApprenticeshipPriceEpisode.sql">
+      <Link>Rulebase\Tables\AEC_ApprenticeshipPriceEpisode.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_Period.sql">
+      <Link>Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\AEC_ApprenticeshipPriceEpisode_PeriodisedValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_global.sql">
+      <Link>Rulebase\Tables\AEC_global.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_HistoricEarningOutput.sql">
+      <Link>Rulebase\Tables\AEC_HistoricEarningOutput.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_Learner.sql">
+      <Link>Rulebase\Tables\AEC_Learner.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_LearningDelivery.sql">
+      <Link>Rulebase\Tables\AEC_LearningDelivery.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_LearningDelivery_Period.sql">
+      <Link>Rulebase\Tables\AEC_LearningDelivery_Period.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_LearningDelivery_PeriodisedTextValues.sql">
+      <Link>Rulebase\Tables\AEC_LearningDelivery_PeriodisedTextValues.sql</Link>
+    </Build>
+    <Build Include="..\ESFA.DC.ILR.DataStore.Database\Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql">
+      <Link>Rulebase\Tables\AEC_LearningDelivery_PeriodisedValues.sql</Link>
+    </Build>
   </ItemGroup>
 </Project>

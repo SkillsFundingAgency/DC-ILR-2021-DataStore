@@ -17,7 +17,6 @@ using ESFA.DC.ServiceFabric.Common.Modules;
 using ESFA.DC.Telemetry;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
 using TelemetryConfiguration = ESFA.DC.ILR.DataStore.Stateless.Configuration.TelemetryConfiguration;
 
 namespace ESFA.DC.ILR.DataStore.Stateless
