@@ -2,100 +2,50 @@
 AS	
 BEGIN
 
+WITH cte(UKPRN, LearnDelFamCode, ActCount)
+AS
+(
+	SELECT UKPRN, LearnDelFamCode, COUNT(*) AS ActCount
+	FROM
+		(SELECT DISTINCT ld.UKPRN, ld.LearnRefNumber, ld.LearnAimRef, ldf.LearnDelFamCode
+		FROM Valid.LearningDelivery ld
+		INNER JOIN Valid.LearningDeliveryFAM ldf
+		ON	ld.UKPRN = ldf.UKPRN 
+			AND ld.LearnRefNumber = ldf.LearnRefNumber
+			AND ld.AimSeqNumber = ldf.AimSeqNumber
+			AND ld.FundModel = 36
+			AND ld.LearnAimRef = 'ZPROG001'
+			AND ldf.LearnDelFAMType = 'ACT'
+		INNER JOIN 
+			(SELECT DISTINCT ldf.UKPRN, ldf.LearnRefNumber, ldf.AimSeqNumber, MAX(ldf.LearnDelFAMDateFrom) AS MaxLearnDelFAMDateFrom
+			FROM Valid.LearningDeliveryFAM ldf
+			WHERE ldf.LearnDelFAMType = 'ACT'
+			GROUP BY ldf.UKPRN, ldf.LearnRefNumber, ldf.AimSeqNumber) maxLdfs
+		ON ld.UKPRN = maxLdfs.UKPRN
+				AND ld.LearnRefNumber = maxLdfs.LearnRefNumber
+				AND ld.AimSeqNumber = maxLdfs.AimSeqNumber
+				AND ldf.LearnDelFAMDateFrom = MaxLearnDelFAMDateFrom) sub
+	GROUP BY UKPRN, LearnDelFamCode
+)
 
-DECLARE @Aims TABLE(
-      UKPRN bigint
-      ,LearnRefNumber   Varchar(50)
-      ,LearnAimRef   Varchar(50)
-      ,FundModel   Varchar(50)
-      ,LearnDelFAMCode int
-      ,LearnDelFAMDateFrom   date);
-
-DECLARE @AimsNoDups TABLE(
-       UKPRN bigint
-      ,LearnDelFAMCode int
-	  ,Learners   int)
-
-DECLARE @MaxDate TABLE(
-      UKPRN bigint
-      ,LearnRefNumber   Varchar(50)
-      ,LearnAimRef   Varchar(50)
-      ,LearnDelFAMDateFrom   date);
-
-INSERT INTO @Aims
-
-
-SELECT ld.UKPRN
-		,ld.LearnRefNumber
-		,ld.LearnAimRef
-		,FundModel
-		,ldf.LearnDelFAMCode 
-		,ldf.LearnDelFAMDateFrom
-FROM [Valid].[LearningDelivery] as ld WITH (NOLOCK)
-	join [Valid].[LearningDeliveryFAM] as ldf WITH (NOLOCK)
-	 on ldf.AimSeqNumber = ld.AimSeqNumber and ldf.LearnRefNumber = ld.LearnRefNumber and ld.UKPRN = ldf.UKPRN
-	 inner join [dbo].[FileDetails] fd
-	 on ldf.ukprn = fd.ukprn and success = 1
-WHERE	
-		FundModel=36 and 
-		ldf.LearnDelFAMType = 'ACT' 
-		And		ld.LearnAimRef = 'ZPROG001'
-
-
-
-INSERT INTO @MaxDate
-	SELECT DISTINCT UKPRN, LearnRefNumber, LearnAimRef, MAX(LearnDelFAMDateFrom) from @Aims
-	GROUP BY UKPRN, LearnRefNumber, LearnAimRef
-
-
-INSERT INTO @AimsNoDups
 
 SELECT
-		x.UKPRN,
-		x.LearnDelFAMCode, 
-		Count(x.LearnRefNumber) Learners
-FROM (
-SELECT
-		a.UKPRN,
-		a.LearnRefNumber,
-		a.LearnAimRef,
-		a.LearnDelFAMCode, 
-		b.LearnDelFAMDateFrom,
-		ROW_NUMBER() OVER(PARTITION BY a.[UKPRN], a.LearnRefNumber order by a.[UKPRN], a.LearnRefNumber) AS rn
-FROM @Aims A
-INNER JOIN @MaxDate B on
-			a.UKPRN = b.UKPRN and
-			a.LearnRefNumber = b.LearnRefNumber and
-			a.LearnAimRef = b.LearnAimRef and
-			a.LearnDelFAMDateFrom = b.LearnDelFAMDateFrom
-) x where x.rn =1
-
-Group By ukprn, LearnDelFAMCode
-order by ukprn
-
- Select 
-	ROW_NUMBER() over (ORDER BY x.[UKPRN]) AS Id,   
-	x.ukprn,
-	x.[LearnersAct1],
-	x.[LearnersAct2]
-		FROM
-		( SELECT 
-			 distinct fd.[UKPRN]
-			 ,IsNull(act1.Learners,0) AS [LearnersAct1]
-			 ,IsNull(act2.Learners,0) AS [LearnersAct2]
-
-		 FROM dbo.FileDetails fd
- 
-		 LEFT JOIN (Select * from @AimsNoDups Where LearnDelFAMCode = 1) act1 on 
-					fd.ukprn = act1.ukprn and
-					fd.Success = 1
-			
-		 LEFT JOIN (Select * from @AimsNoDups Where LearnDelFAMCode = 2)  act2 on 
-					fd.ukprn = act2.ukprn 
-					 and fd.Success = 1
-		WHERE act1.Learners is not null or act2.Learners is not null
-		) x
-ORDER BY x.ukprn
+	ROW_NUMBER() OVER (ORDER BY UKPRN) AS Id,
+	Ukprn,
+	COALESCE(LearnersAct1, 0) AS LearnersAct1,
+	COALESCE(LearnersAct2, 0) AS LearnersAct2
+FROM
+(		
+	SELECT 
+		DISTINCT(fd.UKPRN) as UKPRN,
+		act1.ActCount AS LearnersAct1,
+		act2.ActCount AS LearnersAct2
+	FROM FileDetails fd
+	LEFT JOIN (SELECT * FROM cte WHERE LearnDelFAMCode = 1) act1 ON fd.UKPRN = act1.UKPRN
+	LEFT JOIN (SELECT * FROM cte WHERE LearnDelFAMCode = 2) act2 ON fd.UKPRN = act2.UKPRN	
+) sub
+WHERE LearnersAct1 != 0 OR LearnersAct2 != 0
+ORDER BY UKPRN
 
 END
 GO
