@@ -29,6 +29,8 @@
     [StartFund]                 BIT             NULL,
     [ThresholdDays]             INT             NULL,
     [TLevelStudent]             BIT             NULL,
+    [L3MathsEnglish1Year]       DECIMAL (10, 5) NULL,
+    [L3MathsEnglish2Year]       DECIMAL (10, 5) NULL,
     PRIMARY KEY CLUSTERED ([UKPRN] ASC, [LearnRefNumber] ASC)
 );
 GO

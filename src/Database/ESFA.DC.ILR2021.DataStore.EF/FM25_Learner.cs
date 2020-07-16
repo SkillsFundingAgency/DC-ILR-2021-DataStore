@@ -41,6 +41,8 @@ namespace ESFA.DC.ILR2021.DataStore.EF
         public bool? StartFund { get; set; }
         public int? ThresholdDays { get; set; }
         public bool? TLevelStudent { get; set; }
+        public decimal? L3MathsEnglish1Year { get; set; }
+        public decimal? L3MathsEnglish2Year { get; set; }
 
         public virtual Learner Learner { get; set; }
         public virtual FM25_global UKPRNNavigation { get; set; }

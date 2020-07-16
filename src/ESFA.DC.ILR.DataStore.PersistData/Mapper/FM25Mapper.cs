@@ -86,7 +86,9 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 RetentNew = learner.RetentNew,
                 StartFund = learner.StartFund,
                 ThresholdDays = learner.ThresholdDays,
-                TLevelStudent = learner.TLevelStudent
+                TLevelStudent = learner.TLevelStudent,
+                L3MathsEnglish1Year = learner.L3MathsEnglish1Year,
+                L3MathsEnglish2Year = learner.L3MathsEnglish2Year
             };
         }
 
