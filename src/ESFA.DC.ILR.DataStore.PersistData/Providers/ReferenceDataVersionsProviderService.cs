@@ -35,7 +35,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Providers
                 EmployersVersion = referenceDataVersions.Employers.Version,
                 PostcodesVersion = referenceDataVersions.PostcodesVersion.Version,
                 CampusIdentifierVersion = referenceDataVersions.CampusIdentifierVersion.Version,
-                EasUploadDateTime = referenceDataVersions.EasUploadDateTime.UploadDateTime
+                EasUploadDateTime = referenceDataVersions.EasFileDetails.UploadDateTime
             };
         }
     }

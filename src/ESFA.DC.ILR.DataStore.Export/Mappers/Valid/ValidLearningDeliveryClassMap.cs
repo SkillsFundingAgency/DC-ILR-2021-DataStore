@@ -1,4 +1,4 @@
-﻿using ESFA.DC.ILR1920.DataStore.EF.Valid;
+﻿using ESFA.DC.ILR2021.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.Export.Mappers.Valid
 {
@@ -12,6 +12,12 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Valid
             Map(m => m.LearningDeliveryHE).Ignore();
             Map(m => m.LearningDeliveryWorkPlacements).Ignore();
             Map(m => m.ProviderSpecDeliveryMonitorings).Ignore();
+            Map(m => m.FM35_LearningDelivery).Ignore();
+            Map(m => m.ALB_LearningDelivery).Ignore();
+            Map(m => m.AEC_LearningDelivery).Ignore();
+            Map(m => m.AEC_ApprenticeshipPriceEpisodes).Ignore();
+            Map(m => m.TBL_LearningDelivery).Ignore();
+            Map(m => m.ESF_LearningDelivery).Ignore();
         }
     }
 }

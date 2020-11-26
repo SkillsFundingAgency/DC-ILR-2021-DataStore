@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Data.OleDb;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.Access;
@@ -13,12 +15,12 @@ namespace ESFA.DC.ILR.DataStore.Export
 {
     public class TransactionController : IExportTransactionController
     {
-        private readonly IEnumerable<ISchemaExport> _schemaExports;
+        private readonly IEnumerable<IOrderedExport> _exports;
         private readonly ILogger _logger;
 
-        public TransactionController(IEnumerable<ISchemaExport> schemaExports, ILogger logger)
+        public TransactionController(IEnumerable<IOrderedExport> exports, ILogger logger)
         {
-            _schemaExports = schemaExports;
+            _exports = exports;
             _logger = logger;
         }
 
@@ -28,11 +30,16 @@ namespace ESFA.DC.ILR.DataStore.Export
             {
                 await connection.OpenAsync(cancellationToken);
 
+                var exports = _exports
+                    .Where(e => dataStoreContext.Tasks.Contains(e.TaskKey, StringComparer.OrdinalIgnoreCase))
+                    .OrderBy(e => e.TaskOrder);
+
                 _logger.LogInfo("Starting Export");
 
-                foreach (var schemaExport in _schemaExports)
+                foreach (var export in exports)
                 {
-                    await schemaExport.ExportAsync(cache, connection, dataStoreContext.ExportOutputLocation, cancellationToken);
+                    await export.ExportAsync(cache, connection, dataStoreContext.ExportOutputLocation,
+                        cancellationToken);
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();

@@ -1,4 +1,4 @@
-﻿using ESFA.DC.ILR1920.DataStore.EF;
+﻿using ESFA.DC.ILR2021.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
 {
@@ -9,6 +9,7 @@ namespace ESFA.DC.ILR.DataStore.Export.Mappers.Rulebase
             Map(m => m.AEC_ApprenticeshipPriceEpisodes).Ignore();
             Map(m => m.AEC_LearningDeliveries).Ignore();
             Map(m => m.UKPRNNavigation).Ignore();
+            Map(m => m.Learner).Ignore();
         }
     }
 }

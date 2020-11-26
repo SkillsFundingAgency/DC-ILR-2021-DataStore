@@ -15,11 +15,10 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Modules
         {
             containerBuilder.RegisterType<BuildMdbDesktopTask>().As<IDesktopTask>();
             containerBuilder.RegisterType<MdbDatabaseDeploymentService>().As<IMdbDeploymentService>();
-            containerBuilder.RegisterType<DataStoreContextFactory>().As<IDataStoreContextFactory<IDesktopContext>>();
+            containerBuilder.RegisterType<ExportContextFactory>().As<IDataStoreContextFactory<IDesktopContext>>();
 
             containerBuilder.RegisterType<ValidGenerateSchema>().As<IGenerateSchema>();
             containerBuilder.RegisterType<InvalidGenerateSchema>().As<IGenerateSchema>();
-            containerBuilder.RegisterType<RulebaseGenerateSchema>().As<IGenerateSchema>();
         }
     }
 }

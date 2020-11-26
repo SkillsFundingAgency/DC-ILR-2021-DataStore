@@ -3,7 +3,7 @@ using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.FundingService.FM25.Model.Output;
-using ESFA.DC.ILR1920.DataStore.EF;
+using ESFA.DC.ILR2021.DataStore.EF;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -11,7 +11,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapData(IDataStoreCache cache, FM25Global fm25Global)
         {
-            var learners = fm25Global.Learners;
+            var learners = fm25Global?.Learners;
 
             if (learners == null)
             {
@@ -81,10 +81,14 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                 PrvDisadvPropnHist = learner.PrvDisadvPropnHist,
                 PrvHistLrgProgPropn = learner.PrvHistLrgProgPropn,
                 PrvRetentFactHist = learner.PrvRetentFactHist,
+                PrvHistL3ProgMathEngProp = learner.PrvHistL3ProgMathEngProp,
                 RateBand = learner.RateBand,
                 RetentNew = learner.RetentNew,
                 StartFund = learner.StartFund,
-                ThresholdDays = learner.ThresholdDays
+                ThresholdDays = learner.ThresholdDays,
+                TLevelStudent = learner.TLevelStudent,
+                L3MathsEnglish1Year = learner.L3MathsEnglish1Year,
+                L3MathsEnglish2Year = learner.L3MathsEnglish2Year
             };
         }
 

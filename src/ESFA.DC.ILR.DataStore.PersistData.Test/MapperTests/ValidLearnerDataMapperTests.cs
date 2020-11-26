@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ESFA.DC.ILR.DataStore.PersistData.Mapper;
 using ESFA.DC.ILR.Model.Interface;
-using ESFA.DC.ILR1920.DataStore.EF.Valid;
+using ESFA.DC.ILR2021.DataStore.EF;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -22,7 +22,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             var header = new Mock<IHeader>();
             header.Setup(h => h.CollectionDetailsEntity.CollectionString).Returns("collectionString");
             header.Setup(h => h.CollectionDetailsEntity.FilePreparationDate).Returns(new DateTime(2000, 01, 01));
-            header.Setup(h => h.CollectionDetailsEntity.YearString).Returns("1920");
+            header.Setup(h => h.CollectionDetailsEntity.YearString).Returns("2021");
 
             var collectionDetails = Mapper().BuildCollectionDetails(_ukprn, header.Object);
 
@@ -30,7 +30,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             collectionDetails.Single().UKPRN.Should().Be(_ukprn);
             collectionDetails.Single().Collection.Should().Be("collectionString");
             collectionDetails.Single().FilePreparationDate.Should().Be(new DateTime(2000, 01, 01));
-            collectionDetails.Single().Year.Should().Be("1920");
+            collectionDetails.Single().Year.Should().Be("2021");
         }
 
         [Fact]
@@ -208,16 +208,17 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDeliveryMock.Setup(ld => ld.LSDPostcode).Returns("LSDPostcode");
             learningDeliveryMock.Setup(ld => ld.OrigLearnStartDateNullable).Returns(new DateTime(2000, 01, 01));
             learningDeliveryMock.Setup(ld => ld.OtherFundAdjNullable).Returns(8);
+            learningDeliveryMock.Setup(ld => ld.OtjActHoursNullable).Returns(9);
             learningDeliveryMock.Setup(ld => ld.OutGrade).Returns("OutGrade");
-            learningDeliveryMock.Setup(ld => ld.OutcomeNullable).Returns(9);
-            learningDeliveryMock.Setup(ld => ld.PartnerUKPRNNullable).Returns(10);
-            learningDeliveryMock.Setup(ld => ld.PHoursNullable).Returns(11);
-            learningDeliveryMock.Setup(ld => ld.PriorLearnFundAdjNullable).Returns(12);
-            learningDeliveryMock.Setup(ld => ld.ProgTypeNullable).Returns(13);
-            learningDeliveryMock.Setup(ld => ld.PwayCodeNullable).Returns(14);
-            learningDeliveryMock.Setup(ld => ld.StdCodeNullable).Returns(15);
+            learningDeliveryMock.Setup(ld => ld.OutcomeNullable).Returns(10);
+            learningDeliveryMock.Setup(ld => ld.PartnerUKPRNNullable).Returns(11);
+            learningDeliveryMock.Setup(ld => ld.PHoursNullable).Returns(12);
+            learningDeliveryMock.Setup(ld => ld.PriorLearnFundAdjNullable).Returns(13);
+            learningDeliveryMock.Setup(ld => ld.ProgTypeNullable).Returns(14);
+            learningDeliveryMock.Setup(ld => ld.PwayCodeNullable).Returns(15);
+            learningDeliveryMock.Setup(ld => ld.StdCodeNullable).Returns(16);
             learningDeliveryMock.Setup(ld => ld.SWSupAimId).Returns("SWSupAimId");
-            learningDeliveryMock.Setup(ld => ld.WithdrawReasonNullable).Returns(16);
+            learningDeliveryMock.Setup(ld => ld.WithdrawReasonNullable).Returns(17);
 
             var learningDelivery = Mapper().BuildLearningDelivery(_ukprn, learnerMock.Object, learningDeliveryMock.Object);
 
@@ -242,16 +243,17 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learningDelivery.LSDPostcode.Should().Be("LSDPostcode");
             learningDelivery.OrigLearnStartDate.Should().Be(new DateTime(2000, 01, 01));
             learningDelivery.OtherFundAdj.Should().Be(8);
+            learningDelivery.OTJActHours.Should().Be(9);
             learningDelivery.OutGrade.Should().Be("OutGrade");
-            learningDelivery.Outcome.Should().Be(9);
-            learningDelivery.PartnerUKPRN.Should().Be(10);
-            learningDelivery.PHours.Should().Be(11);
-            learningDelivery.PriorLearnFundAdj.Should().Be(12);
-            learningDelivery.ProgType.Should().Be(13);
-            learningDelivery.PwayCode.Should().Be(14);
-            learningDelivery.StdCode.Should().Be(15);
+            learningDelivery.Outcome.Should().Be(10);
+            learningDelivery.PartnerUKPRN.Should().Be(11);
+            learningDelivery.PHours.Should().Be(12);
+            learningDelivery.PriorLearnFundAdj.Should().Be(13);
+            learningDelivery.ProgType.Should().Be(14);
+            learningDelivery.PwayCode.Should().Be(15);
+            learningDelivery.StdCode.Should().Be(16);
             learningDelivery.SWSupAimId.Should().Be("SWSupAimId");
-            learningDelivery.WithdrawReason.Should().Be(16);
+            learningDelivery.WithdrawReason.Should().Be(17);
         }
 
         [Fact]
@@ -431,7 +433,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerMock.Setup(l => l.LearnRefNumber).Returns("12345");
 
             var learnerEmploymentStatusMock = new Mock<ILearnerEmploymentStatus>();
-            learnerEmploymentStatusMock.Setup(les => les.AgreeId).Returns("AgreeId");
             learnerEmploymentStatusMock.Setup(les => les.DateEmpStatApp).Returns(new DateTime(2000, 01, 01));
             learnerEmploymentStatusMock.Setup(les => les.EmpIdNullable).Returns(1);
             learnerEmploymentStatusMock.Setup(les => les.EmpStat).Returns(2);
@@ -441,7 +442,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             learnerEmploymentStatus.Should().NotBeNull();
             learnerEmploymentStatus.UKPRN.Should().Be(_ukprn);
             learnerEmploymentStatus.LearnRefNumber.Should().Be("12345");
-            learnerEmploymentStatus.AgreeId.Should().Be("AgreeId");
             learnerEmploymentStatus.DateEmpStatApp.Should().Be(new DateTime(2000, 01, 01));
             learnerEmploymentStatus.EmpId.Should().Be(1);
             learnerEmploymentStatus.EmpStat.Should().Be(2);

@@ -17,7 +17,6 @@ using ESFA.DC.ServiceFabric.Common.Modules;
 using ESFA.DC.Telemetry;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
 using TelemetryConfiguration = ESFA.DC.ILR.DataStore.Stateless.Configuration.TelemetryConfiguration;
 
 namespace ESFA.DC.ILR.DataStore.Stateless
@@ -40,10 +39,9 @@ namespace ESFA.DC.ILR.DataStore.Stateless
             var versionInfo = serviceFabricConfigurationService.GetConfigSectionAs<VersionInfo>("VersionSection");
             containerBuilder.RegisterInstance(versionInfo).As<VersionInfo>();
 
-            var ioConfiguration = serviceFabricConfigurationService.GetConfigSectionAs<IOConfiguration>("IOConfiguration");
-            var azureFileServiceConfiguration = new AzureStorageFileServiceConfiguration() { ConnectionString = ioConfiguration.ConnectionString };
+            var azureStorageFileServiceConfiguration = serviceFabricConfigurationService.GetConfigSectionAs<AzureStorageFileServiceConfiguration>("AzureStorageFileServiceConfiguration");
 
-            containerBuilder.RegisterModule(new IOModule(azureFileServiceConfiguration, ioConfiguration));
+            containerBuilder.RegisterModule(new IOModule(azureStorageFileServiceConfiguration));
 
             containerBuilder.RegisterType<JobContextMessageDataStoreFactory>().As<IDataStoreContextFactory<IJobContextMessage>>();
 

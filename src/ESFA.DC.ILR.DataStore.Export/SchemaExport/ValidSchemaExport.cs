@@ -6,15 +6,15 @@ using ESFA.DC.ILR.DataStore.Export.Interface;
 using ESFA.DC.ILR.DataStore.Export.Mappers;
 using ESFA.DC.ILR.DataStore.Export.Mappers.Valid;
 using ESFA.DC.ILR.DataStore.Model.Interface;
-using ESFA.DC.ILR1920.DataStore.EF.Valid;
+using ESFA.DC.ILR2021.DataStore.EF;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
-    public class ValidSchemaExport : AbstractSchemaExport, ISchemaExport
+    public class ValidOrderedExport : AbstractSchemaExport, IOrderedExport
     {
-        public ValidSchemaExport(IExport export, ILogger logger)
-            : base(new ValidMdbContext(), export, logger)
+        public ValidOrderedExport(IExport export, ILogger logger)
+            : base(new ValidMdbContext(), export, logger, Constants.TaskExportValidTables, 1)
         {
         }
 

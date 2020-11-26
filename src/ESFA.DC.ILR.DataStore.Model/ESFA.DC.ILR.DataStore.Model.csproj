@@ -4,14 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj" />
+    <PackageReference Include="ESFA.DC.Data.AppsEarningsHistory.Model" Version="0.1.1-beta0001" />
   </ItemGroup>
 
 </Project>

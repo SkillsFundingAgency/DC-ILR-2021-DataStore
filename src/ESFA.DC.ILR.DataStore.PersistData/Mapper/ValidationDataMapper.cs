@@ -17,7 +17,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
             cache.AddRange(BuildValidationErrors(dataStoreContext, validationErrors, rules, message));
         }
 
-        public List<ILR1920.DataStore.EF.ValidationError> BuildValidationErrors(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, ILooseMessage message)
+        public List<ILR2021.DataStore.EF.ValidationError> BuildValidationErrors(IDataStoreContext dataStoreContext, IEnumerable<ValidationError> validationErrors, IEnumerable<ValidationRule> rules, ILooseMessage message)
         {
             return validationErrors?
                         .Select(ve =>
@@ -37,7 +37,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                                 ? ve.Severity?.Substring(0, 1)
                                 : null;
 
-                            return new ILR1920.DataStore.EF.ValidationError
+                            return new ILR2021.DataStore.EF.ValidationError
                             {
                                 UKPRN = dataStoreContext.Ukprn,
                                 SWSupAimID = learningDelivery?.SWSupAimId,
@@ -51,7 +51,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                                 Severity = severity,
                                 Source = dataStoreContext.OriginalFilename
                             };
-                        }).ToList() ?? new List<ILR1920.DataStore.EF.ValidationError>();
+                        }).ToList() ?? new List<ILR2021.DataStore.EF.ValidationError>();
         }
 
         private string GetFieldValuesString(List<ValidationErrorParameter> validationErrorParameters)

@@ -7,7 +7,8 @@ using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
 using ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output;
-using ESFA.DC.ILR1920.DataStore.EF;
+using ESFA.DC.ILR2021.DataStore.EF;
+using LearningDelivery = ESFA.DC.ILR.FundingService.ALB.FundingOutput.Model.Output.LearningDelivery;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -15,7 +16,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapALBData(IDataStoreCache cache, ALBGlobal albGlobal)
         {
-            var learners = albGlobal.Learners;
+            var learners = albGlobal?.Learners;
 
             if (learners == null)
             {

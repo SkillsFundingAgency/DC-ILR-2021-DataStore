@@ -1,1 +1,0 @@
-dotnet.exe ef dbcontext scaffold "Server=.\;Database=ILR1920_DataStore;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -c ILR1920_DataStoreEntitiesInvalid --schema Invalid --force --startup-project . --project ..\ESFA.DC.ILR.DataStore.EF.Invalid --verbose

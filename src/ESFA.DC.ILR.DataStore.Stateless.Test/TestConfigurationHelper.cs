@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ESFA.DC.FileService.Config;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Stateless.Configuration;
 using ESFA.DC.ServiceFabric.Common.Config;
@@ -19,11 +20,10 @@ namespace ESFA.DC.ILR.DataStore.Stateless.Test
                         ILRDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                         AppEarnHistoryDataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
                     };
-                case "IOConfiguration":
-                    return (T)(object)new IOConfiguration()
+                case "AzureStorageFileServiceConfiguration":
+                    return (T)(object)new AzureStorageFileServiceConfiguration()
                     {
                         ConnectionString = "AzureBlobConnectionString",
-                        ContainerName = "AzureBlobContainerName"
                     };
                 case "VersionSection":
                     return (T)(object)new VersionInfo()

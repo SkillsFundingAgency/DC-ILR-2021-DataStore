@@ -9,8 +9,7 @@ using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
-using ESFA.DC.ILR1920.DataStore.EF;
-using ESFA.DC.ILR1920.DataStore.EF.Valid;
+using ESFA.DC.ILR2021.DataStore.EF;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Telemetry.Interfaces;
 
@@ -128,27 +127,27 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Persist
 
         public async Task PersistInvalidLearnerDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
-            await _bulkInsert.Insert(TableNameConstants.InvalidCollectionDetails, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.CollectionDetail>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearningProvider, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearningProvider>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidSource, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.Source>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidSourceFile, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.SourceFile>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidAppFinRecord, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.AppFinRecord>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidContactPreference, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.ContactPreference>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidEmploymentStatusMonitoring, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.EmploymentStatusMonitoring>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearner, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.Learner>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerEmploymentStatus, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearnerEmploymentStatus>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerFAM, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearnerFAM>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerHE, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearnerHE>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerHEFinancialSupport, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearnerHEFinancialSupport>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDelivery, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearningDelivery>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDeliveryFAM, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearningDeliveryFAM>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDeliveryHE, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearningDeliveryHE>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDeliveryWorkPlacement, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearningDeliveryWorkPlacement>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLLDDandHealthProblem, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LLDDandHealthProblem>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidProviderSpecDeliveryMonitoring, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.ProviderSpecDeliveryMonitoring>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidProviderSpecLearnerMonitoring, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.ProviderSpecLearnerMonitoring>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidDPOutcome, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.DPOutcome>(), sqlConnection, sqlTransaction, cancellationToken);
-            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerDestinationandProgression, dataStoreCache.Get<ILR1920.DataStore.EF.Invalid.LearnerDestinationandProgression>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidCollectionDetails, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.CollectionDetail>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearningProvider, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearningProvider>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidSource, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.Source>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidSourceFile, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.SourceFile>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidAppFinRecord, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.AppFinRecord>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidContactPreference, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.ContactPreference>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidEmploymentStatusMonitoring, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.EmploymentStatusMonitoring>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearner, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.Learner>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerEmploymentStatus, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearnerEmploymentStatus>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerFAM, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearnerFAM>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerHE, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearnerHE>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerHEFinancialSupport, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearnerHEFinancialSupport>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDelivery, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearningDelivery>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDeliveryFAM, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearningDeliveryFAM>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDeliveryHE, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearningDeliveryHE>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearningDeliveryWorkPlacement, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearningDeliveryWorkPlacement>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLLDDandHealthProblem, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LLDDandHealthProblem>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidProviderSpecDeliveryMonitoring, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.ProviderSpecDeliveryMonitoring>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidProviderSpecLearnerMonitoring, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.ProviderSpecLearnerMonitoring>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidDPOutcome, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.DPOutcome>(), sqlConnection, sqlTransaction, cancellationToken);
+            await _bulkInsert.Insert(TableNameConstants.InvalidLearnerDestinationandProgression, dataStoreCache.Get<ILR2021.DataStore.EF.Invalid.LearnerDestinationandProgression>(), sqlConnection, sqlTransaction, cancellationToken);
         }
 
         public async Task PersistProcessingInformationDataAsync(IDataStoreCache dataStoreCache, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)

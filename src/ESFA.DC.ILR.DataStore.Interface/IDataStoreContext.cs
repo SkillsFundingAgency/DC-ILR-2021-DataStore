@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.ILR.DataStore.Interface
 {
@@ -55,5 +56,7 @@ namespace ESFA.DC.ILR.DataStore.Interface
         string EsfFundingDatabaseConnectionString { get; }
 
         string ExportOutputLocation { get; }
+
+        IEnumerable<string> Tasks { get; }
     }
 }

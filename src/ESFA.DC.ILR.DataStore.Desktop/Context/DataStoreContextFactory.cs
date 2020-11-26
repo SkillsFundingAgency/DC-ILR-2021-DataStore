@@ -1,4 +1,5 @@
-﻿using ESFA.DC.ILR.DataStore.Interface;
+﻿using ESFA.DC.ILR.Constants;
+using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Desktop.Interface;
 
 namespace ESFA.DC.ILR.DataStore.Desktop.Context
@@ -7,7 +8,7 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
     {
         public IDataStoreContext Build(IDesktopContext desktopContext)
         {
-            return new DataStoreDesktopContext(desktopContext);
+            return new DataStoreDesktopContext(desktopContext, ILRContextKeys.DataStoreTasks);
         }
     }
 }

@@ -4,23 +4,31 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="ESFA.DC.DateTimeProvider" Version="0.1.6-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1819.IO.Model.Validation" Version="0.1.5-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1819.Model" Version="0.1.5-beta0001" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.ALB.FundingOutput.Model" Version="0.0.180" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM25.FundingOutput.Model" Version="0.0.180" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM35.FundingOutput.Model" Version="0.0.180" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM36.FundingOutput.Model" Version="0.0.180" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM70.FundingOutput.Model" Version="0.0.180" />
-    <PackageReference Include="ESFA.DC.ILR.1920.FundingService.FM81.FundingOutput.Model" Version="0.0.180" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.ALB.FundingOutput.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM25.FundingOutput.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM35.FundingOutput.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM36.FundingOutput.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM70.FundingOutput.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR.2021.FundingService.FM81.FundingOutput.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR.2021.IO.Model.Validation" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Model" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Model.Loose" Version="0.1.6-beta0001" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Interface\ESFA.DC.ILR.DataStore.Interface.csproj" />
     <ProjectReference Include="..\ESFA.DC.ILR.DataStore.PersistData\ESFA.DC.ILR.DataStore.PersistData.csproj" />
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.Stubs\ESFA.DC.ILR.DataStore.Stubs.csproj" />
   </ItemGroup>
 
 </Project>

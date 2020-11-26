@@ -5,15 +5,15 @@ using ESFA.DC.ILR.DataStore.Access;
 using ESFA.DC.ILR.DataStore.Export.Interface;
 using ESFA.DC.ILR.DataStore.Export.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
-using ESFA.DC.ILR1920.DataStore.EF.Invalid;
+using ESFA.DC.ILR2021.DataStore.EF.Invalid;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ILR.DataStore.Export.SchemaExport
 {
-    public class InvalidSchemaExport : AbstractSchemaExport, ISchemaExport
+    public class InvalidOrderedExport : AbstractSchemaExport, IOrderedExport
     {
-        public InvalidSchemaExport(IExport export, ILogger logger)
-            : base(new InvalidMdbContext(), export, logger)
+        public InvalidOrderedExport(IExport export, ILogger logger)
+            : base(new InvalidMdbContext(), export, logger, Constants.TaskExportInvalidTables, 2)
         {
         }
 

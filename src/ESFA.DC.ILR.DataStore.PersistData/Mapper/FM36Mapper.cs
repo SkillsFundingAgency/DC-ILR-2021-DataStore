@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ESFA.DC.ILR.DataStore.Interface.Mappers;
+﻿using ESFA.DC.ILR.DataStore.Interface.Mappers;
 using ESFA.DC.ILR.DataStore.Model.Interface;
 using ESFA.DC.ILR.DataStore.PersistData.Builders.Extension;
 using ESFA.DC.ILR.DataStore.PersistData.Constants;
 using ESFA.DC.ILR.DataStore.PersistData.Helpers;
 using ESFA.DC.ILR.DataStore.PersistData.Model;
 using ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output;
-using ESFA.DC.ILR1920.DataStore.EF;
+using ESFA.DC.ILR2021.DataStore.EF;
+using System.Collections.Generic;
+using System.Linq;
+using LearningDelivery = ESFA.DC.ILR.FundingService.FM36.FundingOutput.Model.Output.LearningDelivery;
 
 namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
 {
@@ -15,7 +16,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
     {
         public void MapData(IDataStoreCache cache, FM36Global fm36Global)
         {
-            var learners = fm36Global.Learners;
+            var learners = fm36Global?.Learners;
 
             if (learners == null)
             {
@@ -168,12 +169,11 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                         LearnDelSecondProv1618Pay = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelSecondProv1618Pay), i),
                         LearnDelSEMContWaiver = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, bool?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelSEMContWaiver), i),
                         LearnDelSFAContribPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelSFAContribPct), i),
+                        LearnDelESFAContribPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnDelESFAContribPct), i),
                         LearnSuppFund = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, bool?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnSuppFund), i),
                         LearnSuppFundCash = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.LearnSuppFundCash), i),
                         MathEngBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngBalPayment), i),
-                        MathEngBalPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngBalPct), i),
                         MathEngOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngOnProgPayment), i),
-                        MathEngOnProgPct = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.MathEngOnProgPct), i),
                         ProgrammeAimBalPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.ProgrammeAimBalPayment), i),
                         ProgrammeAimCompletionPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.ProgrammeAimCompletionPayment), i),
                         ProgrammeAimOnProgPayment = PeriodisedValueHelper.GetPeriodValue<LearningDeliveryPeriodisedValues, decimal?>(pv.LearningDeliveryPeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.ProgrammeAimOnProgPayment), i),
@@ -260,7 +260,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                  PriceEpisodeRemainingAmountWithinUpperLimit = pe.PriceEpisodeValues.PriceEpisodeRemainingAmountWithinUpperLimit,
                  PriceEpisodeCappedRemainingTNPAmount = pe.PriceEpisodeValues.PriceEpisodeCappedRemainingTNPAmount,
                  PriceEpisodeExpectedTotalMonthlyValue = pe.PriceEpisodeValues.PriceEpisodeExpectedTotalMonthlyValue,
-                 PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber,
+                 PriceEpisodeAimSeqNumber = pe.PriceEpisodeValues.PriceEpisodeAimSeqNumber.Value,
                  PriceEpisodeFundLineType = pe.PriceEpisodeValues.PriceEpisodeFundLineType,
                  EpisodeEffectiveTNPStartDate = pe.PriceEpisodeValues.EpisodeEffectiveTNPStartDate,
                  PriceEpisodeFirstAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeFirstAdditionalPaymentThresholdDate,
@@ -271,7 +271,6 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                  PriceEpisodeCumulativePMRs = pe.PriceEpisodeValues.PriceEpisodeCumulativePMRs,
                  PriceEpisodeCompExemCode = pe.PriceEpisodeValues.PriceEpisodeCompExemCode,
                  PriceEpisodeLearnerAdditionalPaymentThresholdDate = pe.PriceEpisodeValues.PriceEpisodeLearnerAdditionalPaymentThresholdDate,
-                 PriceEpisodeAgreeId = pe.PriceEpisodeValues.PriceEpisodeAgreeId,
                  PriceEpisodeRedStartDate = pe.PriceEpisodeValues.PriceEpisodeRedStartDate,
                  PriceEpisodeRedStatusCode = pe.PriceEpisodeValues.PriceEpisodeRedStatusCode,
                  PriceEpisodeActualEndDateIncEPA = pe.PriceEpisodeValues.PriceEpisodeActualEndDateIncEPA,
@@ -317,6 +316,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Mapper
                         PriceEpisodeSecondEmp1618Pay = PeriodisedValueHelper.GetPeriodValue<PriceEpisodePeriodisedValues, decimal?>(pv.PriceEpisodePeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.PriceEpisodeSecondEmp1618Pay), i),
                         PriceEpisodeSecondProv1618Pay = PeriodisedValueHelper.GetPeriodValue<PriceEpisodePeriodisedValues, decimal?>(pv.PriceEpisodePeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.PriceEpisodeSecondProv1618Pay), i),
                         PriceEpisodeSFAContribPct = PeriodisedValueHelper.GetPeriodValue<PriceEpisodePeriodisedValues, decimal?>(pv.PriceEpisodePeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.PriceEpisodeSFAContribPct), i),
+                        PriceEpisodeESFAContribPct = PeriodisedValueHelper.GetPeriodValue<PriceEpisodePeriodisedValues, decimal?>(pv.PriceEpisodePeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.PriceEpisodeSFAContribPct), i),
                         PriceEpisodeTotProgFunding = PeriodisedValueHelper.GetPeriodValue<PriceEpisodePeriodisedValues, decimal?>(pv.PriceEpisodePeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.PriceEpisodeTotProgFunding), i),
                         PriceEpisodeLearnerAdditionalPayment = PeriodisedValueHelper.GetPeriodValue<PriceEpisodePeriodisedValues, decimal?>(pv.PriceEpisodePeriodisedValue.FirstOrDefault(a => a.AttributeName == FM36Constants.PriceEpisodeLearnerAdditionalPayment), i),
                     }));

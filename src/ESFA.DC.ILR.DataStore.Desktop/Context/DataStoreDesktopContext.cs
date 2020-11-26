@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ESFA.DC.ILR.Constants;
 using ESFA.DC.ILR.DataStore.Interface;
 using ESFA.DC.ILR.Desktop.Interface;
@@ -8,10 +10,12 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
     public class DataStoreDesktopContext : IDataStoreContext
     {
         private readonly IDesktopContext _desktopContext;
+        private readonly string _taskKey;
 
-        public DataStoreDesktopContext(IDesktopContext desktopContext)
+        public DataStoreDesktopContext(IDesktopContext desktopContext, string taskKey)
         {
             _desktopContext = desktopContext;
+            _taskKey = taskKey;
         }
 
         public int Ukprn => int.Parse(_desktopContext.KeyValuePairs[ILRContextKeys.Ukprn].ToString());
@@ -71,5 +75,14 @@ namespace ESFA.DC.ILR.DataStore.Desktop.Context
         }
 
         public string ExportOutputLocation => $"{Container}/Export";
+
+        public IEnumerable<string> Tasks
+        {
+            get
+            {
+                var tasks = _desktopContext.KeyValuePairs[_taskKey].ToString().Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                return tasks;
+            }
+        }
     }
 }

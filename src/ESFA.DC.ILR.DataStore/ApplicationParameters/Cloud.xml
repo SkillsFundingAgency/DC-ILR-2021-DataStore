@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/ESFA.DC.ILR1920.DataStore" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+<Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/ESFA.DC.ILR2021.DataStore" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="ILRDataStoreConnectionString" Value="__ILR1920DataStoreConnectionStringRW__" />
+    <Parameter Name="ILRDataStoreConnectionString" Value="__ILR2021DataStoreConnectionStringRW__" />
     <Parameter Name="AppEarnHistoryDataStoreConnectionString" Value="__AppEarnHistoryDataStoreConnectionString__" />
     <Parameter Name="EsfFundingDatabaseConnectionString" Value="__EsfFundingDatabaseConnectionString__" />
     <Parameter Name="AuditQueueName" Value="__AuditQueueName__" />
@@ -10,10 +10,13 @@
     <Parameter Name="DataStoreSubscriptionName" Value="__DataStoreSubscriptionName__" />
     <Parameter Name="LoggerConnectionstring" Value="__LoggerConnectionstring__" />
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
-    <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
     <Parameter Name="DataServicePlacementConstraints" Value="__DataServicePlacementConstraints__" />
     <Parameter Name="JobStatusQueueName" Value="__JobStatusQueueName__" />
     <Parameter Name="ServiceReleaseVersion" Value="__ServiceReleaseVersion__" />
     <Parameter Name="InstrumentationKey" Value="__InstrumentationKey__" />
+    <Parameter Name="TopicMaxConcurrentCalls" Value="__TopicMaxConcurrentCalls__" />
+    <Parameter Name="TopicMaxCallbackTimeSpanMinutes" Value="__TopicMaxCallbackTimeSpanMinutes__" />
+    <Parameter Name="JobStatusMaxConcurrentCalls" Value="__JobStatusMaxConcurrentCalls__" />
+    <Parameter Name="AuditMaxConcurrentCalls" Value="__AuditMaxConcurrentCalls__" />
   </Parameters>
 </Application>

@@ -19,7 +19,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
         public void MapAppsEarningsHistory()
         {
             var returnCode = "R01";
-            var year = "1819";
+            var year = "2021";
 
             var mapAppsEarningsHistory = Mapper().BuildAppsEarningsHistory(_fundingOutputs, returnCode, year);
 
@@ -27,7 +27,7 @@ namespace ESFA.DC.ILR.DataStore.PersistData.Test.MapperTests
             mapAppsEarningsHistory.Count().Should().Be(1);
             mapAppsEarningsHistory.Select(a => a.UKPRN).Should().BeEquivalentTo(ukprn);
             mapAppsEarningsHistory.Select(a => a.CollectionReturnCode).Should().BeEquivalentTo("R01");
-            mapAppsEarningsHistory.Select(a => a.CollectionYear).Should().BeEquivalentTo("1819");
+            mapAppsEarningsHistory.Select(a => a.CollectionYear).Should().BeEquivalentTo("2021");
             mapAppsEarningsHistory.Select(a => a.ULN).Should().BeEquivalentTo(9900278304);
             mapAppsEarningsHistory.Select(a => a.LearnRefNumber).Should().Contain(learnRefNumbers);
         }

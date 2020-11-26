@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\ESFA.DC.ILR.DataStore.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,23 +51,16 @@
     <Compile Include="Interface\IGenerateSchema.cs" />
     <Compile Include="InvalidGenerateSchema.cs" />
     <Compile Include="InvalidMdbContext.cs" />
-    <Compile Include="Migrations\Invalid\20191122103804_InitialCreate.cs" />
-    <Compile Include="Migrations\Invalid\20191122103804_InitialCreate.designer.cs">
-      <DependentUpon>20191122103804_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Invalid\20200423153105_InitialCreate.cs" />
+    <Compile Include="Migrations\Invalid\20200423153105_InitialCreate.designer.cs">
+      <DependentUpon>20200423153105_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Invalid\InvalidMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Rulebase\20191105160138_InitialCreate.cs" />
-    <Compile Include="Migrations\Rulebase\20191105160138_InitialCreate.designer.cs">
-      <DependentUpon>20191105160138_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Rulebase\RulebaseMdbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Valid\20191112092938_InitialCreate.cs" />
-    <Compile Include="Migrations\Valid\20191112092938_InitialCreate.designer.cs">
-      <DependentUpon>20191112092938_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Valid\20200716084520_InitialCreate.cs" />
+    <Compile Include="Migrations\Valid\20200716084520_InitialCreate.designer.cs">
+      <DependentUpon>20200716084520_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Valid\ValidMdbContextModelSnapshot.cs" />
-    <Compile Include="RulebaseGenerateSchema.cs" />
-    <Compile Include="RulebaseMdbContext.cs" />
     <Compile Include="ValidGenerateSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidMdbContext.cs" />
@@ -88,17 +83,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Invalid\ESFA.DC.ILR1920.DataStore.EF.Invalid.csproj">
-      <Project>{2110E8A2-3E66-4380-8486-E9CD11CE2F08}</Project>
-      <Name>ESFA.DC.ILR1920.DataStore.EF.Invalid</Name>
+    <ProjectReference Include="..\Database\ESFA.DC.ILR2021.DataStore.EF.Invalid\ESFA.DC.ILR2021.DataStore.EF.Invalid.csproj">
+      <Project>{738cb542-ea53-4a9b-ac87-fa9e6a4abbe2}</Project>
+      <Name>ESFA.DC.ILR2021.DataStore.EF.Invalid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF.Valid\ESFA.DC.ILR1920.DataStore.EF.Valid.csproj">
-      <Project>{347CCC6E-C787-43BE-97F0-1A86495F0E48}</Project>
-      <Name>ESFA.DC.ILR1920.DataStore.EF.Valid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.ILR.DataStore.EF\ESFA.DC.ILR1920.DataStore.EF.csproj">
-      <Project>{EF950D08-778D-46CC-8400-86AC4B9A0A3E}</Project>
-      <Name>ESFA.DC.ILR1920.DataStore.EF</Name>
+    <ProjectReference Include="..\Database\ESFA.DC.ILR2021.DataStore.EF\ESFA.DC.ILR2021.DataStore.EF.csproj">
+      <Project>{07b9a7a6-52b0-42eb-a92c-76c68a0221b2}</Project>
+      <Name>ESFA.DC.ILR2021.DataStore.EF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
